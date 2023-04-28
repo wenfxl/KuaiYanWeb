@@ -1,0 +1,43 @@
+[
+  {
+    "ID": 1,
+    "path": "仪表台",
+    "name": "仪表台",
+    "meta": {
+      "title": "仪表台",
+      "icon": "Promotion"
+    },
+    "children": []
+  },
+  {
+    "ID": 2,
+    "path": "用户管理",
+    "name": "用户管理",
+    "meta": {
+      "title": "用户管理",
+      "icon": "User"
+    },
+    "children": [
+      {
+        "ID": 3,
+        "path": "在线用户",
+        "name": "在线用户",
+        "meta": {
+          "title": "在线用户",
+          "icon": "Avatar"
+        },
+        "children": []
+      },
+      {
+        "ID": 4,
+        "path": "用户账号",
+        "name": "用户账号",
+        "meta": {
+          "title": "用户账号",
+          "icon": "Promotion"
+        },
+        "children": []
+      }
+    ]
+  }
+]

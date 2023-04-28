@@ -1,0 +1,422 @@
+<template>
+  <div class="最底层div">
+    <div class="内容div" style="align-items: center ">
+      <el-form :inline="true">
+        <el-form-item>
+          <el-input class="搜索框"
+                    v-model="对象_搜索条件.Keywords"
+                    placeholder="搜索内容"
+                    style="top:0 ; width: 200px;padding: 0;margin: 0"
+                    clearable
+          >
+            <template #prepend>
+              <el-select v-model="对象_搜索条件.Type" placeholder="名称">
+                <el-option label="变量名" :value="1"/>
+              </el-select>
+            </template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" icon="search" @click="on读取列表">查询</el-button>
+          <el-button icon="refresh" @click="onReset">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="内容div">
+      <div class="gva-btn-list" style="background:#FAFAFAFF">
+        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 65px"
+                   @click="on对话框详细信息打开('')">
+          新增
+        </el-button>
+
+        <el-popconfirm title="确定删除勾选变量?" width="200"
+                       @confirm="on批量删除" confirm-button-text="确定"
+                       cancel-button-text="取消">
+          <template #reference>
+            <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
+                       :disabled=is批量删除禁用>删除
+            </el-button>
+          </template>
+        </el-popconfirm>
+
+        <div class="工具栏">
+          <el-tooltip content="刷新"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="on读取列表">
+              <RefreshRight/>
+            </el-icon>
+          </el-tooltip>
+
+          <!--          <el-popover placement="right"  trigger="hover">-->
+          <!--            <template #reference>-->
+          <!--              <el-icon  ><More /></el-icon>-->
+          <!--            </template>-->
+          <!--            <li class="工具_更多_li"  @click="on删除已注销" >删除已注销</li>-->
+          <!--          </el-popover>-->
+        </div>
+      </div>
+
+      <el-table v-loading="is加载中" :data="Data.List" border style="width: 100% ;white-space: pre-wrap;"
+                ref="tableRef"
+                :max-height="tableHeight"
+                @selection-change="on选择框被选择"
+                :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
+        <el-table-column type="selection" width="45"/>
+        <el-table-column prop="Name" label="变量名" width="120"/>
+        <el-table-column prop="Type" label="变量类型" width="100">
+          <template #default="scope">
+            <el-tag :type="scope.row.Type>4?'danger':scope.row.Type===3?'':'success'">
+              {{ onTypeId转换文本(scope.row.Type) }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="Value" label="变量值" width="%100" :show-overflow-tooltip="true">
+          <template #default="scope">
+            <el-tag v-if="scope.row.Type===3" :type="scope.row.Value==='0'?'info':scope.row.Value==='1'?'':'danger'">
+              {{ scope.row.Value === '0' ? '关闭' : scope.row.Value === '1' ? '开启' : scope.row.Value }}
+            </el-tag>
+            <template v-else>
+              {{ scope.row.Value }}
+            </template>
+          </template>
+        </el-table-column>
+
+        <el-table-column fixed="right" label="操作" :width="2*85">
+          <template #default="scope">
+            <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Name)"
+                       style="color:#79bbff">
+              <el-icon color="#79bbff" class="no-inherit">
+                <Edit/>
+              </el-icon>
+              编辑
+            </el-button>
+            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Name)"
+                       style="color:#f56d6d">
+              <el-icon color="#f56d6d" class="no-inherit">
+                <Delete/>
+              </el-icon>
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="demo-pagination-block">
+        <el-config-provider :locale="zhCn">
+          <el-pagination
+              v-model:current-page="对象_搜索条件.Page"
+              v-model:page-size="对象_搜索条件.Size"
+              :page-sizes="[10, 20, 30, 40,50]"
+              small="small"
+              :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
+              :pager-count="is移动端()?5:9"
+                :total="parseInt( Data.Count)"
+              @current-change="on读取列表"
+          />
+        </el-config-provider>
+      </div>
+
+    </div>
+  </div>
+  <PublicDataInfo :is对话框可见="is对话框可见" :AppId="1" :id="Id"
+                  @on对话框详细信息关闭="on对话框详细信息关闭"></PublicDataInfo>
+</template>
+
+<script lang="ts" setup>
+import {onBeforeUnmount, onMounted, ref} from "vue";
+import {GetList, DeleteInfo} from "@/api/公共变量api.js";
+import {useStore} from "vuex";
+// 引入中文包
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import PublicDataInfo from "./组件/公共变量详细信息.vue";
+import {Delete} from "@element-plus/icons-vue";
+import {is移动端} from "@/utils/utils";
+
+const on单个删除 = async (id: string) => {
+  console.log('on单个删除' + id)
+  const res = await DeleteInfo({"data": [{"AppId": 1, "Name": id}]})
+  console.log(res)
+  if (res.code == 0) {
+    ElMessage({
+      type: "success",
+      message: res.msg,
+      showClose: true,
+    })
+    on读取列表()
+  }
+}
+const on单个编辑 = async (Name: string) => {
+  on对话框详细信息打开(Name)
+}
+const onTypeId转换文本 = (Id: number) => {
+  let str = "未知类型" + Id
+  switch (Id) {
+    case 1:
+      str = "单行文本"
+      break
+    case 2:
+      str = "多行文本"
+      break
+    case 3:
+      str = "逻辑开关"
+      break
+    case 4:
+      str = "JSON"
+      break
+  }
+
+  return str
+}
+const on批量删除 = async () => {
+  let ids: object[] = []
+  for (let i = 0; i < 表格被选中列表.value.length; i++) {
+    ids.push({
+      "AppId": 表格被选中列表.value[i].AppId,
+      "Name": 表格被选中列表.value[i].Name
+    })
+  }
+  console.log(ids)
+  const res = await DeleteInfo({"data": ids})
+  console.log(res)
+  if (res.code == 0) {
+    ElMessage({
+      type: "success",
+      message: res.msg,
+      showClose: true,
+    })
+    on读取列表()
+  }
+}
+
+
+const 表格被选中列表 = ref([])
+const is批量删除禁用 = ref(true)
+const is工具_更多 = ref(false)
+
+const is对话框可见 = ref(false)
+const 公共变量初始数据 = {
+  "AppId": 1,
+  "Name": "",
+  "Value": "",
+  "Type": 1,
+  "IsVip": 1
+}
+
+const Id = ref("")
+const 公共变量 = ref(公共变量初始数据)
+
+const on对话框详细信息打开 = (id: string) => {
+  is对话框可见.value = true
+  Id.value = id
+}
+const on对话框详细信息关闭 = (is重新读取: boolean) => {
+  //console.info("父组件收到对话框被关闭了")
+  is对话框可见.value = false
+  if (is重新读取) {
+    on读取列表()
+  }
+}
+
+const on选择框被选择 = (val: any) => {
+  表格被选中列表.value = val
+  is批量删除禁用.value = 表格被选中列表.value.length == 0
+}
+
+const Data = ref({
+  "Count": 0,
+  "List": [
+    {
+      "AppId": 1,
+      "Name": "",
+      "Value": "",
+      "Type": 1,
+      "IsVip": 1
+    }]
+})
+const Store = useStore()
+const 对象_搜索条件初始值 = {AppId: 1, Type: 1, Size: 10, Page: 1, Keywords: ""}
+const 对象_搜索条件 = ref(Object.assign({}, 对象_搜索条件初始值))
+
+const on读取列表 = () => {
+  console.log("对象_搜索条件")
+  console.log(对象_搜索条件.value)
+  onGetList()
+}
+const onReset = () => {
+  let Appidc = 对象_搜索条件.value.AppId
+  对象_搜索条件.value = Object.assign({}, 对象_搜索条件初始值)
+  对象_搜索条件.value.AppId = Appidc
+  console.log(对象_搜索条件.value)
+}
+
+
+const is加载中 = ref(false)
+const onGetList = async () => {
+  is加载中.value = true
+  对象_搜索条件.value.AppId = 1  //只展示公共变量 值固定为1
+  const res = await GetList(对象_搜索条件.value)
+  console.log(res)
+  is加载中.value = false
+  Data.value = res.data
+}
+
+// table元素
+const tableRef = ref<any>();
+// table高度
+const tableHeight = ref();
+
+onMounted(async () => {
+  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+  // 监听浏览器高度变化
+  window.onresize = () => {
+    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+  };
+  Data.value.List = []
+  onReset()
+  //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
+  if (Store.state.搜索_公共变量.Size != 0 && Store.state.搜索_公共变量.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_公共变量
+  }
+  await onGetList()
+})
+
+onBeforeUnmount(() => {
+  console.log("事件在卸载之前触发")
+  Store.commit("set搜索_公共变量", 对象_搜索条件.value)
+})
+
+</script>
+
+<style scoped lang="scss">
+.el-table .cell {
+  white-space: pre-wrap; /*这是重点。文本换行*/
+
+}
+
+/*.gva-search-box {*/
+/*  padding: 24px;*/
+/*  padding-bottom: 2px;*/
+/*  background-color: #fff;*/
+/*  border-radius: 2px;*/
+/*  margin-bottom: 12px;*/
+/*}*/
+.最底层div {
+  min-height: calc(100vh - 200px);
+  padding: 12px 16px;
+  margin: 0 2px 10px;
+  background: #f0f2f5;
+}
+
+.内容div {
+  min-height: 20%;
+  padding: 12px 16px;
+  margin: 0 2px 10px;
+  background: #ffffff;
+}
+
+.搜索框 {
+  top: -5px;
+  padding: 0 0;
+  margin: 0 0 10px;
+  align-items: center;
+}
+
+.demo-pagination-block {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.el-statistic__number {
+  font-size: 18px;
+  color: #eebe77;
+}
+
+.gva-btn-list {
+  border: 1px solid rgb(235, 238, 245);
+}
+
+.工具栏 {
+  margin: 7px 8px 8px;
+  background: #fafafa;
+  color: #606266;
+  float: right;
+  padding-right: 1px;
+
+  .el-icon {
+    /*设置边框阴影*/
+
+    font-size: 16px;
+    margin-left: 10px;
+    padding: 5px;
+    ///*边框 1px  颜色 */
+    border: 1px solid rgb(235, 238, 245);
+    color: #0c0d0e;
+    //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
+    speak: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: baseline;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    cursor: pointer; //改变鼠标样式为手型
+  }
+}
+
+
+.工具_更多 {
+  background-color: #ffffff;
+  width: 150px;
+  margin: 0;
+  /*边框 1px  颜色 */
+  border: 1px solid #ccc;
+  /*图层高度  3000  值大一点 会在顶层*/
+  z-index: 3000;
+  /*定位方式 绝对定位*/
+  position: absolute;
+  list-style-type: none;
+  border-radius: 4px; //设置圆角
+  /*设置边框阴影*/
+  box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
+  padding: 5px 0;
+  font-size: 14px;
+
+  li {
+    margin: 0;
+    padding: 7px 16px;
+    //设置 鼠标悬停时样式
+    &:hover {
+      background: #889aa4; //改变背景颜色
+      cursor: pointer; //改变鼠标样式为手型
+    }
+  }
+
+}
+
+.工具_更多_li {
+  list-style-type: none;
+  font-size: 14px;
+  margin: 0;
+  padding: 7px 16px;
+  //设置 鼠标悬停时样式
+  &:hover {
+    background: #889aa4; //改变背景颜色
+    cursor: pointer; //改变鼠标样式为手型
+  }
+}
+
+.el-form-item {
+  padding: 0;
+  margin: 0 15px 8px 0;
+}
+
+.el-table .cell {
+  white-space: pre-line;
+}
+</style>
