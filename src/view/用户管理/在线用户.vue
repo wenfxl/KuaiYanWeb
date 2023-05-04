@@ -85,7 +85,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="AppName" label="登录位置" width="100"/>
+        <el-table-column prop="AppName" label="登录位置" width="242"/>
         <el-table-column prop="Key" label="绑定信息" width="140"/>
         <el-table-column prop="Tab" label="动态标记" width="140"/>
         <el-table-column prop="Ip" label="登录ip" width="140"/>

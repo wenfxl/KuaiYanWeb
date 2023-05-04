@@ -25,6 +25,7 @@ export const ip = async() => {
 
 const getWeather = async(code) => {
     const response = await axios.get('https://restapi.amap.com/v3/weather/weatherInfo?key=' + amapKey + '&extensions=base&city=' + code)
+    //https://restapi.amap.com/v3/weather/weatherInfo?key=73039201104d5e8a200b9b689d5b7be7&extensions=base&city=210200
     console.log('地址查天气')
     console.log(response)
     if (response.data.status === '1') {

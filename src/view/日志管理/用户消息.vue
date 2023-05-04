@@ -8,6 +8,7 @@
             <el-option label="其他" :value="1"/>
             <el-option label="Bug" :value="2"/>
             <el-option label="投诉建议" :value="3"/>
+            <el-option label="系统内部" :value="4"/>
           </el-select>
         </el-form-item>
         <el-form-item prop="status" style="width:250px">
@@ -267,14 +268,14 @@ const on选择框被选择 = (val: any) => {
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
 const on消息类型提示 = (MsgType: number) => {
-  let Msg = ["其他", "Bug", "投诉建议"]
+  let Msg = ["其他", "Bug", "投诉建议","系统内部"]
   if (MsgType - 1 > Msg.length) {
     return ""
   }
   return Msg[MsgType - 1]
 }
 const on消息类型标签 = (MsgType: number) => {
-  let Msg = ["info", "warning", ""]
+  let Msg = ["info", "warning", "","danger"]
   if (MsgType - 1 > Msg.length) {
     return ""
   }

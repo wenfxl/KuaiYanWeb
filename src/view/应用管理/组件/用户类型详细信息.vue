@@ -17,7 +17,12 @@
           <el-input-number v-model="data.Mark" :step="1" :value-on-clear="1" :min="1"/>
         </el-form-item>
         <el-form-item label="权重" prop="Weight">
-          <el-input-number v-model="data.Weight" :step="1" :value-on-clear="0" :min="1"/>
+          <el-tooltip
+              content="充卡用户类型不同切换用户类型使用,剩余时间(点数)*旧类型权重/新类型权重=新剩余时间(点数),建议直接填对应卡的用户售价,方便计算,未分类=1"
+              placement="bottom-start">
+            <el-input-number v-model="data.Weight" :step="1" :value-on-clear="0" :min="1"/>
+          </el-tooltip>
+
         </el-form-item>
       </el-form>
     </div>
