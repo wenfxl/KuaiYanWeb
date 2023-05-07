@@ -61,7 +61,21 @@
           </template>
         </el-form-item>
         <el-form-item label="积分" prop="VipNumber">
-          <el-input-number v-model="data.VipNumber" :precision="2" :step="1" :value-on-clear="0.00" :min="0"/>
+          <div >
+            <el-input-number v-model="data.VipNumber" :precision="2" :step="0.1" :value-on-clear="0.00" :min="0"/>
+            <el-button @click="data.VipNumber=0" :style="is移动端()?'width: 5vh':'width: 4vh'">
+              {{ "清零" }}
+            </el-button>
+            <el-button @click="data.VipNumber+=10" :style="is移动端()?'width: 5vh':'width: 4vh'">
+              {{ "+10" }}
+            </el-button>
+            <el-button @click="data.VipNumber+=100" :style="is移动端()?'width: 5vh':'width: 4vh'">
+              {{ "+100" }}
+            </el-button>
+            <el-button @click="data.VipNumber+=500" :style="is移动端()?'width: 5vh':'width: 4vh'">
+              {{ "+500" }}
+            </el-button>
+          </div>
         </el-form-item>
         <el-form-item label="备注" prop="Note">
           <el-input type="textarea" v-model="data.Note" placeholder="请输入备注"/>
@@ -136,6 +150,7 @@ watch(() => Props.is对话框可见, (newVal, oldVal) => {
 })
 
 const is对话框可见2 = ref(false)
+
 const data = ref({
   "AppId":Props.AppId,
   "Id": 1,

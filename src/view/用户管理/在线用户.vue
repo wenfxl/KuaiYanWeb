@@ -13,7 +13,7 @@
           <el-input class="搜索框"
                     v-model="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
-                    style="top:0 ; width: 200px;padding: 0;margin: 0"
+                    style="top:0 ; width: 250px;padding: 0;margin: 0"
                     clearable
           >
             <template #prepend>
@@ -23,6 +23,7 @@
                 <el-option label="绑定信息" :value="3"/>
                 <el-option label="动态标记" :value="4"/>
                 <el-option label="应用ID" :value="5"/>
+                <el-option label="软件版本" :value="6"/>
               </el-select>
             </template>
           </el-input>
@@ -72,8 +73,14 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="User" label="用户名" width="130"/>
-
+        <el-table-column prop="User" label="用户名" width="130">
+          <template #default="scope">
+            {{ scope.row.User}}
+            <el-tag v-if="scope.row.RiskControl>0" :type="scope.row.RiskControl<20?'info':'danger'">
+              {{scope.row.RiskControl<20?'可疑':"非法"}}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column align="left" label="状态" prop="status" width="80">
           <template #default="scope">
             <div>
@@ -85,9 +92,18 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="AppName" label="登录位置" width="242"/>
-        <el-table-column prop="Key" label="绑定信息" width="140"/>
-        <el-table-column prop="Tab" label="动态标记" width="140"/>
+        <el-table-column prop="AppName" label="登录位置" width="282" show-overflow-tooltip="">
+          <template #default="scope">
+            <div>
+              {{ scope.row.AppName }}
+              <el-tag type="success" v-if="scope.row.AppVer">
+                {{ scope.row.AppVer }}
+              </el-tag>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="Key" label="绑定信息" width="140" show-overflow-tooltip=""/>
+        <el-table-column prop="Tab" label="动态标记" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Ip" label="登录ip" width="140"/>
         <el-table-column prop="LoginTime" label="登录时间" width="160" :formatter="on格式化_登录时间"/>
         <el-table-column prop="LastTime" label="最后活动时间" width="160" :formatter="on格式化_最后活动时间"/>
@@ -123,7 +139,7 @@
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-               :total="parseInt( List.Count)"
+              :total="parseInt( List.Count)"
               @current-change="on读取列表"
           />
         </el-config-provider>
@@ -185,6 +201,7 @@ const on批量注销 = async () => {
     }
   }
 }
+
 const on删除已注销 = async () => {
   is工具_更多.value = false
   const res = await Del批量删除({"ID": [-1]})
@@ -209,7 +226,7 @@ const on选择框被选择 = (val: any) => {
   is批量注销禁用.value = 表格被选中列表.value.length == 0
 }
 const List = ref({
-  "Count":0,
+  "Count": 0,
   List: [{
     "Id": 11,
     "Uid": 1,
@@ -222,7 +239,8 @@ const List = ref({
     "Key": "",
     "Tab": "",
     "Ip": "127.0.0.1",
-    "AppName": "管理后台"
+    "AppName": "管理后台",
+    "RiskControl": 0
   }]
 })
 const Store = useStore()

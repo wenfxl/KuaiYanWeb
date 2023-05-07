@@ -114,7 +114,7 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="Name" label="卡号" width="210" :show-overflow-tooltip="true"/>
+        <el-table-column prop="Name" label="卡号" width="210" show-overflow-tooltip=""/>
         <el-table-column prop="KaClassId" label="卡类名称" width="110">
           <template #default="scope">
             <el-tag
@@ -185,7 +185,7 @@
             {{ 时间_时间戳到时间(scope.row.RegisterTime) }}
           </template>
         </el-table-column>
-        <el-table-column prop="AdminNote" label="管理员备注" width="150" :show-overflow-tooltip="true">
+        <el-table-column prop="AdminNote" label="管理员备注" width="150" show-overflow-tooltip="">
           <template #default="scope">
             <el-button link type="primary" size="default"
                        @click="on管理员备注被改变(scope.$index,scope.row.Id,scope.row.AdminNote)" style="color:#79bbff">
@@ -196,7 +196,7 @@
             {{ scope.row.AdminNote }}
           </template>
         </el-table-column>
-        <el-table-column prop="AgentNote" label="代理备注" width="150" :show-overflow-tooltip="true"/>
+        <el-table-column prop="AgentNote" label="代理备注" width="150" show-overflow-tooltip=""/>
         <el-table-column prop="UserClassId" label="用户类型" width="110">
           <template #default="scope">
             <el-tag

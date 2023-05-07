@@ -95,6 +95,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/日志管理/余额日志.vue"),
             },
             {
+                path: "日志管理/积分点数",
+                name: "积分点数",
+                component: () => import("@/view/日志管理/积分点数.vue"),
+            },
+            {
                 path: "日志管理/制卡日志",
                 name: "制卡日志",
                 component: () => import("@/view/日志管理/制卡日志.vue"),

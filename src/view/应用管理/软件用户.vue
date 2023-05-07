@@ -104,7 +104,7 @@
         </el-table-column>
 
 
-        <el-table-column prop="Key" label="绑定信息" width="150"/>
+        <el-table-column prop="Key" label="绑定信息" width="300"/>
 
         <el-table-column align="left" :label="isAppType计点()?'剩余点数':'vip到期时间'" prop="VipTime" width="160">
           <template #default="scope">

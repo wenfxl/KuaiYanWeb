@@ -23,7 +23,7 @@
         </el-form-item>
     </div>
       <div class="内容div">
-         <el-divider content-position="left"  >代理中心</el-divider>
+         <el-divider content-position="left"  >代理中心(计划中)</el-divider>
         <el-form-item label="代理中心开关" prop="代理中心开关">
           <el-radio-group v-model="Data.代理中心开关">
             <el-radio-button :label="true" size=""  border>开启</el-radio-button>
@@ -35,7 +35,7 @@
         </el-form-item>
       </div>
       <div class="内容div">
-         <el-divider content-position="left"   >其他</el-divider>
+         <el-divider content-position="left"   >其他(计划中)</el-divider>
         <el-form-item label="用户中心开关" prop="用户中心开关">
           <el-radio-group v-model="Data.用户中心开关">
             <el-radio-button :label="true" size=""  border>开启</el-radio-button>

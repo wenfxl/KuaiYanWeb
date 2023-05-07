@@ -171,6 +171,12 @@ const menus = [{
     "children": []
   }, {
     "ID": 6,
+    "path": "日志管理/积分点数",
+    "name": "积分点数",
+    "meta": {"title": "积分点数", "icon": "CreditCard"},
+    "children": []
+  }, {
+    "ID": 6,
     "path": "日志管理/制卡日志",
     "name": "制卡日志",
     "meta": {"title": "制卡日志", "icon": "Postcard"},

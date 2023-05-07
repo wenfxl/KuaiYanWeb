@@ -72,7 +72,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="Value" label="变量值" width="%100" :show-overflow-tooltip="true">
+        <el-table-column prop="Value" label="变量值" width="%100" show-overflow-tooltip="">
           <template #default="scope">
             <el-tag v-if="scope.row.Type===3" :type="scope.row.Value==='0'?'info':scope.row.Value==='1'?'':'danger'">
               {{ scope.row.Value === '0' ? '关闭' : scope.row.Value === '1' ? '开启' : scope.row.Value }}

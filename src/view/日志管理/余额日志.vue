@@ -85,15 +85,15 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}  ">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="User" label="用户名" width="210"/>
+        <el-table-column prop="User" label="用户名" width="210" show-overflow-tooltip=""/>
         <el-table-column prop="Time" label="时间" width="160">
           <template #default="scope">
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="Ip" label="IP" width="140"/>
+        <el-table-column prop="Ip" label="IP" width="140" />
         <el-table-column prop="Count" label="变化值" width="70"/>
-        <el-table-column prop="Msg" label="消息" :width="is移动端()?140:800"/>
+        <el-table-column prop="Msg" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
       </el-table>
 
       <div class="demo-pagination-block">

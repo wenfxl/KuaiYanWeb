@@ -2,6 +2,20 @@
   <div class="最底层div">
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
+        <el-form-item label="选择应用" prop="">
+          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用">
+            <el-option :key="0" label="全部" :value="0"/>
+            <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
+                       :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="选择日志类型" prop="">
+          <el-select v-model.number="对象_搜索条件.LogType" clear placeholder="选择日志类型" STYLE="width: 80px">
+            <el-option :key="0" label="全部" :value="0"/>
+            <el-option :key="1" label="积分" :value="1"/>
+            <el-option :key="2" label="点数" :value="2"/>
+          </el-select>
+        </el-form-item>
         <el-form-item prop="status" style="width:250px">
           <el-config-provider :locale="zhCn">
             <el-date-picker
@@ -16,6 +30,7 @@
             />
           </el-config-provider>
         </el-form-item>
+
 
         <el-form-item prop="Keywords">
 
@@ -35,7 +50,7 @@
           </el-input>
         </el-form-item>
         <el-form-item style="padding-left: 5px">
-          <el-button type="primary" icon="search" @click="on读取列表">查询</el-button>
+          <el-button type="primary" icon="search" @click="on读取列表(1)">查询</el-button>
           <el-button icon="refresh" @click="onReset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -56,7 +71,7 @@
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
-            <el-icon @click="on读取列表">
+            <el-icon @click="on读取列表(1)">
               <RefreshRight/>
             </el-icon>
           </el-tooltip>
@@ -85,22 +100,31 @@
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
         <el-table-column prop="User" label="用户名" width="210"/>
-        <el-table-column prop="LoginType" label="登录类型" width="210">
+        <el-table-column prop="AppId" label="应用名称" width="210" show-overflow-tooltip="">
           <template #default="scope">
-            <el-tag v-show="scope.row.LoginType!==0" size="small"
-                    :type="scope.row.LoginType === 4 ? 'success' : scope.row.LoginType === 5 ? 'info' : ''">
-              {{ on登录类型(scope.row.LoginType)}}
-            </el-tag>
+            {{ MapAppId_Name.hasOwnProperty(scope.row.AppId.toString()) ? MapAppId_Name[scope.row.AppId.toString()] : '已删待改' + scope.row.AppId.toString()}}
           </template>
         </el-table-column>
-
         <el-table-column prop="Time" label="时间" width="160">
           <template #default="scope">
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
         <el-table-column prop="Ip" label="IP" width="140"/>
-        <el-table-column prop="Msg" label="消息"/>
+
+        <el-table-column prop="Count" label="变化值" width="110">
+          <template #default="scope">
+            <el-tag
+                 :type="scope.row.Type===1?'':scope.row.Type===2?'success':'warning'">
+              {{scope.row.Type===1?'积分':scope.row.Type===2?'点数':'未知'}}
+            </el-tag>
+            {{scope.row.Count}}
+          </template>
+        </el-table-column>
+
+
+
+        <el-table-column prop="Msg" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
       </el-table>
 
       <div class="demo-pagination-block">
@@ -109,11 +133,11 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-              :total="parseInt( Data.Count)"
-              @current-change="on读取列表"
+              :total="parseInt(Data.Count.toString())"
+              small="small"
+              @current-change=" on读取列表(0) "
           />
         </el-config-provider>
       </div>
@@ -123,15 +147,33 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetLogLoginList, Del批量删除LogLogin} from "@/api/登录日志api.js";
+import {GetLogVipNumberList, Del批量删除LogVipNumber} from "@/api/积分点数api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
+import {GetAppIdNameList} from "@/api/应用列表api";
 
 
+const MapAppId_Name = ref({})
+const 数组AppId_Name = ref([{
+  "Appid": 10000,
+  "AppName": ""
+}])
+const onGetAppIdNameList = async () => {
+  let res = await GetAppIdNameList()
+  数组AppId_Name.value = res.data.Array
+  MapAppId_Name.value = res.data.Map
+  console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[对象_搜索条件.value.AppId.toString()])
+
+  if (res.data.Map[对象_搜索条件.value.AppId.toString()] == null || 对象_搜索条件.value.AppId <= 10000) {
+    console.log("顶顶顶顶没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + 数组AppId_Name.value[0].Appid)
+    //对象_搜索条件.value.AppId = 数组AppId_Name.value[0].Appid
+  }
+
+}
 const on批量删除 = async (Type: number) => {
   let 提交数据 = {"Type": 0, "Id": [0], Keywords: ""}
   if (Type === 1) {
@@ -149,7 +191,7 @@ const on批量删除 = async (Type: number) => {
     return
   }
   is加载中.value = true
-  const res = await Del批量删除LogLogin(提交数据)
+  const res = await Del批量删除LogVipNumber(提交数据)
   is加载中.value = false
   console.log(res)
   if (res.code == 0) {
@@ -158,7 +200,7 @@ const on批量删除 = async (Type: number) => {
       message: res.msg,
       showClose: true,
     })
-    on读取列表()
+    on读取列表(1)
   }
 }
 
@@ -171,7 +213,7 @@ const on批量删除用户名或关键字 = async (Type: number) => {
         if (value != "") {
           let 提交数据 = {"Type": Type, "Id": [], Keywords: value}
           is加载中.value = true
-          const res = await Del批量删除LogLogin(提交数据)
+          const res = await Del批量删除LogVipNumber(提交数据)
           is加载中.value = false
           if (res.code == 0) {
             ElMessage({
@@ -179,7 +221,7 @@ const on批量删除用户名或关键字 = async (Type: number) => {
               message: res.msg,
               showClose: true,
             })
-            on读取列表()
+            on读取列表(1)
           }
 
         } else {
@@ -194,8 +236,6 @@ const on批量删除用户名或关键字 = async (Type: number) => {
 
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
-const is工具_更多 = ref(false)
-
 const on选择框被选择 = (val: any) => {
   表格被选中列表.value = val
   is批量删除禁用.value = 表格被选中列表.value.length == 0
@@ -209,23 +249,31 @@ const Data = ref({
       "User": "",
       "Time": 0,
       "Ip": "",
-      "LoginType": 0,
-      "Msg": ""
+      "Count": 0,
+      "Msg": "",
+      "AppId": 0,
+      "Type": 1
     }]
 })
 const Store = useStore()
 const 对象_搜索条件 = ref({
   RegisterTime: ["", ""],
-  Type: 0,
+  Type: 1,
   Size: 10,
   Page: 1,
-  Keywords: ""
+  Keywords: "",
+  Count: 0,
+  LogType: 0,
+  AppId: 0
 })
 
-const on读取列表 = () => {
+const on读取列表 = (Type: number) => {
+  if (Type === 1) {
+    对象_搜索条件.value.Count = 0 //只有翻页缓存总数数据,新搜索不缓存总数
+  }
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
-  onGetLogLoginList()
+  onGetLogVipNumberList()
 }
 const onReset = () => {
   对象_搜索条件.value = {
@@ -233,36 +281,23 @@ const onReset = () => {
     Type: 1,
     Size: 10,
     Page: 1,
-    Keywords: ""
+    Keywords: "",
+    Count: 0,
+    LogType: 0,
+    AppId: 0
   }
+  onGetAppIdNameList()
 }
 
-const 对象_登录类型 = ref({
-  "1": "1级代理平台",
-  "2": "2级代理平台",
-  "3": "3级代理平台",
-  "4": "管理平台",
-  "5": "系统自动",
-})
-const on登录类型 = (id: number) => {
-  return 对象_登录类型.value[id.toString()]
-}
 
 const is加载中 = ref(false)
-const onGetLogLoginList = async () => {
-
-
+const onGetLogVipNumberList = async () => {
   is加载中.value = true
-  const res = await GetLogLoginList(对象_搜索条件.value)
-  console.log(res)
+  const res = await GetLogVipNumberList(对象_搜索条件.value)
   is加载中.value = false
+  console.log(res)
   Data.value = res.data
-  对象_登录类型.value=res.data.AppName
-  对象_登录类型.value["1"]= "1级代理平台"
-  对象_登录类型.value["2"]= "2级代理平台"
-  对象_登录类型.value["3"]= "3级代理平台"
-  对象_登录类型.value["4"]= "管理平台"
-  对象_登录类型.value["5"]= "系统自动"
+  对象_搜索条件.value.Count = Data.value.Count
 }
 
 
@@ -284,18 +319,19 @@ onMounted(async () => {
   }
 
   onReset()
-  if (Store.state.搜索_登录日志.Size != 0 && Store.state.搜索_登录日志.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_登录日志
+  if (Store.state.搜索_积分点数.Size != 0 && Store.state.搜索_积分点数.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_积分点数
     console.log("恢复搜索条件")
-    console.log(Store.state.搜索_登录日志.Size)
-    console.log(Store.state.搜索_登录日志)
+    console.log(Store.state.搜索_积分点数.Size)
+    console.log(Store.state.搜索_积分点数)
   }
-  await onGetLogLoginList()
+  await onGetAppIdNameList()
+  await onGetLogVipNumberList()
 })
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_登录日志", 对象_搜索条件.value)
+  Store.commit("set搜索_积分点数", 对象_搜索条件.value)
 })
 
 const 数组_日志预选日期 = [{

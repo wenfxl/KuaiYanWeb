@@ -50,7 +50,7 @@
           <el-tooltip
               class="box-item"
               effect="light"
-              :content="时间_计算天时分秒提示 (data.InviteCount)"
+              :content="时间_计算天时分秒提示 (data.InviteCount)+'*本用户类型权重/为推广人权重'"
               placement="left"
               :disabled="isAppType计点()"
           >

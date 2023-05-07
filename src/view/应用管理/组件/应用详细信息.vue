@@ -38,47 +38,6 @@
               <el-input v-model="data.AppStatusMessage"/>
             </el-form-item>
 
-            <el-form-item label="心跳超时" prop="OutTime">
-              <el-tooltip
-                  class="box-item"
-                  effect="light"
-                  :content="时间_计算天时分秒提示 (data.OutTime)"
-                  placement="left"
-              >
-                <div style="display: flex; align-items: center">
-                  <el-input-number v-model="data.OutTime" :step="10" :value-on-clear="10" :min="0"/>
-                  秒
-                  <el-button @click="data.OutTime=5*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
-                    {{ "5分钟" }}
-                  </el-button>
-                  <el-button @click="data.OutTime=15*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
-                    {{ "15分" }}
-                  </el-button>
-                  <el-button @click="data.OutTime=30*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
-                    {{ "30分" }}
-                  </el-button>
-                  <el-button @click="data.OutTime=60*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
-                    {{ "60分" }}
-                  </el-button>
-                </div>
-              </el-tooltip>
-
-            </el-form-item>
-            <el-popconfirm
-                confirm-button-text="查看详细描述"
-                placement="top-end"
-                cancel-button-text=" "
-                width="30%"
-                icon-color="#626AEF"
-                title="一行一个,格式推荐使用[1.2.5],大版本号.小版本号.编译版本号,第一行为最新版本,后面为可用版本,自动更新只判断提示大小版本号,主动更新才判断检测编译版本号,非可用版本,强制更新,支持通配符[*]代表这一位通配0-9"
-                @confirm="on打开版本信息详细描述"
-            >
-              <template #reference>
-                <el-form-item label="可用版本" prop="AppVer">
-                  <el-input type="textarea" autosize v-model="data.AppVer"/>
-                </el-form-item>
-              </template>
-            </el-popconfirm>
 
             <el-form-item label="注册送卡" prop="RegisterGiveKaClassId">
               <el-popover placement="right" trigger="hover"
@@ -126,6 +85,21 @@
               <el-input v-model="data.UrlHome"/>
             </el-form-item>
 
+            <el-popconfirm
+                confirm-button-text="查看详细描述"
+                placement="top-end"
+                cancel-button-text=" "
+                width="30%"
+                icon-color="#626AEF"
+                title="一行一个,格式推荐使用[1.2.5],大版本号.小版本号.编译版本号,第一行为最新版本,后面为可用版本,自动更新只判断提示大小版本号,主动更新才判断检测编译版本号,非可用版本,强制更新,支持通配符[*]代表这一位通配0-9"
+                @confirm="on打开版本信息详细描述"
+            >
+              <template #reference>
+                <el-form-item label="可用版本" prop="AppVer">
+                  <el-input type="textarea" autosize v-model="data.AppVer"/>
+                </el-form-item>
+              </template>
+            </el-popconfirm>
             <el-form-item icon="icon" label="更新下载地址json" prop="UrlDownload">
 
               <el-input type="textarea" autosize v-model="data.UrlDownload"/>
@@ -186,6 +160,7 @@
                 </template>
               </el-input>
             </el-form-item>
+
             <el-form-item label="通讯加密类型" prop="CryptoType">
               <el-radio-group v-model="data.CryptoType" :size="is移动端()?'small':''">
                 <el-radio-button :label="1">明文</el-radio-button>
@@ -232,7 +207,32 @@
             <el-form-item v-show="data.CryptoType===3" label="Rsa公钥" prop="CryptoKeyPublic">
               <el-input type="textarea" v-model="data.CryptoKeyPublic"/>
             </el-form-item>
+            <el-form-item label="心跳超时" prop="OutTime">
+              <el-tooltip
+                  class="box-item"
+                  effect="light"
+                  :content="时间_计算天时分秒提示 (data.OutTime)"
+                  placement="left"
+              >
+                <div style="display: flex; align-items: center">
+                  <el-input-number v-model="data.OutTime" :step="10" :value-on-clear="10" :min="0"/>
+                  秒
+                  <el-button @click="data.OutTime=5*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
+                    {{ "5分钟" }}
+                  </el-button>
+                  <el-button @click="data.OutTime=15*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
+                    {{ "15分" }}
+                  </el-button>
+                  <el-button @click="data.OutTime=30*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
+                    {{ "30分" }}
+                  </el-button>
+                  <el-button @click="data.OutTime=60*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
+                    {{ "60分" }}
+                  </el-button>
+                </div>
+              </el-tooltip>
 
+            </el-form-item>
 
             <el-form-item label="默认最大在线数量" prop="MaxOnline">
               <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>
@@ -469,9 +469,10 @@ onMounted(() => {
 })
 
 const 校验是否json = (rule: any, value: any, callback: any) => {
+
   let c: string = ""
   try {
-    JSON.parse(data.value.UrlDownload)
+    JSON.parse(value.toString())
   } catch (d: any) {
     let str = d.toString()
     //校验UrlDownload是否json失败SyntaxError: Unexpected non-whitespace character after JSON at position 597

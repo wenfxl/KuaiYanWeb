@@ -22,7 +22,7 @@
           <el-input class="搜索框"
                     v-model="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
-                    style="top:0 ; width: 200px;padding: 0;margin: 0"
+                    style="top:0 ; width: 280px;padding: 0;margin: 0"
                     clearable
           >
             <template #prepend>
@@ -118,7 +118,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="LoginAppName" label="最后登录应用" width="160"/>
+        <el-table-column prop="LoginAppName" label="最后登录应用" width="160"  show-overflow-tooltip=""/>
         <el-table-column prop="LoginTime" label="最后登录时间" width="160" :formatter="on格式化_登录时间"/>
         <el-table-column prop="LoginIp" label="登录ip" width="140"/>
         <el-table-column prop="RegisterIp" label="注册ip" width="140"/>
