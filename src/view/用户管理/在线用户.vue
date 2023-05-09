@@ -2,6 +2,13 @@
   <div class="最底层div">
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true" :model="对象_搜索条件">
+        <el-form-item label="选择应用" prop="">
+          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用">
+            <el-option :key="0" label="全部" :value="0"/>
+            <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
+                       :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
+          </el-select>
+        </el-form-item>
         <el-form-item label="状态" prop="status" style="width:120px">
           <el-select v-model="对象_搜索条件.Status" clear placeholder="请选择">
             <el-option key="0" label="全部" :value="0"/>
@@ -22,8 +29,7 @@
                 <el-option label="用户名" :value="2"/>
                 <el-option label="绑定信息" :value="3"/>
                 <el-option label="动态标记" :value="4"/>
-                <el-option label="应用ID" :value="5"/>
-                <el-option label="软件版本" :value="6"/>
+                <el-option label="软件版本" :value="5"/>
               </el-select>
             </template>
           </el-input>
@@ -157,6 +163,7 @@ import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox, FormInstance} from 'element-plus'
+import {GetAppIdNameList} from "@/api/应用列表api";
 
 const on单个注销 = async (id: number) => {
   console.log('在线注销id' + id)
@@ -215,8 +222,23 @@ const on删除已注销 = async () => {
     on读取列表()
   }
 }
+const MapAppId_Name = ref({})
+const 数组AppId_Name = ref([{
+  "Appid": 10000,
+  "AppName": ""
+}])
+const onGetAppIdNameList = async () => {
+  let res = await GetAppIdNameList()
+  数组AppId_Name.value = res.data.Array
+  MapAppId_Name.value = res.data.Map
+  console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[对象_搜索条件.value.AppId.toString()])
 
+  if (res.data.Map[对象_搜索条件.value.AppId.toString()] == null || 对象_搜索条件.value.AppId <= 10000) {
+    console.log("顶顶顶顶没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + 数组AppId_Name.value[0].Appid)
+    //对象_搜索条件.value.AppId = 数组AppId_Name.value[0].Appid
+  }
 
+}
 const 表格被选中列表 = ref([])
 const is批量注销禁用 = ref(true)
 const is工具_更多 = ref(false)
@@ -244,7 +266,7 @@ const List = ref({
   }]
 })
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0, Keywords: ""})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0, Keywords: "",AppId:0})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
@@ -252,7 +274,7 @@ const on读取列表 = () => {
   onGetLinkUserList()
 }
 const onReset = () => {
-  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0, Keywords: ""}
+  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0, Keywords: "",AppId:0}
 }
 const on格式化_状态 = (row: any, column: any) => {
   // console.log("on状态格式化")
@@ -315,7 +337,7 @@ onMounted(async () => {
     console.log(Store.state.搜索_在线用户.Size)
     console.log(Store.state.搜索_在线用户)
   }
-
+  await onGetAppIdNameList()
   await onGetLinkUserList()
 })
 

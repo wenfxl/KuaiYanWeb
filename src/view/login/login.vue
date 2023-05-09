@@ -174,10 +174,10 @@ const onLogin = async (loginInfo) => {
   console.info("登录结果")
   console.info(res)
   if (res.code === 0) {
-    router.replace({path:"/"})
+
     Store.commit("setToken", res.data.Token)
     Store.commit("setUserInfo", res.data.UserInfo)
-
+    router.replace({path:"/"})
     ElMessage({
       message: res.msg,
       type: 'success',

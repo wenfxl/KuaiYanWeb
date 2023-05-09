@@ -11,7 +11,7 @@
       <el-form :inline="false" style="min-width: 80px;min-height: 100%" label-width="160px" :rules="on表单校验"
                :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-        <el-tabs class="应用详细信息顶部标签"  v-model="应用详细信息顶部标签现行选项">
+        <el-tabs class="应用详细信息顶部标签" v-model="应用详细信息顶部标签现行选项">
           <el-tab-pane label="应用设置" name="应用设置">
 
             <el-form-item label="应用名称" prop="AppName">
@@ -79,7 +79,15 @@
             </el-form-item>
 
             <el-form-item :label="isVipType?'换绑扣秒':'换绑扣点'" prop="UpKeyData">
-              <el-input-number v-model="data.UpKeyData" :step="10" :value-on-clear="10" :min="0"/>
+              <el-tooltip
+                  class="box-item"
+                  effect="light"
+                  :content="时间_计算天时分秒提示 (data.UpKeyData)"
+                  placement="left"
+                  :disabled="isAppType计点()"
+              >
+                <el-input-number v-model="data.UpKeyData" :step="10" :value-on-clear="10" :min="0"/>
+              </el-tooltip>
             </el-form-item>
             <el-form-item label="应用主页" prop="UrlHome">
               <el-input v-model="data.UrlHome"/>
@@ -91,7 +99,7 @@
                 cancel-button-text=" "
                 width="30%"
                 icon-color="#626AEF"
-                title="一行一个,格式推荐使用[1.2.5],大版本号.小版本号.编译版本号,第一行为最新版本,后面为可用版本,自动更新只判断提示大小版本号,主动更新才判断检测编译版本号,非可用版本,强制更新,支持通配符[*]代表这一位通配0-9"
+                title="一行一个,格式使用[1.2.5],大版本号.小版本号.编译版本号,第一行为最新版本,后面为可用版本,自动更新只判断提示大小版本号,主动更新才判断检测编译版本号,非可用版本,强制更新,大,小,编译,版本号末尾支持通配符[*]通配0-9"
                 @confirm="on打开版本信息详细描述"
             >
               <template #reference>
@@ -144,7 +152,7 @@
               <el-input v-model="data.AppWeb" readonly="readonly" style="background: #889aa4">
 
                 <template #prepend>
-                  {{SerVerUrl}}
+                  {{ SerVerUrl }}
                 </template>
 
                 <template #append>
@@ -154,7 +162,7 @@
                       content="复制App配置到剪辑版"
                   >
                     <template #reference>
-                    <el-button @click="on置剪辑版配置信息" icon="DocumentCopy"/>
+                      <el-button @click="on置剪辑版配置信息" icon="DocumentCopy"/>
                     </template>
                   </el-popover>
                 </template>
@@ -247,10 +255,10 @@
           </el-tab-pane>
           <el-tab-pane label="专属云变量" name="专属云变量">
 
-<!--            <el-divider v-if="专属变量.length>0">
-              {{ data.AppName }}
-              -专属变量
-            </el-divider>-->
+            <!--            <el-divider v-if="专属变量.length>0">
+                          {{ data.AppName }}
+                          -专属变量
+                        </el-divider>-->
             <el-form-item v-for="(data,key) in 专属变量" :label="data.Name" :key="key" style="width: 100%">
               <div class="专属变量" style="display: inline-block ;width: 100%">
                 <el-input v-if="data.Type===1" type="text" v-model="data.Value"
@@ -399,7 +407,9 @@ const data = ref({
   "RmbToVipNumber": 1,
   "Captcha": ""
 })
-
+const isAppType计点 = () => {
+  return data.value.AppType === 2 || data.value.AppType === 4
+}
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
@@ -643,9 +653,10 @@ const 添加专属变量 = ref({
   "IsVip": 0
 })
 const on读取专属变量 = async () => {
-  const res = await GetList({AppId: data.value.AppId, Type: 1, Size: 50, Page: 1, Keywords: ""})
+  const res = await GetList({AppId: data.value.AppId, Type: 1, Size: 50, Order: 2, Page: 1, Keywords: ""})
   if (res.code == 0) {
     专属变量.value = res.data.List
+    专属变量.value.reverse()
     ElMessage({
       type: "success",
       message: res.msg,
@@ -654,8 +665,6 @@ const on读取专属变量 = async () => {
   }
 }
 const on添加专属变量 = async (是否添加: boolean) => {
-
-
   if (!是否添加) {
     is添加专属变量.value = false
     return
@@ -673,7 +682,7 @@ const on添加专属变量 = async (是否添加: boolean) => {
   let NewPublicData = {
     "AppId": data.value.AppId,
     "Name": 添加专属变量.value.Name,
-    "Value": 添加专属变量.value.Type==3?"1":"",
+    "Value": 添加专属变量.value.Type == 3 ? "1" : "",
     "Type": 添加专属变量.value.Type,
     "IsVip": 0
   }
