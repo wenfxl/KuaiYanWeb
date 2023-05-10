@@ -142,9 +142,7 @@
                 </el-form-item>
               </template>
             </el-popover>
-            <el-form-item label="验证码(暂未实现)" prop="Captcha">
-              <el-input v-model="data.Captcha"/>
-            </el-form-item>
+
 
           </el-tab-pane>
           <el-tab-pane label="安全设置" name="安全设置">
@@ -252,6 +250,39 @@
                 <el-radio-button :label="2">提示登录数量超过限制</el-radio-button>
               </el-radio-group>
             </el-form-item>
+            <el-form-item label="需要英数验证码接口" prop="Captcha">
+              <el-select
+                  v-model="数组_验证码英数"
+                  multiple
+                  placeholder="选择接口"
+                  style="width: 100%"
+                  @change="on验证码多选发生变化"
+              >
+                <el-option
+                    v-for="item in 数组_用户Api"
+                    :key="item[0]"
+                    :label="item[1]+'('+item[0]+')'"
+                    :value="item[0]"
+                />
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="短信验证码(开发中)" prop="Captcha">
+              <el-select
+                  v-model="数组_验证码短信"
+                  multiple
+                  placeholder="选择接口"
+                  style="width: 100%"
+
+              >
+                <el-option
+                    v-for="item in 数组_用户Api"
+                    :key="item[0]"
+                    :label="item[1]+'('+item[0]+')'"
+                    :value="item[0]"
+                />
+              </el-select>
+            </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="专属云变量" name="专属云变量">
 
@@ -346,7 +377,7 @@
 
 <script setup lang="ts">
 import {onMounted, ref, watch} from 'vue'
-import {SaveApp信息, GetApp详细信息} from "@/api/应用列表api";
+import {SaveApp信息, GetApp详细信息, Get全部用户APi} from "@/api/应用列表api";
 import {New, DeleteInfo, GetList} from "@/api/公共变量api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
@@ -407,13 +438,16 @@ const data = ref({
   "RmbToVipNumber": 1,
   "Captcha": ""
 })
+const on验证码多选发生变化 = () => {
+  console.info(数组_验证码英数.value)
+}
+
 const isAppType计点 = () => {
   return data.value.AppType === 2 || data.value.AppType === 4
 }
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
-
   console.info("on确定按钮被点击")
   console.info(data.value)
   if (!formEl) return
@@ -432,6 +466,19 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (Props.id === 0) {
 
   } else {
+    let 验证码JSon: object = {} as any[];
+
+
+    for (let 索引 in 数组_验证码英数.value) {
+      let Api: string = 数组_验证码英数.value[索引]
+      验证码JSon[Api] = 1
+    }
+    for (let 索引 in 数组_验证码短信.value) {
+      let Api: string = 数组_验证码短信.value[索引]
+      验证码JSon[Api] = 1
+    }
+
+    data.value.Captcha = JSON.stringify(验证码JSon)
     返回 = await SaveApp信息({"AppData": data.value, "PublicData": 专属变量.value});
   }
 
@@ -528,13 +575,11 @@ const on对话框被打开 = () => {
   console.info("on对话框被打开id:" + Props.id)
   on校验表单重置(ruleFormRef.value)
   读取详细信息(Props.id)
-
 }
 const 读取详细信息 = async (id: number) => {
   if (id > 0) {
     let 返回 = await GetApp详细信息({"Id": id})
     if (返回.code == 0) {
-
       data.value = 返回.data.AppInfo
       SerVerUrl.value = "http://" + 返回.data.ServerUrl + ":" + 返回.data.Port
       对象_卡类型.value = 返回.data.KaClass
@@ -544,11 +589,31 @@ const 读取详细信息 = async (id: number) => {
         isVipType.value = true
       }
 
+
+      await on读取用户Api数组()
+      //必须选读取下拉框后再填入已选择数据,不然不显示
+      数组_验证码英数.value=[]
+      数组_验证码短信.value=[]
+      let 验证码Json = JSON.parse(data.value.Captcha)
+
+      for (let Api in 验证码Json) {
+        console.log("枚举验证码json:"+Api)
+        if (验证码Json.hasOwnProperty(Api)) {
+          if (验证码Json[Api] === 1) {
+            数组_验证码英数.value.push(Api)
+          } else if (验证码Json[Api] === 3) {
+            数组_验证码短信.value.push(Api)
+          }
+        }
+      }
+      console.log(数组_验证码英数.value)
+
       await on读取专属变量()
     } else {
       is重新读取.value = false
       is对话框可见2.value = false
     }
+
   } else {
     data.value = {
       "AppId": 10001,
@@ -578,6 +643,24 @@ const 读取详细信息 = async (id: number) => {
     }
 
   }
+}
+
+const 数组_用户Api = ref([])
+const 数组_验证码英数 = ref(["未定义"])
+//const 数组_验证码行为 = ref(["未定义"])
+const 数组_验证码短信 = ref(["未定义"])
+
+const on读取用户Api数组 = async () => {
+  console.log(数组_用户Api.value.length)
+  数组_验证码英数.value = []
+  if (数组_用户Api.value.length === 0) {
+    const res = await Get全部用户APi({})
+    if (res.code == 0) {
+      数组_用户Api.value = res.data
+    }
+  }
+  console.log(数组_用户Api.value)
+  return
 }
 
 

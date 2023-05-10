@@ -84,4 +84,11 @@ export const  GetAppIdNameList = () => {
     method: 'get',
   })
 }
+export const  Get全部用户APi = () => {
+  return service({
+    url: url+'GetAllUserApi',
+    method: 'get',
+  })
+}
+
 

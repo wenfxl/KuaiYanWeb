@@ -7,7 +7,7 @@
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
         <el-form-item label="AppId" prop="AppId">
-          <el-input-number v-model="data.AppId"  :step="1" :value-on-clear="10001"/>
+          <el-input-number v-model="data.AppId" :step="1" :value-on-clear="10001"/>
         </el-form-item>
 
         <el-form-item label="应用名称" prop="AppName">
@@ -16,14 +16,14 @@
 
         <el-form-item label="应用类型" prop="AppType">
 
-          <el-radio-group v-model="data.AppType"  :size="is移动端()?'small':''">
+          <el-radio-group v-model="data.AppType" :size="is移动端()?'small':''">
             <el-tooltip
                 class="box-item"
                 effect="dark"
                 content="账号密码登陆,会员时间到期不可登录"
                 placement="bottom-start"
             >
-              <el-radio-button :label="1" >账号限时</el-radio-button>
+              <el-radio-button :label="1">账号限时</el-radio-button>
             </el-tooltip>
             <el-tooltip
                 class="box-item"
@@ -31,7 +31,7 @@
                 content="账号密码登陆,点数为0,不可登录"
                 placement="bottom"
             >
-            <el-radio-button :label="2">账号计点</el-radio-button>
+              <el-radio-button :label="2">账号计点</el-radio-button>
             </el-tooltip>
             <el-tooltip
                 class="box-item"
@@ -39,7 +39,7 @@
                 content="卡号登陆,会员时间到期不可登录"
                 placement="bottom"
             >
-            <el-radio-button :label="3">卡号限时</el-radio-button>
+              <el-radio-button :label="3">卡号限时</el-radio-button>
             </el-tooltip>
             <el-tooltip
                 class="box-item"
@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import {onMounted, ref, watch} from 'vue'
-import {GetAppIdMax, NewApp信息} from "@/api/应用列表api";
+import {GetAppIdMax, Get全部用户APi, NewApp信息} from "@/api/应用列表api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端} from "@/utils/utils";
 
@@ -89,9 +89,9 @@ watch(() => Props.is对话框可见, (newVal, oldVal) => {
   }
 })
 
-const formLabelWidth = '140px'
+
 const is对话框可见2 = ref(false)
-const data = ref({"AppId":10001,"AppName":"测试应用","AppType":1})
+const data = ref({"AppId": 10001, "AppName": "测试应用", "AppType": 1})
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
@@ -136,9 +136,9 @@ const on表单校验 = ref({
     {required: true, message: '请输入应用名称', trigger: 'blur'},
     {min: 4, message: '最低4位字符', trigger: ''}
   ],
-  AppId:  [
+  AppId: [
     {required: true, message: '请输入AppId', trigger: 'blur'},
-    {pattern:/\d{5,}$/, message: '最低5位数字', trigger: 'blur'}
+    {pattern: /\d{5,}$/, message: '最低5位数字', trigger: 'blur'}
   ]
 })
 
@@ -149,13 +149,15 @@ const on对话框被打开 = () => {
   读取当前最大Appid()
 }
 const 读取当前最大Appid = async () => {
-    let 返回 = await GetAppIdMax()
+
+  let 返回 = await GetAppIdMax()
+
   console.info("读取当前最大Appid")
   console.info(返回)
-    if (返回.code == 0) {
-      console.info(返回.data.AppIdMax)
-      data.value.AppId=返回.data.AppIdMax+1
-    }
+  if (返回.code == 0) {
+    console.info(返回.data.AppIdMax)
+    data.value.AppId = 返回.data.AppIdMax + 1
+  }
 }
 
 const on对话框被关闭 = () => {
