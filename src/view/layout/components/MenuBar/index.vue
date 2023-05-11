@@ -134,12 +134,6 @@ const menus = [{
     "meta": {"title": "系统设置", "icon": "Tools"},
     "children": []
   }, {
-    "ID": 6,
-    "path": "系统管理/在线支付",
-    "name": "在线支付",
-    "meta": {"title": "在线支付", "icon": "CreditCard"},
-    "children": []
-  }, {
     "ID": 999,
     "path": "系统管理/公共变量",
     "name": "公共变量",

@@ -75,11 +75,6 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/系统管理/系统设置.vue"),
             },
             {
-                path: "系统管理/在线支付",
-                name: "在线支付",
-                component: () => import("@/view/系统管理/在线支付.vue"),
-            },
-            {
                 path: "系统管理/公共变量",
                 name: "公共变量",
                 component: () => import("@/view/系统管理/公共变量.vue"),
