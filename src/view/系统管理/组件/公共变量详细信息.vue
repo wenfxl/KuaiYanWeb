@@ -10,7 +10,7 @@
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
         <el-form-item label="变量名称" prop="Name">
-          <el-input v-model="data.Name" placeholder="请输入变量名称" :readonly="Props.id!==''"/>
+          <el-input  v-model="data.Name" placeholder="请输入变量名称"  :class="[Props.id!==''?'只读编辑框':'']" :readonly="Props.id!==''"/>
         </el-form-item>
 
         <el-form-item label="变量类型" prop="Status">

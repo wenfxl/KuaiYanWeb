@@ -18,8 +18,7 @@ const Data = ref({
   "系统关闭提示": "系统已经关闭使用",
   "用户中心开关": true,
   "代理中心开关": true,
-  "代理中心关闭提示": "www.baidu.com",
-  "网站备案号": "测ICP备12346579号-3"
+  "代理中心关闭提示": "www.baidu.com"
 })
 
 const ruleFormRef = ref<FormInstance>()

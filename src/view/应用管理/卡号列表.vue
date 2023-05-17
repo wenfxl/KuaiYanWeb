@@ -227,22 +227,22 @@
         </el-table-column>
         <el-table-column prop="MaxOnline" label="最大在线数" width="100"/>
 
-        <!--        <el-table-column fixed="right" label="操作" width="110">-->
-        <!--          <template #default="scope">-->
-        <!--            <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">-->
-        <!--              <el-icon color="#79bbff" class="no-inherit">-->
-        <!--                <Edit/>-->
-        <!--              </el-icon>-->
-        <!--              编辑-->
-        <!--            </el-button>-->
-        <!--            &lt;!&ndash;            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)" style="color:#f56d6d">&ndash;&gt;-->
-        <!--            &lt;!&ndash;              <el-icon color="#f56d6d" class="no-inherit">&ndash;&gt;-->
-        <!--            &lt;!&ndash;                <Delete/>&ndash;&gt;-->
-        <!--            &lt;!&ndash;              </el-icon>&ndash;&gt;-->
-        <!--            &lt;!&ndash;              删除&ndash;&gt;-->
-        <!--            &lt;!&ndash;            </el-button>&ndash;&gt;-->
-        <!--          </template>-->
-        <!--        </el-table-column>-->
+                <el-table-column fixed="right" label="操作" width="110">
+                  <template #default="scope">
+                    <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
+                      <el-icon color="#79bbff" class="no-inherit">
+                        <Edit/>
+                      </el-icon>
+                      编辑
+                    </el-button>
+                    <!--            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)" style="color:#f56d6d">-->
+                    <!--              <el-icon color="#f56d6d" class="no-inherit">-->
+                    <!--                <Delete/>-->
+                    <!--              </el-icon>-->
+                    <!--              删除-->
+                    <!--            </el-button>-->
+                  </template>
+                </el-table-column>
       </el-table>
 
       <div class="demo-pagination-block">
@@ -266,6 +266,10 @@
   <KaNew :is对话框可见="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
          :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
          @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型"></KaNew>
+
+  <KaEdit :is对话框可见="is对话框可见卡详细信息" :id="is对话框卡详细信息id" :AppId="对象_搜索条件.AppId"
+         :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
+         @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型" :UserType="对象_用户类型"></KaEdit>
 </template>
 
 <script lang="ts" setup>
@@ -279,6 +283,7 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import KaNew from "./组件/卡号列表制卡.vue";
+import KaEdit from "./组件/卡号详细信息.vue";
 
 
 const on单个删除 = async (id: number) => {
@@ -296,7 +301,8 @@ const on单个删除 = async (id: number) => {
   }
 }
 const on单个编辑 = async (id: number) => {
-  on对话框详细信息打开(id)
+  is对话框可见卡详细信息.value=true
+  is对话框卡详细信息id.value=id
 }
 
 const on批量删除 = async () => {
@@ -321,6 +327,8 @@ const is工具_更多 = ref(false)
 
 const is对话框可见 = ref(false)
 const is对话框id = ref(0)
+const is对话框可见卡详细信息 = ref(false)
+const is对话框卡详细信息id = ref(0)
 const on对话框详细信息打开 = (id: number) => {
   is对话框可见.value = true
   is对话框id.value = id
@@ -329,6 +337,9 @@ const on对话框详细信息关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")
   is对话框可见.value = false
   is对话框id.value = 0
+  is对话框可见卡详细信息.value = false
+  is对话框卡详细信息id.value = 0
+
   if (is重新读取) {
     on读取列表()
   }

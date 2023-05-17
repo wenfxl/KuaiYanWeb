@@ -6,7 +6,7 @@
       <el-form :inline="Props.id>0" style="min-width: 80px" label-width="80px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
         <el-form-item v-if="Props.id>0" label="Id" prop="Id" disabled="disabled" >
-          <el-input v-if="Props.id>0" v-model="data.Id" placeholder="" readonly="readonly"/>
+          <el-input class="只读编辑框" v-if="Props.id>0" v-model="data.Id" placeholder="" readonly="readonly"/>
         </el-form-item>
         <el-form-item v-if="Props.id>0" label="状态" prop="Status">
           <el-switch
@@ -22,7 +22,9 @@
         </el-form-item>
 
         <el-form-item label="用户名" prop="User">
-          <el-input v-model="data.User" :readonly="id>0"/>
+
+
+          <el-input :class="[id>0?'只读编辑框':'']" v-model="data.User" :readonly="id>0"/>
         </el-form-item>
         <el-form-item label="密码" prop="PassWord">
           <el-input v-model="data.PassWord" :placeholder="Props.id===0?'请输入密码':'不修改留空忽略即可'"/>

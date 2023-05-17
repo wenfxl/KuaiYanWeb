@@ -100,8 +100,11 @@
         <el-table-column prop="User" label="用户名" width="210"/>
         <el-table-column prop="Status" label="订单状态" width="100">
           <template #default="scope">
-            <el-tag :type="scope.row.Status===1?'info':scope.row.Status===2?'success':'danger'">
-              {{ scope.row.Status === 1 ? '等待付款' : scope.row.Status === 2 ? '充值成功' : "未知状态" }}
+            <el-tag
+                :type="scope.row.Status===1||scope.row.Status===4?'info':scope.row.Status===2?'':scope.row.Status === 3 ? 'success' : scope.row.Status === 4 ? '' :scope.row.Status === 6 ? 'warning' : 'danger' ">
+              {{
+                scope.row.Status === 1 ? '等待付款' : scope.row.Status === 2 ? '已付待充' : scope.row.Status === 3 ? '充值成功' :  scope.row.Status === 4 ? '退款中' : scope.row.Status === 5 ? '退款失败' : scope.row.Status === 6 ? '退款成功':"未知状态"
+              }}
             </el-tag>
           </template>
         </el-table-column>
@@ -122,6 +125,18 @@
 
         <el-table-column prop="Ip" label="IP" width="135"/>
         <el-table-column prop="Note" label="备注"/>
+        <el-table-column fixed="right" label="操作" width="110">
+          <template #default="scope">
+            <el-button link type="primary" size="default" @click="on单个退款(scope.row)" style="color:#f56d6d"
+                       v-show="scope.row.Status===3">
+              <el-icon color="#f56d6d" class="no-inherit">
+                <Edit/>
+              </el-icon>
+              退款
+            </el-button>
+          </template>
+        </el-table-column>
+
       </el-table>
 
       <div class="demo-pagination-block">
@@ -133,23 +148,26 @@
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-               :total="parseInt( Data.Count)"
+              :total="parseInt( Data.Count)"
               @current-change="on读取列表(0)"
           />
         </el-config-provider>
       </div>
     </div>
   </div>
-  <NewMBPayOrder :is对话框可见="is对话框可见_应用新增" :id="is对话框id"
-                 @on对话框详细信息关闭="on对话框详细信息关闭"></NewMBPayOrder>
+  <NewRMBPayOrder :is对话框可见="is对话框可见_应用新增" :id="is对话框id"
+                 @on对话框详细信息关闭="on对话框详细信息关闭"></NewRMBPayOrder>
+  <ViewOutRMBPayOrder :Is退款订单可见="Is退款订单可见" :退款订单="退款订单"
+                  @on对话框退款关闭="on对话框退款关闭"></ViewOutRMBPayOrder>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref, watch} from "vue";
-import {GetLogRMBPayOrderList, Del批量删除LogRMBPayOrder} from "@/api/余额充值订单api.js";
+import {GetLogRMBPayOrderList, Del批量删除LogRMBPayOrder, OutRMBPayOrder} from "@/api/余额充值订单api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端} from "@/utils/utils";
 import {useStore} from "vuex";
-import NewMBPayOrder from "./组件/余额订单手动充值.vue";
+import NewRMBPayOrder from "./组件/余额订单手动充值.vue";
+import ViewOutRMBPayOrder from "./组件/余额充值订单退款.vue";
 
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -379,7 +397,24 @@ const on对话框详细信息关闭 = (is重新读取: boolean) => {
   }
 }
 
+const Is退款订单可见 = ref(false)
+const 退款订单 = ref({})
 
+
+const on单个退款 = async (订单: object) => {
+  退款订单.value = 订单
+  Is退款订单可见.value = true
+console.log("Is退款订单可见"+Is退款订单可见.value)
+console.log(退款订单.value.toString())
+}
+const on对话框退款关闭 = (is重新读取: boolean) => {
+  //console.info("父组件收到对话框被关闭了")
+  Is退款订单可见.value = false
+  退款订单.value = {}
+  if (is重新读取) {
+    onGetLogRMBPayOrderList()
+  }
+}
 </script>
 
 <style scoped lang="scss">

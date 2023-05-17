@@ -147,7 +147,7 @@
           </el-tab-pane>
           <el-tab-pane label="安全设置" name="安全设置">
             <el-form-item label="web地址" prop="AppWeb">
-              <el-input v-model="data.AppWeb" readonly="readonly" style="background: #889aa4">
+              <el-input v-model="data.AppWeb" class="只读编辑框" readonly="readonly" style="background: #889aa4">
 
                 <template #prepend>
                   {{ SerVerUrl }}
@@ -475,7 +475,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
     }
     for (let 索引 in 数组_验证码短信.value) {
       let Api: string = 数组_验证码短信.value[索引]
-      验证码JSon[Api] = 1
+      验证码JSon[Api] = 3
     }
 
     data.value.Captcha = JSON.stringify(验证码JSon)

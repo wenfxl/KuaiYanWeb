@@ -13,11 +13,11 @@
         <el-form-item label="商户ID" disabled="disabled">
           <el-input v-model="Data.支付宝商户ID"/>
         </el-form-item>
-        <el-form-item label="商户私匙" disabled="disabled">
-          <el-input v-model="Data.支付宝商户私匙"/>
+        <el-form-item label="商户私钥" disabled="disabled">
+          <el-input v-model="Data.支付宝商户私钥"/>
         </el-form-item>
-        <el-form-item label="商户私匙" disabled="disabled">
-          <el-input v-model="Data.支付宝商户公匙"/>
+        <el-form-item label="商户私钥" disabled="disabled">
+          <el-input v-model="Data.支付宝商户公钥"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
           <el-input v-model="Data.支付宝同步回调url"/>
@@ -35,7 +35,7 @@
         <el-form-item label="商户ID" disabled="disabled">
           <el-input v-model="Data.微信支付商户ID"/>
         </el-form-item>
-        <el-form-item label="商户私匙" disabled="disabled">
+        <el-form-item label="商户私钥" disabled="disabled">
           <el-input v-model="Data.微信支付商户密匙"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
@@ -64,8 +64,8 @@ import {is移动端} from "@/utils/utils";
 const Data = ref({
   "支付宝开关": false,
   "支付宝商户ID": "20210088888818",
-  "支付宝商户私匙": "xxxxxxx",
-  "支付宝商户公匙": "666666666666",
+  "支付宝商户私钥": "xxxxxxx",
+  "支付宝商户公钥": "666666666666",
   "支付宝同步回调url": "https://www.baidu.com/s?wd=%E5%85%85%E5%80%BC%E6%88%90%E5%8A%9F%E6%9B%B4%E6%96%B0%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B",
   "微信支付开关": false,
   "微信支付商户ID": "1234567",

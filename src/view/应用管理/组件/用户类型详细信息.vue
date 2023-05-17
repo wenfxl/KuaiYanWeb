@@ -8,7 +8,7 @@
       <el-form :inline="false" style="min-width: 80px" label-width="130px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
         <el-form-item label="ID" prop="ID" disabled="disabled">
-          <el-input v-model.number="data.Id" placeholder="" readonly="readonly" />
+          <el-input v-model.number="data.Id" class="只读编辑框" placeholder="" readonly="readonly" />
         </el-form-item>
         <el-form-item label="用户类型名称" prop="Name">
           <el-input v-model="data.Name" placeholder="用户类型名称"/>

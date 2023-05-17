@@ -28,7 +28,7 @@
                 <el-option label="Id" :value="1"/>
                 <el-option label="用户名" :value="2"/>
                 <el-option label="绑定信息" :value="3"/>
-                <el-option label="动态标记" :value="4"/>
+                <el-option label="动态标签" :value="4"/>
                 <el-option label="软件版本" :value="5"/>
               </el-select>
             </template>
@@ -109,7 +109,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="Key" label="绑定信息" width="140" show-overflow-tooltip=""/>
-        <el-table-column prop="Tab" label="动态标记" width="140" show-overflow-tooltip=""/>
+        <el-table-column prop="Tab" label="动态标签" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Ip" label="登录ip" width="140"/>
         <el-table-column prop="LoginTime" label="登录时间" width="160" :formatter="on格式化_登录时间"/>
         <el-table-column prop="LastTime" label="最后活动时间" width="160" :formatter="on格式化_最后活动时间"/>

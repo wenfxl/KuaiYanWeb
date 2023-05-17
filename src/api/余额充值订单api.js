@@ -33,3 +33,11 @@ export const NewRMBPayOrder = (data) => {
     data: data
   })
 }
+//  退款
+export const OutRMBPayOrder = (data) => {
+  return service({
+    url: url+'Out',
+    method: 'post',
+    data: data
+  })
+}

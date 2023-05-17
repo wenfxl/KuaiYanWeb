@@ -40,9 +40,7 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="网站备案号" prop="网站备案号">
-          <el-input v-model="Data.网站备案号" placeholder="网站备案号"/>
-        </el-form-item>
+
 
         <div style="text-align:center">
           <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>
@@ -68,8 +66,7 @@ const Data = ref({
   "系统关闭提示": "系统已经关闭使用",
   "用户中心开关": true,
   "代理中心开关": true,
-  "代理中心关闭提示": "www.baidu.com",
-  "网站备案号": "测ICP备12346579号-3"
+  "代理中心关闭提示": "www.baidu.com"
 })
 
 const ruleFormRef = ref<FormInstance>()
