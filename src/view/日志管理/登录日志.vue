@@ -89,7 +89,7 @@
           <template #default="scope">
             <el-tag v-show="scope.row.LoginType!==0" size="small"
                     :type="scope.row.LoginType === 4 ? 'success' : scope.row.LoginType === 5 ? 'info' : ''">
-              {{ on登录类型(scope.row.LoginType)}}
+              {{ on登录类型(scope.row.LoginType) }}
             </el-tag>
           </template>
         </el-table-column>
@@ -101,22 +101,26 @@
         </el-table-column>
         <el-table-column prop="Ip" label="IP" width="140"/>
         <el-table-column prop="Msg" label="消息"/>
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
+          </div>
+        </template>
       </el-table>
-
-      <div class="demo-pagination-block">
-        <el-config-provider :locale="zhCn">
-          <el-pagination
-              v-model:current-page="对象_搜索条件.Page"
-              v-model:page-size="对象_搜索条件.Size"
-              :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
-              :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
-              :pager-count="is移动端()?5:9"
-              :total="parseInt( Data.Count)"
-              @current-change="on读取列表"
-          />
-        </el-config-provider>
-      </div>
+        <div class="demo-pagination-block">
+          <el-config-provider :locale="zhCn">
+            <el-pagination
+                v-model:current-page="对象_搜索条件.Page"
+                v-model:page-size="对象_搜索条件.Size"
+                :page-sizes="[10, 20, 30, 40,50,100]"
+                small="small"
+                :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
+                :pager-count="is移动端()?5:9"
+                :total="parseInt( Data.Count)"
+                @current-change="on读取列表"
+            />
+          </el-config-provider>
+        </div>
     </div>
   </div>
 </template>
@@ -257,12 +261,12 @@ const onGetLogLoginList = async () => {
   console.log(res)
   is加载中.value = false
   Data.value = res.data
-  对象_登录类型.value=res.data.AppName
-  对象_登录类型.value["1"]= "1级代理平台"
-  对象_登录类型.value["2"]= "2级代理平台"
-  对象_登录类型.value["3"]= "3级代理平台"
-  对象_登录类型.value["4"]= "管理平台"
-  对象_登录类型.value["5"]= "系统自动"
+  对象_登录类型.value = res.data.AppName
+  对象_登录类型.value["1"] = "1级代理平台"
+  对象_登录类型.value["2"] = "2级代理平台"
+  对象_登录类型.value["3"] = "3级代理平台"
+  对象_登录类型.value["4"] = "管理平台"
+  对象_登录类型.value["5"] = "系统自动"
 }
 
 

@@ -147,6 +147,11 @@
             <!--            </el-button>-->
           </template>
         </el-table-column>
+              <template v-slot:empty >
+          <div slot="empty"   style="text-align: left;">
+            <el-empty description="居然没有数据啊" />
+          </div>
+        </template>
       </el-table>
 
       <div class="demo-pagination-block">
@@ -342,7 +347,8 @@ const onGetAppUserList = async () => {
   is加载中.value = false
   Data.value = res.data
   对象_用户类型.value = res.data.UserClass
-  对象_用户类型.value["0"] = "未分类"
+  //对象_用户类型.value["0"] = "未分类"
+  对象_用户类型.value  = {...对象_用户类型.value , 0: '未分类'};
   console.log("对象_用户类型")
   console.log(对象_用户类型.value)
 }

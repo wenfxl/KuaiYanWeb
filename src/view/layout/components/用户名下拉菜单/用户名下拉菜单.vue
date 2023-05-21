@@ -25,7 +25,7 @@
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import {GetAdminInfo, login} from "@/api/user.js"
+import {GetAdminInfo, login, OutLogin} from "@/api/user.js"
 import {is移动端} from "@/utils/utils";
 
 const Store = useStore()
@@ -34,7 +34,9 @@ const Router = useRouter()
 const on路由跳转 = (name) => {
   Router.push({name})
 }
-const on退出登录 = () => {
+const on退出登录 =  async () => {
+  await OutLogin()
+
   Store.commit("setToken", "")
   Store.commit("onTabs菜单删除", "关闭所有")
   Store.commit("on更新菜单当前Path", "")

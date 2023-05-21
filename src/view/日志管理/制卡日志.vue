@@ -104,6 +104,11 @@
         </el-table-column>
         <el-table-column prop="Ip" label="IP" width="140"/>
         <el-table-column prop="Msg" label="消息"/>
+              <template v-slot:empty >
+          <div slot="empty"   style="text-align: left;">
+            <el-empty description="居然没有数据啊" />
+          </div>
+        </template>
       </el-table>
 
       <div class="demo-pagination-block">

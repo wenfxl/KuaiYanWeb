@@ -267,7 +267,7 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="短信验证码(开发中)" prop="Captcha">
+            <el-form-item label="短信验证码" prop="Captcha">
               <el-select
                   v-model="数组_验证码短信"
                   multiple

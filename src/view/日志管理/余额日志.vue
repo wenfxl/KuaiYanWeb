@@ -91,9 +91,20 @@
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="Ip" label="IP" width="140" />
-        <el-table-column prop="Count" label="变化值" width="70"/>
+        <el-table-column prop="Ip" label="IP" width="140" />3
+        <el-table-column prop="Count" label="变化值" width="110">
+          <template #default="scope">
+            <el-tag :type="scope.row.Count>0?'warning':''">
+              {{scope.row.Count}}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="Msg" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
+              <template v-slot:empty >
+          <div slot="empty"   style="text-align: left;">
+            <el-empty description="居然没有数据啊" />
+          </div>
+        </template>
       </el-table>
 
       <div class="demo-pagination-block">

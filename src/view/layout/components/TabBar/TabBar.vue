@@ -5,7 +5,6 @@
       type="card"
       class="breadcrumb"
       closable
-
       @tab-change="on切换现行子夹"
       @tab-remove="on子夹被删除"
       @contextmenu.prevent.native="on弹出菜单($event)"

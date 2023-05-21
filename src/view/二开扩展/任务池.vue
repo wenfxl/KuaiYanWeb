@@ -6,18 +6,19 @@
           <el-input class="搜索框"
                     v-model="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
-                    style="top:0 ; width: 200px;padding: 0;margin: 0"
+                    style="top:0 ; width: 280px;padding: 0;margin: 0"
                     clearable
           >
             <template #prepend>
-              <el-select v-model="对象_搜索条件.Type" placeholder="名称">
-                <el-option label="变量名" :value="1"/>
+              <el-select v-model="对象_搜索条件.Type" placeholder="用户名" style="width: 120px;">
+                <el-option label="Id" :value="1"/>
+                <el-option label="任务类型名称" :value="2"/>
               </el-select>
             </template>
           </el-input>
         </el-form-item>
 
-        <el-form-item>
+        <el-form-item style="padding-left: 5px">
           <el-button type="primary" icon="search" @click="on读取列表">查询</el-button>
           <el-button icon="refresh" @click="onReset">重置</el-button>
         </el-form-item>
@@ -25,13 +26,11 @@
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 65px"
-                   @click="on对话框详细信息打开('')">
+        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 65px" @click="on对话框详细信息打开(0)">
           新增
         </el-button>
 
-        <el-popconfirm title="确定删除勾选变量?" width="200"
-                       @confirm="on批量删除" confirm-button-text="确定"
+        <el-popconfirm title="确定删除勾选任务类型?" width="200" @confirm="on批量删除" confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
             <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
@@ -56,51 +55,38 @@
           <!--            <li class="工具_更多_li"  @click="on删除已注销" >删除已注销</li>-->
           <!--          </el-popover>-->
         </div>
+
       </div>
 
-      <el-table v-loading="is加载中" :data="Data.List" border style="width: 100% ;white-space: pre-wrap;"
+      <el-table v-loading="is加载中" :data="List.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
-        <el-table-column prop="Name" label="变量名" width="120"/>
-        <el-table-column prop="Type" label="变量类型" width="100">
-          <template #default="scope">
-            <el-tag :type="scope.row.Type>4?'danger':scope.row.Type===3?'':'success'">
-              {{ onTypeId转换文本(scope.row.Type) }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="Value" label="变量值" width="%100" show-overflow-tooltip="">
-          <template #default="scope">
-            <el-tag v-if="scope.row.Type===3" :type="scope.row.Value==='0'?'info':scope.row.Value==='1'?'':'danger'">
-              {{ scope.row.Value === '0' ? '关闭' : scope.row.Value === '1' ? '开启' : scope.row.Value }}
-            </el-tag>
-            <template v-else>
-              {{ scope.row.Value }}
-            </template>
-          </template>
-        </el-table-column>
+        <el-table-column prop="Id" label="Id" width="80"/>
+        <el-table-column prop="Name" label="任务类型名称" width="230"/>
+        <el-table-column prop="HookSubmitDataStart" label="Hook函数创建入库前" width="230"/>
+        <el-table-column prop="HookSubmitDataEnd" label="Hook函数创建入库后" width="230"/>
+        <el-table-column prop="HookReturnDataStart" label="Hook函数执行入库前" width="230"/>
+        <el-table-column prop="HookReturnDataEnd" label="Hook函数执行入库后" width="230"/>
 
-        <el-table-column fixed="right" label="操作" :width="2*85">
+
+        <el-table-column fixed="right" label="操作" width="140">
           <template #default="scope">
-            <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Name)"
-                       style="color:#79bbff">
+            <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
                 <Edit/>
               </el-icon>
               编辑
             </el-button>
-            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Name)"
-                       style="color:#f56d6d">
-              <el-icon color="#f56d6d" class="no-inherit">
-                <Delete/>
-              </el-icon>
-              删除
-            </el-button>
           </template>
         </el-table-column>
+              <template v-slot:empty >
+          <div slot="empty"   style="text-align: left;">
+            <el-empty description="居然没有数据啊" />
+          </div>
+        </template>
       </el-table>
 
       <div class="demo-pagination-block">
@@ -112,32 +98,31 @@
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-                :total="parseInt( Data.Count)"
+               :total="parseInt( List.Count)"
               @current-change="on读取列表"
           />
         </el-config-provider>
       </div>
-
     </div>
   </div>
-  <PublicDataInfo :is对话框可见="is对话框可见" :AppId="1" :id="Id"
-                  @on对话框详细信息关闭="on对话框详细信息关闭"></PublicDataInfo>
+  <Userinfo :is对话框可见="is对话框可见" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetList, DeleteInfo} from "@/api/公共变量api.js";
+import {GetTaskPool详细信息,Del批量删除TaskPool,GetTaskPoolList, SaveTaskPool信息, NewTaskPool信息} from "@/api/任务池api.js";
+import {时间_时间戳到时间, 时间_取现行时间戳, is移动端} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
-import PublicDataInfo from "./组件/公共变量详细信息.vue";
 import {Delete} from "@element-plus/icons-vue";
-import {is移动端} from "@/utils/utils";
+import Userinfo from "@/view/二开扩展/组件/任务类型详细信息.vue";
 
-const on单个删除 = async (id: string) => {
+const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
-  const res = await DeleteInfo({"data": [{"AppId": 1, "Name": id}]})
+
+  const res = await Del批量删除TaskPool({"ID": [id]})
   console.log(res)
   if (res.code == 0) {
     ElMessage({
@@ -148,38 +133,15 @@ const on单个删除 = async (id: string) => {
     on读取列表()
   }
 }
-const on单个编辑 = async (Name: string) => {
-  on对话框详细信息打开(Name)
-}
-const onTypeId转换文本 = (Id: number) => {
-  let str = "未知类型" + Id
-  switch (Id) {
-    case 1:
-      str = "单行文本"
-      break
-    case 2:
-      str = "多行文本"
-      break
-    case 3:
-      str = "逻辑开关"
-      break
-    case 4:
-      str = "JSON"
-      break
-  }
+const on单个编辑 = async (id: number) => {
+  on对话框详细信息打开(id)
 
-  return str
 }
+
 const on批量删除 = async () => {
-  let ids: object[] = []
-  for (let i = 0; i < 表格被选中列表.value.length; i++) {
-    ids.push({
-      "AppId": 表格被选中列表.value[i].AppId,
-      "Name": 表格被选中列表.value[i].Name
-    })
-  }
+  const ids = 表格被选中列表.value.map((item => item.Id))
   console.log(ids)
-  const res = await DeleteInfo({"data": ids})
+  const res = await Del批量删除TaskPool({"ID": ids})
   console.log(res)
   if (res.code == 0) {
     ElMessage({
@@ -197,24 +159,15 @@ const is批量删除禁用 = ref(true)
 const is工具_更多 = ref(false)
 
 const is对话框可见 = ref(false)
-const 公共变量初始数据 = {
-  "AppId": 1,
-  "Name": "",
-  "Value": "",
-  "Type": 1,
-  "IsVip": 1
-}
-
-const Id = ref("")
-const 公共变量 = ref(公共变量初始数据)
-
-const on对话框详细信息打开 = (id: string) => {
+const is对话框id = ref(0)
+const on对话框详细信息打开 = (id: number) => {
   is对话框可见.value = true
-  Id.value = id
+  is对话框id.value = id
 }
 const on对话框详细信息关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")
   is对话框可见.value = false
+  is对话框id.value = 0
   if (is重新读取) {
     on读取列表()
   }
@@ -225,69 +178,84 @@ const on选择框被选择 = (val: any) => {
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
 
-const Data = ref({
-  "Count": 0,
+const List = ref({
+  "Count":0,
   "List": [
     {
-      "AppId": 1,
-      "Name": "",
-      "Value": "",
-      "Type": 1,
-      "IsVip": 1
+      "Id": 1,
+      "Name": "test3",
+      "HookSubmitDataStart": "",
+      "HookSubmitDataEnd": "",
+      "HookReturnDataStart": "",
+      "HookReturnDataEnd": "",
     }]
 })
+
 const Store = useStore()
-const 对象_搜索条件初始值 = {AppId: 1, Type: 1, Size: 10, Page: 1, Keywords: ""}
-const 对象_搜索条件 = ref(Object.assign({}, 对象_搜索条件初始值))
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Keywords: ""})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
-  onGetList()
+  onGetUserList()
 }
 const onReset = () => {
-  let Appidc = 对象_搜索条件.value.AppId
-  对象_搜索条件.value = Object.assign({}, 对象_搜索条件初始值)
-  对象_搜索条件.value.AppId = Appidc
-  console.log(对象_搜索条件.value)
+  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1,  Keywords: ""}
 }
+
 
 
 const is加载中 = ref(false)
 const onGetList = async () => {
   is加载中.value = true
-  对象_搜索条件.value.AppId = 1  //只展示公共变量 值固定为1
-  const res = await GetList(对象_搜索条件.value)
+  const res = await GetTaskPoolList(对象_搜索条件.value)
   console.log(res)
   is加载中.value = false
-  Data.value = res.data
+  List.value = res.data
 }
-
 // table元素
 const tableRef = ref<any>();
 // table高度
 const tableHeight = ref();
-
-onMounted(async () => {
+onMounted(() => {
   // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
   tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
   // 监听浏览器高度变化
   window.onresize = () => {
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
   };
-  Data.value.List = []
   onReset()
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
-  if (Store.state.搜索_公共变量.Size != 0 && Store.state.搜索_公共变量.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_公共变量
+  if (Store.state.搜索_任务池.Size != 0 && Store.state.搜索_任务池.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_任务池
+    console.log("恢复搜索条件")
+    console.log(Store.state.搜索_任务池.Size)
+    console.log(Store.state.搜索_任务池)
   }
-  await onGetList()
+
+  onGetList()
 })
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_公共变量", 对象_搜索条件.value)
+  Store.commit("set搜索_任务池", 对象_搜索条件.value)
 })
+
+
+export interface UserInfo2 {
+  id: number;
+  user: string;
+  status: number;
+  rmb: number;
+  realNameAttestation: string;
+  role: number;
+  loginAppid: string;
+  loginAppName: string;
+  loginIp: string;
+  loginTime: number;
+  registerIp: string;
+  registerTime: string;
+}
 
 </script>
 

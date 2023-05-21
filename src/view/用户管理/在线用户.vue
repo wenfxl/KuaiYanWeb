@@ -81,9 +81,9 @@
         <el-table-column prop="Id" label="Id" width="80"/>
         <el-table-column prop="User" label="用户名" width="130">
           <template #default="scope">
-            {{ scope.row.User}}
+            {{ scope.row.User }}
             <el-tag v-if="scope.row.RiskControl>0" :type="scope.row.RiskControl<20?'info':'danger'">
-              {{scope.row.RiskControl<20?'可疑':"非法"}}
+              {{ scope.row.RiskControl < 20 ? '可疑' : "非法" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -129,10 +129,14 @@
                 <SwitchButton/>
               </el-icon>
               注销
-            </el-button
-            >
+            </el-button>
           </template>
         </el-table-column>
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
+          </div>
+        </template>
       </el-table>
 
       <div class="demo-pagination-block">
@@ -266,7 +270,7 @@ const List = ref({
   }]
 })
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0, Keywords: "",AppId:0})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0, Keywords: "", AppId: 0})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
@@ -274,7 +278,7 @@ const on读取列表 = () => {
   onGetLinkUserList()
 }
 const onReset = () => {
-  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0, Keywords: "",AppId:0}
+  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0, Keywords: "", AppId: 0}
 }
 const on格式化_状态 = (row: any, column: any) => {
   // console.log("on状态格式化")

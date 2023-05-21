@@ -125,6 +125,11 @@
 
 
         <el-table-column prop="Msg" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
+              <template v-slot:empty >
+          <div slot="empty"   style="text-align: left;">
+            <el-empty description="居然没有数据啊" />
+          </div>
+        </template>
       </el-table>
 
       <div class="demo-pagination-block">

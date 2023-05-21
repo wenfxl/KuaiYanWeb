@@ -8,7 +8,12 @@
           <el-input v-model="Data.系统名称"/>
         </el-form-item>
         <el-form-item label="系统地址" prop="系统地址">
-          <el-input v-model="Data.系统地址" placeholder="系统地址"/>
+          <el-tooltip
+              content="系统默认端口为18888,请输入可被外网访问域名或ip地址,会被在线支付回调使用"
+              placement="top-start">
+            <el-input v-model="Data.系统地址" placeholder="系统地址"/>
+          </el-tooltip>
+
         </el-form-item>
         <el-form-item label="系统开关" prop="系统开关">
           <el-radio-group v-model="Data.系统开关">

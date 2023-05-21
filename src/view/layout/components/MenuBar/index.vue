@@ -133,11 +133,29 @@ const menus = [{
     "name": "系统设置",
     "meta": {"title": "系统设置", "icon": "Tools"},
     "children": []
-  }, {
+  }]
+}, {
+  "ID": 6,
+  "path": "二开扩展",
+  "name": "二开扩展",
+  "meta": {"title": "二开扩展", "icon": "Operation"},
+  "children": [{
     "ID": 999,
-    "path": "系统管理/公共变量",
+    "path": "二开扩展/公共变量",
     "name": "公共变量",
     "meta": {"title": "公共变量", "icon": "ElementPlus"},
+    "children": []
+  }, {
+    "ID": 999,
+    "path": "二开扩展/公共函数",
+    "name": "公共函数",
+    "meta": {"title": "公共函数", "icon": "ChromeFilled"},
+    "children": []
+  }, {
+    "ID": 999,
+    "path": "二开扩展/任务池",
+    "name": "任务池",
+    "meta": {"title": "任务池", "icon": "ChromeFilled"},
     "children": []
   }]
 }, {

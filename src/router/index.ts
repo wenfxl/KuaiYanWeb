@@ -4,6 +4,7 @@ import 权限json from "@/store/权限.json"
 import Nprogress from 'nprogress'
 // @ts-ignore
 // @ts-ignore
+// @ts-ignore
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/init',
@@ -75,9 +76,19 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/系统管理/系统设置.vue"),
             },
             {
-                path: "系统管理/公共变量",
+                path: "二开扩展/公共变量",
                 name: "公共变量",
-                component: () => import("@/view/系统管理/公共变量.vue"),
+                component: () => import("@/view/二开扩展/公共变量.vue"),
+            },
+            {
+                path: "二开扩展/公共函数",
+                name: "公共函数",
+                component: () => import("@/view/二开扩展/公共函数.vue"),
+            },
+            {
+                path: "二开扩展/任务池",
+                name: "任务池",
+                component: () => import("@/view/二开扩展/任务池.vue"),
             },
             {
                 path: "日志管理/登录日志",

@@ -119,7 +119,9 @@
           <template #default="scope">
             <el-tag
                 :type="对象_卡类型.hasOwnProperty(scope.row.KaClassId.toString())?'':'danger'">
-              {{ !对象_卡类型.hasOwnProperty(scope.row.KaClassId.toString()) ? '卡类已删' : 对象_卡类型[scope.row.KaClassId.toString()] }}
+              {{
+                !对象_卡类型.hasOwnProperty(scope.row.KaClassId.toString()) ? '卡类已删' : 对象_卡类型[scope.row.KaClassId.toString()]
+              }}
             </el-tag>
           </template>
         </el-table-column>
@@ -227,22 +229,28 @@
         </el-table-column>
         <el-table-column prop="MaxOnline" label="最大在线数" width="100"/>
 
-                <el-table-column fixed="right" label="操作" width="110">
-                  <template #default="scope">
-                    <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
-                      <el-icon color="#79bbff" class="no-inherit">
-                        <Edit/>
-                      </el-icon>
-                      编辑
-                    </el-button>
-                    <!--            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)" style="color:#f56d6d">-->
-                    <!--              <el-icon color="#f56d6d" class="no-inherit">-->
-                    <!--                <Delete/>-->
-                    <!--              </el-icon>-->
-                    <!--              删除-->
-                    <!--            </el-button>-->
-                  </template>
-                </el-table-column>
+        <el-table-column fixed="right" label="操作" width="110">
+          <template #default="scope">
+            <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
+              <el-icon color="#79bbff" class="no-inherit">
+                <Edit/>
+              </el-icon>
+              编辑
+            </el-button>
+            <!--            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)" style="color:#f56d6d">-->
+            <!--              <el-icon color="#f56d6d" class="no-inherit">-->
+            <!--                <Delete/>-->
+            <!--              </el-icon>-->
+            <!--              删除-->
+            <!--            </el-button>-->
+          </template>
+        </el-table-column>
+
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
+          </div>
+        </template>
       </el-table>
 
       <div class="demo-pagination-block">
@@ -255,7 +263,7 @@
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-                :total="parseInt( Data.Count)"
+              :total="parseInt( Data.Count)"
               @current-change="on读取列表"
           />
         </el-config-provider>
@@ -268,8 +276,8 @@
          @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型"></KaNew>
 
   <KaEdit :is对话框可见="is对话框可见卡详细信息" :id="is对话框卡详细信息id" :AppId="对象_搜索条件.AppId"
-         :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
-         @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型" :UserType="对象_用户类型"></KaEdit>
+          :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
+          @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型" :UserType="对象_用户类型"></KaEdit>
 </template>
 
 <script lang="ts" setup>
@@ -301,8 +309,8 @@ const on单个删除 = async (id: number) => {
   }
 }
 const on单个编辑 = async (id: number) => {
-  is对话框可见卡详细信息.value=true
-  is对话框卡详细信息id.value=id
+  is对话框可见卡详细信息.value = true
+  is对话框卡详细信息id.value = id
 }
 
 const on批量删除 = async () => {

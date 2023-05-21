@@ -5,7 +5,7 @@ import service from '@/api/request'
 // @Router /base/login [post]
 export const login = (data) => {
   return service({
-    url: 'admin/base/login',
+    url: 'admin/base/Login',
     method: 'post',
     data: data
   })
@@ -17,7 +17,7 @@ export const login = (data) => {
 // @Router /base/captcha [post]
 export const captcha = (data) => {
   return service({
-    url: 'admin/base/captcha',
+    url: 'admin/base/Captcha',
     method: 'post',
     data: data
   })
@@ -29,5 +29,13 @@ export const GetAdminInfo = () => {
   return service({
     url: '/admin/User/GetAdminInfo',
     method: 'get'
+  })
+}
+
+// @Summary 注销登录
+export const OutLogin = () => {
+  return service({
+    url: '/admin/User/OutLogin',
+    method: 'post'
   })
 }

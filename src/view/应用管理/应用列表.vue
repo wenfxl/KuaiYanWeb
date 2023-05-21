@@ -87,21 +87,21 @@
               <el-icon color="#79bbff" class="no-inherit">
                 <Edit/>
               </el-icon>
-               {{is移动端值?'':'编辑'}}
+              {{ is移动端值 ? '' : '编辑' }}
             </el-button>
             <el-button link type="primary" size="default" style="color:#79bbff"
                        @click="on跳转软件用户(scope.row.AppId)">
               <el-icon color="#79bbff" class="no-inherit">
                 <UserFilled/>
               </el-icon>
-              {{is移动端值?'':'软件用户'}}
+              {{ is移动端值 ? '' : '软件用户' }}
             </el-button>
             <el-button link type="primary" size="default" style="color:#79bbff"
                        @click="on跳转用户类型(scope.row.AppId)">
               <el-icon color="#79bbff" class="no-inherit">
                 <Menu/>
               </el-icon>
-              {{is移动端值?'':'用户类型'}}
+              {{ is移动端值 ? '' : '用户类型' }}
             </el-button>
 
             <el-button link type="primary" size="default" style="color:#79bbff"
@@ -109,14 +109,14 @@
               <el-icon color="#79bbff" class="no-inherit">
                 <Memo/>
               </el-icon>
-               {{is移动端值?'':'卡类列表'}}
+              {{ is移动端值 ? '' : '卡类列表' }}
             </el-button>
             <el-button link type="primary" size="default" style="color:#79bbff"
                        @click="on跳转卡号列表(scope.row.AppId)">
               <el-icon color="#79bbff" class="no-inherit">
                 <Tickets/>
               </el-icon>
-               {{is移动端值?'':'卡号列表'}}
+              {{ is移动端值 ? '' : '卡号列表' }}
             </el-button>
             <!--            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)" style="color:#f56d6d">-->
             <!--              <el-icon color="#f56d6d" class="no-inherit">-->
@@ -126,6 +126,11 @@
             <!--            </el-button>-->
           </template>
         </el-table-column>
+        <template v-slot:empty>
+          <div slot="empty"   style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
+          </div>
+        </template>
       </el-table>
 
       <div class="demo-pagination-block">
@@ -201,7 +206,7 @@ const on批量删除 = async () => {
 
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
-const is移动端值 = ref(is移动端() )
+const is移动端值 = ref(is移动端())
 
 
 const is对话框可见_应用新增 = ref(false)
@@ -315,7 +320,7 @@ const tableRef = ref<any>();
 // table高度
 const tableHeight = ref();
 onMounted(async () => {
-   is移动端值.value = is移动端()
+  is移动端值.value = is移动端()
   // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
   tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
   // 监听浏览器高度变化
