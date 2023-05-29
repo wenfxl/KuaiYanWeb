@@ -51,6 +51,13 @@
         </el-popconfirm>
 
         <div class="工具栏">
+          <el-tooltip content="分析"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="is图表分析抽屉可见=true">
+              <DataAnalysis/>
+            </el-icon>
+          </el-tooltip>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -154,7 +161,7 @@
   <NewApp :is对话框可见="is对话框可见_应用新增" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></NewApp>
   <New详细信息 :is对话框可见="is对话框可见_详细信息" :id="is对话框id"
                @on对话框详细信息关闭="on对话框详细信息关闭"></New详细信息>
-
+  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>
@@ -168,7 +175,9 @@ import NewApp from "@/view/应用管理/组件/应用新增.vue";
 import New详细信息 from "@/view/应用管理/组件/应用详细信息.vue";
 import router from "@/router";
 import {is移动端} from "@/utils/utils";
+import ChartData from "@/view/应用管理/组件/应用列表图表抽屉.vue";
 
+const is图表分析抽屉可见 = ref(false)
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
 
@@ -236,9 +245,9 @@ const on选择框被选择 = (val: any) => {
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
 
-const List = ref({})
+const List = ref({List:[]})
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0,Keywords:""})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")

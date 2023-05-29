@@ -25,6 +25,7 @@
         <el-main>
           <!--主体内容-->
           <tabs>
+
           </tabs>
           <AppMain></AppMain>
         </el-main>

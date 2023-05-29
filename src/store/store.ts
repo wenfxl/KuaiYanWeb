@@ -31,7 +31,6 @@ interface state全局状态 {
 
 
 export const store = createStore<state全局状态>({
-
     state() {
         return {
             count: 0,

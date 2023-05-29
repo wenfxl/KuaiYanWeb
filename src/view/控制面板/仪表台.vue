@@ -87,8 +87,8 @@
 </template>
 
 <script setup>
- import Echarts用户统计 from './组件/用户统计.vue'
- import Echarts在线统计 from './组件/在线统计.vue'
+ import Echarts用户统计 from './组件/用户账号统计统计折线.vue'
+ import Echarts在线统计 from './组件/在线用户统计饼图.vue'
 // import DashboardTable from '@/view/dashboard/dashboardTable/dashboardTable.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'

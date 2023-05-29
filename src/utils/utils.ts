@@ -11,7 +11,52 @@ export const 时间_取现行时间戳 = (): number => {
     let outcome = Math.round(new Date().getTime() / 1000).toString();
     return Number(outcome)
 }
+/**获取前monthNum个月的月份 */
+export const 获取前几个个月的月份=(monthNum): any =>{
+    let datelist = [""]
+    datelist = []
+    let date = new Date()
+    let M = date.getMonth() + 1
+    if (M - monthNum < 0) {
+        let begin = 12 + (M - monthNum)
+        for (let i = begin + 1; i <= begin + monthNum; i++) {
+            if (i > 12) {
+                datelist.push(`${i % 12}月`)
+            } else {
+                datelist.push(`${i}月`)
+            }
+        }
+    } else {
+        let begin = M - monthNum
+        for (let i = begin + 1; i <= begin + monthNum; i++) {
+            datelist.push(`${i}月`)
+        }
+    }
+    return datelist
+}
 
+export const 获取前几个小时的小时=(monthNum): any =>{
+    let datelist = [""]
+    datelist = []
+    let date = new Date()
+    let M = date.getHours() + 1
+    if (M - monthNum < 0) {
+        let begin = 24 + (M - monthNum)
+        for (let i = begin + 1; i <= begin + monthNum; i++) {
+            if (i > 24) {
+                datelist.push(`${i % 24}时`)
+            } else {
+                datelist.push(`${i}时`)
+            }
+        }
+    } else {
+        let begin = M - monthNum
+        for (let i = begin + 1; i <= begin + monthNum; i++) {
+            datelist.push(`${i}时`)
+        }
+    }
+    return datelist
+}
 export const 时间_时间戳到时间 = (Time: number) => {
     var date = new Date(Time * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
     var Y = date.getFullYear() + '-';

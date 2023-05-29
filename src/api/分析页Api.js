@@ -1,0 +1,96 @@
+import service from '@/api/request'
+
+const url="/admin/Panel/"
+
+export const get图表在线用户统计 = (data) => {
+    return service({
+        url: url+'ChartLinksUser',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+
+export const get图表用户账号统计 = (data) => {
+    return service({
+        url: url+'ChartUser',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+
+export const get图表余额充值消费统计 = (data) => {
+    return service({
+        url: url+'ChartRMBAddSub',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+export const get图表积分点数消费统计 = (data) => {
+    return service({
+        url: url+'ChartVipNumberAddSub',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+export const get图表在线用户登录活动时间 = (data) => {
+    return service({
+        url: url+'ChartLinksUserLoginTime',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+export const get图表应用用户统计 = (data) => {
+    return service({
+        url: url+'ChartAppUser',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+
+export const get图表卡号统计制卡 = (data) => {
+    return service({
+        url: url+'ChartKaRegister',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+export const get图表卡号列表统计应用卡可用已用 = (data) => {
+    return service({
+        url: url+'ChartAppKa',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+export const get图表卡号列表统计应用卡类可用已用 = (data) => {
+    return service({
+        url: url+'ChartAppKaClass',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+export const get图表应用用户类型统计 = (data) => {
+    return service({
+        url: url+'ChartAppUserClass',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+
+export const get图表应用用户账号注册统计 = (data) => {
+    return service({
+        url: url+'ChartAppUserRegister',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}

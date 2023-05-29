@@ -17,6 +17,7 @@
     >
       {{ item.content }}
     </el-tab-pane>
+
   </el-tabs>
   <ul class="菜单_右键" v-show="菜单_isShow" :style="{left:菜单_left +'px' , top:菜单_Top+'px'}">
     <li @click="on菜单被选择('关闭其他')">关闭其他</li>
@@ -30,6 +31,9 @@ import {computed, onMounted, Ref, ref, watch} from 'vue'
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 import {ITab} from "@/store/ITab";
+import {useRouter} from "vue-router";
+import {ElMessage} from "element-plus";
+import {is移动端} from "@/utils/utils";
 
 const Store = useStore()
 const editableTabs = computed(() => {
@@ -62,9 +66,7 @@ watch(() => Route.path, () => {
     }
 )
 
-import {useRouter} from "vue-router";
-import {ElMessage} from "element-plus";
-import {is移动端} from "@/utils/utils";
+
 
 const Router = useRouter()
 const on切换现行子夹 = (tabName: string) => {

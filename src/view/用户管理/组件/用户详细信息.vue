@@ -5,7 +5,7 @@
     <div style="overflow:auto;padding:0 12px;">
       <el-form :inline="Props.id>0" style="min-width: 80px" label-width="80px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-        <el-form-item v-if="Props.id>0" label="Id" prop="Id" disabled="disabled" >
+        <el-form-item v-if="Props.id>0" label="Id" prop="Id" disabled="disabled">
           <el-input class="只读编辑框" v-if="Props.id>0" v-model="data.Id" placeholder="" readonly="readonly"/>
         </el-form-item>
         <el-form-item v-if="Props.id>0" label="状态" prop="Status">
@@ -29,12 +29,13 @@
         <el-form-item label="密码" prop="PassWord">
           <el-input v-model="data.PassWord" :placeholder="Props.id===0?'请输入密码':'不修改留空忽略即可'"/>
         </el-form-item>
-        <el-form-item label="超级密码" prop="SuperPassWord">
-          <el-input v-model="data.SuperPassWord" :placeholder="Props.id===0?'请输入超级密码':'不修改留空忽略即可'"/>
-        </el-form-item>
         <el-form-item label="手机号" prop="Phone">
           <el-input v-model="data.Phone" placeholder="请输入手机号"/>
         </el-form-item>
+        <el-form-item label="超级密码" prop="SuperPassWord">
+          <el-input v-model="data.SuperPassWord" :placeholder="Props.id===0?'请输入超级密码':'不修改留空忽略即可'"/>
+        </el-form-item>
+
         <el-form-item label="QQ" prop="Qq">
           <el-input v-model="data.Qq" placeholder="请输入联系QQ"/>
         </el-form-item>
@@ -47,10 +48,12 @@
         <el-form-item label="余额" prop="Rmb">
           <el-input-number v-model="data.Rmb" :precision="2" :step="0.1" :value-on-clear="0"/>
         </el-form-item>
-
+      </el-form>
+      <el-form style="min-width: 80px" label-width="80px" :rules="on表单校验" :model="data"
+               :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
         <el-form-item label="备注" prop="Note">
           <el-input v-model="data.Note" type="textarea" placeholder="请输入备注"
-                    :style="'width:'+is移动端()?'':' 350px'"/>
+                    :style="'width:'+is移动端()?'':'350px'"/>
         </el-form-item>
         <el-form-item label="用户角色" prop="Role">
           <el-radio-group v-model="data.Role">
@@ -78,16 +81,19 @@
               <el-text type="info" size="large">{{ data.LoginAppName }}</el-text>
             </li>
             <li class="li展示不可修改信息">登录时间:
-              <el-text type="info"  size="large">{{ data.LoginTime === 0 ? '未登录过' : 时间_时间戳到时间(data.LoginTime) }}</el-text>
+              <el-text type="info" size="large">{{
+                  data.LoginTime === 0 ? '未登录过' : 时间_时间戳到时间(data.LoginTime)
+                }}
+              </el-text>
             </li>
             <li class="li展示不可修改信息">登录IP:
-              <el-text type="info"  size="large">{{ data.LoginIp }}</el-text>
+              <el-text type="info" size="large">{{ data.LoginIp }}</el-text>
             </li>
             <li class="li展示不可修改信息">注册IP:
-              <el-text type="info"  size="large">{{ data.RegisterIp }}</el-text>
+              <el-text type="info" size="large">{{ data.RegisterIp }}</el-text>
             </li>
             <li class="li展示不可修改信息">注册时间:
-              <el-text type="info"  size="large">{{ 时间_时间戳到时间(data.RegisterTime) }}</el-text>
+              <el-text type="info" size="large">{{ 时间_时间戳到时间(data.RegisterTime) }}</el-text>
             </li>
           </ul>
         </div>
@@ -119,6 +125,12 @@ const Props = defineProps({
   },
 })
 const emit = defineEmits(['on对话框详细信息关闭'])
+const on对话框被关闭 = () => {
+  console.info("on对话框被关闭")
+  is对话框可见2.value = false
+  emit('on对话框详细信息关闭', is重新读取.value)
+
+}
 
 
 watch(() => Props.is对话框可见, (newVal, oldVal) => {
@@ -130,7 +142,20 @@ watch(() => Props.is对话框可见, (newVal, oldVal) => {
 
 const formLabelWidth = '140px'
 const is对话框可见2 = ref(false)
-const data = ref({})
+const data = ref({
+  id: 0,
+  Status: 1,
+  "User": "",
+  "Phone": "",
+  "PassWord": "",
+  "SuperPassWord": "",
+  "Email": "",
+  "Qq": "",
+  "Rmb": 0.0,
+  "Note": "",
+  "Role": 0
+})
+
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
@@ -255,14 +280,6 @@ const 读取详细信息 = async (id: number) => {
     // }
 
   }
-}
-
-
-const on对话框被关闭 = () => {
-  console.info("on对话框被关闭")
-  is对话框可见2.value = false
-  emit('on对话框详细信息关闭', is重新读取.value)
-
 }
 
 

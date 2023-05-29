@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "系统管理/系统设置",
                 name: "系统设置",
-                component: () => import("@/view/系统管理/系统设置.vue"),
+                component: () => import("@/view/系统管理/系统设置3改.vue"),
             },
             {
                 path: "二开扩展/公共变量",

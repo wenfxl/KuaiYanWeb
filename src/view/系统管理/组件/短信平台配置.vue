@@ -40,9 +40,9 @@ const Data = ref({
   "TX云Sms": {
     "SECRET_ID": "",
     "SECRET_KEY": "",
-    "D短信应用ID": "",
-    "D短信签名": "",
-    "Z正文模板ID": ""
+    "短信应用ID": "",
+    "短信签名": "",
+    "正文模板ID": ""
   }
 })
 

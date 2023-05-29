@@ -15,3 +15,11 @@ export const getSystemState = (data) => {
         donNotShowLoading: true
     })
 }
+export const 系统热重启 = (data) => {
+    return service({
+        url: url+'reloadSystem',
+        method: 'post',
+        donNotShowLoading: true
+    })
+}
+

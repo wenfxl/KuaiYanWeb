@@ -16,7 +16,9 @@ export default defineConfig({
             'com': path.resolve(__dirname, 'src/components')  // tsconfig.json 里也必须配置路径别名
         }
     },
-
+    build: {
+        outDir:'E:\\yun\\xuhaonan\\project\\TY通用后台管理系统\\server2\\core\\dist'
+    },
     css: {
         //css预处理
         preprocessorOptions: {

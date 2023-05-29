@@ -33,3 +33,11 @@ export const Del批量删除 = (data) => {
     data: data
   })
 }
+
+export const NewWebApiToken = (data) => {
+  return service({
+    url: '/admin/User/NewWebApiToken',
+    method: 'post',
+    data: data
+  })
+}

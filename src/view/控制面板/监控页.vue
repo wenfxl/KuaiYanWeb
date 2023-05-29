@@ -9,8 +9,17 @@
           <div>
             <el-row :gutter="10">
               <el-col :span="12">系统:</el-col>
-              <el-col :span="12" v-text="state.os.goos"/>
+              <el-col :span="12">{{ state.os.goos }}
+                <el-tooltip content="热重启"
+                            effect="dark"
+                            placement="top">
+                  <el-icon @click="系统热重启" class="热重启系统">
+                    <RefreshRight/>
+                  </el-icon>
+                </el-tooltip>
+              </el-col>
             </el-row>
+
             <el-row :gutter="10">
               <el-col :span="12">cpu核心数:</el-col>
               <el-col :span="12" v-text="state.os.numCpu"/>
@@ -141,7 +150,7 @@
 </template>
 
 <script setup>
-import {getSystemState} from '@/api/监控页'
+import {getSystemState,系统热重启} from '@/api/监控页'
 import {onUnmounted, ref} from 'vue'
 
 const timer = ref(null)
@@ -218,13 +227,30 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .system_state {
   padding: 10px;
 }
 
 .card_item {
+
   height: 280px;
 }
+
+.热重启系统 {
+  list-style-type: none;
+  font-size: 14px;
+  margin: 0;
+  padding: 7px 16px;
+  //设置 鼠标悬停时样式
+  &:hover {
+    background: #889aa4; //改变背景颜色
+    border-radius: 4px; //设置圆角
+    /*设置边框阴影*/
+    //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
+    cursor: pointer; //改变鼠标样式为手型
+  }
+}
+
 </style>
 

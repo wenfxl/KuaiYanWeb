@@ -10,7 +10,7 @@
                     clearable
           >
             <template #prepend>
-              <el-select v-model="对象_搜索条件.Type" placeholder="用户名" style="width: 120px;">
+              <el-select v-model="对象_搜索条件.Type" placeholder="用户名" style="width: 130px;">
                 <el-option label="Id" :value="1"/>
                 <el-option label="任务类型名称" :value="2"/>
               </el-select>
@@ -197,7 +197,7 @@ const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Keywords: ""})
 const on读取列表 = () => {
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
-  onGetUserList()
+  onGetList()
 }
 const onReset = () => {
   对象_搜索条件.value = {Type: 2, Size: 10, Page: 1,  Keywords: ""}

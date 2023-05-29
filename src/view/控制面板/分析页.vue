@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+
     <div class="gva-card-box">
       <div class="gva-card">
         <div class="echart-box">
@@ -17,21 +17,25 @@
               <Echarts应用用户统计/>
             </el-col>
             <el-col :xs="18" :sm="12">
-              <Echarts卡号统计/>
+              <Echarts卡号制卡统计/>
+            </el-col>
+            <el-col :xs="18" :sm="12">
+              <Echarts应用卡使用统计/>
             </el-col>
           </el-row>
         </div>
       </div>
     </div>
-  </div>
+
 </template>
 
 <script setup>
-import Echarts用户统计 from './组件/用户统计.vue'
-import Echarts在线统计 from './组件/在线统计.vue'
-import Echarts应用用户统计 from './组件/应用用户统计.vue'
-import Echarts余额充值消费 from './组件/余额充值消费.vue'
-import Echarts卡号统计 from './组件/卡号统计.vue'
+import Echarts用户统计 from './组件/用户账号统计统计折线.vue'
+import Echarts在线统计 from './组件/在线用户统计饼图.vue'
+import Echarts应用用户统计 from './组件/应用用户统计柱状.vue'
+import Echarts余额充值消费 from './组件/余额充值消费折线.vue'
+import Echarts卡号制卡统计 from './组件/卡号制卡统计折线.vue'
+import Echarts应用卡使用统计 from './组件/应用卡使用统计柱状.vue'
 // import DashboardTable from '@/view/dashboard/dashboardTable/dashboardTable.vue'
 import {ref} from 'vue'
 import {useRouter} from 'vue-router'

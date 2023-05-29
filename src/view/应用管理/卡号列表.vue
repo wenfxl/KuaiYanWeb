@@ -90,6 +90,13 @@
         </el-popconfirm>
 
         <div class="工具栏">
+          <el-tooltip content="分析"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="on图表分析被点击">
+              <DataAnalysis/>
+            </el-icon>
+          </el-tooltip>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -114,7 +121,14 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="Name" label="卡号" width="210" show-overflow-tooltip=""/>
+        <el-table-column prop="Name" label="卡号" width="210" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Name,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
+            {{ scope.row.Name }}
+          </template>
+        </el-table-column>
         <el-table-column prop="KaClassId" label="卡类名称" width="110">
           <template #default="scope">
             <el-tag
@@ -156,7 +170,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="InviteCount" :label="isAppType计点()?'推荐人送点':'推荐人送时'" width="120">
+        <el-table-column prop="InviteCount" :label="isAppType计点()?'推荐人送点':'推荐人送时'" width="120"  v-if="Data.AppType<=2">
           <template #default="scope" v-if="!isAppType计点()">
             <div style="display: flex; align-items: center">
               <el-icon>
@@ -171,7 +185,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="RMb" label="余额" width="60"/>
+        <el-table-column prop="RMb" label="余额" width="60"  v-if="Data.AppType<=2"/>
         <el-table-column prop="VipNumber" label="积分" width="60"/>
         <el-table-column prop="Num" label="已用/最大" width="85">
           <template #default="scope">
@@ -209,7 +223,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="NoUserClass" label="用户类型不同处理方式" width="180">
+        <el-table-column prop="NoUserClass" label="用户类型不同处理方式" width="180"  v-if="Data.AppType<=2">
           <template #default="scope">
             <el-tag :type="scope.row.NoUserClass===1?'success':'warning'">
               {{
@@ -218,7 +232,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="KaType" label="充值类型" width="100">
+        <el-table-column prop="KaType" label="充值类型" width="100"  v-if="Data.AppType<=2">
           <template #default="scope">
             <el-text>
               {{
@@ -278,13 +292,14 @@
   <KaEdit :is对话框可见="is对话框可见卡详细信息" :id="is对话框卡详细信息id" :AppId="对象_搜索条件.AppId"
           :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
           @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型" :UserType="对象_用户类型"></KaEdit>
+  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote} from "@/api/卡号列表api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端} from "@/utils/utils";
+import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端, 置剪辑版文本} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -292,8 +307,13 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import KaNew from "./组件/卡号列表制卡.vue";
 import KaEdit from "./组件/卡号详细信息.vue";
+import ChartData from "@/view/应用管理/组件/卡号列表图表抽屉.vue";
 
-
+const is图表分析抽屉可见 = ref(false)
+const on图表分析被点击= ()=> {
+  Store.commit("set搜索_卡号列表", 对象_搜索条件.value)
+  is图表分析抽屉可见.value=true
+}
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
 
@@ -720,7 +740,29 @@ const 数组_制卡预选日期 = [{
     cursor: pointer; //改变鼠标样式为手型
   }
 }
+.复制按钮 {
+  background: #fafafa;
+  float: right;
+  /*设置边框阴影*/
 
+  font-size: 12px;
+
+  padding: 5px;
+  ///*边框 1px  颜色 */
+  border: 1px solid rgb(235, 238, 245);
+  color: #0c0d0e;
+  //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
+  speak: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer; //改变鼠标样式为手型
+
+}
 .el-form-item {
   padding: 0;
   margin: 0 10px 8px 0;

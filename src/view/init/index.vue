@@ -92,7 +92,7 @@ const form = reactive({
   port: '3306',
   userName: 'root',
   password: 'root',
-  dbName: 'TY',
+  dbName: 'KY',
 })
 const changeDB = (val) => {
   switch (val) {

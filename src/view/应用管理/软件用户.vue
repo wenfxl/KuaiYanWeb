@@ -57,6 +57,13 @@
         </el-popconfirm>
 
         <div class="工具栏">
+          <el-tooltip content="分析"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="on图表分析被点击">
+              <DataAnalysis/>
+            </el-icon>
+          </el-tooltip>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -82,7 +89,7 @@
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="50"/>
         <!--        <el-table-column prop="Uid" label="用户id" width="100"/>-->
-        <el-table-column :label="isAppType卡号()?'卡号':'用户名'" :width="isAppType卡号()?280:110">
+        <el-table-column :label="isAppType卡号()?'卡号':'用户名'" :width="isAppType卡号()?280:180" show-overflow-tooltip="">
           <template #default="scope">
             {{ isAppType卡号() ? scope.row.Name : scope.row.User }}
           </template>
@@ -175,6 +182,7 @@
   <AppUserinfo :is对话框可见="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
                :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
                @on对话框详细信息关闭="on对话框详细信息关闭" :UserType="对象_用户类型"></AppUserinfo>
+  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>
@@ -188,6 +196,14 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import AppUserinfo from "./组件/软件用户详细信息.vue";
+import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
+
+const is图表分析抽屉可见 = ref(false)
+const on图表分析被点击= ()=> {
+  Store.commit("set搜索_软件用户", 对象_搜索条件.value)
+  is图表分析抽屉可见.value=true
+}
+
 
 
 const on单个删除 = async (id: number) => {
@@ -294,6 +310,7 @@ const Store = useStore()
 const 对象_搜索条件 = ref({AppId: 10000, Type: 3, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: ""})
 
 const on读取列表 = () => {
+  Data.value.List=[]
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
   onGetAppUserList()
@@ -402,6 +419,7 @@ onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
   Store.commit("set搜索_软件用户", 对象_搜索条件.value)
 })
+
 
 export interface UserInfo2 {
   id: number;

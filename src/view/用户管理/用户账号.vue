@@ -60,6 +60,13 @@
         </el-popconfirm>
 
         <div class="工具栏">
+          <el-tooltip content="分析"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="is图表分析抽屉可见=true">
+              <DataAnalysis/>
+            </el-icon>
+          </el-tooltip>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -166,6 +173,7 @@
     </div>
   </div>
   <Userinfo :is对话框可见="is对话框可见" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
+  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
 </template>
 
 <script lang="ts" setup>
@@ -178,7 +186,17 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import Userinfo from "@/view/用户管理/组件/用户详细信息.vue";
+import ChartData from "@/view/用户管理/组件/用户账号图表抽屉.vue";
 
+
+const is图表分析抽屉可见 = ref(false)
+const on图表分析抽屉关闭 = (is重新读取: boolean) => {
+
+  is图表分析抽屉可见.value = false
+  if (is重新读取) {
+    on读取列表()
+  }
+}
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
 

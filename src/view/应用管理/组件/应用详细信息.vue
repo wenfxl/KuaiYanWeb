@@ -39,7 +39,7 @@
             </el-form-item>
 
 
-            <el-form-item label="注册送卡" prop="RegisterGiveKaClassId">
+            <el-form-item label="注册送卡" prop="RegisterGiveKaClassId" v-if="data.AppType<=2">
               <el-popover placement="right" trigger="hover"
                           content="设置一个注册送卡类,注册送时间,点数,余额,积分都可以在设置,用户注册就会自动充值这个卡类简单方便">
                 <template #reference>
@@ -414,7 +414,7 @@ const 对象_卡类型 = ref({})
 const SerVerUrl = ref("http://127.0.0.1:18888")
 const data = ref({
   "AppId": 0,
-  "AppWeb": "/AppApi?AppId=10001",
+  "AppWeb": "/Api?AppId=10001",
   "AppName": "测试应用",
   "Status": 3,
   "AppStatusMessage": "正常运营中",
@@ -581,7 +581,11 @@ const 读取详细信息 = async (id: number) => {
     let 返回 = await GetApp详细信息({"Id": id})
     if (返回.code == 0) {
       data.value = 返回.data.AppInfo
-      SerVerUrl.value = "http://" + 返回.data.ServerUrl + ":" + 返回.data.Port
+      SerVerUrl.value = 返回.data.ServerUrl
+      //判断是否已经有了端口,没有在添加 有端口可能是内网映射
+      if (!SerVerUrl.value.indexOf(":") && 返回.data.Port > 0) {
+        SerVerUrl.value += +":" + 返回.data.Port
+      }
       对象_卡类型.value = 返回.data.KaClass
       if (返回.data.AppType === 2 || 返回.data.AppType === 4) {
         isVipType.value = false
@@ -592,12 +596,12 @@ const 读取详细信息 = async (id: number) => {
 
       await on读取用户Api数组()
       //必须选读取下拉框后再填入已选择数据,不然不显示
-      数组_验证码英数.value=[]
-      数组_验证码短信.value=[]
+      数组_验证码英数.value = []
+      数组_验证码短信.value = []
       let 验证码Json = JSON.parse(data.value.Captcha)
 
       for (let Api in 验证码Json) {
-        console.log("枚举验证码json:"+Api)
+        console.log("枚举验证码json:" + Api)
         if (验证码Json.hasOwnProperty(Api)) {
           if (验证码Json[Api] === 1) {
             数组_验证码英数.value.push(Api)
@@ -607,8 +611,8 @@ const 读取详细信息 = async (id: number) => {
         }
       }
       console.log(数组_验证码英数.value)
-
       await on读取专属变量()
+
     } else {
       is重新读取.value = false
       is对话框可见2.value = false
@@ -617,7 +621,7 @@ const 读取详细信息 = async (id: number) => {
   } else {
     data.value = {
       "AppId": 10001,
-      "AppWeb": "/AppApi?AppId=10001",
+      "AppWeb": "/Api?AppId=10001",
       "AppName": "测试应用",
       "Status": 3,
       "AppStatusMessage": "正常运营中",
@@ -672,6 +676,8 @@ const on对话框被关闭 = () => {
 }
 const on置剪辑版配置信息 = () => {
   let appINfo = {}
+
+
   if (data.value.CryptoType === 1) {
     appINfo = {
       "AppWeb": SerVerUrl.value + data.value.AppWeb,
@@ -736,6 +742,7 @@ const 添加专属变量 = ref({
   "IsVip": 0
 })
 const on读取专属变量 = async () => {
+  专属变量.value = []
   const res = await GetList({AppId: data.value.AppId, Type: 1, Size: 50, Order: 2, Page: 1, Keywords: ""})
   if (res.code == 0) {
     专属变量.value = res.data.List

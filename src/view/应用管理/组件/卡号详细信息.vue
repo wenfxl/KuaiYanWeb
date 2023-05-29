@@ -36,7 +36,6 @@
                        :style="is移动端()?'width: 11vh':'width: 6vh'">最大{{data.NumMax}}
             </el-button>
           </div>
-
         </el-form-item>
         <el-form-item label="管理员备注" prop="AdminNote">
           <el-input v-model="data.AdminNote"  />
@@ -73,7 +72,7 @@
           </el-tooltip>
 
         </el-form-item>
-        <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="VipTime">
+        <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="InviteCount"  v-if="AppType<=2">
           <el-tooltip
               class="box-item"
               effect="light"
@@ -102,7 +101,7 @@
           </el-tooltip>
         </el-form-item>
 
-        <el-form-item label="余额" prop="RMb">
+        <el-form-item label="余额" prop="RMb"  v-if="AppType<=2">
           <el-input-number v-model="data.RMb" :precision="2" :step="1" :value-on-clear="0.00" :min="0"/>
         </el-form-item>
         <el-form-item label="积分" prop="VipNumber">
@@ -144,19 +143,19 @@
             <li class="li展示不可修改信息">最大在线数:
               <el-text type="info"  size="large">{{data.MaxOnline}}</el-text>
             </li>
-            <li class="li展示不可修改信息">充值方式:
+            <li class="li展示不可修改信息" v-if="AppType<=2">充值方式:
               <el-text type="info"  size="large">{{data.KaType===1?"有次数即可":"每用户一次" }}</el-text>
             </li>
-            <li class="li展示不可修改信息">类型不同处理方式:
+            <li class="li展示不可修改信息" v-if="AppType<=2">类型不同处理方式:
               <el-text type="info"  size="large">{{data.NoUserClass===1?"自动根据权重转换分组":"禁止充值" }}</el-text>
             </li>
-            <li class="li展示不可修改信息">充值用户User:
+            <li class="li展示不可修改信息" v-if="AppType<=2">充值用户User:
               <el-text type="info"  size="large">{{ data.User }}</el-text>
             </li>
             <li class="li展示不可修改信息">最后使用时间:
               <el-text type="info"  size="large">{{ on最后使用时间(data.UserTime) }}</el-text>
             </li>
-            <li class="li展示不可修改信息">邀请人:
+            <li class="li展示不可修改信息" v-if="AppType<=2">邀请人:
               <el-text type="info"  size="large">{{ data.InviteUser }}</el-text>
             </li>
           </ul>

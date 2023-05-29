@@ -79,6 +79,9 @@
 /*  }*/
 /*}*/
 
+
+/*//自定义顶部进度条颜色颜色*/
 #nprogress .bar {
-    background: #409EFF !important; //自定义顶部进度条颜色颜色
+    background: #409EFF !important;
 }
+

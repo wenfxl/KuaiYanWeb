@@ -13,7 +13,7 @@ import {is移动端} from "@/utils/utils";
 
 const Data = ref({
   "系统名称": "Ty通用后台管理系统111",
-  "系统地址": "www.baidu.com",
+  "系统地址": "http://www.baidu.com",
   "系统开关": true,
   "系统关闭提示": "系统已经关闭使用",
   "用户中心开关": true,

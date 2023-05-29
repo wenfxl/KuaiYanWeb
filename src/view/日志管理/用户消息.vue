@@ -98,12 +98,24 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}  ">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="App" label="应用" width="140"/>
+        <el-table-column prop="App" label="应用名称" width="290">
+          <template #default="scope">
+            <div>
+
+              <el-tag type="success" v-if="scope.row.AppVer">
+                {{ scope.row.AppVer }}
+              </el-tag>
+              {{ scope.row.App }}
+            </div>
+          </template>
+        </el-table-column>
+
+
         <el-table-column prop="User" label="用户名" width="130"/>
         <el-table-column prop="MsgType" label="消息类型" width="90">
           <template #default="scope">
             <el-tag size="small" :type="on消息类型标签(scope.row.MsgType)">
-              {{on消息类型提示(scope.row.MsgType)}}
+              {{ on消息类型提示(scope.row.MsgType) }}
             </el-tag>
           </template>
         </el-table-column>
@@ -113,10 +125,20 @@
           </template>
         </el-table-column>
         <el-table-column prop="Ip" label="IP" width="140"/>
-        <el-table-column prop="Msg" label="消息"/>
-        <el-table-column fixed="right" label="操作" width="110" >
+        <el-table-column prop="Msg" label="消息" show-overflow-tooltip="">
+
           <template #default="scope">
-            <el-button link type="primary" size="default" @click="on单个已读(scope.$index,scope.row.Id)" style="color:#79bbff" v-show="!scope.row.IsRead" >
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Msg,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
+            {{ scope.row.Msg }}
+          </template>
+
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="75">
+          <template #default="scope">
+            <el-button link type="primary" size="default" @click="on单个已读(scope.$index,scope.row.Id)"
+                       style="color:#79bbff" v-show="!scope.row.IsRead">
               <el-icon color="#79bbff" class="no-inherit">
                 <MuteNotification/>
               </el-icon>
@@ -124,9 +146,9 @@
             </el-button>
           </template>
         </el-table-column>
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
       </el-table>
@@ -152,7 +174,7 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetLogList, Del批量删除, 批量已读} from "@/api/用户消息api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端} from "@/utils/utils";
+import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端, 置剪辑版文本} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -228,7 +250,7 @@ const on单个已读 = async (表项索引: number, id: number) => {
   if (res.code == 0) {
     Data.value.List[表项索引].IsRead = true
 
-    let temp=Store.state.UserInfo
+    let temp = Store.state.UserInfo
     temp.UserMsgNoRead--
     Store.commit("setUserInfo", temp)
     ElMessage({
@@ -244,13 +266,13 @@ const on单个已读 = async (表项索引: number, id: number) => {
 const on全部已读 = async () => {
   const res = await 批量已读({"Id": [], "IsRead": true, Type: 2})
   if (res.code == 0) {
-    for (let i=0 ;Data.value.List.length>i;i++){
-      if (!Data.value.List[i].IsRead){
+    for (let i = 0; Data.value.List.length > i; i++) {
+      if (!Data.value.List[i].IsRead) {
         Data.value.List[i].IsRead = true
       }
     }
-    let temp=Store.state.UserInfo
-    temp.UserMsgNoRead=0
+    let temp = Store.state.UserInfo
+    temp.UserMsgNoRead = 0
     Store.commit("setUserInfo", temp)
 
     ElMessage({
@@ -273,14 +295,14 @@ const on选择框被选择 = (val: any) => {
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
 const on消息类型提示 = (MsgType: number) => {
-  let Msg = ["其他", "Bug", "投诉建议","系统内部"]
+  let Msg = ["其他", "Bug", "投诉建议", "系统内部"]
   if (MsgType - 1 > Msg.length) {
     return ""
   }
   return Msg[MsgType - 1]
 }
 const on消息类型标签 = (MsgType: number) => {
-  let Msg = ["info", "warning", "","danger"]
+  let Msg = ["info", "warning", "", "danger"]
   if (MsgType - 1 > Msg.length) {
     return ""
   }
@@ -326,7 +348,6 @@ const onReset = () => {
     Keywords: ""
   }
 }
-
 
 const is加载中 = ref(false)
 const onGetLogLoginList = async () => {
@@ -553,6 +574,59 @@ const tableRowClassName = ({
   }
 }
 
+.工具_更多 {
+  background-color: #ffffff;
+  width: 150px;
+  margin: 0;
+  /*边框 1px  颜色 */
+  border: 1px solid #ccc;
+  /*图层高度  3000  值大一点 会在顶层*/
+  z-index: 3000;
+  /*定位方式 绝对定位*/
+  position: absolute;
+  list-style-type: none;
+  border-radius: 4px; //设置圆角
+  /*设置边框阴影*/
+  box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
+  padding: 5px 0;
+  font-size: 14px;
+
+  li {
+    margin: 0;
+    padding: 7px 16px;
+    //设置 鼠标悬停时样式
+    &:hover {
+      background: #889aa4; //改变背景颜色
+      cursor: pointer; //改变鼠标样式为手型
+    }
+  }
+
+}
+
+.复制按钮 {
+  background: #fafafa;
+  float: right;
+  /*设置边框阴影*/
+
+  font-size: 12px;
+
+  padding: 5px;
+  ///*边框 1px  颜色 */
+  border: 1px solid rgb(235, 238, 245);
+  color: #0c0d0e;
+  //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
+  speak: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer; //改变鼠标样式为手型
+
+}
+
 .el-form-item {
   padding: 0;
   margin: 0 10px 8px 0;
@@ -560,6 +634,7 @@ const tableRowClassName = ({
 
 .el-table .cell {
   white-space: pre-line;
+
 }
 
 </style>

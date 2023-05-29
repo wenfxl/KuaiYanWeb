@@ -46,7 +46,7 @@
           </el-tooltip>
 
         </el-form-item>
-        <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="VipTime">
+        <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="VipTime"  v-if="AppType<=2">
           <el-tooltip
               class="box-item"
               effect="light"
@@ -75,8 +75,26 @@
           </el-tooltip>
         </el-form-item>
 
-        <el-form-item label="余额" prop="RMb">
-          <el-input-number v-model="data.RMb" :precision="2" :step="1" :value-on-clear="0.00" :min="0"/>
+        <el-form-item label="余额" prop="RMb"   v-if="AppType<=2">
+
+          <div style="display: flex; align-items: center">
+            <el-input-number v-model="data.RMb" :precision="2" :step="1" :value-on-clear="0.00" :min="0"/>
+            <el-button @click="data.RMb=0" :style="is移动端()?'width: 5vh':'width: 5vh'">
+              清零
+            </el-button>
+            <el-button @click="data.RMb+=isAppType计点()?10:86400"
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+10' : '+1' }}
+            </el-button>
+            <el-button @click="data.RMb+=isAppType计点()?100:86400*3"
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+100' : '+3' }}
+            </el-button>
+            <el-button @click="data.RMb+=isAppType计点()?1000:86400*30"
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+1000' : '+30' }}
+            </el-button>
+            <el-button @click="data.RMb+=isAppType计点()?10000:86400*365"
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+10000' : '+365' }}
+            </el-button>
+          </div>
         </el-form-item>
         <el-form-item label="积分" prop="VipNumber">
           <el-tooltip
@@ -128,7 +146,7 @@
             <el-option v-for="(ver,key) in UserType" :key="key" :label="ver" :value="Number(key)"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="类型不同处理方式" prop="NoUserClass">
+        <el-form-item label="类型不同处理方式" prop="NoUserClass"  v-if="AppType<=2">
           <el-radio-group v-model="data.NoUserClass">
             <el-radio-button :label="1">自动根据权重转换分组</el-radio-button>
             <el-radio-button :label="2">禁止充值</el-radio-button>
@@ -144,10 +162,10 @@
               <el-option label="小写字母+数字" :value="3"/>
             </el-select>
         </el-form-item>
-        <el-form-item label="可用次数" prop="Num">
+        <el-form-item label="可用次数" prop="Num" v-if="AppType<=2">
           <el-input-number v-model="data.Num" :step="1" :value-on-clear="1" :min="1"/>
         </el-form-item>
-        <el-form-item label="充值方式" prop="KaType">
+        <el-form-item label="充值方式" prop="KaType"  v-if="AppType<=2">
           <el-radio-group v-model="data.KaType">
             <el-radio-button :label="1">有次数即可</el-radio-button>
             <el-radio-button :label="2">每用户一次</el-radio-button>

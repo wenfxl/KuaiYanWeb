@@ -52,6 +52,13 @@
           </template>
         </el-popconfirm>
         <div class="工具栏">
+          <el-tooltip content="分析"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="is图表分析抽屉可见=true">
+              <DataAnalysis/>
+            </el-icon>
+          </el-tooltip>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -66,6 +73,7 @@
                 <More/>
               </el-icon>
             </template>
+            <li class="工具_更多_li" @click="is对话框可见_创建令牌=1">新WebApi令牌</li>
             <li class="工具_更多_li" @click="on删除已注销">删除已注销</li>
           </el-popover>
         </div>
@@ -79,7 +87,7 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="User" label="用户名" width="130">
+        <el-table-column prop="User" label="用户名" width="130"  show-overflow-tooltip="">
           <template #default="scope">
             {{ scope.row.User }}
             <el-tag v-if="scope.row.RiskControl>0" :type="scope.row.RiskControl<20?'info':'danger'">
@@ -113,10 +121,13 @@
         <el-table-column prop="Ip" label="登录ip" width="140"/>
         <el-table-column prop="LoginTime" label="登录时间" width="160" :formatter="on格式化_登录时间"/>
         <el-table-column prop="LastTime" label="最后活动时间" width="160" :formatter="on格式化_最后活动时间"/>
-        <el-table-column prop="OutTIme" label="自动注销时间" width="160">
+        <el-table-column prop="OutTime" label="自动注销时间" width="160">
           <template #default="scope">
-            <div>
-              <el-countdown style="font-size: 18px" :value="(scope.row.LastTime+scope.row.OutTIme)*1000"/>
+            <div v-if="scope.row.OutTime<315360000">
+              <el-countdown style="font-size: 18px" :value="(scope.row.LastTime+scope.row.OutTime)*1000"/>
+            </div>
+            <div v-else-if="scope.row.OutTime>=315360000">
+              永不注销
             </div>
           </template>
         </el-table-column>
@@ -157,6 +168,8 @@
 
     </div>
   </div>
+  <vueNewWebApiToken :is对话框可见_创建令牌="is对话框可见_创建令牌" @on对话框详细信息关闭="on对话框详细信息关闭" />
+  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
 </template>
 
 <script lang="ts" setup>
@@ -168,6 +181,8 @@ import {useStore} from "vuex";
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox, FormInstance} from 'element-plus'
 import {GetAppIdNameList} from "@/api/应用列表api";
+import vueNewWebApiToken from "@/view/用户管理/组件/创建WebApi令牌.vue";
+import ChartData from "@/view/用户管理/组件/在线用户图表抽屉.vue";
 
 const on单个注销 = async (id: number) => {
   console.log('在线注销id' + id)
@@ -243,6 +258,25 @@ const onGetAppIdNameList = async () => {
   }
 
 }
+const is图表分析抽屉可见 = ref(false)
+const on图表分析抽屉关闭 = (is重新读取: boolean) => {
+
+  is图表分析抽屉可见.value = false
+  if (is重新读取) {
+    on读取列表()
+  }
+}
+const is对话框可见_创建令牌 = ref(false)
+const on对话框详细信息关闭 = (is重新读取: boolean) => {
+  //console.info("父组件收到对话框被关闭了")
+  is对话框可见_创建令牌.value = false
+  if (is重新读取) {
+    on读取列表()
+  }
+}
+
+
+
 const 表格被选中列表 = ref([])
 const is批量注销禁用 = ref(true)
 const is工具_更多 = ref(false)
@@ -261,7 +295,7 @@ const List = ref({
     "LoginAppid": 1,
     "LoginTime": 1680176166,
     "LastTime": 1680176166,
-    "OutTIme": 3600,
+    "OutTime": 3600,
     "Key": "",
     "Tab": "",
     "Ip": "127.0.0.1",
@@ -303,13 +337,13 @@ const on格式化_自动注销时间 = (row: any, column: any, Time: number) => 
 
   let time: number = 时间_取现行时间戳()
 
-  time = time - row.OutTIme - row.LastTime  //看剩余秒数
+  time = time - row.OutTime - row.LastTime  //看剩余秒数
   if (time < 0) {
     time = parseInt((-time / 60).toString())//看剩余分钟数
-    return time + "分钟后\n" + 时间_时间戳到时间(row.OutTIme + row.LastTime)
+    return time + "分钟后\n" + 时间_时间戳到时间(row.OutTime + row.LastTime)
   } else {
     time = parseInt((time / 60).toString())  //看剩余分钟数
-    return time + "分钟前\n" + 时间_时间戳到时间(row.OutTIme + row.LastTime)
+    return time + "分钟前\n" + 时间_时间戳到时间(row.OutTime + row.LastTime)
   }
 }
 const is加载中 = ref(false)

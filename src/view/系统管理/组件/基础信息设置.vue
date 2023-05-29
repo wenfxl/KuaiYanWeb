@@ -9,12 +9,19 @@
         </el-form-item>
         <el-form-item label="系统地址" prop="系统地址">
           <el-tooltip
-              content="系统默认端口为18888,请输入可被外网访问域名或ip地址,会被在线支付回调使用"
+              content="系统默认端口为18888,请输入可被外网访问域名或ip地址,会被在线支付回调使用,尾部无需/"
               placement="top-start">
             <el-input v-model="Data.系统地址" placeholder="系统地址"/>
           </el-tooltip>
-
         </el-form-item>
+        <el-form-item label="WebApiHost" prop="WebApiHost">
+          <el-tooltip
+              content="WebApi限制该地址可访问,空不限制,这样可以WebApi和用户Api使用不同的域名访问,"
+              placement="top-start">
+            <el-input v-model="Data.WebApiHost" placeholder="127.0.0.1:18888"/>
+          </el-tooltip>
+        </el-form-item>
+
         <el-form-item label="系统开关" prop="系统开关">
           <el-radio-group v-model="Data.系统开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
@@ -66,7 +73,8 @@ import {is移动端} from "@/utils/utils";
 
 const Data = ref({
   "系统名称": "Ty通用后台管理系统111",
-  "系统地址": "www.baidu.com",
+  "系统地址": "https://www.baidu.com",
+  "WebApiHost": "",
   "系统开关": true,
   "系统关闭提示": "系统已经关闭使用",
   "用户中心开关": true,

@@ -10,17 +10,24 @@
 import * as echarts from 'echarts'
 import {nextTick, onMounted, onUnmounted, ref, shallowRef} from 'vue'
 import {is移动端} from "@/utils/utils";
+import { get图表在线用户统计} from "@/api/分析页Api";
+import {NewWebApiToken} from "@/api/在线用户api.js";
+import {ElMessage} from "element-plus";
 // import 'echarts/theme/macarons'
 
 const chart = shallowRef(null)
 const echart = ref(null)
 const initChart = () => {
   chart.value = echarts.init(echart.value /* 'macarons' */)
-  setOptions()
+  setOptions([
+    {value: 1048, name: '测试应用1'},
+    {value: 735, name: '测试应用2'},
+    {value: 580, name: '测试应用3'},
+    {value: 484, name: '测试应用4'},
+    {value: 300, name: '测试应用5'},
+  ])
 }
-const setOptions = () => {
-
-
+const setOptions = (data) => {
   let 图数据 = {
     title: {
       text: '在线数据'
@@ -70,14 +77,7 @@ const setOptions = () => {
         itemStyle: {
           borderRadius: 8
         },
-        data: [
-          {value: 1048, name: '测试应用1'},
-          {value: 735, name: '测试应用2'},
-          {value: 580, name: '测试应用3'},
-          {value: 484, name: '测试应用4'},
-          {value: 300, name: '测试应用5'},
-
-        ]
+        data: data
       }
     ]
   };
@@ -89,6 +89,13 @@ const setOptions = () => {
 onMounted(async () => {
   await nextTick()
   initChart()
+  let 返回;
+  返回 = await get图表在线用户统计()
+  console.log(返回)
+
+  if (返回.code === 0) {
+    setOptions(返回.data)
+  }
 })
 
 onUnmounted(() => {

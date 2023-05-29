@@ -68,6 +68,13 @@
         </el-popconfirm>
 
         <div class="工具栏">
+          <el-tooltip content="分析"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="is图表分析抽屉可见=true">
+              <DataAnalysis/>
+            </el-icon>
+          </el-tooltip>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -148,6 +155,7 @@
       </div>
     </div>
   </div>
+  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>
@@ -160,7 +168,9 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
 import {GetAppIdNameList} from "@/api/应用列表api";
+import ChartData from "@/view/日志管理/组件/积分点数消费图表抽屉.vue";
 
+const is图表分析抽屉可见 = ref(false)
 
 const MapAppId_Name = ref({})
 const 数组AppId_Name = ref([{
