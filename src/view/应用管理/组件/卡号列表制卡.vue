@@ -189,7 +189,7 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
     return
   }
   console.log(返回)
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     生成卡号Data.value=返回.data
     格式化卡号内容()
     is重新读取.value = true

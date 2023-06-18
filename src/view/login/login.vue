@@ -5,9 +5,11 @@
         <div class="login_panel_form_title">
           <img
               class="login_panel_form_title_logo"
-              src="https://www.gin-vue-admin.com/img/logo.png"
+              src="./vite.svg"
               alt
           >
+
+
           <p class="login_panel_form_title_p">{{ Store.state.ServerName }}</p>
         </div>
         <el-form
@@ -173,11 +175,17 @@ const onLogin = async (loginInfo) => {
   const res = await login(loginInfo)
   console.info("登录结果")
   console.info(res)
-  if (res.code === 0) {
+  if (res.code === 10000) {
 
     Store.commit("setToken", res.data.Token)
     Store.commit("setUserInfo", res.data.UserInfo)
-    router.replace({path:"/"})
+
+    if ( res.data.KuaiYan === true) {
+      router.push('/个人中心')
+    }else {
+      router.replace({path:"/"})
+    }
+
     ElMessage({
       message: res.msg,
       type: 'success',
@@ -230,7 +238,7 @@ const checkInit = async () => {
   console.log("set服务器名称:" + res.data.ServerName)
   console.log(res)
   /* 判断你是否需要初始化数据库如果需要直接跳转 */
-  if (res.code === 0) {
+  if (res.code === 10000) {
     if (res.data?.needInit) {
       Store.commit("NeedInit")
 

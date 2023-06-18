@@ -144,7 +144,7 @@ const on单个删除 = async (id: string) => {
   console.log('on单个删除' + id)
   const res = await DeleteInfo({"data": [{"AppId": 1, "Name": id}]})
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,
@@ -186,7 +186,7 @@ const on批量删除 = async () => {
   console.log(ids)
   const res = await DeleteInfo({"data": ids})
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,

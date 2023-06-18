@@ -133,9 +133,9 @@ const toolCards = ref([
     bg: 'rgba(255, 133, 192,.3)'
   },
   {
-    label: '关于我们',
+    label: '个人中心',
     icon: 'user',
-    name: 'about',
+    name: '个人中心',
     color: '#5cdbd3',
     bg: 'rgba(92, 219, 211,.3)'
   }

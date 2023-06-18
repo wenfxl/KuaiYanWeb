@@ -120,6 +120,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: "余额充值订单",
                 component: () => import("@/view/财务管理/余额充值订单.vue"),
             },
+            {
+                path: "个人中心",
+                name: "个人中心",
+                component: () => import("@/view/个人中心/个人中心.vue"),
+            },
 
         ]
     }

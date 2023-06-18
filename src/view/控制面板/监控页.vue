@@ -10,13 +10,13 @@
             <el-row :gutter="10">
               <el-col :span="12">系统:</el-col>
               <el-col :span="12">{{ state.os.goos }}
-                <el-tooltip content="热重启"
+<!--                <el-tooltip content="热重启"
                             effect="dark"
                             placement="top">
                   <el-icon @click="系统热重启" class="热重启系统">
                     <RefreshRight/>
                   </el-icon>
-                </el-tooltip>
+                </el-tooltip>-->
               </el-col>
             </el-row>
 

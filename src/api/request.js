@@ -8,7 +8,7 @@ const service = axios.create({
 
     //baseURL: axios.defaults.baseURL,
     //判断host 如果是127.0.0.1:18080 修改为后端接口,否则线上后端接口
-    baseURL: window.location.protocol + "//" + (window.location.host==="127.0.0.1:18080"?window.location.hostname+":18888":window.location.host),
+    baseURL: window.location.protocol + "//" + (window.location.host === "127.0.0.1:18080" ? window.location.hostname + ":18888" : window.location.host),
     timeout: 99999
 })
 
@@ -39,17 +39,18 @@ service.interceptors.response.use(
     response => {
         //console.info(response)
         // 响应成功 返回data内容
-        if (response.data.code === 0) {
+        if (response.data.code === 10000) {
             return response.data
         } else {
             //判断失败原因
-            ElMessage({
-                showClose: true,
-                message: response.data.msg || decodeURI(response.headers.msg),
-                type: 'error'
-            })
+
             // 101登录状态失效 清除token 本地数据 跳转登陆页
-            if (response.data.code === 101 && response.data.data) {
+            if (response.data.code === 201 && response.data.data.KuaiYan === true) {
+
+                console.info("快验个人中心未登录")
+
+                router.push('/个人中心')
+            } else if (response.data.code === 201) {
 
                 console.info("登录token被注销了")
                 console.info(response)
@@ -57,7 +58,15 @@ service.interceptors.response.use(
                 localStorage.clear()
                 router.replace('Login')
 
+            } else {
+                ElMessage({
+                    showClose: true,
+                    message: response.data.msg || decodeURI(response.headers.msg),
+                    type: 'error'
+                })
             }
+
+
             return response.data.msg ? response.data : response
         }
     },

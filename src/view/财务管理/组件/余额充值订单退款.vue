@@ -81,7 +81,7 @@ const on确定按钮被点击 = async () => {
   返回 = await OutRMBPayOrder(Data.value);
   Is加载中.value = false
   console.log(返回)
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     Is退款订单可见2.value = false
     is重新读取.value=true
     ElMessage({

@@ -266,7 +266,22 @@
                 />
               </el-select>
             </el-form-item>
-
+            <el-form-item label="需要行为验证码接口" prop="Captcha">
+              <el-select
+                  v-model="数组_验证码行为"
+                  multiple
+                  placeholder="选择接口"
+                  style="width: 100%"
+                  @change="on验证码多选发生变化"
+              >
+                <el-option
+                    v-for="item in 数组_用户Api"
+                    :key="item[0]"
+                    :label="item[1]+'('+item[0]+')'"
+                    :value="item[0]"
+                />
+              </el-select>
+            </el-form-item>
             <el-form-item label="短信验证码" prop="Captcha">
               <el-select
                   v-model="数组_验证码短信"
@@ -440,6 +455,7 @@ const data = ref({
 })
 const on验证码多选发生变化 = () => {
   console.info(数组_验证码英数.value)
+  console.info(数组_验证码行为.value)
 }
 
 const isAppType计点 = () => {
@@ -468,14 +484,18 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   } else {
     let 验证码JSon: object = {} as any[];
 
+    for (let 索引 in 数组_验证码短信.value) {
+      let Api: string = 数组_验证码短信.value[索引]
+      验证码JSon[Api] = 3
+    }
+    for (let 索引 in 数组_验证码行为.value) {
+      let Api: string = 数组_验证码行为.value[索引]
+      验证码JSon[Api] = 2
+    }
 
     for (let 索引 in 数组_验证码英数.value) {
       let Api: string = 数组_验证码英数.value[索引]
       验证码JSon[Api] = 1
-    }
-    for (let 索引 in 数组_验证码短信.value) {
-      let Api: string = 数组_验证码短信.value[索引]
-      验证码JSon[Api] = 3
     }
 
     data.value.Captcha = JSON.stringify(验证码JSon)
@@ -483,7 +503,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   }
 
   console.log(返回)
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
     ElMessage({
@@ -579,7 +599,12 @@ const on对话框被打开 = () => {
 const 读取详细信息 = async (id: number) => {
   if (id > 0) {
     let 返回 = await GetApp详细信息({"Id": id})
-    if (返回.code == 0) {
+    if (返回.code == 10000) {
+      if (返回.data.AppInfo.AppId!=data.value.AppId){  //打开不同应用 复原标签
+        应用详细信息顶部标签现行选项.value="应用设置"
+      }
+
+
       data.value = 返回.data.AppInfo
       SerVerUrl.value = 返回.data.ServerUrl
       //判断是否已经有了端口,没有在添加 有端口可能是内网映射
@@ -597,6 +622,7 @@ const 读取详细信息 = async (id: number) => {
       await on读取用户Api数组()
       //必须选读取下拉框后再填入已选择数据,不然不显示
       数组_验证码英数.value = []
+      数组_验证码行为.value = []
       数组_验证码短信.value = []
       let 验证码Json = JSON.parse(data.value.Captcha)
 
@@ -605,6 +631,8 @@ const 读取详细信息 = async (id: number) => {
         if (验证码Json.hasOwnProperty(Api)) {
           if (验证码Json[Api] === 1) {
             数组_验证码英数.value.push(Api)
+          } else if (验证码Json[Api] === 2) {
+            数组_验证码行为.value.push(Api)
           } else if (验证码Json[Api] === 3) {
             数组_验证码短信.value.push(Api)
           }
@@ -651,15 +679,15 @@ const 读取详细信息 = async (id: number) => {
 
 const 数组_用户Api = ref([])
 const 数组_验证码英数 = ref(["未定义"])
-//const 数组_验证码行为 = ref(["未定义"])
+const 数组_验证码行为 = ref(["未定义"])
 const 数组_验证码短信 = ref(["未定义"])
 
 const on读取用户Api数组 = async () => {
   console.log(数组_用户Api.value.length)
   数组_验证码英数.value = []
   if (数组_用户Api.value.length === 0) {
-    const res = await Get全部用户APi({})
-    if (res.code == 0) {
+    const res = await Get全部用户APi()
+    if (res.code == 10000) {
       数组_用户Api.value = res.data
     }
   }
@@ -744,7 +772,7 @@ const 添加专属变量 = ref({
 const on读取专属变量 = async () => {
   专属变量.value = []
   const res = await GetList({AppId: data.value.AppId, Type: 1, Size: 50, Order: 2, Page: 1, Keywords: ""})
-  if (res.code == 0) {
+  if (res.code == 10000) {
     专属变量.value = res.data.List
     专属变量.value.reverse()
     ElMessage({
@@ -778,7 +806,7 @@ const on添加专属变量 = async (是否添加: boolean) => {
   }
 
   const res = await New(NewPublicData)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     is添加专属变量.value = false
     专属变量.value.push(NewPublicData)
     ElMessage({
@@ -798,7 +826,7 @@ const on删除专属变量 = async (数组索引: number) => {
   })
 
 
-  if (res.code == 0) {
+  if (res.code == 10000) {
     is添加专属变量.value = false
     专属变量.value.splice(数组索引, 1)
     ElMessage({

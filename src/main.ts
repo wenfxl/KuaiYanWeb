@@ -1,5 +1,6 @@
 import {createApp} from 'vue'
 import './style.css'
+import './utils/gt4.js'
 import App from './App.vue'
 import router from "@/router";
 import {store} from "@/store/store";

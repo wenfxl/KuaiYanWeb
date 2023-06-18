@@ -156,7 +156,7 @@ const onSubmit = async() => {
   })
   try {
     const res = await initDB(form)
-    if (res.code === 0) {
+    if (res.code === 10000) {
       out.value = true
       ElMessage({
         type: 'success',

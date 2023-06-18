@@ -92,7 +92,7 @@ const on读取图表数据 = async () => {
   返回 = await get图表应用用户类型统计({AppId:Store.state.搜索_软件用户.AppId})
   console.log(返回)
 
-  if (返回.code === 0) {
+  if (返回.code === 10000) {
     setOptions(返回.data)
   }
 }

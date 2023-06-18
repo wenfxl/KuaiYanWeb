@@ -15,11 +15,7 @@
           </el-tooltip>
         </el-form-item>
         <el-form-item label="WebApiHost" prop="WebApiHost">
-          <el-tooltip
-              content="WebApi限制该地址可访问,空不限制,这样可以WebApi和用户Api使用不同的域名访问,"
-              placement="top-start">
-            <el-input v-model="Data.WebApiHost" placeholder="127.0.0.1:18888"/>
-          </el-tooltip>
+            <el-input v-model="Data.WebApiHost" placeholder="127.0.0.1:18888 WebApi限制该地址可访问,空不限制,这样可以WebApi和用户Api使用不同的域名访问,"/>
         </el-form-item>
 
         <el-form-item label="系统开关" prop="系统开关">
@@ -114,7 +110,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   返回 = await SaveInfo系统设置(Data.value);
   is加载中.value = false
   console.log(返回)
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     ElMessage({
       type: "success",
       message: 返回.msg,

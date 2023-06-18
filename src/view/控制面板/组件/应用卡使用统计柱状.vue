@@ -92,7 +92,7 @@ const on读取图表数据 = async () => {
   返回 = await get图表卡号列表统计应用卡可用已用({})
   is加载中.value=false
   console.log(返回)
-  if (返回.code === 0) {
+  if (返回.code === 10000) {
     setOptions(返回.data)
   }
 }

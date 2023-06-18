@@ -111,7 +111,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   let 返回;
   返回 = await NewApp信息(data.value);
   console.log(返回)
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
     ElMessage({
@@ -154,7 +154,7 @@ const 读取当前最大Appid = async () => {
 
   console.info("读取当前最大Appid")
   console.info(返回)
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     console.info(返回.data.AppIdMax)
     data.value.AppId = 返回.data.AppIdMax + 1
   }

@@ -59,7 +59,7 @@
             <template #prepend>
               <el-select v-model="对象_搜索条件.Type" placeholder="名称" style="width: 100px;">
                 <el-option label="Id" :value="1"/>
-                <el-option label="名称" :value="2"/>
+                <el-option label="卡号" :value="2"/>
                 <el-option label="管理员备注" :value="3"/>
                 <el-option label="代理备注" :value="4"/>
                 <el-option label="制卡人" :value="5"/>
@@ -129,7 +129,7 @@
             {{ scope.row.Name }}
           </template>
         </el-table-column>
-        <el-table-column prop="KaClassId" label="卡类名称" width="110">
+        <el-table-column prop="KaClassId" label="卡类名称" width="150">
           <template #default="scope">
             <el-tag
                 :type="对象_卡类型.hasOwnProperty(scope.row.KaClassId.toString())?'':'danger'">
@@ -319,7 +319,7 @@ const on单个删除 = async (id: number) => {
 
   const res = await Del批量删除Ka({"ID": [id]})
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,
@@ -338,7 +338,7 @@ const on批量删除 = async () => {
   console.log(ids)
   const res = await Del批量删除Ka({"AppId": 对象_搜索条件.value.AppId, "ID": ids})
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,
@@ -530,7 +530,7 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
   const res = await SetStatus({"AppId": 对象_搜索条件.value.AppId, "Id": [ID], "Status": Status})
 
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,
@@ -556,7 +556,7 @@ const on管理员备注被改变 = async (表项索引: number, ID: number, Admi
         新管理员备注 = value
         const res = await SetAdminNote({"Id": [ID], "AdminNote": 新管理员备注})
         console.log(res)
-        if (res.code == 0) {
+        if (res.code == 10000) {
           Data.value.List[表项索引].AdminNote = 新管理员备注   //成功赋新值
           ElMessage({
             type: "success",

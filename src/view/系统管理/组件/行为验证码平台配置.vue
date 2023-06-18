@@ -3,22 +3,13 @@
     <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="130px" :model="Data"
              :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
       <div class="内容div">
-        <el-divider content-position="left" >腾讯云短信(SMS)</el-divider>
-        <el-form-item label="SECRET_ID" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.SECRET_ID">
+        <el-divider content-position="left" >极验行为验证4</el-divider>
+        <el-form-item label="验证_ID" disabled="disabled">
+          <el-input v-model="Data.极验行为验证4.验证_ID" placeholder="请输入极验行为验证4.0 验证id 任意业务模块与场景部署">
           </el-input>
         </el-form-item>
-        <el-form-item label="SECRET_KEY" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.SECRET_KEY"/>
-        </el-form-item>
-        <el-form-item label="D短信应用ID" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.短信应用ID"/>
-        </el-form-item>
-        <el-form-item label="D短信签名" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.短信签名"/>
-        </el-form-item>
-        <el-form-item label="Z正文模板ID" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.正文模板ID"/>
+        <el-form-item label="验证_KEY" disabled="disabled">
+          <el-input v-model="Data.极验行为验证4.验证_KEY" placeholder="请输入极验行为验证4.0 验证KEY 任意业务模块与场景部署"/>
         </el-form-item>
         <div style="text-align:center">
           <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>
@@ -31,18 +22,15 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetInfoSMS, SaveInfoSMS} from "@/api/系统设置api.js";
+import {GetInfoCaptcha2, SaveInfoCaptcha2} from "@/api/系统设置api.js";
 import {ElMessage, FormInstance} from 'element-plus'
 import {is移动端} from "@/utils/utils";
 
 
 const Data = ref({
-  "TX云Sms": {
-    "SECRET_ID": "",
-    "SECRET_KEY": "",
-    "短信应用ID": "",
-    "短信签名": "",
-    "正文模板ID": ""
+  "极验行为验证4": {
+    "验证_ID": "",
+    "验证_KEY": "",
   }
 })
 
@@ -50,7 +38,7 @@ const ruleFormRef = ref<FormInstance>()
 const is加载中 = ref(false)
 const onGetList = async () => {
   is加载中.value = true
-  const res = await GetInfoSMS({})
+  const res = await GetInfoCaptcha2({})
   Data.value = res.data
   is加载中.value = false
 }
@@ -74,7 +62,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
   is加载中.value = true
-  返回 = await SaveInfoSMS(Data.value);
+  返回 = await SaveInfoCaptcha2  (Data.value);
   is加载中.value = false
   console.log(返回)
   if (返回.code == 10000) {

@@ -88,7 +88,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
     返回 = await SaveTaskPool信息(data.value);
   }
   console.log(返回)
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
     ElMessage({
@@ -118,7 +118,7 @@ const 读取详细信息 = async (id: number) => {
   if (id > 0) {
 
         let 返回 = await GetTaskPool详细信息({"Id": id})
-    if (返回.code == 0) {
+    if (返回.code == 10000) {
       data.value = 返回.data
     } else {
       is重新读取.value = false

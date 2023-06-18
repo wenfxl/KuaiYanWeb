@@ -93,7 +93,7 @@ onMounted(async () => {
   返回 = await get图表在线用户统计()
   console.log(返回)
 
-  if (返回.code === 0) {
+  if (返回.code === 10000) {
     setOptions(返回.data)
   }
 })

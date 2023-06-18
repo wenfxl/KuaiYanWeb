@@ -79,7 +79,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
 
   console.log(返回)
 
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见_创建令牌2.value = false
     ElMessage({

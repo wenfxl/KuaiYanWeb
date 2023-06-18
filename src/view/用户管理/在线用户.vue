@@ -189,7 +189,7 @@ const on单个注销 = async (id: number) => {
 
   const res = await Del批量注销({"ID": [id]})
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,
@@ -213,7 +213,7 @@ const on批量注销 = async () => {
   console.log(ids)
   const res = await Del批量注销({"ID": ids})
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,
@@ -232,7 +232,7 @@ const on删除已注销 = async () => {
   is工具_更多.value = false
   const res = await Del批量删除({"ID": [-1]})
 
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,

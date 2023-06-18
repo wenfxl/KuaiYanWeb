@@ -26,6 +26,14 @@
         </template>
         <SetSmsInfo></SetSmsInfo>
       </el-collapse-item>
+      <el-collapse-item title="行为验证码平台配置" name="行为验证码平台配置">
+        <template #title>
+          <el-icon size="18" color="#73767a">
+            <ChatSquare />
+          </el-icon>  行为验证码平台配置
+        </template>
+        <SetCaptcha2Info></SetCaptcha2Info>
+      </el-collapse-item>
     </el-collapse>
   </div>
 </template>
@@ -35,6 +43,7 @@ import {ref} from 'vue'
 import SetPayInfo from "@/view/系统管理/组件/在线支付设置.vue";
 import SetBaseInfo from "@/view/系统管理/组件/基础信息设置.vue";
 import SetSmsInfo from "@/view/系统管理/组件/短信平台配置.vue";
+import SetCaptcha2Info from "@/view/系统管理/组件/行为验证码平台配置.vue";
 
 const activeNames = ref(['基础设置'])
 const on折叠面板表项被打开 = (val: string[]) => {

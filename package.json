@@ -23,6 +23,7 @@
     "mitt": "^3.0.0",
     "npm": "^9.6.5",
     "nprogress": "^0.2.0",
+    "qrcode.vue": "^3.4.0",
     "vue": "^3.2.47",
     "vue-codemirror": "^6.1.1",
     "vue-router": "^4.1.6",

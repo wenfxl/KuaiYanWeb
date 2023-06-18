@@ -124,7 +124,7 @@ const on单个删除 = async (id: number) => {
 
   const res = await Del批量删除TaskPool({"ID": [id]})
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,
@@ -143,7 +143,7 @@ const on批量删除 = async () => {
   console.log(ids)
   const res = await Del批量删除TaskPool({"ID": ids})
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,

@@ -15,6 +15,7 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
+        <el-dropdown-item @click="on个人中心">个人中心</el-dropdown-item>
         <el-dropdown-item @click="on退出登录">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -41,6 +42,9 @@ const on退出登录 =  async () => {
   Store.commit("onTabs菜单删除", "关闭所有")
   Store.commit("on更新菜单当前Path", "")
   Router.replace({path: "Login"})
+}
+const on个人中心 =  async () => {
+  on路由跳转("个人中心")
 }
 const onGetUserInfo = async () => {
   console.log(Store.state.UserInfo)

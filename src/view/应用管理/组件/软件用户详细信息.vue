@@ -190,7 +190,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
     返回 = await SaveAppUser信息(data.value);
   }
   console.log(返回)
-  if (返回.code == 0) {
+  if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
     ElMessage({
@@ -235,7 +235,7 @@ const on对话框被打开 = () => {
 const 读取详细信息 = async (id: number) => {
   if (id > 0) {
     let 返回 = await GetAppUser详细信息({"AppId": Props.AppId, "Id": id})
-    if (返回.code == 0) {
+    if (返回.code == 10000) {
       data.value = 返回.data
       // if (data.value.VipTime.toString().length===10){
       //   data.value.VipTime=data.value.VipTime*1000   //日期时间选择器是13位时间戳所以得处理一下

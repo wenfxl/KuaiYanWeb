@@ -103,7 +103,7 @@ const on读取图表数据 = async () => {
   返回 = await get图表用户账号统计({Type:图表时间单位.value})
   is加载中.value=false
   console.log(返回)
-  if (返回.code === 0) {
+  if (返回.code === 10000) {
     setOptions(图表时间单位.value,返回.data)
   }
 }

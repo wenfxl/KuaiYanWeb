@@ -206,7 +206,7 @@ const on批量删除 = async (Type: number) => {
   const res = await Del批量删除(提交数据)
   is加载中.value = false
   console.log(res)
-  if (res.code == 0) {
+  if (res.code == 10000) {
     ElMessage({
       type: "success",
       message: res.msg,
@@ -227,7 +227,7 @@ const on批量删除用户名或关键字 = async (Type: number) => {
           is加载中.value = true
           const res = await Del批量删除(提交数据)
           is加载中.value = false
-          if (res.code == 0) {
+          if (res.code == 10000) {
             ElMessage({
               type: "success",
               message: res.msg,
@@ -247,7 +247,7 @@ const on批量删除用户名或关键字 = async (Type: number) => {
 
 const on单个已读 = async (表项索引: number, id: number) => {
   const res = await 批量已读({"Id": [id], "IsRead": true, Type: 1})
-  if (res.code == 0) {
+  if (res.code == 10000) {
     Data.value.List[表项索引].IsRead = true
 
     let temp = Store.state.UserInfo
@@ -265,7 +265,7 @@ const on单个已读 = async (表项索引: number, id: number) => {
 }
 const on全部已读 = async () => {
   const res = await 批量已读({"Id": [], "IsRead": true, Type: 2})
-  if (res.code == 0) {
+  if (res.code == 10000) {
     for (let i = 0; Data.value.List.length > i; i++) {
       if (!Data.value.List[i].IsRead) {
         Data.value.List[i].IsRead = true
