@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <img src="@/assets/vue.svg" />
+    <img src="@/assets/logo4.png" />
     <h2  class="title"  v-show="!is折叠">TY通用软件管理系统</h2>
   </div>
 </template>

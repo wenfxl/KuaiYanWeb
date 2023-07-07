@@ -5,7 +5,7 @@
         <div class="login_panel_form_title">
           <img
               class="login_panel_form_title_logo"
-              src="./vite.svg"
+              src="src/assets/logo4.png"
               alt
           >
 

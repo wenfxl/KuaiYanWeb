@@ -91,4 +91,10 @@ export const  Get全部用户APi = () => {
   })
 }
 
+export const  Get全部WebAPi = () => {
+  return service({
+    url: url+'GetAllWebApi',
+    method: 'get',
+  })
+}
 

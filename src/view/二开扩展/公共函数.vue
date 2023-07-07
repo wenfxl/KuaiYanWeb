@@ -65,10 +65,11 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
 
         <el-table-column type="selection" width="45"/>
+        <el-table-column prop="Id" label="Id" width="70"/>
         <el-table-column prop="Name" label="函数名" width="280"/>
         <el-table-column prop="AppId" label="函数归属" width="200">
           <template #default="scope">
-            <el-tag :type="scope.row.AppId>10000?'':'success'">
+            <el-tag  :type="scope.row.AppId>10000?'':'success'">
               {{ scope.row.AppName }}
             </el-tag>
           </template>
@@ -142,14 +143,14 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetList, DeleteInfo} from "@/api/公共变量api.js";
+import {GetList, DeleteInfo} from "@/api/公共函数api.js";
 import {useStore} from "vuex";
-// 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import PublicDataInfo from "./组件/公共函数详细信息.vue";
 import {Delete} from "@element-plus/icons-vue";
 import {is移动端} from "@/utils/utils";
+import {Del批量删除TaskPool} from "@/api/任务池api";
 
 const on单个删除 = async (id: string) => {
   console.log('on单个删除' + id)
@@ -187,15 +188,9 @@ const onTypeId转换文本 = (Id: number) => {
   return str
 }
 const on批量删除 = async () => {
-  let ids: object[] = []
-  for (let i = 0; i < 表格被选中列表.value.length; i++) {
-    ids.push({
-      "AppId": 表格被选中列表.value[i].AppId,
-      "Name": 表格被选中列表.value[i].Name
-    })
-  }
+  const ids = 表格被选中列表.value.map((item => item.Id))
   console.log(ids)
-  const res = await DeleteInfo({"data": ids})
+  const res = await DeleteInfo({"Id": ids,"Type": 1 })
   console.log(res)
   if (res.code == 10000) {
     ElMessage({
@@ -245,6 +240,7 @@ const Data = ref({
   "Count": 0,
   "List": [
     {
+      "Id": 0,
       "AppId": 1,
       "Name": "",
       "Value": "",
@@ -255,7 +251,7 @@ const Data = ref({
     }]
 })
 const Store = useStore()
-const 对象_搜索条件初始值 = {AppId: 1, Type: 1, Size: 10, Page: 1, Keywords: "", PublicDataType: [11]}
+const 对象_搜索条件初始值 = {AppId: 1, Type: 1, Size: 10, Page: 1, Keywords: ""}
 const 对象_搜索条件 = ref(Object.assign({}, 对象_搜索条件初始值))
 
 const on读取列表 = () => {

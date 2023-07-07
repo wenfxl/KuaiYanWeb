@@ -9,12 +9,29 @@
       <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
         <el-form-item v-show="data.User" label="User" prop="User">
-          <el-input  v-model="data.User" placeholder=""   class="只读编辑框" readonly />
+          <el-input v-model="data.User" placeholder="" class="只读编辑框" readonly/>
         </el-form-item>
-        <el-form-item label="绑定信息" prop="Name">
-          <el-input  v-model="data.Key" placeholder="请输入绑定信息,可以当做备注" />
+        <el-form-item label="动态标记" prop="Name">
+          <el-input v-model="data.Tab" placeholder="请输入动态标记,可以当做备注"/>
+        </el-form-item>
+        <el-form-item label="绑定接口" prop="Captcha">
+          <el-select
+              v-model="数组_已选择WebApi接口"
+              multiple
+              placeholder="选择本Token可以调用的接口"
+              style="width: 100%"
+              @change="on验证码多选发生变化"
+          >
+            <el-option
+                v-for="item in 数组_WebApi"
+                :key="item[0]"
+                :label="item[1]+'('+item[0]+')'"
+                :value="item[0]"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
+
     </div>
     <template #footer>
       <div class="dialog-footer">
@@ -29,7 +46,8 @@
 import {onMounted, ref, watch} from 'vue'
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端} from "@/utils/utils";
-import { NewWebApiToken} from "@/api/在线用户api";
+import {NewWebApiToken} from "@/api/在线用户api";
+import {Get全部WebAPi} from "@/api/应用列表api";
 
 const Props = defineProps({
   is对话框可见_创建令牌: {
@@ -38,8 +56,23 @@ const Props = defineProps({
   }
 })
 const emit = defineEmits(['on对话框详细信息关闭'])
-
-
+const 数组_WebApi = ref([])
+const 数组_已选择WebApi接口 = ref(["未定义"])
+const on读取WebApi数组 = async () => {
+  console.log(数组_WebApi.value.length)
+  数组_已选择WebApi接口.value = []
+  if (数组_WebApi.value.length === 0) {
+    const res = await Get全部WebAPi()
+    if (res.code == 10000) {
+      数组_WebApi.value = res.data
+    }
+  }
+  console.log(数组_WebApi.value)
+  return
+}
+const on验证码多选发生变化 = () => {
+  console.info(数组_已选择WebApi接口.value)
+}
 
 watch(() => Props.is对话框可见_创建令牌, (newVal, oldVal) => {
   if (newVal) {
@@ -51,8 +84,9 @@ watch(() => Props.is对话框可见_创建令牌, (newVal, oldVal) => {
 const is对话框可见_创建令牌2 = ref(false)
 const 初始数据 = {
   "OutTime": 315360000,
-   "Key": "",
-   "User": "",
+  "Key": "",
+  "Tab": "",
+  "User": "",
 }
 const data = ref(初始数据)
 const ruleFormRef = ref<FormInstance>()
@@ -73,8 +107,20 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   console.info("表单验证结果")
   console.info(表单验证结果)
   if (!表单验证结果) return   //如果是假直接返回
-  let 返回;
+  data.value.Key=""
+  for (let i = 0; i < 数组_已选择WebApi接口.value.length; i++) {
+    for(let item in 数组_WebApi.value){
 
+      console.log(数组_WebApi.value[item])
+      console.log(数组_已选择WebApi接口.value[i])
+      if(数组_WebApi.value[item][0]===数组_已选择WebApi接口.value[i]){
+        data.value.Key+=数组_WebApi.value[item][1]+'('+数组_WebApi.value[item][0]+'),'
+        break;
+      }
+    }
+  }
+  console.log(data.value.Key)
+  let 返回;
   返回 = await NewWebApiToken(data.value);
 
   console.log(返回)
@@ -97,7 +143,9 @@ const on校验表单重置 = (formEl: FormInstance | undefined) => {
 
 onMounted(() => {
   console.info("用户详细信息对话框加载完毕了")
-  data.value=初始数据
+  data.value = 初始数据
+  数组_已选择WebApi接口.value = []
+  on读取WebApi数组()
 })
 
 const on对话框被打开 = () => {

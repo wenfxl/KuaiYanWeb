@@ -48,7 +48,7 @@
         <el-form-item label="备注" prop="Value">
           <el-input v-model="data.Note" placeholder="请输入备注"/>
         </el-form-item>
-        <el-form-item v-if="data.Type===11" label="JS函数" prop="Value" style="height: 50Vh">
+        <el-form-item  label="JS函数" prop="Value" style="height: 50Vh">
           <div style="float: right;">
             <el-row>
               <el-col :span="4">
@@ -100,7 +100,7 @@
 import {onMounted, ref, watch} from 'vue'
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端} from "@/utils/utils";
-import {GetInfo, New, SaveInfo} from "@/api/公共变量api";
+import {GetInfo, New, SaveInfo} from "@/api/公共函数api";
 import {GetAppIdNameList} from "@/api/应用列表api";
 
 
@@ -134,7 +134,7 @@ const 公共变量初始数据 = {
   "AppId": 1,
   "Name": "",
   "Value": "",
-  "Type": 11,
+  "Type": 1,
   "IsVip": 0,
   "Note": "",
 }

@@ -45,12 +45,12 @@ service.interceptors.response.use(
             //判断失败原因
 
             // 101登录状态失效 清除token 本地数据 跳转登陆页
-            if (response.data.code === 201 && response.data.data.KuaiYan === true) {
+            if (response.data.code === 202 && response.data.data.KuaiYan === true) {
 
                 console.info("快验个人中心未登录")
 
                 router.push('/个人中心')
-            } else if (response.data.code === 201) {
+            } else if (response.data.code === 202) {
 
                 console.info("登录token被注销了")
                 console.info(response)
