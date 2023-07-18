@@ -50,7 +50,7 @@ export const GetInfo = (data) => {
 /*{
 	"AppId": 1,
 	"Name": "系统名称",
-	"Value":"Ty通用应用管理系统",
+	"Value":"飞鸟快验应用管理系统",
 }*/
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
 export const  SaveInfo = (data) => {
@@ -65,7 +65,7 @@ export const  SaveInfo = (data) => {
 /*{
 	"AppId": 1,
 	"Name": "系统名称",
-	"Value":"Ty通用应用管理系统",
+	"Value":"飞鸟快验应用管理系统",
 	"KeyType":11
 }*/
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "添加成功"}"

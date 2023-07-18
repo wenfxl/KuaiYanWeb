@@ -42,12 +42,12 @@
       </div>
       <div class="内容div">
         <el-divider content-position="left">其他(计划中)</el-divider>
-        <el-form-item label="用户中心开关" prop="用户中心开关">
+<!--        <el-form-item label="用户中心开关" prop="用户中心开关">
           <el-radio-group v-model="Data.用户中心开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
-        </el-form-item>
+        </el-form-item>-->
 
 
         <div style="text-align:center">
@@ -68,7 +68,7 @@ import {is移动端} from "@/utils/utils";
 
 
 const Data = ref({
-  "系统名称": "Ty通用后台管理系统111",
+  "系统名称": "飞鸟快验后台管理系统111",
   "系统地址": "https://www.baidu.com",
   "WebApiHost": "",
   "系统开关": true,

@@ -84,7 +84,33 @@ export const 时间_时间戳到时间 = (Time: number) => {
 }
 
 
-export const 置剪辑版文本 = (text: string, 成功提示: string) => {
+//这个复制到剪辑版,可以在非https情况下复制成功
+export const 置剪辑版文本2 = (text: string, 成功提示: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    if (成功提示 == "") {
+        ElMessage({
+            type: "success",
+            message: "复制成功",
+            showClose: true,
+        });
+    } else {
+        ElMessage({
+            type: "success",
+            message: 成功提示,
+            showClose: true,
+        });
+    }
+}
+
+
+//这个置剪辑版必须 https或本地才正常  因为 window.isSecureContext 这个值真才可以使用,安全上下文
+export const 置剪辑版文本 = (text: string, 成功提示: string)  => {
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(
             // 复制成功callback
@@ -112,6 +138,8 @@ export const 置剪辑版文本 = (text: string, 成功提示: string) => {
                 })
             },
         )
+    }else {
+        置剪辑版文本2(text , 成功提示)
     }
 }
 

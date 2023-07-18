@@ -5,7 +5,7 @@
         <div class="login_panel_form_title">
           <img
               class="login_panel_form_title_logo"
-              src="src/assets/logo4.png"
+              src="@/assets/logo4.png"
               alt
           >
 
@@ -154,7 +154,7 @@ const picPath = ref('')
 
 const loginFormData = reactive({
   username: 'admin',
-  password: 'admin',
+  password: '',
   captcha: '66',
   captchaId: '',
   openCaptcha: false,
@@ -227,7 +227,7 @@ const checkInit = async () => {
   /* {
 	"code": 0,
 	"data": {
-		"ServerName": "TY通用后台管理系统",
+		"ServerName": "飞鸟快验后台管理系统",
 		"needInit": false
 	},
 	"msg": "数据库无需初始化"

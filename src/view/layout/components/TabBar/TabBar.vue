@@ -20,7 +20,7 @@
 
   </el-tabs>
   <ul class="菜单_右键" v-show="菜单_isShow" :style="{left:菜单_left +'px' , top:菜单_Top+'px'}">
-    <li @click="on菜单被选择('关闭其他')">关闭其他</li>
+<!--    <li @click="on菜单被选择('关闭其他')">关闭其他</li>-->
     <li @click="on菜单被选择('关闭左边')">关闭左边</li>
     <li @click="on菜单被选择('关闭右边')">关闭右边</li>
     <li @click="on菜单被选择('关闭所有')">关闭所有</li>
@@ -44,7 +44,7 @@ const acktiveKey = ref("")
 const Route = useRoute()
 
 const AddTab = () => {
-  const {meta, path,name} = Route
+  const {meta, path, name} = Route
   const Tab: ITab = {
     path: path,
     title: name as string
@@ -65,7 +65,6 @@ watch(() => Route.path, () => {
 
     }
 )
-
 
 
 const Router = useRouter()
@@ -123,13 +122,13 @@ const on菜单被选择 = (命令: string) => {
 }
 
 //监控菜单,如果在显示状态  监控window 点击事件 操作点击就关闭菜单
-watch(()=>菜单_isShow.value,()=>{
+watch(() => 菜单_isShow.value, () => {
   if (菜单_isShow.value) {
     //添加监听事件
-    window.addEventListener("click",()=>菜单_isShow.value=false)
-  }else {
+    window.addEventListener("click", () => 菜单_isShow.value = false)
+  } else {
     //菜单不显示了 就移除监听事件 节约系统资源
-    window.removeEventListener("click",()=>菜单_isShow.value=false)
+    window.removeEventListener("click", () => 菜单_isShow.value = false)
   }
 })
 const on刷新页面监控 = () => {
@@ -152,8 +151,8 @@ onMounted(() => {
 })
 </script>
 <style lang="scss">
-.demo-tabs  {
-  padding:0 ;
+.demo-tabs {
+  padding: 0;
   color: #6b778c;
   font-size: 20px;
   font-weight: 600;
@@ -164,7 +163,7 @@ onMounted(() => {
 .菜单_右键 {
   background-color: #ffffff;
   width: 90px;
-  margin:0 ;
+  margin: 0;
   /*边框 1px  颜色 */
   border: 1px solid #ccc;
   /*图层高度  3000  值大一点 会在顶层*/

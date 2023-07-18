@@ -16,6 +16,7 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item @click="on个人中心">个人中心</el-dropdown-item>
+        <el-dropdown-item @click="on修改密码">修改密码</el-dropdown-item>
         <el-dropdown-item @click="on退出登录">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -26,14 +27,42 @@
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import {GetAdminInfo, login, OutLogin} from "@/api/user.js"
+import {AdminNewPassword, GetAdminInfo, login, OutLogin} from "@/api/user.js"
 import {is移动端} from "@/utils/utils";
+import {ElMessage} from "element-plus";
 
 const Store = useStore()
 const Router = useRouter()
 
 const on路由跳转 = (name) => {
   Router.push({name})
+}
+
+const on修改密码 =  async () => {
+  ElMessageBox.prompt('请输入新密码', 'Tip', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    inputPattern:
+        /^[a-zA-Z]\w{5,17}$/,
+    inputErrorMessage: '密码以字母开头，长度在6-18之间，只能包含字符、数字和下划线',
+  })
+      .then(async ({value}) => {
+        const res = await AdminNewPassword({ NewPassword:value})
+        console.log(res)
+        if (res.code === 10000) {
+          ElMessage({
+            type: "success",
+            message: res.msg,
+            showClose: true,
+          })
+        }
+      })
+      .catch(() => {
+/*        ElMessage({
+          type: 'info',
+          message: 'Input canceled',
+        })*/
+      })
 }
 const on退出登录 =  async () => {
   await OutLogin()
@@ -43,6 +72,9 @@ const on退出登录 =  async () => {
   Store.commit("on更新菜单当前Path", "")
   Router.replace({path: "Login"})
 }
+
+
+
 const on个人中心 =  async () => {
   on路由跳转("个人中心")
 }

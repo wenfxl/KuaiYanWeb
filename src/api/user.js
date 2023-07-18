@@ -39,3 +39,12 @@ export const OutLogin = () => {
     method: 'post'
   })
 }
+
+// @Summary 修改管理员密码
+export const AdminNewPassword = (data) => {
+  return service({
+    url: '/admin/User/AdminNewPassword',
+    method: 'post',
+    data: data
+  })
+}

@@ -704,8 +704,6 @@ const on对话框被关闭 = () => {
 }
 const on置剪辑版配置信息 = () => {
   let appINfo = {}
-
-
   if (data.value.CryptoType === 1) {
     appINfo = {
       "AppWeb": SerVerUrl.value + data.value.AppWeb,
@@ -742,7 +740,7 @@ const 专属变量 = ref([
   {
     "AppId": 1,
     "Name": "系统名称",
-    "Value": "Ty通用软件管理系统",
+    "Value": "飞鸟快验应用管理系统",
     "Type": 1,
     "IsVip": 1
   },

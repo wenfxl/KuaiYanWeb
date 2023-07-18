@@ -89,11 +89,17 @@
         <el-table-column prop="Id" label="Id" width="80"/>
         <el-table-column prop="User" label="用户名" width="130"  show-overflow-tooltip="">
           <template #default="scope">
-            {{ scope.row.User }}
+
+            <el-icon  v-if="scope.row.User.length>18" class="复制按钮" @click="置剪辑版文本(scope.row.User,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
             <el-tag v-if="scope.row.RiskControl>0" :type="scope.row.RiskControl<20?'info':'danger'">
               {{ scope.row.RiskControl < 20 ? '可疑' : "非法" }}
             </el-tag>
+            {{ scope.row.User }}
           </template>
+
+
         </el-table-column>
         <el-table-column align="left" label="状态" prop="status" width="80">
           <template #default="scope">
@@ -175,7 +181,7 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, Ref, ref, watch,} from "vue";
 import {GetLinkUserList, Del批量注销, Del批量删除} from "@/api/在线用户api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算分钟提示, is移动端} from "@/utils/utils.js";
+import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算分钟提示, is移动端, 置剪辑版文本} from "@/utils/utils.js";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -186,8 +192,9 @@ import ChartData from "@/view/用户管理/组件/在线用户图表抽屉.vue";
 
 const on单个注销 = async (id: number) => {
   console.log('在线注销id' + id)
-
+  is加载中.value=true
   const res = await Del批量注销({"ID": [id]})
+  is加载中.value=false
   console.log(res)
   if (res.code == 10000) {
     ElMessage({
@@ -510,5 +517,28 @@ onBeforeUnmount(() => {
     background: #889aa4; //改变背景颜色
     cursor: pointer; //改变鼠标样式为手型
   }
+}
+.复制按钮 {
+  background: #fafafa;
+  float: right;
+  /*设置边框阴影*/
+
+  font-size: 12px;
+
+  padding: 5px;
+  ///*边框 1px  颜色 */
+  border: 1px solid rgb(235, 238, 245);
+  color: #0c0d0e;
+  //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
+  speak: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer; //改变鼠标样式为手型
+
 }
 </style>
