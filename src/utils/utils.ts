@@ -142,6 +142,49 @@ export const 置剪辑版文本 = (text: string, 成功提示: string)  => {
         置剪辑版文本2(text , 成功提示)
     }
 }
+//Element-Plus 只能传入这个ui库的表格 并激活下载
+export const 表格导出csv文本并下载 = (tableRef:any): void => {
+
+    const csvContent = 表格导出csv文本(tableRef);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.setAttribute('href', URL.createObjectURL(blob));
+    link.setAttribute('download', 'table.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+};
+
+
+//Element-Plus 只能传入这个ui库的表格
+export const 表格导出csv文本 = (tableRef: any): string => {
+
+    console.log(tableRef); // 检查tableRef的值
+    const tableData = tableRef.data;
+    const tableColumns = tableRef.store.states.columns._rawValue;
+    const labels = tableColumns.map(column => column.label);
+    console.log(labels); // 输出：["日期", "姓名", "地址"]
+
+    const csvRows: string[] = [];
+
+    // 获取表头数据
+    const headerRow = tableColumns.map((column: any) => column.label);
+    headerRow.shift()  //删除数组第一个元素选择框列 因为这个是 空
+    csvRows.push(headerRow.join(','));
+
+    // 获取表格数据
+    for (const row of tableData) {
+        const csvColumns: string[] = [];
+        for (const column of tableColumns) {
+            csvColumns.push(`"${row[column.property]}"`);
+        }
+        csvColumns.shift()//删除数组第一个元素选择框 因为这个是 空
+        csvRows.push(csvColumns.join(','));
+    }
+
+    return csvRows.join('\n');
+};
 
 export const 时间_计算分钟提示 = (Time: number) => {
     if (Time === 0) {

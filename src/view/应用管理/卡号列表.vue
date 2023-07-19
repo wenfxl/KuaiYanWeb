@@ -105,12 +105,12 @@
             </el-icon>
           </el-tooltip>
 
-          <!--          <el-popover placement="right"  trigger="hover">-->
-          <!--            <template #reference>-->
-          <!--              <el-icon  ><More /></el-icon>-->
-          <!--            </template>-->
-          <!--            <li class="工具_更多_li"  @click="on删除已注销" >删除已注销</li>-->
-          <!--          </el-popover>-->
+                    <el-popover placement="right"  trigger="hover">
+                      <template #reference>
+                        <el-icon  ><More /></el-icon>
+                      </template>
+                      <li class="工具_更多_li"  @click="导出到csv(tableRef)" >导出到csv</li>
+                    </el-popover>
         </div>
       </div>
 
@@ -299,7 +299,14 @@
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote} from "@/api/卡号列表api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端, 置剪辑版文本} from "@/utils/utils";
+import {
+  时间_时间戳到时间,
+  时间_取现行时间戳,
+  时间_计算天时分秒提示,
+  is移动端,
+  置剪辑版文本,
+  表格导出csv文本并下载
+} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -314,6 +321,13 @@ const on图表分析被点击= ()=> {
   Store.commit("set搜索_卡号列表", 对象_搜索条件.value)
   is图表分析抽屉可见.value=true
 }
+
+const 导出到csv= (table)=> {
+console.log(table.store.states.columns)
+
+  表格导出csv文本并下载(table)
+}
+
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
 
