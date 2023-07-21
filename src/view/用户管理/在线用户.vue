@@ -124,7 +124,11 @@
         </el-table-column>
         <el-table-column prop="Tab" label="动态标签" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Key" label="绑定信息" width="140" show-overflow-tooltip=""/>
-        <el-table-column prop="Ip" label="登录ip" width="140"/>
+        <el-table-column  label="登录ip" width="140" show-overflow-tooltip="">
+          <template #default="scope">
+          {{scope.row.Ip+ " "+scope.row.IPCity}}
+          </template>
+        </el-table-column>
         <el-table-column prop="LoginTime" label="登录时间" width="160" :formatter="on格式化_登录时间"/>
         <el-table-column prop="LastTime" label="最后活动时间" width="160" :formatter="on格式化_最后活动时间"/>
         <el-table-column prop="OutTime" label="自动注销时间" width="160">
@@ -488,7 +492,7 @@ onBeforeUnmount(() => {
   /*设置边框阴影*/
   box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
   padding: 5px 0;
-  font-size: 14px;
+  font-size: 12px;
 
   li {
     margin: 0;
@@ -509,7 +513,7 @@ onBeforeUnmount(() => {
 
 .工具_更多_li {
   list-style-type: none;
-  font-size: 14px;
+  font-size: 12px;
   margin: 0;
   padding: 7px 16px;
   //设置 鼠标悬停时样式

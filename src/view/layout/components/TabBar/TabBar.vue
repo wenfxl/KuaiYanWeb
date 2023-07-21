@@ -175,7 +175,7 @@ onMounted(() => {
   /*设置边框阴影*/
   box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
   padding: 5px 0;
-  font-size: 14px;
+  font-size: 12px;
 
   li {
     margin: 0;

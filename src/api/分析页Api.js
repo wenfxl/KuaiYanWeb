@@ -10,6 +10,13 @@ export const get图表在线用户统计 = (data) => {
         data: data
     })
 }
+export const Get在线用户Ip地图分布统计 = () => {
+    return service({
+        url: url+'ChartLinksUserIPCity',
+        method: 'POST',
+        donNotShowLoading: true,
+    })
+}
 
 export const get图表用户账号统计 = (data) => {
     return service({

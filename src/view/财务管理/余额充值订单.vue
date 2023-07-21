@@ -524,7 +524,7 @@ const on对话框退款关闭 = (is重新读取: boolean) => {
   /*设置边框阴影*/
   box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
   padding: 5px 0;
-  font-size: 14px;
+  font-size: 12px;
 
   li {
     margin: 0;
@@ -540,7 +540,7 @@ const on对话框退款关闭 = (is重新读取: boolean) => {
 
 .工具_更多_li {
   list-style-type: none;
-  font-size: 14px;
+  font-size: 12px;
   margin: 0;
   padding: 2px 5px;
   //设置 鼠标悬停时样式

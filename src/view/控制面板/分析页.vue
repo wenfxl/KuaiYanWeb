@@ -1,31 +1,35 @@
 <template>
 
-    <div class="gva-card-box">
-      <div class="gva-card">
-        <div class="echart-box">
-          <el-row :gutter="20">
-            <el-col :xs="18" :sm="12">
-              <Echarts用户统计/>
-            </el-col>
-            <el-col :xs="18" :sm="12">
-              <Echarts在线统计/>
-            </el-col>
-            <el-col :xs="18" :sm="12">
-              <Echarts余额充值消费/>
-            </el-col>
-            <el-col :xs="18" :sm="12">
-              <Echarts应用用户统计/>
-            </el-col>
-            <el-col :xs="18" :sm="12">
-              <Echarts卡号制卡统计/>
-            </el-col>
-            <el-col :xs="18" :sm="12">
-              <Echarts应用卡使用统计/>
-            </el-col>
-          </el-row>
-        </div>
+  <div class="gva-card-box">
+    <div class="gva-card">
+      <div class="echart-box">
+        <el-row :gutter="20">
+          <el-col :xs="18" :sm="12">
+            <Echarts在线用户地图分布/>
+          </el-col>
+          <el-col :xs="18" :sm="12">
+            <Echarts在线统计/>
+          </el-col>
+
+          <el-col :xs="18" :sm="12">
+            <Echarts用户统计/>
+          </el-col>
+          <el-col :xs="18" :sm="12">
+            <Echarts余额充值消费/>
+          </el-col>
+          <el-col :xs="18" :sm="12">
+            <Echarts应用用户统计/>
+          </el-col>
+          <el-col :xs="18" :sm="12">
+            <Echarts卡号制卡统计/>
+          </el-col>
+          <el-col :xs="18" :sm="12">
+            <Echarts应用卡使用统计/>
+          </el-col>
+        </el-row>
       </div>
     </div>
+  </div>
 
 </template>
 
@@ -36,6 +40,7 @@ import Echarts应用用户统计 from './组件/应用用户统计柱状.vue'
 import Echarts余额充值消费 from './组件/余额充值消费折线.vue'
 import Echarts卡号制卡统计 from './组件/卡号制卡统计折线.vue'
 import Echarts应用卡使用统计 from './组件/应用卡使用统计柱状.vue'
+import Echarts在线用户地图分布 from './组件/在线用户地图分布图.vue'
 // import DashboardTable from '@/view/dashboard/dashboardTable/dashboardTable.vue'
 import {ref} from 'vue'
 import {useRouter} from 'vue-router'

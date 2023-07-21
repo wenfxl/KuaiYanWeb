@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-line-box">
+  <div class="dashboard-line-box"       style="width: 100%;min-height: 360px;position:relative">
     <div
         ref="echart"
         class="dashboard-line"

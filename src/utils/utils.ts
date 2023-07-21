@@ -143,13 +143,13 @@ export const 置剪辑版文本 = (text: string, 成功提示: string)  => {
     }
 }
 //Element-Plus 只能传入这个ui库的表格 并激活下载
-export const 表格导出csv文本并下载 = (tableRef:any): void => {
+export const 表格导出csv文本并下载 = (tableRef:any,文件名称:string): void => {
 
     const csvContent = 表格导出csv文本(tableRef);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.setAttribute('href', URL.createObjectURL(blob));
-    link.setAttribute('download', 'table.csv');
+    link.setAttribute('download', 文件名称+'.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -72,12 +72,16 @@
             </el-icon>
           </el-tooltip>
 
-          <!--          <el-popover placement="right"  trigger="hover">-->
-          <!--            <template #reference>-->
-          <!--              <el-icon  ><More /></el-icon>-->
-          <!--            </template>-->
-          <!--            <li class="工具_更多_li"  @click="on删除已注销" >删除已注销</li>-->
-          <!--          </el-popover>-->
+          <el-popover placement="right" trigger="hover">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on批量冻结解冻(2)" >批量冻结</li>
+            <li class="工具_更多_li" @click="on批量冻结解冻(1)" >批量解冻</li>
+            <li class="工具_更多_li" >增减时间点数</li>
+          </el-popover>
         </div>
       </div>
 
@@ -89,7 +93,8 @@
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="50"/>
         <!--        <el-table-column prop="Uid" label="用户id" width="100"/>-->
-        <el-table-column :label="isAppType卡号()?'卡号':'用户名'" :width="isAppType卡号()?280:180" show-overflow-tooltip="">
+        <el-table-column :label="isAppType卡号()?'卡号':'用户名'" :width="isAppType卡号()?280:180"
+                         show-overflow-tooltip="">
           <template #default="scope">
             {{ isAppType卡号() ? scope.row.Name : scope.row.User }}
           </template>
@@ -154,9 +159,9 @@
             <!--            </el-button>-->
           </template>
         </el-table-column>
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
       </el-table>
@@ -199,11 +204,10 @@ import AppUserinfo from "./组件/软件用户详细信息.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
-const on图表分析被点击= ()=> {
+const on图表分析被点击 = () => {
   Store.commit("set搜索_软件用户", 对象_搜索条件.value)
-  is图表分析抽屉可见.value=true
+  is图表分析抽屉可见.value = true
 }
-
 
 
 const on单个删除 = async (id: number) => {
@@ -247,6 +251,38 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
   } else {
     Data.value.List[表项索引].Status = Status == 1 ? 2 : 1
     return false
+  }
+
+}
+
+
+//
+const on批量冻结解冻 = async (Status:number) => {
+  const ids = 表格被选中列表.value.map((item => item.Id))
+  if (ids.length == 0) {
+    ElMessage({
+      type: "error",
+      message: "选中数据不能为0",
+      showClose: true,
+    })
+    return
+  }
+  const res = await SetStatus({"AppId": 对象_搜索条件.value.AppId, "Id": ids, "Status": Status})
+
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage({
+      type: "success",
+      message: res.msg,
+      showClose: true,
+    })
+
+    for (let i=0;i<Data.value.List.length;i++){
+      if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
+        Data.value.List[i].Status=Status
+      }
+    }
+    return true
   }
 
 }
@@ -310,7 +346,7 @@ const Store = useStore()
 const 对象_搜索条件 = ref({AppId: 10000, Type: 3, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: ""})
 
 const on读取列表 = () => {
-  Data.value.List=[]
+  Data.value.List = []
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
   onGetAppUserList()
@@ -365,7 +401,7 @@ const onGetAppUserList = async () => {
   Data.value = res.data
   对象_用户类型.value = res.data.UserClass
   //对象_用户类型.value["0"] = "未分类"
-  对象_用户类型.value  = {...对象_用户类型.value , 0: '未分类'};
+  对象_用户类型.value = {...对象_用户类型.value, 0: '未分类'};
   console.log("对象_用户类型")
   console.log(对象_用户类型.value)
 }
@@ -531,7 +567,7 @@ export interface UserInfo2 {
   /*设置边框阴影*/
   box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
   padding: 5px 0;
-  font-size: 14px;
+  font-size: 12px;
 
   li {
     margin: 0;
@@ -547,7 +583,7 @@ export interface UserInfo2 {
 
 .工具_更多_li {
   list-style-type: none;
-  font-size: 14px;
+  font-size: 12px;
   margin: 0;
   padding: 7px 16px;
   //设置 鼠标悬停时样式

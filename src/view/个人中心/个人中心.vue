@@ -15,7 +15,7 @@
           </div>
           <div class="user_qianming">
             <span v-if="UserInfo.UserClassName ==='商业会员'"> 有效期:{{ 时间_时间戳到时间(UserInfo.VipTime) }}</span>
-            <span v-if="UserInfo.UserClassName !=='商业会员' || UserInfo.VipTime<时间_取现行时间戳()" >卡号和用户量超500需要开通商业会员</span>
+            <span v-if="UserInfo.UserClassName !=='商业会员' || UserInfo.VipTime<时间_取现行时间戳()" >在线用户量>500需要开通商业会员(暂未实现)</span>
           </div>
           <div class="user_anniu">
             <el-button
@@ -250,7 +250,7 @@ const 时间_时间戳到时间 = (Time) => {
 }
 
 .user_qianming {
-  font-size: 14px;
+  font-size: 12px;
   color: #999;
 }
 

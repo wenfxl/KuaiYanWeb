@@ -239,7 +239,7 @@ export default {
 
 .热重启系统 {
   list-style-type: none;
-  font-size: 14px;
+  font-size: 12px;
   margin: 0;
   padding: 7px 16px;
   //设置 鼠标悬停时样式

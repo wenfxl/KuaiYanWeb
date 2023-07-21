@@ -5,6 +5,14 @@
     </template>
     <template #default>
       <div style="flex: auto;width: 100%">
+        <el-row :gutter="20">
+          <el-col :span="18" >
+            <Echarts在线用户地图分布/>
+          </el-col>
+          <el-col :span="6">
+
+          </el-col>
+        </el-row>
 
         <el-row :gutter="20">
           <el-col :span="18" >
@@ -14,6 +22,10 @@
             <Echarts在线统计/>
           </el-col>
         </el-row>
+
+
+
+
       </div>
     </template>
     <template #footer>
@@ -28,7 +40,7 @@
 import Echarts在线统计 from '@/view/控制面板/组件/在线用户统计饼图.vue'
 import Echarts应用用户注册统计 from '@/view/控制面板/组件/在线用户统计登录活动时间统计折线.vue'
 import {onMounted, ref, watch} from "vue";
-
+import Echarts在线用户地图分布 from '@/view/控制面板/组件/在线用户地图分布图.vue'
 
 const Props = defineProps({
   is图表分析抽屉可见: {
@@ -54,6 +66,7 @@ const on抽屉被关闭 = () => {
 }
 
 </script>
+
 
 <style scoped css="scss">
 
