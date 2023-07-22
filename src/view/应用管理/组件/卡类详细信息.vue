@@ -5,6 +5,7 @@
              :width="is移动端()?'90%':'50%'"
              top="1%"
              @close="on对话框被关闭">
+
     <div style="overflow:auto;padding:0 12px;">
       <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px"  :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
@@ -180,6 +181,7 @@
     </div>
     <template #footer>
       <div class="dialog-footer">
+        <el-button :disabled="Props.id===0" @click="on确定按钮被点击(ruleFormRef,true)">添加为新卡类</el-button>
         <el-button @click="is对话框可见2=false">取 消</el-button>
         <el-button type="primary" @click="on确定按钮被点击(ruleFormRef)">确 定</el-button>
       </div>
@@ -255,7 +257,7 @@ const data = ref({
 })
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
-const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
+const on确定按钮被点击 = async (formEl: FormInstance | undefined,添加为新卡类:boolean) => {
 
   console.info("on确定按钮被点击")
   console.info(data.value)
@@ -273,7 +275,8 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
   data.value.AppId = Props.AppId
-  if (Props.id === 0) {
+  if (Props.id === 0 || 添加为新卡类) {
+    data.value.Id=0
     返回 = await NewKaClass信息(data.value);
   } else {
     返回 = await SaveKaClass信息(data.value);

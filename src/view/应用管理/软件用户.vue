@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item>
           <el-input class="搜索框"
-                    v-model="对象_搜索条件.Keywords"
+                    v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
                     style="top:0 ; width: 200px;padding: 0;margin: 0"
                     clearable
@@ -78,9 +78,9 @@
                 <More/>
               </el-icon>
             </template>
-            <li class="工具_更多_li" @click="on批量冻结解冻(2)" >批量冻结</li>
-            <li class="工具_更多_li" @click="on批量冻结解冻(1)" >批量解冻</li>
-            <li class="工具_更多_li" >增减时间点数</li>
+            <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
+            <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
+            <li class="工具_更多_li" @click="on批量维护输入框将打开">增减时间点数</li>
           </el-popover>
         </div>
       </div>
@@ -130,6 +130,7 @@
           </template>
         </el-table-column>
 
+        <el-table-column prop="VipNumber" label="积分" width="200"/>
         <el-table-column prop="Note" label="软件用户备注" width="200"/>
         <el-table-column prop="UserClassId" label="用户类型" width="140">
           <template #default="scope">
@@ -188,27 +189,84 @@
                :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
                @on对话框详细信息关闭="on对话框详细信息关闭" :UserType="对象_用户类型"></AppUserinfo>
   <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
+  <BatchElMessage :is批量维护输入框可见="is批量维护输入框可见" 标题="批量修改勾选用户,负数可能减到0以下"
+                     :提示信息='isAppType计点()?"请输入增减点数(点)":"请输入增减时间(秒)"'
+                     :AppType="Data.AppType"
+                     @on批量维护输入框被关闭="on批量维护输入框被关闭"></BatchElMessage>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetAppUserList, Del批量删除AppUser, SetStatus} from "@/api/软件用户api.js";
+import {GetAppUserList, Del批量删除AppUser, SetStatus, Set批量维护增减时间点数} from "@/api/软件用户api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, Is卡号, is移动端} from "@/utils/utils";
 import {useStore} from "vuex";
-// 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import AppUserinfo from "./组件/软件用户详细信息.vue";
+import BatchElMessage from "./组件/批量维护输入框.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
+
 const on图表分析被点击 = () => {
   Store.commit("set搜索_软件用户", 对象_搜索条件.value)
   is图表分析抽屉可见.value = true
 }
 
+//批量维护输入框=============================================================
+const is批量维护输入框可见 = ref(false)
+const on批量维护输入框将打开 = async () => {
+  if (表格被选中列表.value.length == 0) {
+    ElMessage({
+      type: "error",
+      message: "选中数据不能为0",
+      showClose: true,
+    })
+    return
+  }
+  is批量维护输入框可见.value=true
+}
+
+const on批量维护输入框被关闭 =  async (is确定: boolean, 增减值: number) => {
+  console.log("on批量维护输入框被关闭")
+  is批量维护输入框可见.value = false
+  if (!is确定) {
+    return
+  }
+
+  if (增减值 == 0) {
+    ElMessage({
+      type: "error",
+      message: "增减数值不能为0",
+      showClose: true,
+    })
+    return
+  }
+
+  let ids = 表格被选中列表.value.map((item => item.Id))
+  const res = await Set批量维护增减时间点数({
+    "AppId": 对象_搜索条件.value.AppId,
+    "Id": ids,
+    "Status": 增减值
+  })
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage({
+      type: "success",
+      message: res.msg,
+      showClose: true,
+    })
+    for (let i = 0; i < Data.value.List.length; i++) {
+      if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
+        Data.value.List[i].VipTime += 增减值
+      }
+    }
+    return true
+  }
+}
+//===============================================================
 
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
@@ -257,7 +315,7 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
 
 
 //
-const on批量冻结解冻 = async (Status:number) => {
+const on批量冻结解冻 = async (Status: number) => {
   const ids = 表格被选中列表.value.map((item => item.Id))
   if (ids.length == 0) {
     ElMessage({
@@ -277,9 +335,9 @@ const on批量冻结解冻 = async (Status:number) => {
       showClose: true,
     })
 
-    for (let i=0;i<Data.value.List.length;i++){
+    for (let i = 0; i < Data.value.List.length; i++) {
       if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
-        Data.value.List[i].Status=Status
+        Data.value.List[i].Status = Status
       }
     }
     return true

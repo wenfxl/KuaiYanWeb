@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item>
           <el-input class="搜索框"
-                    v-model="对象_搜索条件.Keywords"
+                    v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
                     style="top:0 ; width: 280px;padding: 0;margin: 0"
                     clearable
@@ -75,12 +75,12 @@
             </el-icon>
           </el-tooltip>
 
-          <!--          <el-popover placement="right"  trigger="hover">-->
-          <!--            <template #reference>-->
-          <!--              <el-icon  ><More /></el-icon>-->
-          <!--            </template>-->
-          <!--            <li class="工具_更多_li"  @click="on删除已注销" >删除已注销</li>-->
-          <!--          </el-popover>-->
+                    <el-popover placement="right"  trigger="hover">
+                      <template #reference>
+                        <el-icon  ><More /></el-icon>
+                      </template>
+                      <li class="工具_更多_li"  @click="on批量增加余额" >on批量增加余额</li>
+                    </el-popover>
         </div>
 
       </div>
@@ -187,6 +187,7 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import Userinfo from "@/view/用户管理/组件/用户详细信息.vue";
 import ChartData from "@/view/用户管理/组件/用户账号图表抽屉.vue";
+
 
 
 const is图表分析抽屉可见 = ref(false)

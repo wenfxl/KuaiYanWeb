@@ -14,6 +14,7 @@
             <el-option :key="0" label="全部" :value="0"/>
             <el-option :key="1" label="积分" :value="1"/>
             <el-option :key="2" label="点数" :value="2"/>
+            <el-option :key="3" label="时间" :value="3"/>
           </el-select>
         </el-form-item>
         <el-form-item prop="status" style="width:250px">
@@ -35,7 +36,7 @@
         <el-form-item prop="Keywords">
 
           <el-input class="搜索框"
-                    v-model="对象_搜索条件.Keywords"
+                    v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
                     style="top:0 ; width: 200px;padding: 0;margin: 0"
                     clearable
@@ -122,8 +123,8 @@
         <el-table-column prop="Count" label="变化值" width="110">
           <template #default="scope">
             <el-tag
-                 :type="scope.row.Type===1?'':scope.row.Type===2?'success':'warning'">
-              {{scope.row.Type===1?'积分':scope.row.Type===2?'点数':'未知'}}
+                 :type="scope.row.Type===1?'':scope.row.Type===2||scope.row.Type===3?'success':'warning'">
+              {{scope.row.Type===1?'积分':scope.row.Type===2?'点数':scope.row.Type===3?'时间':'未知'}}
             </el-tag>
             {{scope.row.Count}}
           </template>

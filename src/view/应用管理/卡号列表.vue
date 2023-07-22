@@ -51,7 +51,7 @@
         <el-form-item prop="Keywords">
 
           <el-input class="搜索框"
-                    v-model="对象_搜索条件.Keywords"
+                    v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
                     style="top:0 ; width: 200px;padding: 0;margin: 0"
                     clearable
@@ -63,6 +63,8 @@
                 <el-option label="管理员备注" :value="3"/>
                 <el-option label="代理备注" :value="4"/>
                 <el-option label="制卡人" :value="5"/>
+                <el-option label="充值用户" :value="6"/>
+                <el-option label="推荐人" :value="7"/>
               </el-select>
             </template>
           </el-input>
@@ -105,12 +107,16 @@
             </el-icon>
           </el-tooltip>
 
-                    <el-popover placement="right"  trigger="hover">
-                      <template #reference>
-                        <el-icon  ><More /></el-icon>
-                      </template>
-                      <li class="工具_更多_li"  @click="导出到csv(tableRef)" >导出到csv</li>
-                    </el-popover>
+          <el-popover placement="right" trigger="hover">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
+            <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
+            <li class="工具_更多_li" @click="导出到csv(tableRef)">导出到csv</li>
+          </el-popover>
         </div>
       </div>
 
@@ -170,7 +176,8 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="InviteCount" :label="isAppType计点()?'推荐人送点':'推荐人送时'" width="120"  v-if="Data.AppType<=2">
+        <el-table-column prop="InviteCount" :label="isAppType计点()?'推荐人送点':'推荐人送时'" width="120"
+                         v-if="Data.AppType<=2">
           <template #default="scope" v-if="!isAppType计点()">
             <div style="display: flex; align-items: center">
               <el-icon>
@@ -185,7 +192,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="RMb" label="余额" width="60"  v-if="Data.AppType<=2"/>
+        <el-table-column prop="RMb" label="余额" width="60" v-if="Data.AppType<=2"/>
         <el-table-column prop="VipNumber" label="积分" width="60"/>
         <el-table-column prop="Num" label="已用/最大" width="85">
           <template #default="scope">
@@ -223,7 +230,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="NoUserClass" label="用户类型不同处理方式" width="180"  v-if="Data.AppType<=2">
+        <el-table-column prop="NoUserClass" label="用户类型不同处理方式" width="180" v-if="Data.AppType<=2">
           <template #default="scope">
             <el-tag :type="scope.row.NoUserClass===1?'success':'warning'">
               {{
@@ -232,7 +239,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="KaType" label="充值类型" width="100"  v-if="Data.AppType<=2">
+        <el-table-column prop="KaType" label="充值类型" width="100" v-if="Data.AppType<=2">
           <template #default="scope">
             <el-text>
               {{
@@ -243,13 +250,19 @@
         </el-table-column>
         <el-table-column prop="MaxOnline" label="最大在线数" width="100"/>
 
-        <el-table-column fixed="right" label="操作" width="110">
+        <el-table-column fixed="right" label="操作" width="140">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
                 <Edit/>
               </el-icon>
               编辑
+            </el-button>
+            <el-button link type="primary" size="default" v-if="scope.row.Num>0" @click="on单个追回(scope.row.Id)" style="color:#E6A23C">
+              <el-icon color="#E6A23C" class="no-inherit">
+                <RefreshLeft/>
+              </el-icon>
+              追回
             </el-button>
             <!--            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)" style="color:#f56d6d">-->
             <!--              <el-icon color="#f56d6d" class="no-inherit">-->
@@ -297,7 +310,7 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote} from "@/api/卡号列表api.js";
+import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote, Del批量追回Ka} from "@/api/卡号列表api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
   时间_时间戳到时间,
@@ -317,18 +330,61 @@ import KaEdit from "./组件/卡号详细信息.vue";
 import ChartData from "@/view/应用管理/组件/卡号列表图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
-const on图表分析被点击= ()=> {
+const on图表分析被点击 = () => {
   Store.commit("set搜索_卡号列表", 对象_搜索条件.value)
-  is图表分析抽屉可见.value=true
+  is图表分析抽屉可见.value = true
 }
 
-const 导出到csv= (table)=> {
-console.log(table.store.states.columns)
+const on批量冻结解冻 = async (Status: number) => {
+  const ids = 表格被选中列表.value.map((item => item.Id))
+  if (ids.length == 0) {
+    ElMessage({
+      type: "error",
+      message: "选中数据不能为0",
+      showClose: true,
+    })
+    return
+  }
+  const res = await SetStatus({"AppId": 对象_搜索条件.value.AppId, "Id": ids, "Status": Status})
+
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage({
+      type: "success",
+      message: res.msg,
+      showClose: true,
+    })
+
+    for (let i = 0; i < Data.value.List.length; i++) {
+      if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
+        Data.value.List[i].Status = Status
+      }
+    }
+    return true
+  }
+
+}
+const 导出到csv = (table) => {
+  console.log(table.store.states.columns)
   let timer = new Date()
   // 日期+时间 2023/5/28 23:07:35
-  表格导出csv文本并下载(table,"卡号列表"+timer.toLocaleString())
+  表格导出csv文本并下载(table, "卡号列表" + timer.toLocaleString())
 }
 
+const on单个追回 = async (id: number) => {
+  console.log('on单个删除' + id)
+
+  const res = await Del批量追回Ka({"ID": [id]})
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage({
+      type: "success",
+      message: res.msg,
+      showClose: true,
+    })
+    on读取列表()
+  }
+}
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
 
@@ -755,6 +811,7 @@ const 数组_制卡预选日期 = [{
     cursor: pointer; //改变鼠标样式为手型
   }
 }
+
 .复制按钮 {
   background: #fafafa;
   float: right;
@@ -778,6 +835,7 @@ const 数组_制卡预选日期 = [{
   cursor: pointer; //改变鼠标样式为手型
 
 }
+
 .el-form-item {
   padding: 0;
   margin: 0 10px 8px 0;

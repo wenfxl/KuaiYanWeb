@@ -67,3 +67,15 @@ export const  SetStatus = (data) => {
   })
 }
 
+//  Set批量维护_增减时间点数
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
+export const  Set批量维护增减时间点数 = (data) => {
+  return service({
+    url: url+'SetBatchAddVipTime',
+    method: 'post',
+    data: data
+  })
+}
+
+

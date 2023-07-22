@@ -6,20 +6,17 @@
     <template #default>
       <div style="flex: auto;width: 100%">
         <el-row :gutter="20">
-          <el-col :span="18" >
+          <el-col :span="14" >
             <Echarts在线用户地图分布/>
           </el-col>
-          <el-col :span="6">
-
+          <el-col :span="10">
+            <Echarts在线统计/>
           </el-col>
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="18" >
+          <el-col :span="24" >
             <Echarts应用用户注册统计/>
-          </el-col>
-          <el-col :span="6">
-            <Echarts在线统计/>
           </el-col>
         </el-row>
 

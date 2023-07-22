@@ -63,7 +63,7 @@ const setOptions = (data) => {
         }
       },
       formatter(param) {
-        return param.name + '\n' + param.value + ' (' + param.percent * 2 + '%)';
+        return param.name + '\n' + param.value + ' (' + param.percent + '%)';
       }
     },
 

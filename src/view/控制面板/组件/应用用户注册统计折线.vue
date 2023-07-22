@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="is加载中" element-loading-text="数据努力统计中..." class="dashboard-line-box" style="width: 100%;min-height: 200px;position:relative"       style="width: 100%;min-height: 360px;position:relative">
+  <div v-loading="is加载中" element-loading-text="数据努力统计中..." class="dashboard-line-box"       style="width: 100%;min-height: 360px;position:relative">
     <!--这里是echarts绘图区域-->
     <div
         ref="echart"

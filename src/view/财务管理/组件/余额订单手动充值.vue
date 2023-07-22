@@ -31,6 +31,9 @@
               <el-button @click="data.RMB+=5000" :style="is移动端()?'width: 5vh':'width: 4vh'">
                 {{ "+5000" }}
               </el-button>
+              <el-button @click="data.RMB+=10000" :style="is移动端()?'width: 5vh':'width: 4vh'">
+                {{ "+1W" }}
+              </el-button>
               <el-button @click="data.RMB=-data.RMB" :style="is移动端()?'width: 5vh':'width: 4vh'">
                 {{ "负数" }}
               </el-button>

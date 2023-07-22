@@ -266,7 +266,6 @@ const on对话框被关闭 = () => {
   console.info("on对话框被关闭")
   is对话框可见2.value = false
   emit('on对话框详细信息关闭', is重新读取.value)
-
 }
 
 const isAppType计点 = () => {

@@ -23,6 +23,16 @@ export const Del批量删除Ka = (data) => {
   })
 }
 
+//  Del批量追回Ka
+//{ "id": [ 5 ]}
+export const Del批量追回Ka = (data) => {
+  return service({
+    url: url+'Recover',
+    method: 'post',
+    data: data
+  })
+}
+
 //  GetKa详细信息
 //{"Id": 1}
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
