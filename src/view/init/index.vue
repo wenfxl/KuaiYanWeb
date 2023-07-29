@@ -36,19 +36,19 @@
             </el-select>
           </el-form-item>
           <el-form-item label="host">
-            <el-input v-model="form.host" placeholder="请输入数据库链接" />
+            <el-input v-model.trim="form.host" placeholder="请输入数据库链接" />
           </el-form-item>
           <el-form-item label="port">
-            <el-input v-model="form.port" placeholder="请输入数据库端口" />
+            <el-input v-model.trim="form.port" placeholder="请输入数据库端口" />
           </el-form-item>
           <el-form-item label="dbName">
-            <el-input v-model="form.dbName" placeholder="请输入数据库名称" />
+            <el-input v-model.trim="form.dbName" placeholder="请输入数据库名称" />
           </el-form-item>
           <el-form-item label="userName">
-            <el-input v-model="form.userName" placeholder="请输入数据库用户名" />
+            <el-input v-model.trim="form.userName" placeholder="请输入数据库用户名" />
           </el-form-item>
           <el-form-item label="password">
-            <el-input v-model="form.password" placeholder="请输入数据库密码（没有则为空）" />
+            <el-input v-model.trim="form.password" placeholder="请输入数据库密码（没有则为空）" />
           </el-form-item>
           <el-form-item>
             <div style="text-align: right">

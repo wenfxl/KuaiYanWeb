@@ -32,7 +32,7 @@
 
         <div style="align-items: center ">
           <el-form-item label="使用充值卡" style="width: 100%">
-            <el-input v-model="局_使用充值卡" placeholder="请输入卡号"></el-input>
+            <el-input v-model.trim="局_使用充值卡" placeholder="请输入卡号"></el-input>
           </el-form-item>
           <el-form-item label="推荐人账号" style="width: 100%">
             <el-tooltip

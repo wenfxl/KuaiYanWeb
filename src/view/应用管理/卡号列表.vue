@@ -258,7 +258,8 @@
               </el-icon>
               编辑
             </el-button>
-            <el-button link type="primary" size="default" v-if="scope.row.Num>0" @click="on单个追回(scope.row.Id)" style="color:#E6A23C">
+            <el-button link type="primary" size="default" v-if="scope.row.Num>0" @click="on单个追回(scope.row.Id)"
+                       style="color:#E6A23C">
               <el-icon color="#E6A23C" class="no-inherit">
                 <RefreshLeft/>
               </el-icon>
@@ -372,18 +373,35 @@ const 导出到csv = (table) => {
 }
 
 const on单个追回 = async (id: number) => {
-  console.log('on单个删除' + id)
 
-  const res = await Del批量追回Ka({"ID": [id]})
-  console.log(res)
-  if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
-    on读取列表()
-  }
+  let  局_类型 = '确认要追回ID为' + id.toString() + '卡号吗?,<br>已充值的用户和推荐人扣回卡号(' + (isAppType计点() ? "点数" : "时间" )+ ',积分,余额)值,<br>可能会导致用户该值变为负数,<br>卡号冻结并清除使用记录(会写备注)'
+
+  ElMessageBox.confirm(
+      局_类型,
+      '警告',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        draggable: true,
+        dangerouslyUseHTMLString: true
+      }
+  )
+      .then(async () => {
+        const res = await Del批量追回Ka({"ID": [id]})
+        console.log(res)
+        if (res.code == 10000) {
+          ElMessage({
+            type: "success",
+            message: res.msg,
+            showClose: true,
+          })
+          on读取列表()
+        }
+      })
+      .catch(() => {
+        return
+      })
 }
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)

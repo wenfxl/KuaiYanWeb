@@ -11,7 +11,7 @@
         </el-form-item>
 
         <el-form-item label="应用名称" prop="AppName">
-          <el-input v-model="data.AppName" placeholder="请输入新应用名称"/>
+          <el-input v-model.trim="data.AppName" placeholder="请输入新应用名称"/>
         </el-form-item>
 
         <el-form-item label="应用类型" prop="AppType">

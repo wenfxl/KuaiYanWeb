@@ -38,7 +38,7 @@ const on路由跳转 = (name) => {
   Router.push({name})
 }
 
-const on修改密码 =  async () => {
+const on修改密码 = async () => {
   ElMessageBox.prompt('请输入新密码', 'Tip', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -47,7 +47,7 @@ const on修改密码 =  async () => {
     inputErrorMessage: '密码以字母开头，长度在6-18之间，只能包含字符、数字和下划线',
   })
       .then(async ({value}) => {
-        const res = await AdminNewPassword({ NewPassword:value})
+        const res = await AdminNewPassword({NewPassword: value})
         console.log(res)
         if (res.code === 10000) {
           ElMessage({
@@ -58,13 +58,13 @@ const on修改密码 =  async () => {
         }
       })
       .catch(() => {
-/*        ElMessage({
-          type: 'info',
-          message: 'Input canceled',
-        })*/
+        /*        ElMessage({
+                  type: 'info',
+                  message: 'Input canceled',
+                })*/
       })
 }
-const on退出登录 =  async () => {
+const on退出登录 = async () => {
   await OutLogin()
 
   Store.commit("setToken", "")
@@ -74,8 +74,7 @@ const on退出登录 =  async () => {
 }
 
 
-
-const on个人中心 =  async () => {
+const on个人中心 = async () => {
   on路由跳转("个人中心")
 }
 const onGetUserInfo = async () => {
@@ -84,7 +83,10 @@ const onGetUserInfo = async () => {
     console.log("用户信息没有了需要更新")
     const res = await GetAdminInfo()
     console.log(res.data)
-    Store.commit("setUserInfo", res.data)
+    if (res.data.AdminInfo.Id) {
+      Store.commit("setUserInfo", res.data)
+    }
+
   }
 }
 onMounted(() => {

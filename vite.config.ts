@@ -9,7 +9,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-
+    base: '/Admin/',
     resolve:{
         alias:{
             '@': path.resolve(__dirname, 'src'),
@@ -19,7 +19,7 @@ export default defineConfig({
     },
     build: {
 
-        outDir:'E:\\yun\\xuhaonan\\project\\TY通用后台管理系统\\server2\\core\\dist',
+        outDir:'E:\\yun\\xuhaonan\\project\\TY通用后台管理系统\\server2\\core\\dist\\VueAdmin',
         minify: "terser",
         terserOptions: {
             compress: {

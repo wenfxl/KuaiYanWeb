@@ -15,7 +15,7 @@
           <el-tab-pane label="应用设置" name="应用设置">
 
             <el-form-item label="应用名称" prop="AppName">
-              <el-input v-model="data.AppName" placeholder="请输入应用名称"/>
+              <el-input v-model.trim="data.AppName" placeholder="请输入应用名称"/>
             </el-form-item>
 
 
@@ -35,7 +35,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="状态提示" prop="AppStatusMessage">
-              <el-input v-model="data.AppStatusMessage"/>
+              <el-input v-model.trim="data.AppStatusMessage"/>
             </el-form-item>
 
 
@@ -90,21 +90,37 @@
               </el-tooltip>
             </el-form-item>
             <el-form-item label="应用主页" prop="UrlHome">
-              <el-input v-model="data.UrlHome"/>
+              <el-input v-model.trim="data.UrlHome"/>
             </el-form-item>
 
             <el-popconfirm
                 confirm-button-text="查看详细描述"
-                placement="top-end"
+                placement="top"
                 cancel-button-text=" "
                 width="30%"
                 icon-color="#626AEF"
-                title="一行一个,格式使用[1.2.5],大版本号.小版本号.编译版本号,第一行为最新版本,后面为可用版本,自动更新只判断提示大小版本号,主动更新才判断检测编译版本号,非可用版本,强制更新,大,小,编译,版本号末尾支持通配符[*]通配0-9"
+                title="一行一个,格式使用[1.2.5],大版本号.小版本号.编译版本号,第一行为最新版本,后面为可用版本,各版本号末尾支持通配符[*]通配0-9,推荐自动更新只判断提示大小版本号,主动更新才判断检测编译版本号,非可用版本,强制更新"
                 @confirm="on打开版本信息详细描述"
             >
               <template #reference>
                 <el-form-item label="可用版本" prop="AppVer">
-                  <el-input type="textarea" autosize v-model="data.AppVer"/>
+                    <el-input type="textarea" autosize v-model="data.AppVer" style="width: 200px"/>
+                  <div >
+                    <div style="display: flex;flex-wrap: wrap;flex-direction: row">
+                      <el-button  @click="on增加版本号(1,1)" style="display: flex;width: 90px;padding: 0;margin-left :5px">大版本号+1</el-button>
+                      <el-button  @click="on增加版本号(1,-1)" style="display: flex;width: 20px;padding: 0;margin-left :5px">-1</el-button>
+                    </div>
+                    <div style="display: flex;flex-wrap: wrap;flex-direction: row">
+                      <el-button  @click="on增加版本号(2,1)" style="display: flex;width: 90px;padding: 0;margin-left :5px">小版本号+1</el-button>
+                      <el-button  @click="on增加版本号(2,-1)" style="display: flex;width: 20px;padding: 0;margin-left :5px">-1</el-button>
+                    </div>
+                    <div style="display: flex;flex-wrap: wrap;flex-direction: row">
+                      <el-button  @click="on增加版本号(3,1)" style="display: flex;width: 90px;padding: 0;margin-left :5px">编译版本号+1</el-button>
+                      <el-button  @click="on增加版本号(3,-1)" style="display: flex;width: 20px;padding: 0;margin-left :5px">-1</el-button>
+                    </div>
+
+                  </div>
+
                 </el-form-item>
               </template>
             </el-popconfirm>
@@ -358,7 +374,7 @@
                        :model="添加专属变量"
                        label-position="top" ref="ruleFormRef">
                 <el-form-item label="变量名称" prop="Name">
-                  <el-input v-model="添加专属变量.Name" placeholder="请输入变量名称" style="width: 263px"/>
+                  <el-input v-model.trim="添加专属变量.Name" placeholder="请输入变量名称" style="width: 263px"/>
                 </el-form-item>
 
                 <el-form-item label="变量类型" prop="Status">
@@ -536,7 +552,20 @@ const on重置密钥 = () => {
     })
   }
 }
+const on增加版本号 = ( 位数,增减值) => {
+  const 版本号行 =  data.value.AppVer.split('\n');
+  const 版本号数组 = 版本号行[0].split('.');
+  const 新版本号数组 = 版本号数组.map((item, index) => {
+    if (index === 位数 - 1) {
+      return parseInt(item) + 增减值;
+    } else {
+      return item;
+    }
+  });
+  const 新版本号行 = 新版本号数组.join('.');
+  data.value.AppVer=新版本号行 + '\n' + 版本号行.slice(1).join('\n');
 
+}
 const on校验表单重置 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()

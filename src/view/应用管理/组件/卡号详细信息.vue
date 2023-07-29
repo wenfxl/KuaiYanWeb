@@ -38,10 +38,10 @@
           </div>
         </el-form-item>
         <el-form-item label="管理员备注" prop="AdminNote">
-          <el-input v-model="data.AdminNote"  />
+          <el-input v-model.trim="data.AdminNote"  />
         </el-form-item>
         <el-form-item label="代理备注" prop="AgentNote">
-          <el-input v-model="data.AgentNote"  />
+          <el-input v-model.trim="data.AgentNote"  />
         </el-form-item>
         <el-form-item :label="isAppType计点()?'加点数':'加秒数'" prop="VipTime">
           <el-tooltip

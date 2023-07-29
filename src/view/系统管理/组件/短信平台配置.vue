@@ -5,20 +5,20 @@
       <div class="内容div">
         <el-divider content-position="left" >腾讯云短信(SMS)</el-divider>
         <el-form-item label="SECRET_ID" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.SECRET_ID">
+          <el-input v-model.trim="Data.TX云Sms.SECRET_ID">
           </el-input>
         </el-form-item>
         <el-form-item label="SECRET_KEY" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.SECRET_KEY"/>
+          <el-input v-model.trim="Data.TX云Sms.SECRET_KEY"/>
         </el-form-item>
         <el-form-item label="D短信应用ID" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.短信应用ID"/>
+          <el-input v-model.trim="Data.TX云Sms.短信应用ID"/>
         </el-form-item>
         <el-form-item label="D短信签名" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.短信签名"/>
+          <el-input v-model.trim="Data.TX云Sms.短信签名"/>
         </el-form-item>
         <el-form-item label="Z正文模板ID" disabled="disabled">
-          <el-input v-model="Data.TX云Sms.正文模板ID"/>
+          <el-input v-model.trim="Data.TX云Sms.正文模板ID"/>
         </el-form-item>
         <div style="text-align:center">
           <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>

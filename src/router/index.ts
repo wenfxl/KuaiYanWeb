@@ -46,6 +46,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/用户管理/用户账号.vue"),
             },
             {
+                path: "代理管理/代理账号",
+                name: "代理账号",
+                component: () => import("@/view/代理管理/代理账号.vue"),
+            },
+            {
                 path: "应用管理/应用列表",
                 name: "应用列表",
                 component: () => import("@/view/应用管理/应用列表.vue"),
@@ -130,12 +135,11 @@ const routes: Array<RouteRecordRaw> = [
     }
 ]
 
-
+//修改为二级目录Admin下
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHashHistory('/Admin/'),
     routes: routes
 })
-
 
 var isF = false; //这个是用于判断动态路由是否已经被获取
 const 递归添加路由 = (result: any) => {

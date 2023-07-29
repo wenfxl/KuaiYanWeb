@@ -1,16 +1,21 @@
 <template>
 
 
-  <el-dialog v-model="Is退款订单可见2" title="订单退款" :width="is移动端()?'90%':'50%'" @close="on对话框被关闭">
+  <el-dialog v-model="Is退款订单可见2" :title="Props.退款订单.Type+'订单退款'" :width="is移动端()?'90%':'50%'" @close="on对话框被关闭">
     <el-form style="min-width: 80px" label-width="80" :model="退款订单" v-loading="Is加载中"
              :label-position="is移动端()?'top':'right'">
       <el-form-item label="订单Id:">
         <el-input class="只读编辑框" v-model="退款订单.PayOrder"/>
       </el-form-item>
+      <el-form-item label="退款用户:">
+        <el-input class="只读编辑框" v-model="退款订单.User"/>
+      </el-form-item>
+      <el-form-item label="退款金额:">
+        <el-input class="只读编辑框" v-model="退款订单.Rmb"/>
+      </el-form-item>
       <el-form-item label="退款类型">
         <el-radio-group v-model="Data.IsOutRMB" size="" @change="on退款类型被改变">
           <el-radio-button :label="true" border>减余额并退款</el-radio-button>
-
           <el-radio-button :label="false" border>仅退款</el-radio-button>
         </el-radio-group>
       </el-form-item>

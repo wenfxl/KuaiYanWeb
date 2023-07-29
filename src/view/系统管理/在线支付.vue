@@ -11,16 +11,16 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="商户ID" disabled="disabled">
-          <el-input v-model="Data.支付宝商户ID"/>
+          <el-input v-model.trim="Data.支付宝商户ID"/>
         </el-form-item>
         <el-form-item label="商户私钥" disabled="disabled">
-          <el-input v-model="Data.支付宝商户私钥"/>
+          <el-input v-model.trim="Data.支付宝商户私钥"/>
         </el-form-item>
         <el-form-item label="商户私钥" disabled="disabled">
-          <el-input v-model="Data.支付宝商户公钥"/>
+          <el-input v-model.trim="Data.支付宝商户公钥"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model="Data.支付宝同步回调url"/>
+          <el-input v-model.trim="Data.支付宝同步回调url"/>
         </el-form-item>
       </div>
 
@@ -33,16 +33,16 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="商户ID" disabled="disabled">
-          <el-input v-model="Data.微信支付商户ID"/>
+          <el-input v-model.trim="Data.微信支付商户ID"/>
         </el-form-item>
         <el-form-item label="商户私钥" disabled="disabled">
-          <el-input v-model="Data.微信支付商户密匙"/>
+          <el-input v-model.trim="Data.微信支付商户密匙"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model="Data.微信支付异步回调url"/>
+          <el-input v-model.trim="Data.微信支付异步回调url"/>
         </el-form-item>
         <el-form-item label="单次最大金额" disabled="disabled">
-          <el-input v-model="Data.微信支付单次最大金额"/>
+          <el-input v-model.trim="Data.微信支付单次最大金额"/>
         </el-form-item>
 
         <div style="text-align:center">

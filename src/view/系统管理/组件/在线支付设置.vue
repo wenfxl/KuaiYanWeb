@@ -11,19 +11,19 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="商户ID" disabled="disabled">
-          <el-input v-model="Data.支付宝商户ID"/>
+          <el-input v-model.trim="Data.支付宝商户ID"/>
         </el-form-item>
         <el-form-item label="商户私钥" disabled="disabled">
-          <el-input v-model="Data.支付宝商户私钥"/>
+          <el-input v-model.trim="Data.支付宝商户私钥"/>
         </el-form-item>
 <!--        <el-form-item label="商户公钥" disabled="disabled">
-          <el-input v-model="Data.支付宝商户公钥"/>
+          <el-input v-model.trim="Data.支付宝商户公钥"/>
         </el-form-item>-->
         <el-form-item label="支付宝公钥" disabled="disabled">
-          <el-input v-model="Data.支付宝公钥"/>
+          <el-input v-model.trim="Data.支付宝公钥"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model="Data.支付宝同步回调url"/>
+          <el-input v-model.trim="Data.支付宝同步回调url"/>
         </el-form-item>
         <el-form-item label="单次最大金额" disabled="disabled">
           <el-input-number v-model="Data.支付宝单次最大金额"/>
@@ -39,13 +39,13 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="商户ID" disabled="disabled">
-          <el-input v-model="Data.微信支付商户ID"/>
+          <el-input v-model.trim="Data.微信支付商户ID"/>
         </el-form-item>
         <el-form-item label="商户AppId" disabled="disabled">
-          <el-input v-model="Data.微信支付AppId"/>
+          <el-input v-model.trim="Data.微信支付AppId"/>
         </el-form-item>
         <el-form-item label="商户V3密钥" disabled="disabled">
-          <el-input v-model="Data.微信支付商户v3密钥"/>
+          <el-input v-model.trim="Data.微信支付商户v3密钥"/>
         </el-form-item>
         <el-form-item label="商户证书序列号" disabled="disabled">
           <el-tooltip
@@ -69,7 +69,7 @@
           </el-tooltip>
         </el-form-item>
 <!--        <el-form-item  label="异步回调url" disabled="disabled">
-          <el-input v-model="Data.微信支付异步回调Url"/>
+          <el-input v-model.trim="Data.微信支付异步回调Url"/>
         </el-form-item>-->
         <el-form-item label="单次最大金额" disabled="disabled">
           <el-input-number v-model="Data.微信支付单次最大金额"/>

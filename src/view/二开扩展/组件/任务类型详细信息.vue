@@ -9,19 +9,19 @@
           <el-input class="只读编辑框" v-if="Props.id>0" v-model="data.Id" placeholder="" readonly="readonly"/>
         </el-form-item>
         <el-form-item label="任务类型名称" prop="Name"  style="width: 90%">
-          <el-input v-model="data.Name" />
+          <el-input v-model.trim="data.Name" />
         </el-form-item>
         <el-form-item label="Hook任务创建入库前" prop="Name"   style="width: 90%">
-          <el-input v-model="data.HookSubmitDataStart" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
+          <el-input v-model.trim="data.HookSubmitDataStart" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
         </el-form-item>
         <el-form-item label="Hook任务创建入库后" prop="Name"  style="width: 90%">
-          <el-input v-model="data.HookSubmitDataEnd" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
+          <el-input v-model.trim="data.HookSubmitDataEnd" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
         </el-form-item>
         <el-form-item label="Hook任务执行入库前" prop="Name"  style="width: 90%">
-          <el-input v-model="data.HookReturnDataStart" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
+          <el-input v-model.trim="data.HookReturnDataStart" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
         </el-form-item>
         <el-form-item label="Hook任务执行入库后" prop="Name"  style="width: 90%">
-          <el-input v-model="data.HookReturnDataEnd" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
+          <el-input v-model.trim="data.HookReturnDataEnd" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
         </el-form-item>
       </el-form>
     </div>

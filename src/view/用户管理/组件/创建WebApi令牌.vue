@@ -12,7 +12,7 @@
           <el-input v-model="data.User" placeholder="" class="只读编辑框" readonly/>
         </el-form-item>
         <el-form-item label="动态标记" prop="Name">
-          <el-input v-model="data.Tab" placeholder="请输入动态标记,可以当做备注"/>
+          <el-input v-model.trim="data.Tab" placeholder="请输入动态标记,可以当做备注"/>
         </el-form-item>
         <el-form-item label="绑定接口" prop="Captcha">
           <el-select

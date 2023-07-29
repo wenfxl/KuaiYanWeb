@@ -11,7 +11,7 @@
           <el-input v-model.number="data.Id" class="只读编辑框" placeholder="" readonly="readonly" />
         </el-form-item>-->
         <el-form-item label="用户类型名称" prop="Name">
-          <el-input v-model="data.Name" placeholder="用户类型名称"/>
+          <el-input v-model.trim="data.Name" placeholder="用户类型名称"/>
         </el-form-item>
         <el-form-item label="整数代号" prop="Mark" disabled="disabled">
           <el-input-number v-model="data.Mark" :step="1" :value-on-clear="1" :min="1"/>

@@ -22,7 +22,7 @@
           />
         </el-form-item>
         <el-form-item label="绑定信息" prop="Key">
-          <el-input v-model="data.Key" placeholder="请输入绑定信息"/>
+          <el-input v-model.trim="data.Key" placeholder="请输入绑定信息"/>
         </el-form-item>
         <!--        <el-form-item label="测试显示时间戳" prop="data.VipTime">-->
         <!--          <el-input v-model.number="data.VipTime"/>-->

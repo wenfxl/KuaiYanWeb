@@ -9,13 +9,13 @@
             <el-option key="2" label="冻结" :value="2"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="角色" prop="Role" style="width:140px">
+<!--        <el-form-item label="角色" prop="Role" style="width:140px">
           <el-select v-model="对象_搜索条件.Role" clear placeholder="全部">
             <el-option key="0" label="全部" :value="0"/>
             <el-option key="1" label="普通用户" :value="1"/>
             <el-option key="2" label="代理" :value="2"/>
           </el-select>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item>
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
@@ -48,7 +48,7 @@
           新增
         </el-button>
 
-        <el-popconfirm title="确定删除勾选用户?" width="200" @confirm="on批量删除" confirm-button-text="确定"
+        <el-popconfirm title="确定删除勾选用户?(不建议删除代理,因为如果存在下级代理,可能会出问题,推荐冻结代理)" width="200" @confirm="on批量删除" confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
             <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
@@ -73,12 +73,14 @@
             </el-icon>
           </el-tooltip>
 
-                    <el-popover placement="right"  trigger="hover">
-                      <template #reference>
-                        <el-icon  ><More /></el-icon>
-                      </template>
-                      <li class="工具_更多_li"  @click="on批量增加余额" >on批量增加余额</li>
-                    </el-popover>
+          <el-popover placement="right" trigger="hover">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on批量增加余额">on批量增加余额</li>
+          </el-popover>
         </div>
 
       </div>
@@ -108,10 +110,10 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="left" label="用户角色"  width="100">
+        <el-table-column align="left" label="用户角色" width="100">
           <template #default="scope">
-            <el-tag :type="scope.row.UPAgentId===0?'':'success'">
-              {{ scope.row.UPAgentId === 0 ? '普通用户' :  "代理" }}
+            <el-tag :type="scope.row.Role ===0?'':'success'">
+              {{ scope.row.Role === 0 ? '普通用户' : (scope.row.Role + "级代理") }}
             </el-tag>
           </template>
         </el-table-column>
@@ -123,13 +125,23 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="LoginAppName" label="最后登录应用" width="160"  show-overflow-tooltip=""/>
+        <el-table-column prop="UPAgentId" label="上级代理ID" width="140">
+          <template #default="scope">
+            {{ scope.row.UPAgentId >0 ? scope.row.UPAgentId : -scope.row.UPAgentId }}
+            <el-tag v-show="scope.row.UPAgentId<0" type="info">
+              {{ scope.row.UPAgentId === -1 ? '管理员' : '开发者' }}
+            </el-tag>
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="AgentDiscount" label="分成百分比" width="160">
+          <template #default="scope">
+            {{ scope.row.AgentDiscount }}%
+          </template>
+        </el-table-column>
         <el-table-column prop="LoginTime" label="最后登录时间" width="160" :formatter="on格式化_登录时间"/>
         <el-table-column prop="LoginIp" label="登录ip" width="140"/>
-        <el-table-column prop="RegisterIp" label="注册ip" width="140"/>
-        <el-table-column prop="RegisterTime" label="注册时间" width="160" :formatter="on格式化_注册时间"/>
-
-        <el-table-column fixed="right" label="操作" width="140">
+        <el-table-column fixed="right" label="操作" width="80">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
@@ -145,9 +157,9 @@
             </el-button>-->
           </template>
         </el-table-column>
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
       </el-table>
@@ -162,7 +174,7 @@
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-               :total="parseInt( List.Count)"
+              :total="parseInt( List.Count)"
               @current-change="on读取列表"
           />
         </el-config-provider>
@@ -170,22 +182,21 @@
 
     </div>
   </div>
-  <Userinfo v-if="is对话框可见"  :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
-  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
+  <Userinfo v-if="is对话框可见" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
+  <!--  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>-->
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetUserList, Del批量删除用户, SetUserStatus} from "@/api/用户信息api.js";
+import {GetUserList, Del批量删除用户, SetUserStatus} from "@/api/代理信息api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, is移动端} from "@/utils/utils";
 import {useStore} from "vuex";
-// 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'// 引入中文包
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
-import Userinfo from "@/view/用户管理/组件/普通用户详细信息.vue";
-import ChartData from "@/view/用户管理/组件/用户账号图表抽屉.vue";
-
+import Userinfo from "@/view/代理管理/组件/代理用户详细信息.vue";
+//import ChartData from "@/view/代理管理/组件/用户账号图表抽屉.vue";
 
 
 const is图表分析抽屉可见 = ref(false)
@@ -238,6 +249,7 @@ const is工具_更多 = ref(false)
 const is对话框可见 = ref(false)
 const is对话框id = ref(0)
 const on对话框详细信息打开 = (id: number) => {
+  console.info("on对话框详细信息打开")
   is对话框可见.value = true
   is对话框id.value = id
 }
@@ -256,7 +268,7 @@ const on选择框被选择 = (val: any) => {
 }
 
 const List = ref({
-  "Count":0,
+  "Count": 0,
   "List": [
     {
       "Id": 1,
@@ -264,6 +276,7 @@ const List = ref({
       "Status": 2,
       "Rmb": 81.69,
       "RealNameAttestation": "",
+      "AgentDiscount": 0,
       "LoginAppid": "2",
       "LoginAppName": "代理平台",
       "LoginIp": "",

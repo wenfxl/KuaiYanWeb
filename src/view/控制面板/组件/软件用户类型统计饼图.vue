@@ -64,7 +64,7 @@ const setOptions = (data) => {
         }
       },
       formatter(param) {
-        return param.name + '\n' + param.value + ' (' + param.percent * 2 + '%)';
+        return param.name + '\n' + param.value + ' (' + param.percent + '%)';
       }
     },
 
@@ -100,7 +100,7 @@ const on读取图表数据 = async () => {
 onMounted(async () => {
   await nextTick()
   initChart()
-
+  on读取图表数据()
 })
 watch(() => Store.state.搜索_软件用户.AppId,  (newVal, oldVal) => {
   if (newVal) {

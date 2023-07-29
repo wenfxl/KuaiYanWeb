@@ -5,11 +5,11 @@
       <div class="内容div">
         <el-divider content-position="left" >极验行为验证4</el-divider>
         <el-form-item label="验证_ID" disabled="disabled">
-          <el-input v-model="Data.极验行为验证4.验证_ID" placeholder="请输入极验行为验证4.0 验证id 任意业务模块与场景部署">
+          <el-input v-model.trim="Data.极验行为验证4.验证_ID" placeholder="请输入极验行为验证4.0 验证id 任意业务模块与场景部署">
           </el-input>
         </el-form-item>
         <el-form-item label="验证_KEY" disabled="disabled">
-          <el-input v-model="Data.极验行为验证4.验证_KEY" placeholder="请输入极验行为验证4.0 验证KEY 任意业务模块与场景部署"/>
+          <el-input v-model.trim="Data.极验行为验证4.验证_KEY" placeholder="请输入极验行为验证4.0 验证KEY 任意业务模块与场景部署"/>
         </el-form-item>
         <div style="text-align:center">
           <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>

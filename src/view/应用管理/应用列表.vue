@@ -247,7 +247,7 @@ const on选择框被选择 = (val: any) => {
 
 const List = ref({List:[]})
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0,Keywords:""})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0,Keywords:"",Order:1})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
@@ -255,7 +255,7 @@ const on读取列表 = () => {
   onGetAppList()
 }
 const onReset = () => {
-  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0}
+  对象_搜索条件.value ={Type: 2, Size: 10, Page: 1, Status: 0,Keywords:"",Order:1}
 }
 
 const on格式化_状态 = (Status: number) => {

@@ -7,7 +7,7 @@
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
         <el-form-item label="用户名" prop="User">
-          <el-input v-model="data.User" placeholder="请输入用户名"/>
+          <el-input v-model.trim="data.User" placeholder="请输入用户名"/>
         </el-form-item>
 
         <el-form-item label="增减金额" prop="Rmb">

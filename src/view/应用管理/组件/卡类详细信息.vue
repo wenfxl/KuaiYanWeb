@@ -11,10 +11,10 @@
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
         <el-form-item label="卡类名称" prop="Name">
-          <el-input v-model="data.Name" placeholder="请输入卡类名称"/>
+          <el-input v-model.trim="data.Name" placeholder="请输入卡类名称"/>
         </el-form-item>
         <el-form-item label="前缀" prop="Prefix">
-          <el-input v-model="data.Prefix" placeholder="请输入前缀"/>
+          <el-input v-model.trim="data.Prefix" placeholder="请输入前缀"/>
         </el-form-item>
 
         <el-form-item :label="isAppType计点()?'加点数':'加秒数'" prop="VipTime">

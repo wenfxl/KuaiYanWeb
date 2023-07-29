@@ -11,7 +11,7 @@
 
         <el-form-item label="函数名称" prop="Name">
           <div style="display: inline-block ;width: 100%">
-            <el-input v-model="data.Name" placeholder="请输入函数名称" :class="[Props.id!==''?'只读编辑框':'']"
+            <el-input v-model.trim="data.Name" placeholder="请输入函数名称" :class="[Props.id!==''?'只读编辑框':'']"
                       :readonly="Props.id!==''" style="width: 80%;" @blur="on编辑框函数名失去焦点"/>
             <div style="float: right;padding-left: 5px">
               <el-switch
