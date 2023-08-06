@@ -50,6 +50,13 @@ service.interceptors.response.use(
                 console.info("快验个人中心未登录")
 
                 router.push('/个人中心')
+                if (response.data.msg!==""){
+                    ElMessage({
+                        showClose: true,
+                        message: response.data.msg || decodeURI(response.headers.msg),
+                        type: 'success'
+                    })
+                }
             } else if (response.data.code === 202) {
 
                 console.info("登录token被注销了")

@@ -27,6 +27,11 @@
             <Echarts应用卡使用统计/>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :xs="18" :sm="12">
+            <Echarts代理组织架构图/>
+          </el-col>
+        </el-row>
       </div>
     </div>
   </div>
@@ -41,6 +46,7 @@ import Echarts余额充值消费 from './组件/余额充值消费折线.vue'
 import Echarts卡号制卡统计 from './组件/卡号制卡统计折线.vue'
 import Echarts应用卡使用统计 from './组件/应用卡使用统计柱状.vue'
 import Echarts在线用户地图分布 from './组件/在线用户地图分布图.vue'
+import Echarts代理组织架构图 from './组件/代理组织架构图.vue'
 // import DashboardTable from '@/view/dashboard/dashboardTable/dashboardTable.vue'
 import {ref} from 'vue'
 import {useRouter} from 'vue-router'

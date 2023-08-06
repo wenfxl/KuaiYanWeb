@@ -217,7 +217,7 @@ onMounted(() => {
 const on表单校验 = ref({
   User: [
     {required: true, message: '请输入用户名', trigger: 'change'},
-    {min: 4, message: '最低4位字符', trigger: ''}
+    {min: 6, message: '最低6位字符', trigger: ''}
   ],
   Phone: [
     {pattern: /^1([38][0-9]|4[014-9]|[59][0-35-9]|6[2567]|7[0-8])\d{8}$/, message: '请输入合法手机号', trigger: 'change'},

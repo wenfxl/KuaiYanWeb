@@ -72,3 +72,14 @@ export const  New用户信息 = (data) => {
     data: data
   })
 }
+
+//  New用户信息
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "添加成功"}"
+export const  Set批量维护增减余额 = (data) => {
+  return service({
+    url: '/admin/User/SetBatchAddRMB',
+    method: 'post',
+    data: data
+  })
+}

@@ -2,7 +2,7 @@
   <el-dialog v-model="is对话框可见2" :title="id===0?'添加新代理':'修改代理信息'"
              :width="is移动端()?'90%':'760px'"
              @close="on对话框被关闭">
-    <div style="overflow:auto;padding:0 12px;">
+    <div style="overflow:auto;padding:0 12px;" v-loading="is加载中">
       <el-form :inline="Props.id>0" style="min-width: 80px" label-width="100px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
         <el-form-item v-if="Props.id>0" label="Id" prop="Id" disabled="disabled">
@@ -21,10 +21,10 @@
           />
         </el-form-item>
 
-        <el-form-item label="用户名" prop="User">
+        <el-form-item label="用户名" prop="User" >
 
 
-          <el-input :class="[id>0?'只读编辑框':'']" v-model="data.User" :readonly="id>0"/>
+          <el-input :class="[id>0?'只读编辑框':'']" v-model="data.User" :readonly="id>0" placeholder="可以输入中文代理用户名,更方便记忆"/>
         </el-form-item>
         <el-form-item label="密码" prop="PassWord">
           <el-input v-model.trim="data.PassWord" :placeholder="Props.id===0?'请输入密码':'不修改留空忽略即可'"/>
@@ -135,7 +135,7 @@
 
     </div>
     <template #footer>
-      <div class="dialog-footer">
+      <div class="dialog-footer" v-loading="is加载中">
         <el-button @click="is对话框可见2=false">取 消</el-button>
         <el-button type="primary" @click="on确定按钮被点击(ruleFormRef)">确 定</el-button>
       </div>
@@ -166,6 +166,7 @@ const on对话框被关闭 = () => {
 }
 
 const is对话框可见2 = ref(true)
+const is加载中 = ref(false)
 const data = ref({
   id: 0,
   Status: 1,
@@ -203,12 +204,14 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   console.info(表单验证结果)
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
+  is加载中.value=true
   if (Props.id === 0) {
     data.value.UPAgentId=-Store.state.UserInfo.AdminInfo.Id
     返回 = await New用户信息(data.value);
   } else {
     返回 = await Save用户信息(data.value);
   }
+  is加载中.value=false
   console.log(返回)
   if (返回.code == 10000) {
     is重新读取.value = true
@@ -231,7 +234,7 @@ onMounted(() => {
 const on表单校验 = ref({
   User: [
     {required: true, message: '请输入用户名', trigger: 'change'},
-    {min: 4, message: '最低4位字符', trigger: ''}
+    {min: 2, message: '最低2位字符', trigger: ''}
   ],
   Phone: [
     {pattern: /^1([38][0-9]|4[014-9]|[59][0-35-9]|6[2567]|7[0-8])\d{8}$/, message: '请输入合法手机号', trigger: 'change'},

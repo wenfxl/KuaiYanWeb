@@ -14,6 +14,9 @@
             <el-input v-model.trim="Data.系统地址" placeholder="系统地址"/>
           </el-tooltip>
         </el-form-item>
+        <el-form-item label="备案号" prop="备案号" disabled="disabled" >
+          <el-input v-model.trim="Data.备案号" placeholder="登录页底部显示,可空"/>
+        </el-form-item>
         <el-form-item label="WebApiHost" prop="WebApiHost">
             <el-input v-model.trim="Data.WebApiHost" placeholder="127.0.0.1:18888 WebApi限制该地址可访问,空不限制,这样可以WebApi和用户Api使用不同的域名访问,"/>
         </el-form-item>
@@ -72,6 +75,7 @@ import {is移动端} from "@/utils/utils";
 
 const Data = ref({
   "系统名称": "飞鸟快验后台管理系统111",
+  "备案号": "飞鸟快验后台管理系统111",
   "系统地址": "https://www.baidu.com",
   "WebApiHost": "",
   "系统开关": true,

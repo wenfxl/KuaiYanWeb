@@ -46,6 +46,13 @@
         </el-popconfirm>
 
         <div class="工具栏">
+
+          <!--          <el-popover placement="right"  trigger="hover">-->
+          <!--            <template #reference>-->
+          <!--              <el-icon  ><More /></el-icon>-->
+          <!--            </template>-->
+          <!--            <li class="工具_更多_li"  @click="on删除已注销" >删除已注销</li>-->
+          <!--          </el-popover>-->
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -54,12 +61,6 @@
             </el-icon>
           </el-tooltip>
 
-          <!--          <el-popover placement="right"  trigger="hover">-->
-          <!--            <template #reference>-->
-          <!--              <el-icon  ><More /></el-icon>-->
-          <!--            </template>-->
-          <!--            <li class="工具_更多_li"  @click="on删除已注销" >删除已注销</li>-->
-          <!--          </el-popover>-->
         </div>
       </div>
 

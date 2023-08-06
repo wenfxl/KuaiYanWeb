@@ -9,7 +9,7 @@
       <el-form>
         <el-form-item :label="Props.提示信息">
           <div v-if="isAppType计点()">
-          <el-input-number  v-model="输入框值" :precision="0" :step="1" :value-on-clear="0"/>
+          <el-input-number  v-model="输入框值" :precision="0" :step="1" :value-on-clear="0" style="width: auto"/>
             <div>
               <el-button @click="输入框值=0" :style="is移动端()?'width: 5vh':'width: 4vh'">
                 归零
@@ -35,12 +35,12 @@
             <el-tooltip
                 class="box-item"
                 effect="light"
-                :content="时间_计算天时分秒提示 (Math.abs(输入框值))"
+                :content="(输入框值<0?'负':'')+时间_计算天时分秒提示 (Math.abs(输入框值))"
                 placement="left"
             >
               <div>
                 <el-config-provider :locale="zhCn">
-                  <el-input-number v-model="输入框值" :precision="0" :step="1" :value-on-clear="0"/>
+                  <el-input-number v-model="输入框值" :precision="0" :step="1" :value-on-clear="0" style="width: auto"/>
                 </el-config-provider>
                 <div >
                     <el-button @click="输入框值=0" :style="is移动端()?'width: 5vh':'width: 4vh'">

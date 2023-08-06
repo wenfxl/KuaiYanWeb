@@ -58,6 +58,14 @@
         </el-popconfirm>
 
         <div class="工具栏">
+          <el-popover placement="right" trigger="hover">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on批量维护增减余额输入框可见将打开">on批量增减余额</li>
+          </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
                       placement="top">
@@ -73,12 +81,7 @@
             </el-icon>
           </el-tooltip>
 
-                    <el-popover placement="right"  trigger="hover">
-                      <template #reference>
-                        <el-icon  ><More /></el-icon>
-                      </template>
-                      <li class="工具_更多_li"  @click="on批量增加余额" >on批量增加余额</li>
-                    </el-popover>
+
         </div>
 
       </div>
@@ -108,10 +111,10 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="left" label="用户角色"  width="100">
+        <el-table-column align="left" label="用户角色" width="100">
           <template #default="scope">
             <el-tag :type="scope.row.UPAgentId===0?'':'success'">
-              {{ scope.row.UPAgentId === 0 ? '普通用户' :  "代理" }}
+              {{ scope.row.UPAgentId === 0 ? '普通用户' : "代理" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -123,10 +126,12 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="LoginAppName" label="最后登录应用" width="160"  show-overflow-tooltip=""/>
+        <el-table-column prop="Note" label="备注" width="160"/>
+        <el-table-column prop="LoginAppName" label="最后登录应用" width="160" show-overflow-tooltip=""/>
         <el-table-column prop="LoginTime" label="最后登录时间" width="160" :formatter="on格式化_登录时间"/>
-        <el-table-column prop="LoginIp" label="登录ip" width="140"/>
-        <el-table-column prop="RegisterIp" label="注册ip" width="140"/>
+        <!--        <el-table-column prop="LoginIp" label="登录ip" width="140"/>
+
+                <el-table-column prop="RegisterIp" label="注册ip" width="140"/>-->
         <el-table-column prop="RegisterTime" label="注册时间" width="160" :formatter="on格式化_注册时间"/>
 
         <el-table-column fixed="right" label="操作" width="140">
@@ -137,17 +142,17 @@
               </el-icon>
               编辑
             </el-button>
-<!--            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)" style="color:#f56d6d">
-              <el-icon color="#f56d6d" class="no-inherit">
-                <Delete/>
-              </el-icon>
-              删除
-            </el-button>-->
+            <!--            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)" style="color:#f56d6d">
+                          <el-icon color="#f56d6d" class="no-inherit">
+                            <Delete/>
+                          </el-icon>
+                          删除
+                        </el-button>-->
           </template>
         </el-table-column>
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
       </el-table>
@@ -162,7 +167,7 @@
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-               :total="parseInt( List.Count)"
+              :total="parseInt( List.Count)"
               @current-change="on读取列表"
           />
         </el-config-provider>
@@ -170,13 +175,14 @@
 
     </div>
   </div>
-  <Userinfo v-if="is对话框可见"  :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
+  <Userinfo v-if="is对话框可见" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
   <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
+  <BatchAddRmb v-if="is批量维护增减余额输入框可见"  @on批量维护增减余额输入框被关闭="on批量维护增减余额输入框被关闭"></BatchAddRmb>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetUserList, Del批量删除用户, SetUserStatus} from "@/api/用户信息api.js";
+import {GetUserList, Del批量删除用户, SetUserStatus, Set批量维护增减余额} from "@/api/用户信息api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, is移动端} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
@@ -185,7 +191,8 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import Userinfo from "@/view/用户管理/组件/普通用户详细信息.vue";
 import ChartData from "@/view/用户管理/组件/用户账号图表抽屉.vue";
-
+import BatchAddRmb from "@/view/用户管理/组件/批量维护增减余额.vue";
+import {Set批量维护增减时间点数} from "@/api/软件用户api";
 
 
 const is图表分析抽屉可见 = ref(false)
@@ -256,7 +263,7 @@ const on选择框被选择 = (val: any) => {
 }
 
 const List = ref({
-  "Count":0,
+  "Count": 0,
   "List": [
     {
       "Id": 1,
@@ -275,6 +282,18 @@ const List = ref({
 })
 const Store = useStore()
 const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: ""})
+const is批量维护增减余额输入框可见 = ref(false)
+const on批量维护增减余额输入框可见将打开 = async () => {
+  if (表格被选中列表.value.length == 0) {
+    ElMessage({
+      type: "error",
+      message: "选中数据不能为0",
+      showClose: true,
+    })
+    return
+  }
+  is批量维护增减余额输入框可见.value=true
+}
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
@@ -368,6 +387,41 @@ onBeforeUnmount(() => {
   Store.commit("set搜索_用户信息", 对象_搜索条件.value)
 })
 
+const on批量维护增减余额输入框被关闭 = async (is确定: boolean, 请求: any) => {
+  console.log(请求)
+  is批量维护增减余额输入框可见.value = false
+  if (!is确定) {
+    return
+  }
+
+  if (请求.RMB == 0) {
+    ElMessage({
+      type: "error",
+      message: "增减数值不能为0",
+      showClose: true,
+    })
+    return
+  }
+
+  请求.Id = 表格被选中列表.value.map((item => item.Id))
+  is加载中.value = true
+  const res = await Set批量维护增减余额(请求)
+  is加载中.value = false
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage({
+      type: "success",
+      message: res.msg,
+      showClose: true,
+    })
+    for (let i = 0; i < List.value.List.length; i++) {
+      if (请求.Id.some(ele => ele === List.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
+        List.value.List[i].Rmb += 请求.RMB
+      }
+    }
+    return true
+  }
+}
 
 export interface UserInfo2 {
   id: number;

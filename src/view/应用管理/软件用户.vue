@@ -57,6 +57,17 @@
         </el-popconfirm>
 
         <div class="工具栏">
+
+          <el-popover placement="right" trigger="hover">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
+            <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
+            <li class="工具_更多_li" @click="on批量维护输入框将打开">批量增减{{(Data.AppType === 2 || Data.AppType === 4)?"点数":"时间"}}</li>
+          </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
                       placement="top">
@@ -72,16 +83,6 @@
             </el-icon>
           </el-tooltip>
 
-          <el-popover placement="right" trigger="hover">
-            <template #reference>
-              <el-icon>
-                <More/>
-              </el-icon>
-            </template>
-            <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
-            <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
-            <li class="工具_更多_li" @click="on批量维护输入框将打开">增减时间点数</li>
-          </el-popover>
         </div>
       </div>
 
@@ -205,7 +206,7 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import AppUserinfo from "./组件/软件用户详细信息.vue";
-import BatchElMessage from "./组件/批量维护输入框.vue";
+import BatchElMessage from "./组件/批量维护积分时间增减输入框.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)

@@ -10,6 +10,8 @@ import 'element-plus/theme-chalk/el-message-box.css'    //ele 消息需要先引
 import axios from 'axios' // 引入axios
 import Nprogress from 'nprogress' //@description 导入顶部加载进度条，防止首屏加载时间过长，用户等待
 import 'nprogress/nprogress.css'
+import vue3TreeOrg from 'vue3-tree-org';
+import "vue3-tree-org/lib/vue3-tree-org.css";
 
 Nprogress.configure({showSpinner: false, ease: 'ease', speed: 500})
 Nprogress.start()
@@ -30,6 +32,7 @@ function getServerConfig() {
 getServerConfig()
 app.use(router)
     .use(store)
+    .use(vue3TreeOrg)
     .mount('#app')
 
 

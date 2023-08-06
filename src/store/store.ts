@@ -7,6 +7,7 @@ import 权限json from "@/store/权限.json"
 interface state全局状态 {
     count: number
     ServerName: string
+    备案号: string
     Token: string
     ITabList: Array<ITab>
     Tabs菜单当前Path: string
@@ -38,6 +39,7 @@ export const store = createStore<state全局状态>({
             ITabList: [],
             Tabs菜单当前Path: "",
             ServerName: "系统名称待初始化",
+            备案号: "暂无备案号",
             Token: window.localStorage.getItem('token') || '',
             权限json: 权限json,
             UserInfo: {
@@ -110,6 +112,9 @@ export const store = createStore<state全局状态>({
         },
         set服务器名称(state全局状态: state全局状态, 服务器名称: string) {
             state全局状态.ServerName = 服务器名称
+        },
+        set服务器备案号(state全局状态: state全局状态, 备案号: string) {
+            state全局状态.备案号 = 备案号
         },
         setToken(state全局状态: state全局状态, Token: string) {
             state全局状态.Token = Token

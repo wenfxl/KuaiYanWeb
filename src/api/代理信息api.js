@@ -34,6 +34,8 @@ export const Get用户详细信息 = (data) => {
   })
 }
 
+
+
 //  Save用户详细信息
 //...
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
@@ -57,7 +59,7 @@ export const  Save用户信息 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "msg"}"
 export const  SetUserStatus = (data) => {
   return service({
-    url: url+'SetUserAgentStatus',
+    url: url+'SetAgentUserStatus',
     method: 'post',
     data: data
   })
@@ -68,6 +70,27 @@ export const  SetUserStatus = (data) => {
 export const  New用户信息 = (data) => {
   return service({
     url: url+'NewAgentUser',
+    method: 'post',
+    data: data
+  })
+}
+
+//  Get代理可制卡类列表
+//{"Id": 1}
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
+export const Get代理可制卡类列表 = (data) => {
+  return service({
+    url: url+'GetAgentKaClassAuthority',
+    method: 'post',
+    data: data
+  })
+}
+//  Set代理可制卡类列表
+//{"Id": 1,"Kid":[1,2,3]}
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
+export const Set代理可制卡类列表 = (data) => {
+  return service({
+    url: url+'SetAgentKaClassAuthority',
     method: 'post',
     data: data
   })

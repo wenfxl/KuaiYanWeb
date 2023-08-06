@@ -53,14 +53,6 @@
         </el-popconfirm>
 
         <div class="工具栏">
-          <el-tooltip content="刷新"
-                      effect="dark"
-                      placement="top">
-            <el-icon @click="on读取列表">
-              <RefreshRight/>
-            </el-icon>
-          </el-tooltip>
-
           <el-popover placement="right" trigger="click" width="100">
             <template #reference>
               <el-icon>
@@ -74,6 +66,15 @@
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定用户</li>
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
           </el-popover>
+          <el-tooltip content="刷新"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="on读取列表">
+              <RefreshRight/>
+            </el-icon>
+          </el-tooltip>
+
+
         </div>
       </div>
 

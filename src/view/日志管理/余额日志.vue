@@ -54,6 +54,19 @@
         </el-popconfirm>
 
         <div class="工具栏">
+          <el-popover placement="right" trigger="click" width="100">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on批量删除(3)">删除 全部</li>
+            <li class="工具_更多_li" @click="on批量删除(4)">删除 7天前</li>
+            <li class="工具_更多_li" @click="on批量删除(5)">删除30天前</li>
+            <li class="工具_更多_li" @click="on批量删除(6)">删除90天前</li>
+            <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定用户</li>
+            <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
+          </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
                       placement="top">
@@ -69,19 +82,7 @@
             </el-icon>
           </el-tooltip>
 
-          <el-popover placement="right" trigger="click" width="100">
-            <template #reference>
-              <el-icon>
-                <More/>
-              </el-icon>
-            </template>
-            <li class="工具_更多_li" @click="on批量删除(3)">删除 全部</li>
-            <li class="工具_更多_li" @click="on批量删除(4)">删除 7天前</li>
-            <li class="工具_更多_li" @click="on批量删除(5)">删除30天前</li>
-            <li class="工具_更多_li" @click="on批量删除(6)">删除90天前</li>
-            <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定用户</li>
-            <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
-          </el-popover>
+
         </div>
       </div>
 

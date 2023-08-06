@@ -604,7 +604,7 @@ const 校验Rsa密匙对校验 = (rule: any, value: any, callback: any) => {
 
 const on表单校验 = ref({
   AppName: [
-    {required: true, message: '请输入用户名', trigger: 'blur'},
+    {required: true, message: '请输入应用名称', trigger: 'blur'},
     {min: 4, message: '最低4位字符', trigger: ''}
   ],
   CryptoKeyAes: [

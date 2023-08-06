@@ -166,6 +166,12 @@ const menus = [{
     "name": "代理账号",
     "meta": {"title": "代理账号", "icon": "Stamp"},
     "children": []
+  },{
+    "ID": 6,
+    "path": "代理管理/库存管理",
+    "name": "库存管理",
+    "meta": {"title": "库存管理", "icon": "Collection"},
+    "children": []
   }]
 }, {
   "ID": 6,
@@ -189,6 +195,12 @@ const menus = [{
     "path": "日志管理/余额日志",
     "name": "余额日志",
     "meta": {"title": "余额日志", "icon": "CreditCard"},
+    "children": []
+  }, {
+    "ID": 6,
+    "path": "日志管理/库存日志",
+    "name": "库存日志",
+    "meta": {"title": "库存日志", "icon": "OfficeBuilding"},
     "children": []
   }, {
     "ID": 6,

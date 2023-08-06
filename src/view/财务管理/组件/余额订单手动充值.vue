@@ -130,7 +130,6 @@ onMounted(() => {
 const on表单校验 = ref({
   User: [
     {required: true, message: '请输入用户名', trigger: 'blur'},
-    {min: 4, message: '用户名最低4位字符', trigger: ''}
   ],
 })
 

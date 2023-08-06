@@ -7,7 +7,7 @@
     <div style="overflow:auto;padding:0 12px;">
       <el-form :inline="false" style="min-width: 80px" label-width="130px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-        <el-form-item label="用户id" prop="Uid" disabled="disabled">
+        <el-form-item :label="(Props.AppType === 3 || Props.AppType  === 4)?'卡号id':'用户id'" prop="Uid" disabled="disabled">
           <el-input :class="[id>0?'只读编辑框':'']"  v-model.number="data.Uid" placeholder="" :readonly="id===0?false:true" />
         </el-form-item>
         <el-form-item  label="本软件状态" prop="Status">

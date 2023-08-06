@@ -83,7 +83,7 @@ const onGetUserInfo = async () => {
     console.log("用户信息没有了需要更新")
     const res = await GetAdminInfo()
     console.log(res.data)
-    if (res.data.AdminInfo.Id) {
+    if (res.data.AdminInfo?.Id!==undefined) {
       Store.commit("setUserInfo", res.data)
     }
 

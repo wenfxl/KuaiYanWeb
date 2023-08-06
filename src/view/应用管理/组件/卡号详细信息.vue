@@ -149,6 +149,9 @@
             <li class="li展示不可修改信息" v-if="AppType<=2">类型不同处理方式:
               <el-text type="info"  size="large">{{data.NoUserClass===1?"自动根据权重转换分组":"禁止充值" }}</el-text>
             </li>
+            <li class="li展示不可修改信息" v-if="data.EndTime!==9999999999">有效期:
+              <el-text type="info"  size="large">{{时间_时间戳到时间(data.EndTime)}}</el-text>
+            </li>
             <li class="li展示不可修改信息" v-if="AppType<=2">充值用户User:
               <el-text type="info"  size="large">{{ data.User }}</el-text>
             </li>

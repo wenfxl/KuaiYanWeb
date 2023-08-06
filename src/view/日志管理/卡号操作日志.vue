@@ -54,13 +54,6 @@
         </el-popconfirm>
 
         <div class="工具栏">
-          <el-tooltip content="刷新"
-                      effect="dark"
-                      placement="top">
-            <el-icon @click="on读取列表(1)">
-              <RefreshRight/>
-            </el-icon>
-          </el-tooltip>
 
           <el-popover placement="right" trigger="click" width="100">
             <template #reference>
@@ -75,6 +68,14 @@
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定用户</li>
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
           </el-popover>
+          <el-tooltip content="刷新"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="on读取列表(1)">
+              <RefreshRight/>
+            </el-icon>
+          </el-tooltip>
+
         </div>
       </div>
 
@@ -89,20 +90,24 @@
           <template #default="scope">
             {{ scope.row.User }}
             <el-tag size="small" :type="scope.row.UserType === 4 ? 'success' : scope.row.UserType === 5 ? 'info' : ''">
-              {{
-                scope.row.UserType === 4 ? '管理员' : scope.row.UserType === 5 ? '系统自动' : scope.row.UserType.toString() + "级代理"
-              }}
+              {{scope.row.UserType === 0 ? '普通用户' :scope.row.UserType === 4 ? '管理员' : scope.row.UserType === 5 ? '系统自动' : scope.row.UserType.toString() + "级代理"}}
             </el-tag>
           </template>
-
-
         </el-table-column>
         <el-table-column prop="Time" label="时间" width="160">
           <template #default="scope">
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
+        <el-table-column prop="Ka" label="卡号" width="140"/>
         <el-table-column prop="Ip" label="IP" width="140"/>
+        <el-table-column prop="KaType" label="操作" width="210">
+          <template #default="scope">
+            <el-tag size="small" :type="scope.row.KaType === 2 ? 'danger' : '' ">
+              {{ scope.row.UserType === 1 ? '增' : scope.row.UserType === 2 ? '删' : scope.row.UserType === 3 ? '改' : scope.row.UserType === 4 ? '查' :"未知" + scope.row.UserType.toString()}}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="Msg" label="消息"/>
               <template v-slot:empty >
           <div slot="empty"   style="text-align: left;">

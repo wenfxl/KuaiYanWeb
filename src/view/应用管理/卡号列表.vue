@@ -92,6 +92,17 @@
         </el-popconfirm>
 
         <div class="工具栏">
+
+          <el-popover placement="right" trigger="hover">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
+            <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
+            <li class="工具_更多_li" @click="导出到csv(tableRef)">导出到csv</li>
+          </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
                       placement="top">
@@ -107,16 +118,6 @@
             </el-icon>
           </el-tooltip>
 
-          <el-popover placement="right" trigger="hover">
-            <template #reference>
-              <el-icon>
-                <More/>
-              </el-icon>
-            </template>
-            <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
-            <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
-            <li class="工具_更多_li" @click="导出到csv(tableRef)">导出到csv</li>
-          </el-popover>
         </div>
       </div>
 
@@ -249,7 +250,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="MaxOnline" label="最大在线数" width="100"/>
-
+        <el-table-column prop="EndTime" label="有效期" width="160">
+          <template #default="scope">
+            {{ scope.row.EndTime===9999999999?"无限制":时间_时间戳到时间(scope.row.EndTime) }}
+          </template>
+        </el-table-column>
         <el-table-column fixed="right" label="操作" width="140">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">

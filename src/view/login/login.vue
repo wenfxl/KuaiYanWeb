@@ -72,18 +72,23 @@
         </el-form>
       </div>
       <div class="login_panel_right"/>
-      <div class="login_panel_foot" v-show=false>
+      <div class="login_panel_foot">
         <div class="links">
           <!--底部版权信息提示-->
           <!--底部版权信息提示-->
           <!--底部版权信息提示-->
+          <!-- 其他底部内容 -->
+
         </div>
         <div class="copyright">
           <!--          <BottomInfo />-->
+          <el-button text>{{  Store.state.备案号 }}</el-button>
+          <a target="_blank"></a>
         </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script setup>
@@ -104,9 +109,9 @@ const Store = useStore()
 onMounted(() => {
   //console.log('测试')
   Store.commit("set服务器名称", '等待初始化')
- checkInit().then((is初始化) => {
+  checkInit().then((is初始化) => {
     if (is初始化) {
-      console.log("is初始化"+is初始化)
+      console.log("is初始化" + is初始化)
       console.log(is初始化)
 
       router.push("Init")
@@ -147,7 +152,7 @@ const loginVerify = () => {
 }
 loginVerify()
 
-// 登录相关操作
+
 const loginForm = ref(null)
 
 const picPath = ref('')
@@ -180,10 +185,10 @@ const onLogin = async (loginInfo) => {
     Store.commit("setToken", res.data.Token)
     Store.commit("setUserInfo", res.data.UserInfo)
 
-    if ( res.data.KuaiYan === true) {
+    if (res.data.KuaiYan === true) {
       router.push('/个人中心')
-    }else {
-      router.replace({path:"/"})
+    } else {
+      router.replace({path: "/"})
     }
 
     ElMessage({
@@ -235,7 +240,9 @@ const checkInit = async () => {
 
   /* 把系统名称赋值 */
   Store.commit("set服务器名称", res.data.ServerName)
+  Store.commit("set服务器备案号", res.data.Filing)
   console.log("set服务器名称:" + res.data.ServerName)
+  console.log("set服务器备案号:" + res.data.Filing)
   console.log(res)
   /* 判断你是否需要初始化数据库如果需要直接跳转 */
   if (res.code === 10000) {

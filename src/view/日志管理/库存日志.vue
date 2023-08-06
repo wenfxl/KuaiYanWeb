@@ -2,13 +2,6 @@
   <div class="最底层div">
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
-        <el-form-item prop="Status" label="订单状态">
-          <el-select v-model="对象_搜索条件.Status" style="width: 100px;">
-            <el-option label="全部" :value="0"/>
-            <el-option label="等待付款" :value="1"/>
-            <el-option label="充值成功" :value="2"/>
-          </el-select>
-        </el-form-item>
         <el-form-item prop="status" style="width:250px">
           <el-config-provider :locale="zhCn">
             <el-date-picker
@@ -17,8 +10,8 @@
                 type="daterange"
                 unlink-panels
                 range-separator="到"
-                start-placeholder="订单开始日期"
-                end-placeholder="订单结束日期"
+                start-placeholder="日志开始日期"
+                end-placeholder="日志结束日期"
                 :shortcuts="数组_日志预选日期"
             />
           </el-config-provider>
@@ -36,8 +29,9 @@
             <template #prepend>
               <el-select v-model="对象_搜索条件.Type" placeholder="名称" style="width: 100px;">
                 <el-option label="用户名" :value="1"/>
-                <el-option label="备注" :value="2"/>
+                <el-option label="消息" :value="2"/>
                 <el-option label="Ip" :value="3"/>
+                <el-option label="库存ID" :value="4"/>
               </el-select>
             </template>
           </el-input>
@@ -50,9 +44,6 @@
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 65px" @click="on对话框详细信息打开(0)">
-          充值
-        </el-button>
         <el-popconfirm title="确定删除勾选日志?" width="200"
                        @confirm="on批量删除(1)" confirm-button-text="确定"
                        cancel-button-text="取消">
@@ -99,20 +90,26 @@
       <el-table v-loading="is加载中" :data="Data.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
                 :max-height="tableHeight"
-                highlight-current-row
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}  ">
         <el-table-column type="selection" width="45"/>
-        <!--        <el-table-column prop="Id" label="Id" width="80"/>-->
-        <el-table-column prop="PayOrder" label="订单id" width="170"/>
-        <el-table-column prop="User" label="用户名" width="210"/>
-        <el-table-column prop="Status" label="订单状态" width="100">
+        <el-table-column prop="Id" label="Id" width="80"/>
+
+        <el-table-column prop="User1" label="用户名1" width="210" show-overflow-tooltip="">
           <template #default="scope">
-            <el-tag
-                :type="scope.row.Status===1||scope.row.Status===4?'info':scope.row.Status===2?'':scope.row.Status === 3 ? 'success' : scope.row.Status === 4 ? '' :scope.row.Status === 6 ? 'warning' : 'danger' ">
-              {{
-                scope.row.Status === 1 ? '等待付款' : scope.row.Status === 2 ? '已付待充' : scope.row.Status === 3 ? '充值成功' :  scope.row.Status === 4 ? '退款中' : scope.row.Status === 5 ? '退款失败' : scope.row.Status === 6 ? '退款成功':"未知状态"
-              }}
+            {{ scope.row.User1 }}
+            <el-tag size="small"
+                    :type="scope.row.User1Role === 4 ? 'success' : scope.row.User1Role === 5 ? 'info' : ''">
+              {{ scope.row.User1Role === 0 ? '普通用户' : scope.row.User1Role === 4 ? '管理员' : scope.row.User1Role === 5 ? '系统自动' : scope.row.User1Role.toString() + "级代理" }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="User2" label="用户名2" width="210" show-overflow-tooltip="">
+          <template #default="scope">
+            {{ scope.row.User2 }}
+            <el-tag size="small"
+                    :type="scope.row.User2Role === 4 ? 'success' : scope.row.User2Role === 5 ? 'info' : ''">
+              {{ scope.row.User2Role === 0 ? '普通用户' : scope.row.User2Role === 4 ? '管理员' : scope.row.User2Role === 5 ? '系统自动' : scope.row.User2Role.toString() + "级代理" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -121,35 +118,24 @@
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="Type" label="充值类型" width="130"/>
-        <el-table-column prop="Rmb" label="充值金额" width="90">
+        <el-table-column prop="Ip" label="IP" width="140"/>
+        <el-table-column prop="Num" label="变化值" width="110"/>
+        <el-table-column prop="Type" label="操作" width="110">
           <template #default="scope">
-            <el-tag :type="scope.row.Rmb>0?'success':'danger'">
-              {{ scope.row.Rmb }}
+            <el-tag :type="scope.row.Num>0?'Info':''" effect="plain">
+              {{ scope.row.Type === 1 ? "1发送2" : scope.row.Type === 2 ? "1接收2" : "未知" }}
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column prop="InventoryId" label="库存Id" width="80"/>
+        <el-table-column prop="Msg" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
 
-
-        <el-table-column prop="Ip" label="IP" width="135"/>
-        <el-table-column prop="Note" label="备注"/>
-        <el-table-column fixed="right" label="操作" width="110">
-          <template #default="scope">
-            <el-button link type="primary" size="default" @click="on单个退款(scope.row)" style="color:#f56d6d"
-                       v-show="scope.row.Status===3">
-              <el-icon color="#f56d6d" class="no-inherit">
-                <Edit/>
-              </el-icon>
-              退款
-            </el-button>
-          </template>
-        </el-table-column>
-
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
+
       </el-table>
 
       <div class="demo-pagination-block">
@@ -158,31 +144,24 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-              :total="parseInt( Data.Count)"
-              @current-change="on读取列表(0)"
+              :total="parseInt(Data.Count.toString())"
+              small="small"
+              @current-change=" on读取列表(0) "
           />
         </el-config-provider>
       </div>
     </div>
   </div>
-  <NewRMBPayOrder :is对话框可见="is对话框可见_应用新增" :id="is对话框id"
-                 @on对话框详细信息关闭="on对话框详细信息关闭"></NewRMBPayOrder>
-  <ViewOutRMBPayOrder :Is退款订单可见="Is退款订单可见" :退款订单="退款订单"
-                  @on对话框退款关闭="on对话框退款关闭"></ViewOutRMBPayOrder>
   <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>
-import {onBeforeUnmount, onMounted, ref, watch} from "vue";
-import {GetLogRMBPayOrderList, Del批量删除LogRMBPayOrder, OutRMBPayOrder} from "@/api/余额充值订单api.js";
+import {onBeforeUnmount, onMounted, ref} from "vue";
+import {GetLogMoneyList, Del批量删除LogMoney} from "@/api/库存日志api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端} from "@/utils/utils";
 import {useStore} from "vuex";
-import NewRMBPayOrder from "./组件/余额订单手动充值.vue";
-import ViewOutRMBPayOrder from "./组件/余额充值订单退款.vue";
-
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
@@ -190,6 +169,7 @@ import {More, RefreshRight} from "@element-plus/icons";
 import ChartData from "@/view/财务管理/组件/余额充值订单图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
+
 const on批量删除 = async (Type: number) => {
   let 提交数据 = {"Type": 0, "Id": [0], Keywords: ""}
   if (Type === 1) {
@@ -207,7 +187,7 @@ const on批量删除 = async (Type: number) => {
     return
   }
   is加载中.value = true
-  const res = await Del批量删除LogRMBPayOrder(提交数据)
+  const res = await Del批量删除LogMoney(提交数据)
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
@@ -229,7 +209,7 @@ const on批量删除用户名或关键字 = async (Type: number) => {
         if (value != "") {
           let 提交数据 = {"Type": Type, "Id": [], Keywords: value}
           is加载中.value = true
-          const res = await Del批量删除LogRMBPayOrder(提交数据)
+          const res = await Del批量删除LogMoney(提交数据)
           is加载中.value = false
           if (res.code == 10000) {
             ElMessage({
@@ -249,19 +229,6 @@ const on批量删除用户名或关键字 = async (Type: number) => {
       })
 }
 
-// table元素
-const tableRef = ref<any>();
-// table高度
-const tableHeight = ref();
-
-onMounted(() => {
-  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  // 监听浏览器高度变化
-  window.onresize = () => {
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  };
-});
 
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
@@ -285,7 +252,6 @@ const Data = ref({
 const Store = useStore()
 const 对象_搜索条件 = ref({
   RegisterTime: ["", ""],
-  Status: 0,
   Type: 1,
   Size: 10,
   Page: 1,
@@ -299,12 +265,11 @@ const on读取列表 = (Type: number) => {
   }
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
-  onGetLogRMBPayOrderList()
+  onGetLogMoneyList()
 }
 const onReset = () => {
   对象_搜索条件.value = {
     RegisterTime: ["", ""],
-    Status: 0,
     Type: 1,
     Size: 10,
     Page: 1,
@@ -315,9 +280,9 @@ const onReset = () => {
 
 
 const is加载中 = ref(false)
-const onGetLogRMBPayOrderList = async () => {
+const onGetLogMoneyList = async () => {
   is加载中.value = true
-  const res = await GetLogRMBPayOrderList(对象_搜索条件.value)
+  const res = await GetLogMoneyList(对象_搜索条件.value)
   is加载中.value = false
   console.log(res)
   Data.value = res.data
@@ -325,7 +290,18 @@ const onGetLogRMBPayOrderList = async () => {
 }
 
 
+// table元素
+const tableRef = ref<any>();
+// table高度
+const tableHeight = ref();
+
 onMounted(async () => {
+  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+  // 监听浏览器高度变化
+  window.onresize = () => {
+    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+  };
   Data.value = {
     "Count": 0,
     "List": []
@@ -338,7 +314,7 @@ onMounted(async () => {
     console.log(Store.state.搜索_余额日志.Size)
     console.log(Store.state.搜索_余额日志)
   }
-  await onGetLogRMBPayOrderList()
+  await onGetLogMoneyList()
 })
 
 onBeforeUnmount(() => {
@@ -391,45 +367,6 @@ const 数组_日志预选日期 = [{
     },
   },
 ]
-
-
-const is对话框可见_应用新增 = ref(false)
-const is对话框id = ref(0)
-const on对话框详细信息打开 = (id: number) => {
-  if (id === 0) {
-    is对话框可见_应用新增.value = true
-  } else {
-    //is对话框可见_详细信息.value = true
-  }
-  is对话框id.value = id
-}
-const on对话框详细信息关闭 = (is重新读取: boolean) => {
-  //console.info("父组件收到对话框被关闭了")
-  is对话框可见_应用新增.value = false
-  is对话框id.value = 0
-  if (is重新读取) {
-    onGetLogRMBPayOrderList()
-  }
-}
-
-const Is退款订单可见 = ref(false)
-const 退款订单 = ref({})
-
-
-const on单个退款 = async (订单: object) => {
-  退款订单.value = 订单
-  Is退款订单可见.value = true
-console.log("Is退款订单可见"+Is退款订单可见.value)
-console.log(退款订单.value.toString())
-}
-const on对话框退款关闭 = (is重新读取: boolean) => {
-  //console.info("父组件收到对话框被关闭了")
-  Is退款订单可见.value = false
-  退款订单.value = {}
-  if (is重新读取) {
-    onGetLogRMBPayOrderList()
-  }
-}
 </script>
 
 <style scoped lang="scss">

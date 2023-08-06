@@ -14,7 +14,7 @@
             <el-input v-model.trim="data.Name" placeholder="请输入函数名称" :class="[Props.id!==''?'只读编辑框':'']"
                       :readonly="Props.id!==''" style="width: 80%;" @blur="on编辑框函数名失去焦点"/>
             <div style="float: right;padding-left: 5px">
-              <el-switch
+              <el-switch v-if="data.AppId!==2"
                   :active-value="1"
                   :inactive-value="0"
                   v-model="data.IsVip"

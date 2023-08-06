@@ -24,7 +24,12 @@
           <div style="text-align:center">
             <el-button style="width: 15vh; " type="primary" @click="on取余额充值地址">充值</el-button>
           </div>
+
           <div>
+
+
+
+
             <el-form-item v-if="订单信息.订单状态>0" label="订单ID">{{ 订单信息.订单ID }}</el-form-item>
             <el-form-item v-if="订单信息.订单状态>0" label="订单状态">
               {{
@@ -32,9 +37,18 @@
               }}
             </el-form-item>
 
-            <qrcode-vue v-if="订单信息.支付方式===2 && 订单信息.订单信息!==''&& 订单信息.订单状态===1 "
-                        :value="订单信息.订单信息" :size="200"
-                        level="H"></qrcode-vue>
+            <el-form-item v-if="订单信息.订单状态>0" label="">
+              <div style="text-align:center" v-if=" 订单信息.支付方式===1 ">支付宝请在打开的网页付款</div>
+              <div style="text-align:center" v-if="订单信息.支付方式===2 && 订单信息.订单信息!==''&& 订单信息.订单状态===1 ">请使用微信扫码付款</div>
+            </el-form-item>
+
+            <el-form-item v-if="订单信息.订单状态>0" >
+              <qrcode-vue v-if="订单信息.支付方式===2 && 订单信息.订单信息!==''&& 订单信息.订单状态===1 "
+                          :value="订单信息.订单信息" :size="200"
+                          level="H"></qrcode-vue>
+
+            </el-form-item>
+
           </div>
         </div>
       </el-form>

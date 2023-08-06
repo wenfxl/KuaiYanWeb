@@ -51,6 +51,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/代理管理/代理账号.vue"),
             },
             {
+                path: "代理管理/库存管理",
+                name: "库存管理",
+                component: () => import("@/view/代理管理/库存管理.vue"),
+            },
+            {
                 path: "应用管理/应用列表",
                 name: "应用列表",
                 component: () => import("@/view/应用管理/应用列表.vue"),
@@ -106,6 +111,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/日志管理/余额日志.vue"),
             },
             {
+                path: "日志管理/库存日志",
+                name: "库存日志",
+                component: () => import("@/view/日志管理/库存日志.vue"),
+            },
+            {
                 path: "日志管理/积分点数",
                 name: "积分点数",
                 component: () => import("@/view/日志管理/积分点数.vue"),
@@ -113,7 +123,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "日志管理/制卡日志",
                 name: "制卡日志",
-                component: () => import("@/view/日志管理/制卡日志.vue"),
+                component: () => import("@/view/日志管理/卡号操作日志.vue"),
             },
             {
                 path: "日志管理/用户消息",

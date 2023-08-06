@@ -13,7 +13,7 @@
         <el-form-item label="卡类名称" prop="Name">
           <el-input v-model.trim="data.Name" placeholder="请输入卡类名称"/>
         </el-form-item>
-        <el-form-item label="前缀" prop="Prefix">
+        <el-form-item label="卡前缀" prop="Prefix">
           <el-input v-model.trim="data.Prefix" placeholder="请输入前缀"/>
         </el-form-item>
 
@@ -307,6 +307,13 @@ const on表单校验 = ref({
     {required: true, message: '请输入卡类名称', trigger: 'blur'},
     {min: 1, message: '最低1位字符', trigger: ''}
   ],
+  Prefix: [
+    {
+      pattern: /^[A-Za-z0-9]+$/,
+      message: '只能输入英文字母和数字',
+      trigger: 'blur'
+    }
+  ]
 })
 
 const on对话框被打开 = () => {

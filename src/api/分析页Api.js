@@ -35,6 +35,14 @@ export const get图表余额充值消费统计 = (data) => {
         data: data
     })
 }
+export const Get代理组织架构图 = (data) => {
+    return service({
+        url: url+'ChartAgentLevel',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
 export const get图表积分点数消费统计 = (data) => {
     return service({
         url: url+'ChartVipNumberAddSub',
