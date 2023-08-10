@@ -12,11 +12,11 @@
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
-                    style="top:0 ; width: 200px;padding: 0;margin: 0"
+                    style="top:0 ; width: auto;padding: 0;margin: 0"
                     clearable
           >
             <template #prepend>
-              <el-select v-model="对象_搜索条件.Type" placeholder="名称">
+              <el-select v-model="对象_搜索条件.Type" placeholder="名称" style="width: 100px">
                 <el-option label="Id" :value="1"/>
                 <el-option label="名称" :value="2"/>
               </el-select>

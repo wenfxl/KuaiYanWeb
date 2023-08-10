@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="is对话框可见2"
-             :title="id===0?AppName+'('+Props.AppId+')'+'添加新卡类:':AppName+'('+Props.AppId+')'+'修改卡类信息'"
+             :title="id===0?AppName+'('+Props.AppId+')'+'新制卡号:':AppName+'('+Props.AppId+')'+'修改卡类信息'"
              @open="on对话框被打开"
              :width="is移动端()?'90%':'50%'"
              top="5%"
@@ -21,8 +21,12 @@
           >
           </el-input>
         </el-form-item>
+        <el-form-item v-if="批量维护导入卡号" label="误删卡号">
+          <el-input :autosize="{ minRows: 2, maxRows: 23 }" type="textarea" v-model="待导入卡号"
+                    placeholder="待导入卡号一行一个,仅限本系统生成后删除的卡号,因为卡号本身有校验位"/>
+        </el-form-item>
 
-        <el-form-item label="制卡数量" prop="Number">
+        <el-form-item label="制卡数量" prop="Number" v-else>
           <el-input-number v-model="data.Number" :precision="0" :step="1" :value-on-clear="1" :min="1" :max="100"/>
           <el-button @click="data.Number=1" :style="is移动端()?'width: 5vh':'width: 5vh'">
             归一
@@ -33,11 +37,12 @@
           <el-button @click="data.Number+=100"
                      :style="is移动端()?'width: 9vh':'width: 4vh'">+100
           </el-button>
+        </el-form-item>
+        <el-form-item label="开始制卡" prop="Prefix">
           <el-button type="primary" @click="on开始制卡按钮被点击(ruleFormRef)"
                      style="width: 90px">开始制卡
           </el-button>
         </el-form-item>
-
         <el-form-item label="格式模板" prop="Prefix">
           <el-input
               v-model="格式模板"
@@ -50,7 +55,8 @@
         </el-form-item>
 
         <el-form-item label="生成内容" prop="Prefix">
-          <el-input  :autosize="{ minRows: 2, maxRows: 23 }" type="textarea" v-model="生成内容" placeholder="生成卡号内容"/>
+          <el-input :autosize="{ minRows: 2, maxRows: 23 }" type="textarea" v-model="生成内容"
+                    placeholder="生成卡号内容"/>
         </el-form-item>
       </el-form>
     </div>
@@ -64,15 +70,19 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch} from 'vue'
-import {NewKa信息} from "@/api/卡号列表api";
+import {onMounted, ref,} from 'vue'
+import {NewKa信息, NewKa信息_指定卡号} from "@/api/卡号列表api";
 import {ElMessage, FormInstance} from "element-plus";
-import {is移动端, 时间_取现行时间戳, 时间_时间戳到时间, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
+import {is移动端, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 const Props = defineProps({
   is对话框可见: {
+    type: Boolean,
+    default: false
+  },
+  批量维护导入卡号: {
     type: Boolean,
     default: false
   },
@@ -111,19 +121,14 @@ const 生成卡号Data = ref([
   }
 ])
 
+const is对话框可见2 = ref(true)
+const 待导入卡号 = ref("")
 
-watch(() => Props.is对话框可见, (newVal, oldVal) => {
-  if (newVal) {
-    is对话框可见2.value = newVal;
-    console.info("is对话框可见2被检测到改变了:")
-  }
-})
-
-const is对话框可见2 = ref(false)
 const data = ref({
   "Id": Number(Object.keys(Props.KaClass)[0]),
   "Number": 1,
-  "AdminNote": ""
+  "AdminNote": "",
+  "KaName": ["1"]
 })
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
@@ -132,9 +137,7 @@ const on校验表单重置 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
 }
-onMounted(() => {
-  console.info("用户详细信息对话框加载完毕了")
-})
+
 
 const on表单校验 = ref({})
 
@@ -144,11 +147,12 @@ const on对话框被打开 = () => {
   on校验表单重置(ruleFormRef.value)
   生成卡号Data.value = []
   生成内容.value = ""
-  格式模板.value=isAppType计点()?'卡号:{Name} 点数:{VipTime} 软件:{AppName}':'卡号:{Name} 时间:{VipTime} 软件:{AppName}'
-  data.value ={
+  格式模板.value = isAppType计点() ? '卡号:{Name} 点数:{VipTime} 软件:{AppName}' : '卡号:{Name} 时间:{VipTime} 软件:{AppName}'
+  data.value = {
     "Id": Number(Object.keys(Props.KaClass)[0]),
     "Number": 1,
-    "AdminNote": ""
+    "AdminNote": "",
+    "KaName": []
   }
 
 }
@@ -178,19 +182,37 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
   if (data.value.Id != 0) {
-    返回 = await NewKa信息 (data.value);
+    if (!Props.批量维护导入卡号) {
+      返回 = await NewKa信息(data.value);
+    } else {
+      const pattern = /[a-zA-Z0-9]{10,}/g;
+      data.value.KaName = []
+      let a = 待导入卡号.value.match(pattern);
+      if (a == null) {
+        ElMessage({
+          type: "error",
+          message: "正则失败,导入卡号格式不正确,一行一个最短10位",
+          showClose: true,
+        })
+        return
+      }
+      data.value.KaName = a
+      返回 = await NewKa信息_指定卡号(data.value);
+    }
+
+
   } else {
     ElMessage({
       type: "error",
       message: "卡类Id错误,如果没有卡类请先去卡类列表添加",
       showClose: true,
     })
-    返回.code=7
+    返回.code = 7
     return
   }
   console.log(返回)
   if (返回.code == 10000) {
-    生成卡号Data.value=返回.data
+    生成卡号Data.value = 返回.data
     格式化卡号内容()
     is重新读取.value = true
     ElMessage({
@@ -201,18 +223,18 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
   }
 }
 const 格式化卡号内容 = () => {
-  let 最终内容=""
-  let 临时文本=""
-  for (var i=0; i<生成卡号Data.value.length ;i++ ){
+  let 最终内容 = ""
+  let 临时文本 = ""
+  for (let i = 0; i < 生成卡号Data.value.length; i++) {
     //ref('卡号:{Name} 时间:{VipTime} 软件:{AppName}')
-    临时文本= 格式模板.value.replace('{Name}',生成卡号Data.value[i].Name)
-    临时文本= 临时文本.replace('{VipTime}',isAppType计点()?生成卡号Data.value[i].VipTime.toString():时间_计算天时分秒提示(生成卡号Data.value[i].VipTime))
-    临时文本= 临时文本.replace('{AppName}',Props.AppName)
+    临时文本 = 格式模板.value.replace('{Name}', 生成卡号Data.value[i].Name)
+    临时文本 = 临时文本.replace('{VipTime}', isAppType计点() ? 生成卡号Data.value[i].VipTime.toString() : 时间_计算天时分秒提示(生成卡号Data.value[i].VipTime))
+    临时文本 = 临时文本.replace('{AppName}', Props.AppName)
 
-    最终内容+=临时文本+"\n"
+    最终内容 += 临时文本 + "\n"
 
   }
-  生成内容.value=最终内容
+  生成内容.value = 最终内容
 }
 const isAppType计点 = () => {
   return Props.AppType === 2 || Props.AppType === 4

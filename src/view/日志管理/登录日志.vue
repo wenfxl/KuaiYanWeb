@@ -22,7 +22,7 @@
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
-                    style="top:0 ; width: 200px;padding: 0;margin: 0"
+                    style="top:0 ; width: auto;padding: 0;margin: 0"
                     clearable
           >
             <template #prepend>

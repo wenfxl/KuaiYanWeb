@@ -53,7 +53,7 @@
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
-                    style="top:0 ; width: 200px;padding: 0;margin: 0"
+                    style="top:0 ; width: auto;padding: 0;margin: 0"
                     clearable
           >
             <template #prepend>
@@ -77,7 +77,7 @@
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 75px" @click="on对话框详细信息打开(0)">
+        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 75px" @click="on对话框详细信息打开(0,false)">
           制新卡
         </el-button>
 
@@ -102,6 +102,7 @@
             <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
             <li class="工具_更多_li" @click="导出到csv(tableRef)">导出到csv</li>
+            <li class="工具_更多_li" @click="on对话框详细信息打开(0,true)">导入误删卡</li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -304,9 +305,9 @@
 
     </div>
   </div>
-  <KaNew :is对话框可见="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
+  <KaNew v-if="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
          :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
-         @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型"></KaNew>
+         @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型" :批量维护导入卡号="批量维护导入卡号"></KaNew>
 
   <KaEdit :is对话框可见="is对话框可见卡详细信息" :id="is对话框卡详细信息id" :AppId="对象_搜索条件.AppId"
           :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
@@ -451,9 +452,11 @@ const is对话框可见 = ref(false)
 const is对话框id = ref(0)
 const is对话框可见卡详细信息 = ref(false)
 const is对话框卡详细信息id = ref(0)
-const on对话框详细信息打开 = (id: number) => {
-  is对话框可见.value = true
+const 批量维护导入卡号 = ref(false)
+const on对话框详细信息打开 = (id: number,is维护:boolean) =>{
   is对话框id.value = id
+  批量维护导入卡号.value = is维护
+  is对话框可见.value = true
 }
 const on对话框详细信息关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")

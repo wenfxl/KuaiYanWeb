@@ -15,13 +15,13 @@
           </el-tooltip>
         </el-form-item>
         <el-form-item label="备案号" prop="备案号" disabled="disabled" >
-          <el-input v-model.trim="Data.备案号" placeholder="登录页底部显示,可空"/>
+          <el-input  clearable  v-model.trim="Data.备案号" placeholder="登录页底部显示,可空"/>
         </el-form-item>
         <el-form-item label="管理员后台Host" prop="管理员后台Host">
-            <el-input v-model.trim="Data.管理员后台Host" placeholder="127.0.0.1:18888  限制该域名可访问,空不限制,这样可以管理员后台和用户Api使用不同的域名访问,"/>
+            <el-input  clearable  v-model.trim="Data.管理员后台Host" placeholder="127.0.0.1:18888  限制该域名可访问,空不限制,这样可以管理员后台和用户Api使用不同的域名访问,"/>
         </el-form-item>
         <el-form-item label="WebApiHost" prop="WebApiHost">
-            <el-input v-model.trim="Data.WebApiHost" placeholder="127.0.0.1:18888  限制该域名可访问,空不限制,这样可以WebApi和用户Api使用不同的域名访问,"/>
+            <el-input  clearable v-model.trim="Data.WebApiHost" placeholder="127.0.0.1:18888  限制该域名可访问,空不限制,这样可以WebApi和用户Api使用不同的域名访问,"/>
         </el-form-item>
 
         <el-form-item label="系统开关" prop="系统开关">
@@ -31,12 +31,12 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="系统关闭提示" prop="系统关闭提示">
-          <el-input v-model.trim="Data.系统关闭提示" placeholder="系统关闭提示"/>
+          <el-input  v-model.trim="Data.系统关闭提示" placeholder="系统关闭提示" clearable/>
         </el-form-item>
         <el-form-item label="用户API加密盐" prop="用户API加密盐">
           <el-row style="width: 100%">
             <el-col :span="18" >
-              <el-input v-model.trim="Data.用户API加密盐" placeholder="新Api名称=MD5(Api名称 + 用户API加密盐) ,正确使用,有效解决服务器山寨问题,点击右侧打开官网查看详细说明"/>
+              <el-input clearable v-model.trim="Data.用户API加密盐" placeholder="新Api名称=MD5(Api名称 + 用户API加密盐) ,正确使用,有效解决服务器山寨问题,点击右侧打开官网查看详细说明"/>
             </el-col>
             <el-col :span="2">
               <el-tooltip

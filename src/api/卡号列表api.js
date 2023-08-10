@@ -65,6 +65,17 @@ export const  NewKa信息 = (data) => {
     data: data
   })
 }
+
+//  NewKa信息
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "添加成功"}"
+export const  NewKa信息_指定卡号 = (data) => {
+  return service({
+    url: url+'batchKaNameNew',
+    method: 'post',
+    data: data
+  })
+}
 //  SetStatus
 //...
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"

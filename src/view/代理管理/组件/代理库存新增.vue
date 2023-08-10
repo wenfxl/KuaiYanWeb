@@ -7,12 +7,13 @@
                :label-position="is移动端()?'top':'right'">
         <el-form-item label="代理选择" prop="" style="width:100%">
           <el-cascader
+              clearable
               placeholder="可以搜索用户名,点击代理左边圆点为选中"
               v-model="data.Uid"
               :options="Data代理"
               filterable
               style="width:100%"
-              :props='{ multiple:false, checkStrictly: true,label:"Label", value:"Value" }'
+              :props='{ multiple:false, checkStrictly: true,label:"User", value:"Id" ,children:"Children" }'
           />
         </el-form-item>
         <el-form-item label="卡类选择" prop="" style="width:100%">
