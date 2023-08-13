@@ -7,7 +7,7 @@ import service from'@/api/request'
 // @Router /init/initdb [post]
 export const initDB = (data) => {
   return service({
-    url: 'admin/base/InitDB',
+    url: 'Admin/base/InitDB',
     method: 'post',
     data
   })
@@ -20,7 +20,7 @@ export const initDB = (data) => {
 // @Router /init/checkdb [post]
 export const checkDB = () => {
   return service({
-    url: 'admin/base/CheckDB',
+    url: 'Admin/base/CheckDB',
     method: 'post'
   })
 }

@@ -103,6 +103,7 @@
 
       <el-table v-loading="is加载中" :data="Data.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
+                @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}  ">
@@ -133,7 +134,7 @@
 
 
 
-        <el-table-column prop="Msg" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
+        <el-table-column prop="Note" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
               <template v-slot:empty >
           <div slot="empty"   style="text-align: left;">
             <el-empty description="居然没有数据啊" />
@@ -163,7 +164,14 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetLogVipNumberList, Del批量删除LogVipNumber} from "@/api/积分点数api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端} from "@/utils/utils";
+import {
+  时间_时间戳到时间,
+  时间_取现行时间戳,
+  时间_计算天时分秒提示,
+  is移动端,
+  表格读取列宽数组,
+  表格写入列宽数组
+} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -320,6 +328,24 @@ const onGetLogVipNumberList = async () => {
 
 // table元素
 const tableRef = ref<any>();
+const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
+  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+
+  localStorage.setItem('列宽_积分点数', JSON.stringify(局_列宽数组));
+}
+const on表格列宽初始化 = () => {
+
+  let 局_列宽数组文本 = localStorage.getItem('列宽_积分点数')
+  if (局_列宽数组文本 != null) {
+    let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
+
+    表格写入列宽数组(tableRef.value, 局_列宽数组)
+  }
+}
+onMounted(async () => {
+      on表格列宽初始化()
+    }
+)
 // table高度
 const tableHeight = ref();
 

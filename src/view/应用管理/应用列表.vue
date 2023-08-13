@@ -70,6 +70,7 @@
 
       <el-table v-loading="is加载中" :data="List.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
+                @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
@@ -174,7 +175,7 @@ import {ElMessage} from 'element-plus'
 import NewApp from "@/view/应用管理/组件/应用新增.vue";
 import New详细信息 from "@/view/应用管理/组件/应用详细信息.vue";
 import router from "@/router";
-import {is移动端} from "@/utils/utils";
+import {is移动端, 表格写入列宽数组, 表格读取列宽数组} from "@/utils/utils";
 import ChartData from "@/view/应用管理/组件/应用列表图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
@@ -326,6 +327,24 @@ const on跳转卡号列表 = (AppId: Number) => {
 }
 // table元素
 const tableRef = ref<any>();
+const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
+  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+
+  localStorage.setItem('列宽_应用列表', JSON.stringify(局_列宽数组));
+}
+const on表格列宽初始化 = () => {
+
+  let 局_列宽数组文本 = localStorage.getItem('列宽_应用列表')
+  if (局_列宽数组文本 != null) {
+    let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
+
+    表格写入列宽数组(tableRef.value, 局_列宽数组)
+  }
+}
+onMounted(async () => {
+      on表格列宽初始化()
+    }
+)
 // table高度
 const tableHeight = ref();
 onMounted(async () => {

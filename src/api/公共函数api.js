@@ -1,6 +1,6 @@
 import service from '@/api/request'
 
-const url="/admin/PublicJs/"
+const url="/Admin/PublicJs/"
 // GetList
 //{ "Page": 0,"Size": 10 }
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"

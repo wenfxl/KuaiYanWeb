@@ -77,7 +77,8 @@
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 75px" @click="on对话框详细信息打开(0,false)">
+        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 75px"
+                   @click="on对话框详细信息打开(0,false)">
           制新卡
         </el-button>
 
@@ -124,8 +125,10 @@
 
       <el-table v-loading="is加载中" :data="Data.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
+                @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
+
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
@@ -253,7 +256,7 @@
         <el-table-column prop="MaxOnline" label="最大在线数" width="100"/>
         <el-table-column prop="EndTime" label="有效期" width="160">
           <template #default="scope">
-            {{ scope.row.EndTime===9999999999?"无限制":时间_时间戳到时间(scope.row.EndTime) }}
+            {{ scope.row.EndTime === 9999999999 ? "无限制" : 时间_时间戳到时间(scope.row.EndTime) }}
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="140">
@@ -307,7 +310,8 @@
   </div>
   <KaNew v-if="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
          :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
-         @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型" :批量维护导入卡号="批量维护导入卡号"></KaNew>
+         @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型"
+         :批量维护导入卡号="批量维护导入卡号"></KaNew>
 
   <KaEdit :is对话框可见="is对话框可见卡详细信息" :id="is对话框卡详细信息id" :AppId="对象_搜索条件.AppId"
           :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
@@ -325,7 +329,7 @@ import {
   时间_计算天时分秒提示,
   is移动端,
   置剪辑版文本,
-  表格导出csv文本并下载
+  表格导出csv文本并下载, 表格读取列宽数组, 表格写入列宽数组
 } from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
@@ -380,7 +384,7 @@ const 导出到csv = (table) => {
 
 const on单个追回 = async (id: number) => {
 
-  let  局_类型 = '确认要追回ID为' + id.toString() + '卡号吗?,<br>已充值的用户和推荐人扣回卡号(' + (isAppType计点() ? "点数" : "时间" )+ ',积分,余额)值,<br>可能会导致用户该值变为负数,<br>卡号冻结并清除使用记录(会写备注)'
+  let 局_类型 = '确认要追回ID为' + id.toString() + '卡号吗?,<br>已充值的用户和推荐人扣回卡号(' + (isAppType计点() ? "点数" : "时间") + ',积分,余额)值,<br>可能会导致用户该值变为负数,<br>卡号冻结并清除使用记录(会写备注)'
 
   ElMessageBox.confirm(
       局_类型,
@@ -453,7 +457,7 @@ const is对话框id = ref(0)
 const is对话框可见卡详细信息 = ref(false)
 const is对话框卡详细信息id = ref(0)
 const 批量维护导入卡号 = ref(false)
-const on对话框详细信息打开 = (id: number,is维护:boolean) =>{
+const on对话框详细信息打开 = (id: number, is维护: boolean) => {
   is对话框id.value = id
   批量维护导入卡号.value = is维护
   is对话框可见.value = true
@@ -588,6 +592,24 @@ const 对象_用户类型 = ref({"0": "未分类"})
 const 对象_卡类型 = ref({})
 // table元素
 const tableRef = ref<any>();
+const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
+  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+
+  localStorage.setItem('列宽_卡号列表', JSON.stringify(局_列宽数组));
+}
+const on表格列宽初始化 = () => {
+
+  let 局_列宽数组文本 = localStorage.getItem('列宽_卡号列表')
+  if (局_列宽数组文本 != null) {
+    let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
+
+    表格写入列宽数组(tableRef.value, 局_列宽数组)
+  }
+}
+onMounted(async () => {
+      on表格列宽初始化()
+    }
+)
 // table高度
 const tableHeight = ref();
 
@@ -611,8 +633,10 @@ onMounted(async () => {
 
       await onGetAppIdNameList()
       await onGetKaList()
+      on表格列宽初始化()
     }
 )
+
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")

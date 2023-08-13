@@ -83,6 +83,7 @@
 
       <el-table v-loading="is加载中" :data="List.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
+                @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
@@ -186,7 +187,14 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, Ref, ref, watch,} from "vue";
 import {GetLinkUserList, Del批量注销, Del批量删除} from "@/api/在线用户api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算分钟提示, is移动端, 置剪辑版文本} from "@/utils/utils.js";
+import {
+  时间_时间戳到时间,
+  时间_取现行时间戳,
+  时间_计算分钟提示,
+  is移动端,
+  置剪辑版文本,
+  表格读取列宽数组, 表格写入列宽数组
+} from "@/utils/utils.js";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -368,7 +376,23 @@ const onGetLinkUserList = async () => {
 }
 
 // table元素
-const tableRef = ref<any>()
+const tableRef = ref<any>();
+const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
+  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  localStorage.setItem('列宽_余额充值订单', JSON.stringify(局_列宽数组));
+}
+const on表格列宽初始化 = () => {
+  let 局_列宽数组文本 = localStorage.getItem('列宽_余额充值订单')
+  if (局_列宽数组文本 != null) {
+    let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
+    表格写入列宽数组(tableRef.value, 局_列宽数组)
+  }
+}
+onMounted(async () => {
+      on表格列宽初始化()
+    }
+)
+
 // table高度
 const tableHeight = ref();
 

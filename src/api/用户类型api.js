@@ -1,6 +1,6 @@
 import service from '@/api/request'
 
-const url="/admin/UserClass/"
+const url="/Admin/UserClass/"
 // 分页获取UserClass信息列表
 //{ "Page": 0,"Size": 10 }
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"

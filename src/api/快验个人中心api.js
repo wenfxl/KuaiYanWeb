@@ -1,6 +1,6 @@
 import service from '@/api/request'
 
-const url="/admin/KuaiYan/"
+const url="/Admin/KuaiYan/"
 
 export const 取英数验证码 = (data) => {
   return service({

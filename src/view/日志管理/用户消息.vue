@@ -93,6 +93,7 @@
 
       <el-table v-loading="is加载中" :data="Data.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
+                @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
                 :row-class-name="tableRowClassName"
@@ -126,13 +127,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="Ip" label="IP" width="140"/>
-        <el-table-column prop="Msg" label="消息" show-overflow-tooltip="">
+        <el-table-column prop="Note" label="消息" show-overflow-tooltip="">
 
           <template #default="scope">
             <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Msg,'已复制到剪辑版')">
               <DocumentCopy/>
             </el-icon>
-            {{ scope.row.Msg }}
+            {{ scope.row.Note }}
           </template>
 
         </el-table-column>
@@ -175,7 +176,14 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetLogList, Del批量删除, 批量已读} from "@/api/用户消息api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端, 置剪辑版文本} from "@/utils/utils";
+import {
+  时间_时间戳到时间,
+  时间_取现行时间戳,
+  时间_计算天时分秒提示,
+  is移动端,
+  置剪辑版文本,
+  表格读取列宽数组, 表格写入列宽数组
+} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -362,6 +370,24 @@ const onGetLogLoginList = async () => {
 
 // table元素
 const tableRef = ref<any>();
+const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
+  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+
+  localStorage.setItem('列宽_用户消息', JSON.stringify(局_列宽数组));
+}
+const on表格列宽初始化 = () => {
+
+  let 局_列宽数组文本 = localStorage.getItem('列宽_用户消息')
+  if (局_列宽数组文本 != null) {
+    let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
+
+    表格写入列宽数组(tableRef.value, 局_列宽数组)
+  }
+}
+onMounted(async () => {
+      on表格列宽初始化()
+    }
+)
 // table高度
 const tableHeight = ref();
 

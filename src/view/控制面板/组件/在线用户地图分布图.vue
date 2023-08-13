@@ -71,8 +71,8 @@ const setOptions = (data) => {
   for (let i = 0; i < 临时数据.length; i++) {
     临时数据[i].value = 0
     for (let j = 0; j < data.length; j++) {
-      console.log(临时数据[i].name)
-      console.log(data[j].name)
+/*      console.log(临时数据[i].name)
+      console.log(data[j].name)*/
       if (临时数据[i].name === data[j].name) {
 
         临时数据[i].value = data[j].value;

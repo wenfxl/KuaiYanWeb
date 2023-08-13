@@ -185,7 +185,27 @@ export const 表格导出csv文本 = (tableRef: any): string => {
 
     return csvRows.join('\n');
 };
+//Element-Plus 只能传入这个ui库的表格  读取列宽数组  返回整数数组
+export const 表格读取列宽数组 = (tableRef:any): any => {
+    const tableColumns = tableRef.store.states.columns._rawValue;
+    const widths = tableColumns.map(column => column.width);
 
+
+    return widths
+};
+
+export const 表格写入列宽数组 = (tableRef:any,widths:number[]) => {
+    if (tableRef.data.length===0){  //如果没有数据不改变列宽,因为会出现列宽异常的状况
+        return
+    }
+    const tableColumns = tableRef.store.states.columns._rawValue;
+
+    for (var i = 0, len = tableColumns.length; i < len; i = i + 1) {
+        if (widths[i]!=undefined){
+            tableColumns[i].width=widths[i]
+        }
+    }
+};
 export const 时间_计算分钟提示 = (Time: number) => {
     if (Time === 0) {
         return ""

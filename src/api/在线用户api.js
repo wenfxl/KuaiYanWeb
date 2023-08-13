@@ -6,7 +6,7 @@ import service from '@/api/request'
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 export const GetLinkUserList = (data) => {
   return service({
-    url: '/admin/User/GetLinkUserList',
+    url: '/Admin/User/GetLinkUserList',
     method: 'post',
     data: data
   })
@@ -17,7 +17,7 @@ export const GetLinkUserList = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "注销成功"}"
 export const Del批量注销 = (data) => {
   return service({
-    url: '/admin/User/logout',
+    url: '/Admin/User/logout',
     method: 'post',
     data: data
   })
@@ -28,7 +28,7 @@ export const Del批量注销 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "注销成功"}"
 export const Del批量删除 = (data) => {
   return service({
-    url: '/admin/User/DeleteLogout',
+    url: '/Admin/User/DeleteLogout',
     method: 'post',
     data: data
   })
@@ -36,7 +36,7 @@ export const Del批量删除 = (data) => {
 
 export const NewWebApiToken = (data) => {
   return service({
-    url: '/admin/User/NewWebApiToken',
+    url: '/Admin/User/NewWebApiToken',
     method: 'post',
     data: data
   })

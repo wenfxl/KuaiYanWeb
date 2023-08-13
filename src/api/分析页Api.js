@@ -1,6 +1,6 @@
 import service from '@/api/request'
 
-const url="/admin/Panel/"
+const url="/Admin/Panel/"
 
 export const get图表在线用户统计 = (data) => {
     return service({

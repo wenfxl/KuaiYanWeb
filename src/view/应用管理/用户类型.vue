@@ -66,6 +66,7 @@
 
       <el-table v-loading="is加载中" :data="Data.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
+                @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
@@ -126,7 +127,7 @@
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetUserClassList, Del批量删除UserClass} from "@/api/用户类型api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, is移动端} from "@/utils/utils";
+import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -257,6 +258,24 @@ const onGetAppIdNameList = async () => {
 
 // table元素
 const tableRef = ref<any>();
+const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
+  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+
+  localStorage.setItem('列宽_用户类型', JSON.stringify(局_列宽数组));
+}
+const on表格列宽初始化 = () => {
+
+  let 局_列宽数组文本 = localStorage.getItem('列宽_用户类型')
+  if (局_列宽数组文本 != null) {
+    let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
+
+    表格写入列宽数组(tableRef.value, 局_列宽数组)
+  }
+}
+onMounted(async () => {
+      on表格列宽初始化()
+    }
+)
 // table高度
 const tableHeight = ref();
 onMounted(async () => {

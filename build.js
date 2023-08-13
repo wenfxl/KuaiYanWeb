@@ -33,5 +33,5 @@ function deleteNonGoFiles(directoryPath) {
         }
     });
 
-    fs.rmdirSync(directoryPath);
+    //fs.rmdirSync(directoryPath);
 }

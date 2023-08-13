@@ -98,6 +98,7 @@
 
       <el-table v-loading="is加载中" :data="Data.List" border style="width: 100% ;white-space: pre-wrap;"
                 ref="tableRef"
+                @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 highlight-current-row
                 @selection-change="on选择框被选择"
@@ -178,7 +179,14 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref, watch} from "vue";
 import {GetLogRMBPayOrderList, Del批量删除LogRMBPayOrder, OutRMBPayOrder} from "@/api/余额充值订单api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, 时间_计算天时分秒提示, is移动端} from "@/utils/utils";
+import {
+  时间_时间戳到时间,
+  时间_取现行时间戳,
+  时间_计算天时分秒提示,
+  is移动端,
+  表格读取列宽数组,
+  表格写入列宽数组
+} from "@/utils/utils";
 import {useStore} from "vuex";
 import NewRMBPayOrder from "./组件/余额订单手动充值.vue";
 import ViewOutRMBPayOrder from "./组件/余额充值订单退款.vue";
@@ -251,6 +259,23 @@ const on批量删除用户名或关键字 = async (Type: number) => {
 
 // table元素
 const tableRef = ref<any>();
+const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
+  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+
+  localStorage.setItem('列宽_余额充值订单', JSON.stringify(局_列宽数组));
+}
+const on表格列宽初始化 = () => {
+
+  let 局_列宽数组文本 = localStorage.getItem('列宽_余额充值订单')
+  if (局_列宽数组文本 != null) {
+    let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
+    表格写入列宽数组(tableRef.value, 局_列宽数组)
+  }
+}
+onMounted(async () => {
+      on表格列宽初始化()
+    }
+)
 // table高度
 const tableHeight = ref();
 

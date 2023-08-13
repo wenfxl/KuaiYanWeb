@@ -1,6 +1,6 @@
 import service from '@/api/request'
 
-const url="/admin/KaClass/"
+const url="/Admin/KaClass/"
 // 分页获取KaClass信息列表
 //{ "Page": 0,"Size": 10 }
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"

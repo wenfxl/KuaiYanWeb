@@ -6,7 +6,7 @@ import service from '@/api/request'
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 export const GetUserList = (data) => {
   return service({
-    url: '/admin/User/GetUserList',
+    url: '/Admin/User/GetUserList',
     method: 'post',
     data: data
   })
@@ -17,7 +17,7 @@ export const GetUserList = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "注销成功"}"
 export const Del批量删除用户 = (data) => {
   return service({
-    url: '/admin/User/DeleteUser',
+    url: '/Admin/User/DeleteUser',
     method: 'post',
     data: data
   })
@@ -28,7 +28,7 @@ export const Del批量删除用户 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
 export const Get用户详细信息 = (data) => {
   return service({
-    url: '/admin/User/GetUserInfo',
+    url: '/Admin/User/GetUserInfo',
     method: 'post',
     data: data
   })
@@ -39,7 +39,7 @@ export const Get用户详细信息 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
 export const  Save用户信息 = (data) => {
   return service({
-    url: '/admin/User/SaveUser',
+    url: '/Admin/User/SaveUser',
     method: 'post',
     data: data
   })
@@ -57,7 +57,7 @@ export const  Save用户信息 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "msg"}"
 export const  SetUserStatus = (data) => {
   return service({
-    url: '/admin/User/SetUserStatus',
+    url: '/Admin/User/SetUserStatus',
     method: 'post',
     data: data
   })
@@ -67,7 +67,7 @@ export const  SetUserStatus = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "添加成功"}"
 export const  New用户信息 = (data) => {
   return service({
-    url: '/admin/User/NewUser',
+    url: '/Admin/User/NewUser',
     method: 'post',
     data: data
   })
@@ -78,7 +78,7 @@ export const  New用户信息 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "添加成功"}"
 export const  Set批量维护增减余额 = (data) => {
   return service({
-    url: '/admin/User/SetBatchAddRMB',
+    url: '/Admin/User/SetBatchAddRMB',
     method: 'post',
     data: data
   })

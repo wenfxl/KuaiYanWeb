@@ -159,7 +159,7 @@ const data = ref({
   "Key": "绑定的key",
   "VipTime": 1681213040,
   "VipNumber": 12.13,
-  "Note": "用户备注",
+  "Msg": "用户备注",
   "MaxOnline": 1,
   "UserClassId": 0,
   "AppType": 1
@@ -253,7 +253,7 @@ const 读取详细信息 = async (id: number) => {
       "Key": "绑定的key",
       "VipTime": isAppType计点()?100:时间_取现行时间戳(),
       "VipNumber": 0,
-      "Note": "用户备注",
+      "Msg": "用户备注",
       "MaxOnline": 1,
       "UserClassId": 0,
       "AppType": Props.AppType
@@ -280,7 +280,7 @@ type UserInfo = {
   email: string;
   qq: string;
   rmb: number;
-  note: string;
+  Msg: string;
 }
 
 </script>

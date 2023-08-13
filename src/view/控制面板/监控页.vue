@@ -10,13 +10,13 @@
             <el-row :gutter="10">
               <el-col :span="12">系统:</el-col>
               <el-col :span="12">{{ state.os.goos }}
-<!--                <el-tooltip content="热重启"
+                <el-tooltip content="结束飞鸟快验系统进程"
                             effect="dark"
                             placement="top">
-                  <el-icon @click="系统热重启" class="热重启系统">
-                    <RefreshRight/>
+                  <el-icon @click="StopSystam"  style="cursor: pointer" color="#f56c6c">
+                    <SwitchButton/>
                   </el-icon>
-                </el-tooltip>-->
+                </el-tooltip>
               </el-col>
             </el-row>
 
@@ -150,8 +150,9 @@
 </template>
 
 <script setup>
-import {getSystemState,系统热重启} from '@/api/监控页'
+import {getSystemState,系统热重启,系统停止} from '@/api/监控页'
 import {onUnmounted, ref} from 'vue'
+import {Stopwatch} from "@element-plus/icons-vue";
 
 const timer = ref(null)
 const state = ref({
@@ -205,6 +206,11 @@ const colors = ref([
 const reload = async () => {
   const {data} = await getSystemState()
   state.value = data.server
+}
+const StopSystam = async () => {
+ 系统停止()
+  window.navigate(location)
+
 }
 
 //死循环 6秒钟重新获取一次服务器信息

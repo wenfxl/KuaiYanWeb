@@ -11,13 +11,13 @@
         <el-form-item label="SECRET_KEY" disabled="disabled">
           <el-input v-model.trim="Data.TX云Sms.SECRET_KEY"/>
         </el-form-item>
-        <el-form-item label="D短信应用ID" disabled="disabled">
+        <el-form-item label="短信应用ID" disabled="disabled">
           <el-input v-model.trim="Data.TX云Sms.短信应用ID"/>
         </el-form-item>
-        <el-form-item label="D短信签名" disabled="disabled">
+        <el-form-item label="短信签名" disabled="disabled">
           <el-input v-model.trim="Data.TX云Sms.短信签名"/>
         </el-form-item>
-        <el-form-item label="Z正文模板ID" disabled="disabled">
+        <el-form-item label="正文模板ID" disabled="disabled">
           <el-input v-model.trim="Data.TX云Sms.正文模板ID"/>
         </el-form-item>
         <div style="text-align:center">

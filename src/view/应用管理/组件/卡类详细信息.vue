@@ -6,7 +6,7 @@
              top="1%"
              @close="on对话框被关闭">
 
-    <div style="overflow:auto;padding:0 12px;">
+    <div style="overflow:auto;padding:0 12px;" v-loading="is加载中">
       <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px"  :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
@@ -83,17 +83,17 @@
             <el-button @click="data.RMb=0" :style="is移动端()?'width: 5vh':'width: 5vh'">
               清零
             </el-button>
-            <el-button @click="data.RMb+=isAppType计点()?10:86400"
-                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+10' : '+1' }}
+            <el-button @click="data.RMb+=10"
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10' }}
             </el-button>
             <el-button @click="data.RMb+=isAppType计点()?100:86400*3"
-                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+100' : '+3' }}
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{'+100' }}
             </el-button>
-            <el-button @click="data.RMb+=isAppType计点()?1000:86400*30"
-                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+1000' : '+30' }}
+            <el-button @click="data.RMb+=1000"
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+1000' }}
             </el-button>
-            <el-button @click="data.RMb+=isAppType计点()?10000:86400*365"
-                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+10000' : '+365' }}
+            <el-button @click="data.RMb+=10000"
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10000'  }}
             </el-button>
           </div>
         </el-form-item>
@@ -106,6 +106,21 @@
           >
             <div style="display: flex; align-items: center">
               <el-input-number v-model="data.VipNumber" :precision="2" :step="1" :value-on-clear="0.00" :min="0"/>
+              <el-button @click="data.VipNumber=0" :style="is移动端()?'width: 5vh':'width: 5vh'">
+                清零
+              </el-button>
+              <el-button @click="data.VipNumber+=10"
+                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10' }}
+              </el-button>
+              <el-button @click="data.VipNumber+=isAppType计点()?100:86400*3"
+                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{'+100' }}
+              </el-button>
+              <el-button @click="data.VipNumber+=1000"
+                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+1000' }}
+              </el-button>
+              <el-button @click="data.VipNumber+=10000"
+                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10000'  }}
+              </el-button>
             </div>
           </el-tooltip>
 
@@ -180,7 +195,7 @@
       </el-form>
     </div>
     <template #footer>
-      <div class="dialog-footer">
+      <div class="dialog-footer"  v-loading="is加载中">
         <el-button :disabled="Props.id===0" @click="on确定按钮被点击(ruleFormRef,true)">添加为新卡类</el-button>
         <el-button @click="is对话框可见2=false">取 消</el-button>
         <el-button type="primary" @click="on确定按钮被点击(ruleFormRef)">确 定</el-button>
@@ -257,6 +272,7 @@ const data = ref({
 })
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
+const is加载中 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined,添加为新卡类:boolean) => {
 
   console.info("on确定按钮被点击")
@@ -275,12 +291,14 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined,添加�
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
   data.value.AppId = Props.AppId
+  is加载中.value=true
   if (Props.id === 0 || 添加为新卡类) {
     data.value.Id=0
     返回 = await NewKaClass信息(data.value);
   } else {
     返回 = await SaveKaClass信息(data.value);
   }
+  is加载中.value=false
   console.log(返回)
   if (返回.code == 10000) {
     is重新读取.value = true

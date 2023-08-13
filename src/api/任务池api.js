@@ -1,6 +1,6 @@
 import service from '@/api/request'
 
-const url="/admin/TaskPool/"
+const url="/Admin/TaskPool/"
 
 //{ "Page": 0,"Size": 10 }
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"

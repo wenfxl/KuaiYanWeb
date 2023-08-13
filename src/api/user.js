@@ -5,7 +5,7 @@ import service from '@/api/request'
 // @Router /base/login [post]
 export const login = (data) => {
   return service({
-    url: 'admin/base/Login',
+    url: 'Admin/base/Login',
     method: 'post',
     data: data
   })
@@ -17,7 +17,7 @@ export const login = (data) => {
 // @Router /base/captcha [post]
 export const captcha = (data) => {
   return service({
-    url: 'admin/base/Captcha',
+    url: 'Admin/base/Captcha',
     method: 'post',
     data: data
   })
@@ -27,7 +27,7 @@ export const captcha = (data) => {
 // @Summary 获取管理员信息
 export const GetAdminInfo = () => {
   return service({
-    url: '/admin/User/GetAdminInfo',
+    url: '/Admin/User/GetAdminInfo',
     method: 'get'
   })
 }
@@ -35,7 +35,7 @@ export const GetAdminInfo = () => {
 // @Summary 注销登录
 export const OutLogin = () => {
   return service({
-    url: '/admin/User/OutLogin',
+    url: '/Admin/User/OutLogin',
     method: 'post'
   })
 }
@@ -43,8 +43,9 @@ export const OutLogin = () => {
 // @Summary 修改管理员密码
 export const AdminNewPassword = (data) => {
   return service({
-    url: '/admin/User/AdminNewPassword',
+    url: '/Admin/User/AdminNewPassword',
     method: 'post',
     data: data
   })
 }
+
