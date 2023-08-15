@@ -8,14 +8,14 @@ const service = axios.create({
 
     //baseURL: axios.defaults.baseURL,
     //判断host 如果是127.0.0.1:18080 修改为后端接口,否则线上后端接口
-    baseURL: window.location.protocol + "//" + (window.location.host === "127.0.0.1:18080" ? window.location.hostname + ":18888" : window.location.host),
+    baseURL: window.location.protocol + "//" + (window.location.host === "127.0.0.1:18080"||window.location.host === "127.0.0.1:18081" ? window.location.hostname + ":18888" : window.location.host),
     timeout: 99999
 })
 
 // http request 拦截请求 写入token
 service.interceptors.request.use(
     config => {
-
+        config.url+="?time="+new Date().getTime().toString();
         config.headers = {
             'Content-Type': 'application/json',
             'Token': localStorage.getItem("Token"),
