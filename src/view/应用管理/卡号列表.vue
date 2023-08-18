@@ -256,7 +256,7 @@
         <el-table-column prop="MaxOnline" label="最大在线数" width="100"/>
         <el-table-column prop="EndTime" label="有效期" width="160">
           <template #default="scope">
-            {{ scope.row.EndTime === 9999999999 ? "无限制" : 时间_时间戳到时间(scope.row.EndTime) }}
+            {{ scope.row.EndTime >= 9999999999 ? "无限制" : 时间_时间戳到时间(scope.row.EndTime) }}
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="140">

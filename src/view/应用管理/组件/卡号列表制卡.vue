@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="is对话框可见2"
-             :title="id===0?AppName+'('+Props.AppId+')'+'新制卡号:':AppName+'('+Props.AppId+')'+'修改卡类信息'"
+             :title="id===0?'新制卡号:':'修改卡类信息'"
              @open="on对话框被打开"
              :width="is移动端()?'90%':'50%'"
              top="5%"
@@ -8,7 +8,9 @@
     <div style="overflow:auto;padding:0 12px;">
       <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-
+        <el-form-item label="应用名称" >
+          <el-input class="只读编辑框" v-model="Props.AppName"></el-input>
+        </el-form-item>
         <el-form-item label="选择卡类" prop="Name">
           <el-select v-model="data.Id" clear placeholder="选择卡类">
             <el-option v-for="(值,index) in KaClass" :key="index" :label="KaClass[index]" :value="Number(index)"/>

@@ -118,7 +118,7 @@
         </el-table-column>
         <el-table-column prop="EndTime" label="有效期" width="155">
           <template #default="scope">
-            {{ scope.row.EndTime === 9999999999 ? "无限制" : on格式化_时间(scope.row.EndTime) }}
+            {{ scope.row.EndTime >= 9999999999 ? "无限制" : on格式化_时间(scope.row.EndTime) }}
           </template>
         </el-table-column>
         <el-table-column prop="RegisterUserId" label="创建人ID" width="140">

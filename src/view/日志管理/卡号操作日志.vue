@@ -31,6 +31,7 @@
                 <el-option label="用户名" :value="1"/>
                 <el-option label="消息" :value="2"/>
                 <el-option label="Ip" :value="3"/>
+                <el-option label="卡号" :value="4"/>
               </el-select>
             </template>
           </el-input>
@@ -90,9 +91,17 @@
         <el-table-column prop="User" label="用户名" width="210">
           <template #default="scope">
             {{ scope.row.User }}
-            <el-tag size="small" :type="scope.row.UserType === 4 ? 'success' : scope.row.UserType === 5 ? 'info' : ''">
+            <el-tag size="small"  :type="scope.row.UserType === 4 ? 'success' : scope.row.UserType === 5 ? 'info' : ''">
               {{scope.row.UserType === 0 ? '普通用户' :scope.row.UserType === 4 ? '管理员' : scope.row.UserType === 5 ? '系统自动' : scope.row.UserType.toString() + "级代理"}}
             </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="Ka" label="卡号" width="210" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Ka,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
+            {{ scope.row.Ka }}
           </template>
         </el-table-column>
         <el-table-column prop="Time" label="时间" width="160">
@@ -100,12 +109,12 @@
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="Ka" label="卡号" width="140"/>
+
         <el-table-column prop="Ip" label="IP" width="140"/>
-        <el-table-column prop="KaType" label="操作" width="210">
+        <el-table-column prop="KaType" label="操作" width="80">
           <template #default="scope">
-            <el-tag size="small" :type="scope.row.KaType === 2 ? 'danger' : '' ">
-              {{ scope.row.UserType === 1 ? '增' : scope.row.UserType === 2 ? '删' : scope.row.UserType === 3 ? '改' : scope.row.UserType === 4 ? '查' :"未知" + scope.row.UserType.toString()}}
+            <el-tag size="small"  effect="plain" :type="scope.row.KaType === 1 ? 'success' : scope.row.KaType === 2 ? 'warning' : scope.row.KaType === 3 ? 'info' : scope.row.KaType === 4 ? '' :''">
+              {{ scope.row.KaType === 1 ? '增加' : scope.row.KaType === 2 ? '删除' : scope.row.KaType === 3 ? '修改' : scope.row.KaType === 4 ? '查询' :"未知" + scope.row.KaType.toString()}}
             </el-tag>
           </template>
         </el-table-column>
@@ -138,7 +147,7 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetLogList, Del批量删除} from "@/api/制卡日志api.js";
-import {is移动端, 时间_时间戳到时间, 表格写入列宽数组, 表格读取列宽数组,} from "@/utils/utils";
+import {is移动端, 时间_时间戳到时间, 置剪辑版文本, 表格写入列宽数组, 表格读取列宽数组,} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -413,6 +422,29 @@ const 数组_日志预选日期 = [{
   border: 1px solid rgb(235, 238, 245);
 }
 
+.复制按钮 {
+  background: #fafafa;
+  float: right;
+  /*设置边框阴影*/
+
+  font-size: 12px;
+
+  padding: 5px;
+  ///*边框 1px  颜色 */
+  border: 1px solid rgb(235, 238, 245);
+  color: #0c0d0e;
+  //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
+  speak: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer; //改变鼠标样式为手型
+
+}
 .工具栏 {
   margin: 7px 8px 8px;
   background: #fafafa;

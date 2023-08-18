@@ -69,13 +69,13 @@
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定用户</li>
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
           </el-popover>
-          <el-tooltip content="分析"
+<!--          <el-tooltip content="分析"
                       effect="dark"
                       placement="top">
             <el-icon @click="is图表分析抽屉可见=true">
               <DataAnalysis/>
             </el-icon>
-          </el-tooltip>
+          </el-tooltip>-->
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -96,21 +96,25 @@
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
 
-        <el-table-column prop="User1" label="用户名1" width="210" show-overflow-tooltip="">
+        <el-table-column prop="User1" label="用户名" width="360" show-overflow-tooltip="">
           <template #default="scope">
             {{ scope.row.User1 }}
             <el-tag size="small"
                     :type="scope.row.User1Role === 4 ? 'success' : scope.row.User1Role === 5 ? 'info' : ''">
               {{ scope.row.User1Role === 0 ? '普通用户' : scope.row.User1Role === 4 ? '管理员' : scope.row.User1Role === 5 ? '系统自动' : scope.row.User1Role.toString() + "级代理" }}
             </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="User2" label="用户名2" width="210" show-overflow-tooltip="">
-          <template #default="scope">
+
+            <el-tag :type="scope.row.Type === 2?'info':''" effect="plain">
+              {{ scope.row.Type === 1 ? "发送库存给" : scope.row.Type === 2 ? "接收来自" : "未知" }}
+            </el-tag>
+
             {{ scope.row.User2 }}
             <el-tag size="small"
                     :type="scope.row.User2Role === 4 ? 'success' : scope.row.User2Role === 5 ? 'info' : ''">
               {{ scope.row.User2Role === 0 ? '普通用户' : scope.row.User2Role === 4 ? '管理员' : scope.row.User2Role === 5 ? '系统自动' : scope.row.User2Role.toString() + "级代理" }}
+            </el-tag>
+            <el-tag v-if="scope.row.Type === 2" :type="scope.row.Type === 2?'info':''" effect="plain">
+              {{ scope.row.Type === 1 ? "" : scope.row.Type === 2 ? "的库存" : "未知" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -119,18 +123,12 @@
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="Ip" label="IP" width="140"/>
+
         <el-table-column prop="Num" label="变化值" width="110"/>
-        <el-table-column prop="Type" label="操作" width="110">
-          <template #default="scope">
-            <el-tag :type="scope.row.Num>0?'info':''" effect="plain">
-              {{ scope.row.Type === 1 ? "1发送2" : scope.row.Type === 2 ? "1接收2" : "未知" }}
-            </el-tag>
-          </template>
-        </el-table-column>
+
         <el-table-column prop="InventoryId" label="库存Id" width="80"/>
         <el-table-column prop="Note" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
-
+        <el-table-column prop="Ip" label="IP" width="140"/>
         <template v-slot:empty>
           <div slot="empty" style="text-align: left;">
             <el-empty description="居然没有数据啊"/>
@@ -334,18 +332,18 @@ onMounted(async () => {
   }
 
   onReset()
-  if (Store.state.搜索_余额日志.Size != 0 && Store.state.搜索_余额日志.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_余额日志
+  if (Store.state.搜索_库存日志.Size != 0 && Store.state.搜索_库存日志.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_库存日志
     console.log("恢复搜索条件")
-    console.log(Store.state.搜索_余额日志.Size)
-    console.log(Store.state.搜索_余额日志)
+    console.log(Store.state.搜索_库存日志.Size)
+    console.log(Store.state.搜索_库存日志)
   }
   await onGetLogMoneyList()
 })
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_余额日志", 对象_搜索条件.value)
+  Store.commit("set搜索_库存日志", 对象_搜索条件.value)
 })
 
 const 数组_日志预选日期 = [{
