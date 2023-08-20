@@ -291,6 +291,10 @@ const onGetAppIdNameList = async () => {
     "Appid": 1,
     "AppName": "全局"
   })
+  数组AppId_Name.value.unshift({
+    "Appid": 2,
+    "AppName": "Hook函数"
+  })
   MapAppId_Name.value = res.data.Map
 }
 

@@ -81,7 +81,7 @@
         </el-form-item>
       </div>
       <div class="内容div">
-        <el-divider content-position="left">代理中心(计划中)</el-divider>
+        <el-divider content-position="left">代理中心</el-divider>
         <el-form-item label="代理中心开关" prop="代理中心开关">
           <el-radio-group v-model="Data.代理中心开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
@@ -92,11 +92,28 @@
           <el-input v-model.trim="Data.代理中心关闭提示" placeholder="代理中心关闭提示"/>
         </el-form-item>
         <el-form-item label="代理后台Host" prop="代理后台Host">
-          <el-input v-model.trim="Data.代理后台Host" placeholder="127.0.0.1:18888 代理后台限制该地址可访问,空不限制,这样可以管理后台和代理后台使用不同的域名访问,"/>
+          <el-row style="width: 100%">
+            <el-col :span="18" >
+              <el-input v-model.trim="Data.代理后台Host" placeholder="127.0.0.1:18888 代理后台限制该地址可访问,空不限制,这样可以管理后台和代理后台使用不同的域名访问,"/>
+            </el-col>
+            <el-col :span="2">
+              <el-tooltip
+                  class="box-item"
+                  effect="dark"
+                  content="打开代理后台"
+                  placement="top"
+              >
+                <el-link href="/Agent/#/Login" target="_blank">
+                  <el-icon size="24" ><Link /></el-icon>
+                </el-link>
+              </el-tooltip>
+            </el-col>
+          </el-row>
+
         </el-form-item>
       </div>
       <div class="内容div">
-        <el-divider content-position="left">其他(计划中)</el-divider>
+        <el-divider content-position="left">其他(真诚等待您的建议+.0)</el-divider>
 <!--        <el-form-item label="用户中心开关" prop="用户中心开关">
           <el-radio-group v-model="Data.用户中心开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
@@ -150,10 +167,22 @@ const onGetList = async () => {
 onMounted(async () => {
   await onGetList()
 })
+
+const 校验系统地址 = () :boolean => {
+if (Data.value.系统地址.endsWith("/")){
+  ElMessage({
+    type: "error",
+    message: "系统地址尾部不用 / 斜杠",
+    showClose: true,
+  })
+  return false
+}
+  return true
+};
+
+
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
-
-
-  if (!formEl) return
+  if (!formEl ||!校验系统地址()) return
   let 表单验证结果 = await formEl.validate((valid, fields) => {
     if (!valid) {
       console.log('参数验证失败', fields)

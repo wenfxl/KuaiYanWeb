@@ -65,9 +65,35 @@
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
-        <el-table-column type="selection" width="45"/>
+        <el-table-column  type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
         <el-table-column prop="Name" label="任务类型名称" width="230"/>
+        <el-table-column label="状态" prop="status">
+          <template #default="scope">
+            <el-switch
+                :active-value="1"
+                :inactive-value="2"
+                v-model="scope.row.Status"
+                inline-prompt
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                active-text="正常"
+                inactive-text="维护"
+                @change="on状态被改变(scope.$index,scope.row.Id,scope.row.Status)"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column prop="Name" label="队列剩余" width="130">
+          <template #default="scope">
+            <el-tag>
+              {{ scope.row.QueueCount}}
+              <el-icon v-if="scope.row.QueueCount>0"  class="复制按钮" @click="on清空队列(scope.$index,scope.row)">
+                <Delete/>
+              </el-icon>
+            </el-tag>
+
+          </template>
+        </el-table-column>
+        <el-table-column prop="TaskCount" label="24H任务总计" width="130"/>
         <el-table-column prop="HookSubmitDataStart" label="Hook函数创建入库前" width="230"/>
         <el-table-column prop="HookSubmitDataEnd" label="Hook函数创建入库后" width="230"/>
         <el-table-column prop="HookReturnDataStart" label="Hook函数执行入库前" width="230"/>
@@ -84,9 +110,9 @@
             </el-button>
           </template>
         </el-table-column>
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
       </el-table>
@@ -100,7 +126,7 @@
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-               :total="parseInt( List.Count)"
+              :total="parseInt( List.Count)"
               @current-change="on读取列表"
           />
         </el-config-provider>
@@ -112,7 +138,7 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetTaskPool详细信息,Del批量删除TaskPool,GetTaskPoolList, SaveTaskPool信息, NewTaskPool信息} from "@/api/任务池api.js";
+import {Del批量删除TaskPool, GetTaskPoolList, 设置任务池任务类型状态,清空队列Tid} from "@/api/任务池api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
@@ -120,6 +146,9 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import Userinfo from "@/view/二开扩展/组件/任务类型详细信息.vue";
+import {SetUserStatus} from "@/api/用户信息api";
+import service from "@/api/request";
+import {SaveInfoSMS} from "@/api/系统设置api";
 
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
@@ -139,6 +168,39 @@ const on单个编辑 = async (id: number) => {
   on对话框详细信息打开(id)
 
 }
+
+const on清空队列 = async (索引:number, row: any) => {
+  ElMessageBox.confirm(
+      '确认清空>'+row.Name+'<剩余队列吗?,被清空的uuid会直接修改任务状态失败',
+      'Warning',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(async () => {
+
+        let 返回;
+        is加载中.value = true
+        返回 = await 清空队列Tid({Id:[row.Id]});
+        is加载中.value = false
+        List.value.List[索引].QueueCount=0
+        console.log(返回)
+        if (返回.code == 10000) {
+          ElMessage({
+            type: "success",
+            message: 返回.msg,
+            showClose: true,
+          })
+        }
+
+      })
+      .catch(() => {
+      })
+
+}
+
 
 const on批量删除 = async () => {
   const ids = 表格被选中列表.value.map((item => item.Id))
@@ -181,11 +243,14 @@ const on选择框被选择 = (val: any) => {
 }
 
 const List = ref({
-  "Count":0,
+  "Count": 0,
   "List": [
     {
       "Id": 1,
       "Name": "test3",
+      "Status": 1,
+      "QueueCount":0,
+      "TaskCount":0,
       "HookSubmitDataStart": "",
       "HookSubmitDataEnd": "",
       "HookReturnDataStart": "",
@@ -202,9 +267,8 @@ const on读取列表 = () => {
   onGetList()
 }
 const onReset = () => {
-  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1,  Keywords: ""}
+  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Keywords: ""}
 }
-
 
 
 const is加载中 = ref(false)
@@ -218,7 +282,7 @@ const onGetList = async () => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
   localStorage.setItem('列宽_任务池', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
@@ -253,27 +317,32 @@ onMounted(() => {
 
   onGetList()
 })
+const on状态被改变 = async (表项索引: number, ID: number, Status: number) => {
+  // console.info("on状态被改变索引:"+表项索引+",Id:"+ID,"Status:"+Status)
+  // console.info(表项索引)
+  //{Id: 16, User: 'test52', Status: 2, Rmb: 81.69, RegisterIp: '127.0.0.1', …}
+  const res = await 设置任务池任务类型状态({"Id": [ID], "Status": Status})
 
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage({
+      type: "success",
+      message: res.msg,
+      showClose: true,
+    })
+    return true
+  } else {
+    List.value.List[表项索引].Status = Status == 1 ? 2 : 1
+    return false
+  }
+
+}
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
   Store.commit("set搜索_任务池", 对象_搜索条件.value)
 })
 
 
-export interface UserInfo2 {
-  id: number;
-  user: string;
-  status: number;
-  rmb: number;
-  realNameAttestation: string;
-  role: number;
-  loginAppid: string;
-  loginAppName: string;
-  loginIp: string;
-  loginTime: number;
-  registerIp: string;
-  registerTime: string;
-}
 
 </script>
 

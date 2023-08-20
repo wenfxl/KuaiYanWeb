@@ -55,3 +55,20 @@ export const  NewTaskPool信息 = (data) => {
     data: data
   })
 }
+
+
+export const  设置任务池任务类型状态 = (data) => {
+  return service({
+    url: url+'SetStatus',
+    method: 'post',
+    data: data
+  })
+}
+
+export const  清空队列Tid = (data) => {
+  return service({
+    url: url+'DeleteTaskQueueTid',
+    method: 'post',
+    data: data
+  })
+}
