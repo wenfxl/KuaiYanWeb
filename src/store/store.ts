@@ -71,7 +71,7 @@ export const store = createStore<state全局状态>({
             搜索_制卡日志: {},
             搜索_用户消息: {},
             搜索_库存日志: {},
-            搜索_个人中心: {数组_可购买充值卡:[],支付通道状态:{AliPayPc:false,WxPayPc:false},订单信息:{订单ID: "", 订单信息: "", 订单状态: 0}},
+            搜索_个人中心: {数组_可购买充值卡:[],支付通道状态:{},订单信息:{订单ID: "", PayQRCode: "", PayURL: "", 订单状态: 0}},
         }
     },
     mutations: {

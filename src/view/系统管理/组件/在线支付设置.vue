@@ -10,6 +10,9 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="显示名称" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝显示名称"/>
+        </el-form-item>
         <el-form-item label="商户ID" disabled="disabled">
           <el-input v-model.trim="Data.支付宝商户ID"/>
         </el-form-item>
@@ -37,6 +40,9 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="显示名称" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝当面付显示名称"/>
+        </el-form-item>
         <el-form-item label="商户ID" disabled="disabled">
           <el-input v-model.trim="Data.支付宝当面付商户ID"/>
         </el-form-item>
@@ -63,6 +69,9 @@
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="显示名称" disabled="disabled">
+          <el-input v-model.trim="Data.微信支付显示名称"/>
         </el-form-item>
         <el-form-item label="商户ID" disabled="disabled">
           <el-input v-model.trim="Data.微信支付商户ID"/>
@@ -154,6 +163,7 @@ const Data = ref({
 
   "支付宝开关": false,
   "支付宝商户ID": "20210088888818",
+  "支付宝显示名称": "",
   "支付宝商户私钥": "xxxxxxx",
   "支付宝商户公钥": "666666666666",
   "支付宝公钥": "666666666666",
@@ -161,6 +171,7 @@ const Data = ref({
   "支付宝单次最大金额": 2000,
 
   "支付宝当面付开关": false,
+  "支付宝当面付显示名称": "",
   "支付宝当面付商户ID": "20210088888818",
   "支付宝当面付商户私钥": "xxxxxxx",
   "支付宝当面付商户公钥": "666666666666",
@@ -169,6 +180,7 @@ const Data = ref({
   "支付宝当面付单次最大金额": 2000,
 
   "微信支付开关": false,
+  "微信支付显示名称": "",
   "微信支付商户ID": "1234567",
   "微信支付AppId": "1234567",
   "微信支付商户v3密钥": "66666666666",

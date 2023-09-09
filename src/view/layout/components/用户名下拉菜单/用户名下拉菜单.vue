@@ -27,7 +27,7 @@
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import {AdminNewPassword, GetAdminInfo, login, OutLogin} from "@/api/user.js"
+import {AdminNewPassword, GetAdminInfo, OutLogin} from "@/api/user.js"
 import {is移动端} from "@/utils/utils";
 import {ElMessage} from "element-plus";
 

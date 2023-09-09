@@ -130,7 +130,7 @@
         <el-table-column prop="Note" label="消息" show-overflow-tooltip="">
 
           <template #default="scope">
-            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Msg,'已复制到剪辑版')">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Note,'已复制到剪辑版')">
               <DocumentCopy/>
             </el-icon>
             {{ scope.row.Note }}
