@@ -38,8 +38,8 @@
             </el-form-item>
 
             <el-form-item v-if="订单信息.订单状态>0" label="">
-              <div style="text-align:center" v-if=" 订单信息.支付方式===1 ">支付宝请在打开的网页付款</div>
-              <div style="text-align:center" v-if="订单信息.支付方式===2 && 订单信息.订单信息!==''&& 订单信息.订单状态===1 ">请使用微信扫码付款</div>
+              <div style="text-align:center" v-if=" 订单信息.支付方式===1 ">支付宝请在打开的网页支付</div>
+              <div style="text-align:center" v-if="订单信息.支付方式===2 && 订单信息.订单信息!==''&& 订单信息.订单状态===1 ">请使用微信扫码支付</div>
             </el-form-item>
 
             <el-form-item v-if="订单信息.订单状态>0" >

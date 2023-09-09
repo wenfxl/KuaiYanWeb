@@ -3,7 +3,7 @@
     <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="130px" :model="Data"
              :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
       <div class="内容div">
-        <el-divider content-position="left">支付宝电脑</el-divider>
+        <el-divider content-position="left">支付宝PC</el-divider>
         <el-form-item label="开关" prop="支付宝开关">
           <el-radio-group v-model="Data.支付宝开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>

@@ -98,7 +98,7 @@
         <el-table-column :label="isAppType卡号()?'卡号':'用户名'" :width="isAppType卡号()?280:180"
                          show-overflow-tooltip="">
           <template #default="scope">
-            {{ isAppType卡号() ? scope.row.Name : scope.row.User }}
+            {{ isAppType卡号() ? scope.row.Name===''?'已删卡号ID'+scope.row.Uid:scope.row.Name : scope.row.User }}
           </template>
         </el-table-column>
 

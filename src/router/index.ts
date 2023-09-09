@@ -131,9 +131,9 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/日志管理/用户消息.vue"),
             },
             {
-                path: "财务管理/余额充值订单",
-                name: "余额充值订单",
-                component: () => import("@/view/财务管理/余额充值订单.vue"),
+                path: "财务管理/支付充值订单",
+                name: "支付充值订单",
+                component: () => import("@/view/财务管理/支付充值订单.vue"),
             },
             {
                 path: "个人中心",

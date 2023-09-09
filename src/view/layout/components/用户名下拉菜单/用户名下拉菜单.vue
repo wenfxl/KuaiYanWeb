@@ -85,6 +85,9 @@ const onGetUserInfo = async () => {
     console.log(res.data)
     if (res.data.AdminInfo?.Id!==undefined) {
       Store.commit("setUserInfo", res.data)
+      console.log("res.data.ServerName")
+      console.log(res.data.ServerName)
+      Store.commit("setUserInfo", res.data.ServerName)
     }
 
   }

@@ -5,7 +5,7 @@
         <el-form-item prop="Status" label="订单状态">
           <el-select v-model="对象_搜索条件.Status" style="width: 100px;">
             <el-option label="全部" :value="0"/>
-            <el-option label="等待付款" :value="1"/>
+            <el-option label="等待支付" :value="1"/>
             <el-option label="充值成功" :value="2"/>
           </el-select>
         </el-form-item>
@@ -106,13 +106,20 @@
         <el-table-column type="selection" width="45"/>
         <!--        <el-table-column prop="Id" label="Id" width="80"/>-->
         <el-table-column prop="PayOrder" label="订单id" width="170"/>
-        <el-table-column prop="User" label="用户名" width="210"/>
+        <el-table-column prop="User" label="用户名" width="210" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-tag size="small" type="info" v-if="scope.row.UidType===2">
+              卡
+            </el-tag>
+            {{scope.row.User}}
+          </template>
+        </el-table-column>
         <el-table-column prop="Status" label="订单状态" width="100">
           <template #default="scope">
             <el-tag
                 :type="scope.row.Status===1||scope.row.Status===4?'info':scope.row.Status===2?'':scope.row.Status === 3 ? 'success' : scope.row.Status === 4 ? '' :scope.row.Status === 6 ? 'warning' : 'danger' ">
               {{
-                scope.row.Status === 1 ? '等待付款' : scope.row.Status === 2 ? '已付待充' : scope.row.Status === 3 ? '充值成功' :  scope.row.Status === 4 ? '退款中' : scope.row.Status === 5 ? '退款失败' : scope.row.Status === 6 ? '退款成功':"未知状态"
+                scope.row.Status === 1 ? '等待支付' : scope.row.Status === 2 ? '已付待处理' : scope.row.Status === 3 ? '成功' : scope.row.Status === 4 ? '退款中' : scope.row.Status === 5 ? '退款失败' : scope.row.Status === 6 ? '退款成功' : "未知状态"
               }}
             </el-tag>
           </template>
@@ -122,8 +129,9 @@
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="Type" label="充值类型" width="130"/>
-        <el-table-column prop="Rmb" label="充值金额" width="90">
+        <el-table-column prop="Type" label="支付类型" width="130"/>
+        <el-table-column prop="Extra" label="支付原因" width="130"/>
+        <el-table-column prop="Rmb" label="金额" width="90">
           <template #default="scope">
             <el-tag :type="scope.row.Rmb>0?'success':'danger'">
               {{ scope.row.Rmb }}
@@ -146,9 +154,9 @@
           </template>
         </el-table-column>
 
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
       </el-table>
@@ -170,15 +178,15 @@
     </div>
   </div>
   <NewRMBPayOrder :is对话框可见="is对话框可见_应用新增" :id="is对话框id"
-                 @on对话框详细信息关闭="on对话框详细信息关闭"></NewRMBPayOrder>
+                  @on对话框详细信息关闭="on对话框详细信息关闭"></NewRMBPayOrder>
   <ViewOutRMBPayOrder :Is退款订单可见="Is退款订单可见" :退款订单="退款订单"
-                  @on对话框退款关闭="on对话框退款关闭"></ViewOutRMBPayOrder>
+                      @on对话框退款关闭="on对话框退款关闭"></ViewOutRMBPayOrder>
   <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref, watch} from "vue";
-import {GetLogRMBPayOrderList, Del批量删除LogRMBPayOrder, OutRMBPayOrder} from "@/api/余额充值订单api.js";
+import {GetLogRMBPayOrderList, Del批量删除LogRMBPayOrder, OutRMBPayOrder} from "@/api/支付充值订单api.js";
 import {
   时间_时间戳到时间,
   时间_取现行时间戳,
@@ -189,13 +197,13 @@ import {
 } from "@/utils/utils";
 import {useStore} from "vuex";
 import NewRMBPayOrder from "./组件/余额订单手动充值.vue";
-import ViewOutRMBPayOrder from "./组件/余额充值订单退款.vue";
+import ViewOutRMBPayOrder from "./组件/支付充值订单退款.vue";
 
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
-import ChartData from "@/view/财务管理/组件/余额充值订单图表抽屉.vue";
+import ChartData from "@/view/财务管理/组件/支付充值订单图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
 const on批量删除 = async (Type: number) => {
@@ -260,13 +268,13 @@ const on批量删除用户名或关键字 = async (Type: number) => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
-  localStorage.setItem('列宽_余额充值订单', JSON.stringify(局_列宽数组));
+  localStorage.setItem('列宽_支付充值订单', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
 
-  let 局_列宽数组文本 = localStorage.getItem('列宽_余额充值订单')
+  let 局_列宽数组文本 = localStorage.getItem('列宽_支付充值订单')
   if (局_列宽数组文本 != null) {
     let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
     表格写入列宽数组(tableRef.value, 局_列宽数组)
@@ -304,7 +312,8 @@ const Data = ref({
       "Time": 0,
       "Ip": "",
       "Count": 0,
-      "Msg": ""
+      "Msg": "",
+      "UidType":1
     }]
 })
 const Store = useStore()
@@ -444,8 +453,8 @@ const 退款订单 = ref({})
 const on单个退款 = async (订单: object) => {
   退款订单.value = 订单
   Is退款订单可见.value = true
-console.log("Is退款订单可见"+Is退款订单可见.value)
-console.log(退款订单.value.toString())
+  console.log("Is退款订单可见" + Is退款订单可见.value)
+  console.log(退款订单.value.toString())
 }
 const on对话框退款关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")

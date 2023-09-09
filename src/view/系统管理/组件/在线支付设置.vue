@@ -3,7 +3,7 @@
     <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="130px" :model="Data"
              :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
       <div class="内容div">
-        <el-divider content-position="left">支付宝电脑</el-divider>
+        <el-divider content-position="left">支付宝PC -><el-link href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001000" target="_blank">电脑网页支付</el-link></el-divider>
         <el-form-item label="开关" prop="支付宝开关">
           <el-radio-group v-model="Data.支付宝开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
@@ -16,9 +16,9 @@
         <el-form-item label="商户私钥" disabled="disabled">
           <el-input v-model.trim="Data.支付宝商户私钥"/>
         </el-form-item>
-<!--        <el-form-item label="商户公钥" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝商户公钥"/>
-        </el-form-item>-->
+        <!--        <el-form-item label="商户公钥" disabled="disabled">
+                  <el-input v-model.trim="Data.支付宝商户公钥"/>
+                </el-form-item>-->
         <el-form-item label="支付宝公钥" disabled="disabled">
           <el-input v-model.trim="Data.支付宝公钥"/>
         </el-form-item>
@@ -29,7 +29,33 @@
           <el-input-number v-model="Data.支付宝单次最大金额"/>
         </el-form-item>
       </div>
-
+      <div class="内容div">
+        <el-divider content-position="left">支付宝当面付 -><el-link href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003" target="_blank">当面付</el-link></el-divider>
+        <el-form-item label="开关" prop="支付宝当面付开关">
+          <el-radio-group v-model="Data.支付宝当面付开关">
+            <el-radio-button :label="true" size="" border>开启</el-radio-button>
+            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="商户ID" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝当面付商户ID"/>
+        </el-form-item>
+        <el-form-item label="商户私钥" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝当面付商户私钥"/>
+        </el-form-item>
+        <!--        <el-form-item label="商户公钥" disabled="disabled">
+                  <el-input v-model.trim="Data.支付宝当面付商户公钥"/>
+                </el-form-item>-->
+        <el-form-item label="支付宝当面付公钥" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝当面付公钥"/>
+        </el-form-item>
+        <el-form-item label="同步回调url" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝当面付同步回调url"/>
+        </el-form-item>
+        <el-form-item label="单次最大金额" disabled="disabled">
+          <el-input-number v-model="Data.支付宝当面付单次最大金额"/>
+        </el-form-item>
+      </div>
       <div class="内容div">
         <el-divider content-position="left">微信支付</el-divider>
         <el-form-item label="开关" prop="微信支付开关">
@@ -54,7 +80,7 @@
               content="微信支付下载的证书压缩包中apiclient_cert.pem文件全部文本,开头为-----BEGIN CERTIFICATE-----去https://myssl.com/cert_decode.html 解析证书信息->序列号"
               placement="top"
           >
-            <el-input  v-model="Data.微信支付商户证书序列号"/>
+            <el-input v-model="Data.微信支付商户证书序列号"/>
           </el-tooltip>
 
         </el-form-item>
@@ -68,17 +94,49 @@
             <el-input type="textarea" v-model="Data.微信支付商户证书串"/>
           </el-tooltip>
         </el-form-item>
-<!--        <el-form-item  label="异步回调url" disabled="disabled">
-          <el-input v-model.trim="Data.微信支付异步回调Url"/>
-        </el-form-item>-->
+        <!--        <el-form-item  label="异步回调url" disabled="disabled">
+                  <el-input v-model.trim="Data.微信支付异步回调Url"/>
+                </el-form-item>-->
         <el-form-item label="单次最大金额" disabled="disabled">
           <el-input-number v-model="Data.微信支付单次最大金额"/>
         </el-form-item>
 
+
+      </div>
+      <div class="内容div">
+        <el-divider content-position="left">小叮当
+          <el-link href="https://www.xddpay.com/" target="_blank">www.xddpay.com</el-link>
+        </el-divider>
+
+        <el-form-item label="开关" prop="小叮当支付开关">
+          <el-radio-group v-model="Data.小叮当支付开关">
+            <el-radio-button :label="true" size="" border>开启</el-radio-button>
+            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="显示名称" disabled="disabled">
+          <el-input v-model.trim="Data.小叮当支付显示名称"/>
+        </el-form-item>
+        <el-form-item label="App_id" disabled="disabled">
+          <el-input v-model.trim="Data.小叮当app_id"/>
+        </el-form-item>
+        <el-form-item label="接口密钥" disabled="disabled">
+          <el-input v-model.trim="Data.小叮当接口密钥"/>
+        </el-form-item>
+        <el-form-item label="支付类型" disabled="disabled" >
+          <el-input v-model.trim="Data.小叮当支付类型"/>
+        </el-form-item>
+        <el-form-item label="异步通知网址" disabled="disabled"  class="只读编辑框">
+          <el-input v-model="小叮当异步地址"/>
+        </el-form-item>
+        <el-form-item label="单次最大金额" disabled="disabled">
+          <el-input-number v-model="Data.小叮当单次最大金额"/>
+        </el-form-item>
+      </div>
+      <div class="内容div">
         <div style="text-align:center">
           <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>
         </div>
-
       </div>
     </el-form>
   </div>
@@ -90,8 +148,10 @@ import {GetInfoPay, SaveInfoPay} from "@/api/系统设置api.js";
 import {ElMessage, FormInstance} from 'element-plus'
 import {is移动端} from "@/utils/utils";
 
-
+const 小叮当异步地址=ref("http://域名/WebApi/PayXiaoDingDangNotify")
 const Data = ref({
+
+
   "支付宝开关": false,
   "支付宝商户ID": "20210088888818",
   "支付宝商户私钥": "xxxxxxx",
@@ -99,6 +159,15 @@ const Data = ref({
   "支付宝公钥": "666666666666",
   "支付宝同步回调url": "https://www.baidu.com/s?wd=%E5%85%85%E5%80%BC%E6%88%90%E5%8A%9F%E6%9B%B4%E6%96%B0%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B",
   "支付宝单次最大金额": 2000,
+
+  "支付宝当面付开关": false,
+  "支付宝当面付商户ID": "20210088888818",
+  "支付宝当面付商户私钥": "xxxxxxx",
+  "支付宝当面付商户公钥": "666666666666",
+  "支付宝当面付公钥": "666666666666",
+  "支付宝当面付同步回调url": "https://www.baidu.com/s?wd=%E5%85%85%E5%80%BC%E6%88%90%E5%8A%9F%E6%9B%B4%E6%96%B0%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B",
+  "支付宝当面付单次最大金额": 2000,
+
   "微信支付开关": false,
   "微信支付商户ID": "1234567",
   "微信支付AppId": "1234567",
@@ -106,7 +175,13 @@ const Data = ref({
   "微信支付商户证书串": "66666666666",
   "微信支付商户证书序列号": "66666666666",
   "微信支付异步回调Url": "6666666666666",
-  "微信支付单次最大金额": 500
+  "微信支付单次最大金额": 500,
+  "小叮当支付开关": false,
+  "小叮当app_id": "1234567",
+  "小叮当支付显示名称": "",
+  "小叮当接口密钥": "1234567",
+  "小叮当支付类型": 43,
+  "小叮当单次最大金额": 500
 })
 
 const ruleFormRef = ref<FormInstance>()
@@ -166,21 +241,21 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
 .最底层div {
 
   padding: 12px 16px;
-  margin:0  2px 10px;
+  margin: 0 2px 10px;
   background: #f0f2f5;
 }
 
 .内容div {
   min-height: 20%;
   padding: 12px 16px;
-  margin:0  2px 10px;
+  margin: 0 2px 10px;
   background: #ffffff;
 }
 
 .搜索框 {
   top: -5px;
-  padding:0 0 ;
-  margin:0 0  10px;
+  padding: 0 0;
+  margin: 0 0 10px;
   align-items: center;
 }
 
@@ -232,7 +307,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
 .工具_更多 {
   background-color: #ffffff;
   width: 150px;
-  margin:0 ;
+  margin: 0;
   /*边框 1px  颜色 */
   border: 1px solid #ccc;
   /*图层高度  3000  值大一点 会在顶层*/

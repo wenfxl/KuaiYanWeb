@@ -113,6 +113,7 @@ export const store = createStore<state全局状态>({
             }
         },
         set服务器名称(state全局状态: state全局状态, 服务器名称: string) {
+            document.title = 服务器名称
             state全局状态.ServerName = 服务器名称
         },
         set服务器备案号(state全局状态: state全局状态, 备案号: string) {

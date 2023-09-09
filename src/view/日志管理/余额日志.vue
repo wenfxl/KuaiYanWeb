@@ -151,7 +151,7 @@ import {useStore} from "vuex";
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
-import ChartData from "@/view/财务管理/组件/余额充值订单图表抽屉.vue";
+import ChartData from "@/view/财务管理/组件/支付充值订单图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
 

@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import {onMounted, ref, watch} from 'vue'
-import {NewRMBPayOrder} from "@/api/余额充值订单api";
+import {NewRMBPayOrder} from "@/api/支付充值订单api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 金额整数转中文} from "@/utils/utils";
 

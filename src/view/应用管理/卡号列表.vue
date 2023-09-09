@@ -82,7 +82,7 @@
           制新卡
         </el-button>
 
-        <el-popconfirm title="确定删除勾选卡号?" width="200"
+        <el-popconfirm :title="Data.AppType>=3?'卡号登录应用,删除后无法登录改卡号,确定删除勾选卡号?':'确定删除勾选卡号?'" width="200"
                        @confirm="on批量删除" confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
