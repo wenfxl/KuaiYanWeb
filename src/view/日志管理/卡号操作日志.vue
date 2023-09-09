@@ -110,7 +110,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="Ip" label="IP" width="140"/>
+        <el-table-column prop="Ip" label="IP" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="KaType" label="操作" width="80">
           <template #default="scope">
             <el-tag size="small"  effect="plain" :type="scope.row.KaType === 1 ? 'success' : scope.row.KaType === 2 ? 'warning' : scope.row.KaType === 3 ? 'info' : scope.row.KaType === 4 ? '' :''">

@@ -126,7 +126,7 @@
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="Ip" label="IP" width="140"/>
+        <el-table-column prop="Ip" label="IP" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Note" label="消息" show-overflow-tooltip="">
 
           <template #default="scope">

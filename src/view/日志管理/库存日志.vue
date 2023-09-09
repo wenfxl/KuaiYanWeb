@@ -128,7 +128,7 @@
 
         <el-table-column prop="InventoryId" label="库存Id" width="80"/>
         <el-table-column prop="Note" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
-        <el-table-column prop="Ip" label="IP" width="140"/>
+        <el-table-column prop="Ip" label="IP" width="140" show-overflow-tooltip=""/>
         <template v-slot:empty>
           <div slot="empty" style="text-align: left;">
             <el-empty description="居然没有数据啊"/>

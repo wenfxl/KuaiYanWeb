@@ -13,6 +13,9 @@
         <el-form-item label="卡类名称" prop="Name">
           <el-input v-model.trim="data.Name" placeholder="请输入卡类名称"/>
         </el-form-item>
+        <el-form-item label="卡类备注" prop="Note">
+          <el-input v-model.trim="data.Note" placeholder="请输入卡类备注,仅管理员可见"/>
+        </el-form-item>
         <el-form-item label="卡前缀" prop="Prefix">
           <el-input v-model.trim="data.Prefix" placeholder="请输入前缀"/>
         </el-form-item>
@@ -255,6 +258,7 @@ const data = ref({
   "Id": 0,
   "AppId": Props.AppId,
   "Name": "天卡",
+  "Note": "",
   "Prefix": "T1",
   "VipTime": 86400,
   "InviteCount": 3600,
