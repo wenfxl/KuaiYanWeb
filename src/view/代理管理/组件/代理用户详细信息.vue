@@ -49,7 +49,7 @@
           <el-input-number v-model="data.Rmb" :precision="2" :step="0.1" :value-on-clear="0"/>
         </el-form-item>
         <el-form-item label="分成百分比" prop="AgentDiscount">
-          <el-input-number v-model="data.AgentDiscount" :precision="0"  :step="1" :value-on-clear="0" min="0" max="100"/>
+          <el-input-number v-model="data.AgentDiscount" :precision="0"  :step="1" :value-on-clear="0" :min="0" :max="100"/>
           %
         </el-form-item>
       </el-form>
@@ -206,7 +206,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   let 返回;
   is加载中.value=true
   if (Props.id === 0) {
-    data.value.UPAgentId=-Store.state.UserInfo.AdminInfo.Id
+    data.value.UPAgentId=-1 //负数为管理员ID
     返回 = await New用户信息(data.value);
   } else {
     返回 = await Save用户信息(data.value);

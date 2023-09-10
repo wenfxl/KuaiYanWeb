@@ -1,94 +1,106 @@
 <template>
 
-  <div >
-    <div class="PersonTop" v-loading="is加载中">
-      <div class="PersonTop_img">
-        <img src="./组件/头像.jpeg">
-      </div>
-      <div class="PersonTop_text" >
-        <div class="user_text">
-          <div class="user_name">
-            <span>  {{ UserInfo.User }}  </span>
-          </div>
-          <div class="user-v">
-            <span class="user-v-font">{{ UserInfo.UserClassName }}</span>
-          </div>
-          <div class="user_qianming">
-            <span v-if="UserInfo.VipTime>时间_取现行时间戳()"> 有效期:{{ 时间_时间戳到时间(UserInfo.VipTime) }}</span>
-            <span v-if="UserInfo.UserClassName !=='商业会员' || UserInfo.VipTime<时间_取现行时间戳()" >{{"在线用户量("+UserInfo.linkTokenCount+")<100无需开通商业会员"}}</span>
-          </div>
-          <div class="user_anniu">
-            <el-button
-                type="danger"
-                plain
-                @click="快验注销({});UserInfo.User='';is对话框可见=true"
-            >注销
-            </el-button>
-            <el-button
-                type="primary"
-                plain
-                @click="on更新个人信息"
-            >更新信息
-            </el-button>
+  <el-row>
+    <el-col>
+      <div class="PersonTop" v-loading="is加载中">
+        <div class="PersonTop_img">
+          <img src="./组件/头像.jpeg">
+        </div>
+        <div class="PersonTop_text">
+          <div class="user_text">
+            <div class="user_name">
+              <span>  {{ UserInfo.User }}  </span>
+            </div>
+            <div class="user-v">
+              <span class="user-v-font">{{ UserInfo.UserClassName }}</span>
+            </div>
+            <div class="user_qianming">
+              <span v-if="UserInfo.VipTime>时间_取现行时间戳()"> 有效期:{{ 时间_时间戳到时间(UserInfo.VipTime) }}</span>
+              <span
+                  v-if="UserInfo.UserClassName !=='商业会员' || UserInfo.VipTime<时间_取现行时间戳()">{{
+                  "在线用户量(" + UserInfo.linkTokenCount + ")<100无需开通商业会员"
+                }}</span>
+            </div>
+            <div class="user_anniu">
+              <el-button
+                  type="danger"
+                  plain
+                  @click="快验注销({});UserInfo.User='';is对话框可见=true"
+              >注销
+              </el-button>
+              <el-button
+                  type="primary"
+                  plain
+                  @click="on更新个人信息"
+              >更新信息
+              </el-button>
 
+            </div>
           </div>
-        </div>
-        <div class="user_num">
-          <div style="cursor: pointer">
-            <div class="num_number">{{ UserInfo.RMB }}</div>
-            <span class="num_text">会员余额</span>
-          </div>
-          <div style="cursor: pointer">
-            <div class="num_number">{{ UserInfo.VipNumber }}</div>
-            <span class="num_text">会员积分</span>
+          <div class="user_num">
+            <div style="cursor: pointer">
+              <div class="num_number">{{ UserInfo.RMB }}</div>
+              <span class="num_text">会员余额</span>
+            </div>
+            <div style="cursor: pointer">
+              <div class="num_number">{{ UserInfo.VipNumber }}</div>
+              <span class="num_text">会员积分</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="person_body" v-loading="is加载中">
-    <div class="person_body_left">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
+    </el-col>
+  </el-row>
+  <el-row>
+    <el-col>
+      <div class="person_body" v-loading="is加载中">
+        <div class="person_body_left">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
               <span class="person_body_list" style="border-bottom: none"
               >个人中心</span
               >
-        </div>
-        <el-menu
-            active-text-color="#00c3ff"
-            :default-active="当前选择"
-            class="el-menu-vertical-demo"
-            @select="handleSelect"
+            </div>
+            <el-menu
+                active-text-color="#00c3ff"
+                :default-active="当前选择"
+                class="el-menu-vertical-demo"
+                @select="handleSelect"
 
-        >
-          <el-menu-item
-              index="个人信息"
-          >
-            <i class="el-icon-user"></i>
-            <span slot="title">个人信息</span>
-          </el-menu-item>
-          <el-menu-item
-              index="购卡充值"
-          >
-            <i class="el-icon-edit-outline"></i>
-            <span slot="title">购卡充值</span>
-          </el-menu-item>
-          <el-menu-item
-              index="余额充值"
-          >
-            <i class="el-icon-document"></i>
-            <span slot="title">余额充值</span>
-          </el-menu-item>
-        </el-menu>
-      </el-card>
-    </div>
-    <div class="person_body_right">
-      <KyUserInfo v-if="当前选择==='个人信息'" :UserInfo="UserInfo" @on更新个人信息="on更新个人信息"></KyUserInfo>
-      <PayKa v-if="当前选择==='购卡充值'" :UserInfo="UserInfo"  @on更新个人信息="on更新个人信息"></PayKa>
-      <PayRMB v-if="当前选择==='余额充值'" :UserInfo="UserInfo" @on更新个人信息="on更新个人信息"></PayRMB>
-    </div>
-  </div>
-<LoginView :is对话框可见="is对话框可见" @on对话框详细信息关闭="on对话框详细信息关闭"></LoginView>
+            >
+              <el-menu-item
+                  index="个人信息"
+              >
+                <i class="el-icon-user"></i>
+                <span slot="title">个人信息</span>
+              </el-menu-item>
+              <el-menu-item
+                  index="购卡充值"
+              >
+                <i class="el-icon-edit-outline"></i>
+                <span slot="title">购卡充值</span>
+              </el-menu-item>
+              <el-menu-item
+                  index="余额充值"
+              >
+                <i class="el-icon-document"></i>
+                <span slot="title">余额充值</span>
+              </el-menu-item>
+            </el-menu>
+          </el-card>
+        </div>
+        <div class="person_body_right">
+          <KyUserInfo v-if="当前选择==='个人信息'" :UserInfo="UserInfo"
+                      @on更新个人信息="on更新个人信息"></KyUserInfo>
+          <PayKa v-if="当前选择==='购卡充值'" :UserInfo="UserInfo" @on更新个人信息="on更新个人信息"></PayKa>
+          <PayRMB v-if="当前选择==='余额充值'" :UserInfo="UserInfo" @on更新个人信息="on更新个人信息"></PayRMB>
+        </div>
+      </div>
+    </el-col>
+  </el-row>
+
+
+  <LoginView :is对话框可见="is对话框可见" @on对话框详细信息关闭="on对话框详细信息关闭"></LoginView>
 </template>
 
 <script setup lang="ts">
@@ -98,10 +110,11 @@ import PayKa from "@/view/个人中心/组件/购卡充值.vue";
 import PayRMB from "@/view/个人中心/组件/余额充值.vue";
 import LoginView from "@/view/个人中心/组件/登录注册找回密码.vue";
 
-import {快验取用户信息, 快验登录,快验注销} from "@/api/快验个人中心api";
+import {快验取用户信息, 快验登录, 快验注销} from "@/api/快验个人中心api";
 import {ElMessage} from "element-plus";
 import {useStore} from "vuex";
 import {时间_取现行时间戳} from "@/utils/utils";
+
 const Store = useStore()
 
 const UserInfo = ref({
@@ -114,10 +127,10 @@ const UserInfo = ref({
   loginTime: 1685678065,
   loginIp: "127.0.0.1",
   RegisterTime: 1685678065,
-  AppVar:"",
-  AppVerUpdateTime:"",
-  AppVarNew:"",
-  linkTokenCount:   0,
+  AppVar: "",
+  AppVerUpdateTime: "",
+  AppVarNew: "",
+  linkTokenCount: 0,
 });
 const is加载中 = ref(false);
 const 当前选择 = ref("个人信息");
@@ -129,14 +142,14 @@ const handleSelect = (key, keyPath) => {
 }
 const is对话框可见 = ref(false)
 const on更新个人信息 = async () => {
-  is加载中.value=true
+  is加载中.value = true
   let 返回 = await 快验取用户信息({})
-  is加载中.value=false
+  is加载中.value = false
   if (返回.code == 10000) {
     UserInfo.value = 返回.data
   }
-  is对话框可见.value = UserInfo.value.User.length<6
-  console.log(UserInfo.value.User.length<6)
+  is对话框可见.value = UserInfo.value.User.length < 6
+  console.log(UserInfo.value.User.length < 6)
   console.log(UserInfo.value)
 }
 
@@ -144,7 +157,7 @@ const on对话框详细信息关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")
   is对话框可见.value = false
   if (is重新读取) {
-     on更新个人信息()
+    on更新个人信息()
   }
 }
 onMounted(async () => {
@@ -198,8 +211,7 @@ const 时间_时间戳到时间 = (Time) => {
   background-color: white;
   margin-top: 30px;
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+left: 5%;
   display: flex;
   border-radius: 5px;
 }
@@ -291,8 +303,7 @@ const 时间_时间戳到时间 = (Time) => {
   margin-top: 210px;
   display: flex;
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 5%;
   border-radius: 5px;
 }
 

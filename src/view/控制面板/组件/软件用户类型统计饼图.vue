@@ -117,7 +117,9 @@ onUnmounted(() => {
   chart.value = null
 })
 window.onresize = function () {
-  chart.value.resize();
+  if (chart.value){
+    chart.value.resize();
+  }
 }
 </script>
 <style lang="scss" scoped>

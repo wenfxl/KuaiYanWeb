@@ -249,7 +249,7 @@ const is对话框id = ref(0)
 const on对话框详细信息打开 = (id: number) => {
   console.info("on对话框详细信息打开")
   is对话框可见.value = true
-  is对话框id.value = -Store.state.UserInfo.AdminInfo.Id
+  is对话框id.value = -1  //负数为管理员ID
 }
 const on对话框详细信息关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")
