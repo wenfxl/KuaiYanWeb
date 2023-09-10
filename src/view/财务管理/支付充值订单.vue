@@ -38,6 +38,8 @@
                 <el-option label="用户名" :value="1"/>
                 <el-option label="备注" :value="2"/>
                 <el-option label="Ip" :value="3"/>
+                <el-option label="订单ID" :value="4"/>
+                <el-option label="支付通道订单ID" :value="5"/>
               </el-select>
             </template>
           </el-input>

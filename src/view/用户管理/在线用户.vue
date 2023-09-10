@@ -16,6 +16,12 @@
             <el-option key="2" label="注销" :value="2"/>
           </el-select>
         </el-form-item>
+        <el-form-item label="游客" prop="status" style="width:120px">
+          <el-select v-model="对象_搜索条件.Tourist" clear placeholder="请选择">
+            <el-option key="0" label="包含" :value="0"/>
+            <el-option key="1" label="排除" :value="1"/>
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
@@ -324,7 +330,7 @@ const List = ref({
   }]
 })
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0, Keywords: "", AppId: 0})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0,Tourist:0, Keywords: "", AppId: 0})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
@@ -332,7 +338,7 @@ const on读取列表 = () => {
   onGetLinkUserList()
 }
 const onReset = () => {
-  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0, Keywords: "", AppId: 0}
+  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0,Tourist:0, Keywords: "", AppId: 0}
 }
 const on格式化_状态 = (row: any, column: any) => {
   // console.log("on状态格式化")
