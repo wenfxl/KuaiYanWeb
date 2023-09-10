@@ -94,7 +94,7 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="User" label="用户名" width="130"/>
+        <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip=""/>
 
         <el-table-column align="left" label="状态" prop="status" width="80">
           <template #default="scope">

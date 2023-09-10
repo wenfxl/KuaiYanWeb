@@ -113,7 +113,7 @@
         </el-table-column>
 
 
-        <el-table-column prop="User" label="用户名" width="130"/>
+        <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip=""/>
         <el-table-column prop="MsgType" label="消息类型" width="90">
           <template #default="scope">
             <el-tag size="small" :type="on消息类型标签(scope.row.MsgType)">
@@ -371,7 +371,7 @@ const onGetLogLoginList = async () => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
   localStorage.setItem('列宽_用户消息', JSON.stringify(局_列宽数组));
 }
@@ -381,13 +381,12 @@ const on表格列宽初始化 = () => {
   if (局_列宽数组文本 != null) {
     let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
 
-    表格写入列宽数组(tableRef.value, 局_列宽数组)
+    表格写入列宽数组(tableRef, 局_列宽数组)
+    console.log("用户消息列宽被初始化")
+    console.log(局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
+
 // table高度
 const tableHeight = ref();
 
@@ -476,6 +475,11 @@ const tableRowClassName = ({
   }
   return '未读-row'
 }
+
+onMounted(async () => {
+      on表格列宽初始化()
+    }
+)
 </script>
 
 <style scoped lang="scss">

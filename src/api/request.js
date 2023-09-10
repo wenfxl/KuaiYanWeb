@@ -18,7 +18,7 @@ service.interceptors.request.use(
         config.url+="?time="+new Date().getTime().toString();
         config.headers = {
             'Content-Type': 'application/json',
-            'Token': localStorage.getItem("Token"),
+            'Token': localStorage.getItem("AdminToken"),
             ...config.headers
         }
         return config

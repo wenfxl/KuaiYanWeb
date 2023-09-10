@@ -12,7 +12,7 @@ export const 时间_取现行时间戳 = (): number => {
     return Number(outcome)
 }
 /**获取前monthNum个月的月份 */
-export const 获取前几个个月的月份=(monthNum): any =>{
+export const 获取前几个个月的月份 = (monthNum): any => {
     let datelist = [""]
     datelist = []
     let date = new Date()
@@ -35,7 +35,7 @@ export const 获取前几个个月的月份=(monthNum): any =>{
     return datelist
 }
 
-export const 获取前几个小时的小时=(monthNum): any =>{
+export const 获取前几个小时的小时 = (monthNum): any => {
     let datelist = [""]
     datelist = []
     let date = new Date()
@@ -110,7 +110,7 @@ export const 置剪辑版文本2 = (text: string, 成功提示: string) => {
 
 
 //这个置剪辑版必须 https或本地才正常  因为 window.isSecureContext 这个值真才可以使用,安全上下文
-export const 置剪辑版文本 = (text: string, 成功提示: string)  => {
+export const 置剪辑版文本 = (text: string, 成功提示: string) => {
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(
             // 复制成功callback
@@ -138,18 +138,18 @@ export const 置剪辑版文本 = (text: string, 成功提示: string)  => {
                 })
             },
         )
-    }else {
-        置剪辑版文本2(text , 成功提示)
+    } else {
+        置剪辑版文本2(text, 成功提示)
     }
 }
 //Element-Plus 只能传入这个ui库的表格 并激活下载
-export const 表格导出csv文本并下载 = (tableRef:any,文件名称:string): void => {
+export const 表格导出csv文本并下载 = (tableRef: any, 文件名称: string): void => {
 
     const csvContent = 表格导出csv文本(tableRef);
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
     const link = document.createElement('a');
     link.setAttribute('href', URL.createObjectURL(blob));
-    link.setAttribute('download', 文件名称+'.csv');
+    link.setAttribute('download', 文件名称 + '.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -186,23 +186,23 @@ export const 表格导出csv文本 = (tableRef: any): string => {
     return csvRows.join('\n');
 };
 //Element-Plus 只能传入这个ui库的表格  读取列宽数组  返回整数数组
-export const 表格读取列宽数组 = (tableRef:any): any => {
+export const 表格读取列宽数组 = (tableRef: any): any => {
     const tableColumns = tableRef.store.states.columns._rawValue;
     const widths = tableColumns.map(column => column.width);
-
-
     return widths
 };
 
-export const 表格写入列宽数组 = (tableRef:any,widths:number[]) => {
-    if (tableRef.data.length===0){  //如果没有数据不改变列宽,因为会出现列宽异常的状况
+export const 表格写入列宽数组 = (tableRef: any, widths: number[]) => {
+    if (tableRef.data===undefined || tableRef.data.length === 0) {
         return
     }
-    const tableColumns = tableRef.store.states.columns._rawValue;
+    let tableColumns = tableRef.store.states.columns._rawValue; //这个行有问题 有时会取出空数组
 
-    for (var i = 0, len = tableColumns.length; i < len; i = i + 1) {
-        if (widths[i]!=undefined){
-            tableColumns[i].width=widths[i]
+    for (let i = 0, len = tableColumns.length; i < len; i = i + 1) {
+
+        if (widths[i] != undefined && widths[i] != null) {
+            tableColumns[i].width = widths[i]
+
         }
     }
 };
@@ -266,8 +266,7 @@ export const Is卡号 = (AppType: number) => {
 }
 
 
-
-export const 金额整数转中文 = (money) =>{
+export const 金额整数转中文 = (money) => {
     // 接收数字或者字符串数字
     if (typeof money === "string") {
         if (money === '') return ''

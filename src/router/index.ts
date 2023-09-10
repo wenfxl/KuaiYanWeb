@@ -175,7 +175,7 @@ const 路由守卫白名单 = ['/Login', '/Init']
 //路由守卫
 router.beforeEach(async (to, from) => {
     Nprogress.start()
-    console.log("路由守卫:" + localStorage.getItem("Token"))
+    console.log("路由守卫:" + localStorage.getItem("AdminToken"))
     if (to.path == "/Login") {
         return true;
     }
@@ -185,7 +185,7 @@ router.beforeEach(async (to, from) => {
         return true
     }
     //如果没有 token  跳转登录
-    if (!localStorage.getItem("Token")) {
+    if (!localStorage.getItem("AdminToken")) {
 
         return {path: "/Login"};
     } else {

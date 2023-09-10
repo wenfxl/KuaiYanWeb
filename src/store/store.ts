@@ -41,7 +41,7 @@ export const store = createStore<state全局状态>({
             Tabs菜单当前Path: "",
             ServerName: "系统名称待初始化",
             备案号: "暂无备案号",
-            Token: window.localStorage.getItem('token') || '',
+            Token: window.localStorage.getItem('AdminToken') || '',
             权限json: 权限json,
             UserInfo: {
                 "AdminInfo": {
@@ -121,7 +121,7 @@ export const store = createStore<state全局状态>({
         },
         setToken(state全局状态: state全局状态, Token: string) {
             state全局状态.Token = Token
-            window.localStorage.setItem('Token', Token)
+            window.localStorage.setItem('AdminToken', Token)
         },
         setUserInfo(state全局状态: state全局状态, UserInfo: object) {
             state全局状态.UserInfo = UserInfo
@@ -129,7 +129,7 @@ export const store = createStore<state全局状态>({
         },
         NeedInit(state全局状态: state全局状态) {
             state全局状态.Token = ''
-            window.localStorage.removeItem('Token')
+            window.localStorage.removeItem('AdminToken')
             localStorage.clear()
 
         },

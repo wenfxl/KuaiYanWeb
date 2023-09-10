@@ -93,7 +93,7 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="User" label="用户名" width="130"/>
+        <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip=""/>
         <el-table-column prop="AppName" label="归属应用" width="230"/>
         <el-table-column prop="KaClassName" label="卡类名称" width="130"/>
         <el-table-column label="已用/总数" width="140">

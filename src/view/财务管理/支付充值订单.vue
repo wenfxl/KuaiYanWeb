@@ -141,7 +141,20 @@
 
 
         <el-table-column prop="Ip" label="IP" width="135"/>
-        <el-table-column prop="Note" label="备注"/>
+        <el-table-column prop="Note" label="备注" show-overflow-tooltip="" >
+          <template #default="scope">
+            <el-button link type="primary" size="default"
+                       @click="on订单备注被改变(scope.$index,scope.row.PayOrder,scope.row.Note)" style="color:#79bbff">
+              <el-icon color="#79bbff" size="18" class="管理员备注编辑">
+                <Edit/>
+              </el-icon>
+            </el-button>
+            {{ scope.row.Note }}
+          </template>
+        </el-table-column>
+
+
+        <el-table-column prop="PayOrder2" label="支付通道订单ID" width="170" show-overflow-tooltip=""/>
         <el-table-column fixed="right" label="操作" width="110">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个退款(scope.row)" style="color:#f56d6d"
@@ -186,7 +199,7 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref, watch} from "vue";
-import {GetLogRMBPayOrderList, Del批量删除LogRMBPayOrder, OutRMBPayOrder} from "@/api/支付充值订单api.js";
+import {GetLogRMBPayOrderList, Del批量删除LogRMBPayOrder, SetPayOrderNote} from "@/api/支付充值订单api.js";
 import {
   时间_时间戳到时间,
   时间_取现行时间戳,
@@ -204,6 +217,7 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
 import ChartData from "@/view/财务管理/组件/支付充值订单图表抽屉.vue";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 const is图表分析抽屉可见 = ref(false)
 const on批量删除 = async (Type: number) => {
@@ -272,6 +286,37 @@ const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, eve
 
   localStorage.setItem('列宽_支付充值订单', JSON.stringify(局_列宽数组));
 }
+const on订单备注被改变 = async (表项索引: number, PayOrder: string, Note: string) => {
+  console.log("on订单备注被改变")
+  let 新备注 = Note
+  await ElMessageBox.prompt('请输入新订单备注', '', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    inputValue: Note
+  })
+      .then(async ({value}) => {
+        新备注 = value
+        const res = await SetPayOrderNote({"PayOrder": [PayOrder], "Note": 新备注})
+        console.log(res)
+        if (res.code == 10000) {
+          Data.value.List[表项索引].Note = 新备注   //成功赋新值
+          ElMessage({
+            type: "success",
+            message: res.msg,
+            showClose: true,
+          })
+          return true
+        } else {
+          return false
+        }
+      })
+      .catch(() => {
+        return
+      })
+
+
+}
+
 const on表格列宽初始化 = () => {
 
   let 局_列宽数组文本 = localStorage.getItem('列宽_支付充值订单')
@@ -313,7 +358,8 @@ const Data = ref({
       "Ip": "",
       "Count": 0,
       "Msg": "",
-      "UidType":1
+      "UidType":1,
+      "Note":""
     }]
 })
 const Store = useStore()

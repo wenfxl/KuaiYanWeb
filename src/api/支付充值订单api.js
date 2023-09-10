@@ -41,3 +41,14 @@ export const OutRMBPayOrder = (data) => {
     data: data
   })
 }
+
+//  SetAdminNote
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
+export const SetPayOrderNote = (data) => {
+  return service({
+    url: url+'SetPayOrderNote',
+    method: 'post',
+    data: data
+  })
+}

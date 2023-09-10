@@ -109,7 +109,7 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}  ">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="User" label="用户名" width="210"/>
+        <el-table-column prop="User" label="用户名" width="210" show-overflow-tooltip=""/>
         <el-table-column prop="AppId" label="应用名称" width="210" show-overflow-tooltip="">
           <template #default="scope">
             {{ MapAppId_Name.hasOwnProperty(scope.row.AppId.toString()) ? MapAppId_Name[scope.row.AppId.toString()] : '已删待改' + scope.row.AppId.toString()}}
