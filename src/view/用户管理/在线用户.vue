@@ -92,9 +92,10 @@
                 @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
+                fit="fit"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
-        <el-table-column prop="Id" label="Id" width="80"/>
+        <el-table-column prop="Id" label="Id" width="80" />
         <el-table-column prop="User" label="用户名" width="130"  show-overflow-tooltip="">
           <template #default="scope">
 
@@ -187,7 +188,7 @@
     </div>
   </div>
   <vueNewWebApiToken :is对话框可见_创建令牌="is对话框可见_创建令牌" @on对话框详细信息关闭="on对话框详细信息关闭" />
-  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
 </template>
 
 <script lang="ts" setup>

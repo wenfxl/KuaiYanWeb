@@ -191,7 +191,7 @@
                     @on对话框详细信息关闭="is制卡授权对话框可见=false"></KaClassAuthority>
   <BatchAddRmb v-if="is批量维护增减余额输入框可见"
                @on批量维护增减余额输入框被关闭="on批量维护增减余额输入框被关闭"></BatchAddRmb>
-  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
 </template>
 
 <script lang="ts" setup>
@@ -413,7 +413,7 @@ const onGetUserList = async () => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
   localStorage.setItem('列宽_代理账号', JSON.stringify(局_列宽数组));
 }

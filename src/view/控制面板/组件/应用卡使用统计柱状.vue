@@ -1,12 +1,18 @@
 <template>
 
-  <div v-loading="is加载中"  element-loading-text="数据努力统计中..."  class="dashboard-line-box"       style="width: 100%;min-height: 360px;position:relative">
+  <div v-loading="is加载中" element-loading-text="数据努力统计中..." class="dashboard-line-box"
+       style="width: 100%;min-height: 360px;position:relative">
     <div
         ref="echart"
         class="dashboard-line"
 
     />
+    <div
+
+    />
   </div>
+
+
 </template>
 <script setup>
 import * as echarts from 'echarts'
@@ -20,12 +26,12 @@ const echart = ref(null)
 const initChart = () => {
   chart.value = echarts.init(echart.value /* 'macarons' */)
   setOptions([
-    ['product', '已用', '未用', '总数'],
-    ['测试应用1', 43, 25, 999],
-    ['测试应用2', 23, 33, 999],
-    ['测试应用3', 36, 45, 999],
-    ['测试应用4', 4, 65, 999],
-    ['测试应用5', 86, 65, 999]
+    ['product', '已用', '未用', '总数', '在线'],
+    ['测试应用1', 43, 25, 999, 66],
+    ['测试应用2', 23, 33, 999, 99],
+    ['测试应用3', 36, 45, 999, 33],
+    ['测试应用4', 4, 65, 999, 11],
+    ['测试应用5', 86, 65, 999, 66]
   ])
 }
 const setOptions = (data) => {
@@ -46,9 +52,12 @@ const setOptions = (data) => {
         let dotColor = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[0].color + '"></span>'
         let dotColor2 = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[1].color + '"></span>'
         let dotColor3 = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#73c0e7 "></span>'
+        let dotColor4 = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#f56d6d "></span>'
         return dotColor + '已用:' + params[0].value[1].toString() + "(" + (params[0].value[1] / (params[0].value[1] + params[0].value[2]) * 100).toFixed(2).toString() + "%)" + "<br>" +
             dotColor2 + '未用:' + params[0].value[2].toString() + "(" + (params[0].value[2] / (params[0].value[1] + params[0].value[2]) * 100).toFixed(2).toString() + "%)" + "<br>" +
-            dotColor3 + '共计数量:' + (parseInt(params[0].value[1]) + parseInt(params[0].value[2])).toString();
+            dotColor3 + '共计数量:' + (parseInt(params[0].value[1]) + parseInt(params[0].value[2])).toString() + "<br>"+
+            dotColor4 + '在线数量:' + parseInt(params[0].value[4]).toString();
+
       }
     },
 
@@ -84,14 +93,14 @@ const setOptions = (data) => {
     stack: 'total'
   };
 
-  图数据.title=is移动端()?"":图数据.title
+  图数据.title = is移动端() ? "" : 图数据.title
   chart.value.setOption(图数据)
 }
 const on读取图表数据 = async () => {
-  is加载中.value=true
+  is加载中.value = true
   let 返回;
   返回 = await get图表卡号列表统计应用卡可用已用({})
-  is加载中.value=false
+  is加载中.value = false
   console.log(返回)
   if (返回.code === 10000) {
     setOptions(返回.data)
@@ -111,7 +120,7 @@ onUnmounted(() => {
   chart.value = null
 })
 window.onresize = function () {
-  if (chart.value){
+  if (chart.value) {
     chart.value.resize();
   }
 }

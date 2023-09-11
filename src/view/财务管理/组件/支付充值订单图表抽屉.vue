@@ -22,18 +22,10 @@ import {onMounted, ref, watch} from "vue";
 
 
 const Props = defineProps({
-  is图表分析抽屉可见: {
-    type: Boolean,
-    default: false
-  }
 })
 const emit = defineEmits(['on图表分析抽屉关闭'])
-watch(() => Props.is图表分析抽屉可见, (newVal, oldVal) => {
-  if (newVal) {
-    is图表分析抽屉可见2.value = newVal;
-  }
-})
-const is图表分析抽屉可见2 = ref(false)
+
+const is图表分析抽屉可见2 = ref(true)
 onMounted(() => {
   console.info("图表分析加载完毕了")
 })

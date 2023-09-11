@@ -196,7 +196,7 @@
                   @on对话框详细信息关闭="on对话框详细信息关闭"></NewRMBPayOrder>
   <ViewOutRMBPayOrder :Is退款订单可见="Is退款订单可见" :退款订单="退款订单"
                       @on对话框退款关闭="on对话框退款关闭"></ViewOutRMBPayOrder>
-  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>

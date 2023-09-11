@@ -190,7 +190,7 @@
   <AppUserinfo :is对话框可见="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
                :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
                @on对话框详细信息关闭="on对话框详细信息关闭" :UserType="对象_用户类型"></AppUserinfo>
-  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
   <BatchElMessage :is批量维护输入框可见="is批量维护输入框可见" 标题="批量修改勾选用户,负数可能减到0以下"
                      :提示信息='isAppType计点()?"请输入增减点数(点)":"请输入增减时间(秒)"'
                      :AppType="Data.AppType"

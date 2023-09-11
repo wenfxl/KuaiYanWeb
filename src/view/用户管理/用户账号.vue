@@ -177,7 +177,7 @@
     </div>
   </div>
   <Userinfo v-if="is对话框可见" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
-  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
   <BatchAddRmb v-if="is批量维护增减余额输入框可见"  @on批量维护增减余额输入框被关闭="on批量维护增减余额输入框被关闭"></BatchAddRmb>
 </template>
 
