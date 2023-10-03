@@ -27,7 +27,7 @@
         <el-form-item prop="status" style="width:120px">
           <el-select v-model="对象_搜索条件.Num" clear placeholder="请选择">
             <el-option key="0" label="全部使用" :value="0"/>
-            <el-option key="1" label="无使用次数" :value="1"/>
+            <el-option key="1" label="已耗尽次数" :value="1"/>
             <el-option key="2" label="有使用次数" :value="2"/>
           </el-select>
         </el-form-item>

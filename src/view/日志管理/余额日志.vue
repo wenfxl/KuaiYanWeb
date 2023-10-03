@@ -132,7 +132,7 @@
       </div>
     </div>
   </div>
-  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>

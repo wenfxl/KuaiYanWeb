@@ -86,6 +86,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/系统管理/系统设置3改.vue"),
             },
             {
+                path: "二开扩展/用户云配置",
+                name: "用户云配置",
+                component: () => import("@/view/二开扩展/用户云配置.vue"),
+            },
+            {
                 path: "二开扩展/公共变量",
                 name: "公共变量",
                 component: () => import("@/view/二开扩展/公共变量.vue"),

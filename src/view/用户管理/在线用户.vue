@@ -140,7 +140,7 @@
         </el-table-column>
         <el-table-column prop="LoginTime" label="登录时间" width="160" :formatter="on格式化_登录时间"/>
         <el-table-column prop="LastTime" label="最后活动时间" width="160" :formatter="on格式化_最后活动时间"/>
-        <el-table-column prop="OutTime" label="自动注销时间" width="160">
+        <el-table-column prop="OutTime" label="心跳超时注销" width="160">
           <template #default="scope">
             <div v-if="scope.row.OutTime<315360000">
               <el-countdown style="font-size: 18px" :value="(scope.row.LastTime+scope.row.OutTime)*1000"/>

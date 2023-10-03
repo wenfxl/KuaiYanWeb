@@ -33,7 +33,6 @@ const on抽屉被关闭 = () => {
   console.info("on对话框被关闭")
   is图表分析抽屉可见2.value = false
   emit('on图表分析抽屉关闭', false)
-
 }
 
 </script>

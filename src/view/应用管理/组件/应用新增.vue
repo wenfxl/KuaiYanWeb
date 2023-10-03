@@ -71,10 +71,6 @@ import {ElMessage, FormInstance} from "element-plus";
 import {is移动端} from "@/utils/utils";
 
 const Props = defineProps({
-  is对话框可见: {
-    type: Boolean,
-    default: false
-  },
   AppId: {
     type: Number,
     default: 10001
@@ -82,15 +78,8 @@ const Props = defineProps({
 })
 
 const emit = defineEmits(['on对话框详细信息关闭'])
-watch(() => Props.is对话框可见, (newVal, oldVal) => {
-  if (newVal) {
-    is对话框可见2.value = newVal;
-    console.info("is对话框可见2被检测到改变了:")
-  }
-})
 
-
-const is对话框可见2 = ref(false)
+const is对话框可见2 = ref(true)
 const data = ref({"AppId": 10001, "AppName": "测试应用", "AppType": 1})
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)

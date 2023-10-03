@@ -19,6 +19,7 @@ interface state全局状态 {
     搜索_用户类型: object
     搜索_卡类列表: object
     搜索_卡号列表: object
+    搜索_用户云配置: object
     搜索_公共变量: object
     搜索_公共函数: object
     搜索_任务池: object
@@ -63,6 +64,7 @@ export const store = createStore<state全局状态>({
             搜索_卡类列表: {},
             搜索_卡号列表: {},
             搜索_公共变量: {},
+            搜索_用户云配置: {},
             搜索_公共函数: {},
             搜索_任务池: {},
             搜索_登录日志: {},
@@ -153,6 +155,9 @@ export const store = createStore<state全局状态>({
         },
         set搜索_卡号列表(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_卡号列表 = data
+        },
+        set搜索_用户配置(state全局状态: state全局状态, data: object) {
+            state全局状态.搜索_用户云配置 = data
         },
         set搜索_公共变量(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_公共变量 = data

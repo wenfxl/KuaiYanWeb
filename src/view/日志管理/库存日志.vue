@@ -153,7 +153,6 @@
       </div>
     </div>
   </div>
-  <ChartData :is图表分析抽屉可见="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>
@@ -172,7 +171,6 @@ import {useStore} from "vuex";
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
-import ChartData from "@/view/财务管理/组件/支付充值订单图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
 

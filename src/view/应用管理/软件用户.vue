@@ -47,7 +47,7 @@
           新增
         </el-button>
 
-        <el-popconfirm title="确定删除勾选软件用户?" width="200" @confirm="on批量删除" confirm-button-text="确定"
+        <el-popconfirm title="确定删除勾选软件用户,会同时删除用户云配置信息?" width="200" @confirm="on批量删除" confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
             <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
@@ -187,7 +187,7 @@
 
     </div>
   </div>
-  <AppUserinfo :is对话框可见="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
+  <AppUserinfo v-if="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
                :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
                @on对话框详细信息关闭="on对话框详细信息关闭" :UserType="对象_用户类型"></AppUserinfo>
   <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>

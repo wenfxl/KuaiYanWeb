@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="is对话框可见2" :title="'编辑应用配置AppID:'+Props.id" @open="on对话框被打开"
+  <el-dialog v-model="is对话框可见2" :title="'编辑应用配置AppID:'+Props.id"
              :width="is移动端()?'90%':'60%'"
              @close="on对话框被关闭"
              top="5vh"
@@ -158,8 +158,6 @@
                 </el-form-item>
               </template>
             </el-popover>
-
-
           </el-tab-pane>
           <el-tab-pane label="安全设置" name="安全设置">
             <el-form-item label="web地址" prop="AppWeb">
@@ -418,10 +416,6 @@ import {CirclePlus, Plus, Refresh} from "@element-plus/icons";
 import {Delete} from "@element-plus/icons-vue";
 
 const Props = defineProps({
-  is对话框可见: {
-    type: Boolean,
-    default: false
-  },
   id: {
     type: Number,
     default: 0
@@ -433,14 +427,7 @@ const isVipType = ref(true)  // 真是件  假点数
 const 应用详细信息顶部标签现行选项 = ref("应用设置")
 
 
-watch(() => Props.is对话框可见, (newVal, oldVal) => {
-  if (newVal) {
-    is对话框可见2.value = newVal;
-    console.info("is对话框可见2被检测到改变了:")
-  }
-})
-
-const is对话框可见2 = ref(false)
+const is对话框可见2 = ref(true)
 const 对象_卡类型 = ref({})
 const SerVerUrl = ref("http://127.0.0.1:18888")
 const data = ref({
@@ -564,7 +551,6 @@ const on增加版本号 = ( 位数,增减值) => {
   });
   const 新版本号行 = 新版本号数组.join('.');
   data.value.AppVer=新版本号行 + '\n' + 版本号行.slice(1).join('\n');
-
 }
 const on校验表单重置 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -572,6 +558,11 @@ const on校验表单重置 = (formEl: FormInstance | undefined) => {
 }
 onMounted(() => {
   console.info("用户详细信息对话框加载完毕了")
+  is重新读取.value = false
+  console.info("on对话框被打开id:" + Props.id)
+  on校验表单重置(ruleFormRef.value)
+
+  读取详细信息(Props.id)
 })
 
 const 校验是否json = (rule: any, value: any, callback: any) => {
@@ -619,12 +610,7 @@ const on表单校验 = ref({
 })
 
 
-const on对话框被打开 = () => {
-  is重新读取.value = false
-  console.info("on对话框被打开id:" + Props.id)
-  on校验表单重置(ruleFormRef.value)
-  读取详细信息(Props.id)
-}
+
 const 读取详细信息 = async (id: number) => {
   if (id > 0) {
     let 返回 = await GetApp详细信息({"Id": id})

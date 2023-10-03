@@ -159,8 +159,8 @@
 
     </div>
   </div>
-  <NewApp :is对话框可见="is对话框可见_应用新增" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></NewApp>
-  <New详细信息 :is对话框可见="is对话框可见_详细信息" :id="is对话框id"
+  <NewApp v-if="is对话框可见_应用新增" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></NewApp>
+  <New详细信息 v-if="is对话框可见_详细信息" :id="is对话框id"
                @on对话框详细信息关闭="on对话框详细信息关闭"></New详细信息>
   <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>

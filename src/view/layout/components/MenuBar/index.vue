@@ -138,6 +138,12 @@ const menus = [{
   "meta": {"title": "二开扩展", "icon": "Operation"},
   "children": [{
     "ID": 999,
+    "path": "二开扩展/用户云配置",
+    "name": "用户云配置",
+    "meta": {"title": "用户云配置", "icon": "ElementPlus"},
+    "children": []
+  }, {
+    "ID": 999,
     "path": "二开扩展/公共变量",
     "name": "公共变量",
     "meta": {"title": "公共变量", "icon": "ElementPlus"},
