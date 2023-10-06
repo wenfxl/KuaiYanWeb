@@ -113,6 +113,9 @@
             <el-tag size="small" type="info" v-if="scope.row.UidType===2">
               卡
             </el-tag>
+            <el-tag size="small" type="info" v-if="!scope.row.User">
+              未登录创建订单
+            </el-tag>
             {{scope.row.User}}
           </template>
         </el-table-column>
