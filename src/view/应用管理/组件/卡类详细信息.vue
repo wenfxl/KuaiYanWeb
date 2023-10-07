@@ -165,7 +165,7 @@
             <el-option v-for="(ver,key) in UserType" :key="key" :label="ver" :value="Number(key)"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="类型不同处理方式" prop="NoUserClass"  v-if="AppType<=2">
+        <el-form-item label="类型不同处理方式" prop="NoUserClass"  >
           <el-radio-group v-model="data.NoUserClass">
             <el-radio-button :label="1">自动根据权重转换分组</el-radio-button>
             <el-radio-button :label="2">禁止充值</el-radio-button>

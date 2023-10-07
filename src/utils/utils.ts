@@ -385,3 +385,14 @@ export const 金额整数转中文 = (money) => {
     ChineseStr = Symbol + ChineseStr
     return ChineseStr
 }
+function 文本_取出中间文本(text, startKeyword, endKeyword) {
+    const startIndex = text.indexOf(startKeyword);
+    const endIndex = text.indexOf(endKeyword);
+
+    if (startIndex === -1 || endIndex === -1 || startIndex >= endIndex) {
+        return "";
+    }
+
+    return text.substring(startIndex + startKeyword.length, endIndex);
+}
+

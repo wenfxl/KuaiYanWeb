@@ -123,12 +123,12 @@
           </el-select>
         </el-form-item>
 
-<!--        <el-form-item label="类型不同处理方式" prop="NoUserClass">
+        <el-form-item label="类型不同处理方式" prop="NoUserClass">
           <el-radio-group v-model="data.NoUserClass">
             <el-radio-button :label="1">自动根据权重转换分组</el-radio-button>
             <el-radio-button :label="2">禁止充值</el-radio-button>
           </el-radio-group>
-        </el-form-item>-->
+        </el-form-item>
 <!--        <el-form-item label="充值方式" prop="KaType">
           <el-radio-group v-model="data.KaType">
             <el-radio-button :label="1">有次数即可</el-radio-button>
@@ -145,9 +145,6 @@
             </li>
             <li class="li展示不可修改信息" >充值方式:
               <el-text type="info"  size="large">{{data.KaType===1?"有次数即可":"每用户一次" }}</el-text>
-            </li>
-            <li class="li展示不可修改信息" >类型不同处理方式:
-              <el-text type="info"  size="large">{{data.NoUserClass===1?"自动根据权重转换分组":"禁止充值" }}</el-text>
             </li>
             <li class="li展示不可修改信息" v-if="data.EndTime!==9999999999">有效期:
               <el-text type="info"  size="large">{{时间_时间戳到时间(data.EndTime)}}</el-text>

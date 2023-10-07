@@ -5,9 +5,10 @@
              top="5vh"
              style="height: 90%"
              draggable
+
   >
 
-    <div style="height:72vh;overflow:auto;padding:0 12px;">
+    <div style="height:72vh;overflow:auto;padding:0 12px;" v-loading="is加载中" >
       <el-form :inline="false" style="min-width: 80px;min-height: 100%" label-width="160px" :rules="on表单校验"
                :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
@@ -396,7 +397,7 @@
       </el-form>
     </div>
     <template #footer>
-      <div class="dialog-footer">
+      <div class="dialog-footer" v-loading="is加载中" >
         <el-button @click="is对话框可见2=false">取 消</el-button>
         <el-button type="primary" @click="on确定按钮被点击(ruleFormRef)">确 定</el-button>
       </div>
@@ -426,7 +427,7 @@ const emit = defineEmits(['on对话框详细信息关闭'])
 const isVipType = ref(true)  // 真是件  假点数
 const 应用详细信息顶部标签现行选项 = ref("应用设置")
 
-
+const is加载中 = ref(false)
 const is对话框可见2 = ref(true)
 const 对象_卡类型 = ref({})
 const SerVerUrl = ref("http://127.0.0.1:18888")
@@ -485,6 +486,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (Props.id === 0) {
 
   } else {
+    is加载中.value=true
     let 验证码JSon: object = {} as any[];
 
     for (let 索引 in 数组_验证码短信.value) {
@@ -503,6 +505,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
 
     data.value.Captcha = JSON.stringify(验证码JSon)
     返回 = await SaveApp信息({"AppData": data.value, "PublicData": 专属变量.value});
+    is加载中.value=false
   }
 
   console.log(返回)
@@ -613,7 +616,9 @@ const on表单校验 = ref({
 
 const 读取详细信息 = async (id: number) => {
   if (id > 0) {
+    is加载中.value=true
     let 返回 = await GetApp详细信息({"Id": id})
+    is加载中.value=false
     if (返回.code == 10000) {
       if (返回.data.AppInfo.AppId!=data.value.AppId){  //打开不同应用 复原标签
         应用详细信息顶部标签现行选项.value="应用设置"
@@ -635,6 +640,7 @@ const 读取详细信息 = async (id: number) => {
 
 
       await on读取用户Api数组()
+
       //必须选读取下拉框后再填入已选择数据,不然不显示
       数组_验证码英数.value = []
       数组_验证码行为.value = []
@@ -654,7 +660,9 @@ const 读取详细信息 = async (id: number) => {
         }
       }
       console.log(数组_验证码英数.value)
+
       await on读取专属变量()
+
 
     } else {
       is重新读取.value = false
@@ -701,7 +709,9 @@ const on读取用户Api数组 = async () => {
   console.log(数组_用户Api.value.length)
   数组_验证码英数.value = []
   if (数组_用户Api.value.length === 0) {
+    is加载中.value=true
     const res = await Get全部用户APi()
+    is加载中.value=false
     if (res.code == 10000) {
       数组_用户Api.value = res.data
     }
@@ -784,7 +794,9 @@ const 添加专属变量 = ref({
 })
 const on读取专属变量 = async () => {
   专属变量.value = []
+  is加载中.value=true
   const res = await GetList({AppId: data.value.AppId, Type: 1, Size: 50, Order: 2, Page: 1, Keywords: ""})
+  is加载中.value=false
   if (res.code == 10000) {
     专属变量.value = res.data.List
     专属变量.value.reverse()
@@ -818,7 +830,9 @@ const on添加专属变量 = async (是否添加: boolean) => {
     "IsVip": 0
   }
 
+  is加载中.value=true
   const res = await New(NewPublicData)
+  is加载中.value=false
   if (res.code == 10000) {
     is添加专属变量.value = false
     专属变量.value.push(NewPublicData)
@@ -831,13 +845,14 @@ const on添加专属变量 = async (是否添加: boolean) => {
 }
 
 const on删除专属变量 = async (数组索引: number) => {
+  is加载中.value=true
   const res = await DeleteInfo({
     "data": [{
       "AppId": 专属变量.value[数组索引].AppId,
       "Name": 专属变量.value[数组索引].Name
     }]
   })
-
+  is加载中.value=false
 
   if (res.code == 10000) {
     is添加专属变量.value = false
