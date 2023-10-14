@@ -8,7 +8,9 @@
                        :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
           </el-select>
         </el-form-item>
-
+        <el-form-item prop="status" style="width:140px">
+          <el-checkbox-button v-model="对象_搜索条件.IsLogin" label="仅在线" size="large" @change="on读取列表"/>
+        </el-form-item>
         <el-form-item :label="isAppType计点()?'剩余点数':'vip时间'" prop="status" style="width:140px">
           <el-select v-model="对象_搜索条件.Status" clear placeholder="全部">
             <el-option key="0" label="全部" :value="0"/>
@@ -47,7 +49,8 @@
           新增
         </el-button>
 
-        <el-popconfirm title="确定删除勾选软件用户,会同时删除用户云配置信息?" width="200" @confirm="on批量删除" confirm-button-text="确定"
+        <el-popconfirm title="确定删除勾选软件用户,会同时删除用户云配置信息?" width="200" @confirm="on批量删除"
+                       confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
             <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
@@ -66,7 +69,12 @@
             </template>
             <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
-            <li class="工具_更多_li" @click="on批量维护输入框将打开">批量增减{{(Data.AppType === 2 || Data.AppType === 4)?"点数":"时间"}}</li>
+            <li class="工具_更多_li" @click="on批量维护输入框将打开">
+              批量增减{{ (Data.AppType === 2 || Data.AppType === 4) ? "点数" : "时间" }}
+            </li>
+            <li class="工具_更多_li" @click="on批量维护删除(1)">
+              删除{{ (Data.AppType === 2 || Data.AppType === 4) ? "0点数" : "vip到期" }}
+            </li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -91,15 +99,27 @@
                 @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
+                @sort-change="on排序被改变"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
-        <el-table-column prop="Id" label="Id" width="50"/>
+        <el-table-column prop="Id" label="Id" width="70" sortable="custom"/>
         <!--        <el-table-column prop="Uid" label="用户id" width="100"/>-->
         <el-table-column :label="isAppType卡号()?'卡号':'用户名'" :width="isAppType卡号()?280:180"
                          show-overflow-tooltip="">
           <template #default="scope">
-            {{ isAppType卡号() ? scope.row.Name===''?'已删卡号ID'+scope.row.Uid:scope.row.Name : scope.row.User }}
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Name,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
+            {{
+              isAppType卡号() ? scope.row.Name === '' ? '已删卡号ID' + scope.row.Uid : scope.row.Name : scope.row.User
+            }}
+            <el-tag v-if="scope.row.LinksCount>0">
+              在线 {{ scope.row.LinksCount > 1 ? scope.row.LinksCount : "" }}
+            </el-tag>
+
+
           </template>
+
         </el-table-column>
 
         <el-table-column align="left" label="本软件状态" prop="status" width="110">
@@ -120,7 +140,8 @@
 
         <el-table-column prop="Key" label="绑定信息" width="300"/>
 
-        <el-table-column align="left" :label="isAppType计点()?'剩余点数':'vip到期时间'" prop="VipTime" width="160">
+        <el-table-column align="left" sortable="custom" :label="isAppType计点()?'剩余点数':'vip到期时间'" prop="VipTime"
+                         width="160">
           <template #default="scope">
             <el-tag v-if="isAppType计点()" :type="scope.row.VipTime===0?'warning':''">
               {{ scope.row.VipTime }}
@@ -192,14 +213,20 @@
                @on对话框详细信息关闭="on对话框详细信息关闭" :UserType="对象_用户类型"></AppUserinfo>
   <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
   <BatchElMessage :is批量维护输入框可见="is批量维护输入框可见" 标题="批量修改勾选用户,负数可能减到0以下"
-                     :提示信息='isAppType计点()?"请输入增减点数(点)":"请输入增减时间(秒)"'
-                     :AppType="Data.AppType"
-                     @on批量维护输入框被关闭="on批量维护输入框被关闭"></BatchElMessage>
+                  :提示信息='isAppType计点()?"请输入增减点数(点)":"请输入增减时间(秒)"'
+                  :AppType="Data.AppType"
+                  @on批量维护输入框被关闭="on批量维护输入框被关闭"></BatchElMessage>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetAppUserList, Del批量删除AppUser, SetStatus, Set批量维护增减时间点数} from "@/api/软件用户api.js";
+import {
+  GetAppUserList,
+  Del批量删除AppUser,
+  SetStatus,
+  Set批量维护增减时间点数,
+  Del批量维护_删除
+} from "@/api/软件用户api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
   时间_时间戳到时间,
@@ -207,7 +234,7 @@ import {
   Is卡号,
   is移动端,
   表格读取列宽数组,
-  表格写入列宽数组
+  表格写入列宽数组, 置剪辑版文本
 } from "@/utils/utils";
 import {useStore} from "vuex";
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -216,6 +243,7 @@ import {Delete} from "@element-plus/icons-vue";
 import AppUserinfo from "./组件/软件用户详细信息.vue";
 import BatchElMessage from "./组件/批量维护积分时间增减输入框.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
+import {快验系统更新} from "@/api/快验个人中心api";
 
 const is图表分析抽屉可见 = ref(false)
 
@@ -235,10 +263,10 @@ const on批量维护输入框将打开 = async () => {
     })
     return
   }
-  is批量维护输入框可见.value=true
+  is批量维护输入框可见.value = true
 }
 
-const on批量维护输入框被关闭 =  async (is确定: boolean, 增减值: number) => {
+const on批量维护输入框被关闭 = async (is确定: boolean, 增减值: number) => {
   console.log("on批量维护输入框被关闭")
   is批量维护输入框可见.value = false
   if (!is确定) {
@@ -353,6 +381,36 @@ const on批量冻结解冻 = async (Status: number) => {
   }
 
 }
+const on批量维护删除 = async (Type: number) => {
+  let app类型 = "vip到期"
+  if (Data.value.AppType === 2 || Data.value.AppType === 4) {
+    app类型 = "0点数"
+  }
+  var 提示信息 = {
+    1: "删除全部" + app类型 + "软件用户信息"
+  }
+  console.log(提示信息)
+  ElMessageBox.confirm(
+      '确定要' + 提示信息[Type] + '?',
+      '',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(async () => {
+    let 返回 = await Del批量维护_删除({AppId: 对象_搜索条件.value.AppId, Type: Type})
+    if (返回.code == 10000) {
+      ElMessage({
+        type: "success",
+        message: 返回.msg,
+        showClose: true,
+      })
+      on读取列表()
+    }
+
+  }).catch()
+}
 const on批量删除 = async () => {
   const ids = 表格被选中列表.value.map((item => item.Id))
   console.log(ids)
@@ -392,6 +450,27 @@ const on选择框被选择 = (val: any) => {
   表格被选中列表.value = val
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
+const on排序被改变 = (column: any) => {
+  //{column: Proxy(Object), prop: 'VipTime', order: 'ascending'}
+  console.log(column)
+  对象_搜索条件.value.Sortable = column.prop === "VipTime" ? 1 : 0
+  switch (column.order) {
+    case "ascending":
+      对象_搜索条件.value.Order = 1;
+      break;
+    case "descending":
+      对象_搜索条件.value.Order = 0;
+      break;
+    default :
+      对象_搜索条件.value.Sortable = 0
+      对象_搜索条件.value.Order = 0;
+      break;
+  }
+
+
+  on读取列表()
+  console.log(对象_搜索条件.value)
+}
 
 const Data = ref({
   "Count": 0,
@@ -406,11 +485,23 @@ const Data = ref({
       "VipNumber": 999,
       "Note": "用户备注",
       "MaxOnline": 1,
-      "UserClassId": 0
+      "UserClassId": 0,
+      "LinksCount": 0
     }]
 })
 const Store = useStore()
-const 对象_搜索条件 = ref({AppId: 10000, Type: 3, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: ""})
+const 对象_搜索条件 = ref({
+  AppId: 10000,
+  Type: 3,
+  Size: 10,
+  Page: 1,
+  Status: 0,
+  Role: 0,
+  Keywords: "",
+  Order: 0,
+  Sortable: 0,
+  IsLogin: false
+})
 
 const on读取列表 = () => {
   Data.value.List = []
@@ -421,7 +512,18 @@ const on读取列表 = () => {
 const onReset = () => {
   let Appidc = 对象_搜索条件.value.AppId
   console.log("重置搜索条件,保留appid:" + Appidc)
-  对象_搜索条件.value = {AppId: Appidc, Type: 3, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: ""}
+  对象_搜索条件.value = {
+    AppId: Appidc,
+    Type: 3,
+    Size: 10,
+    Page: 1,
+    Status: 0,
+    Role: 0,
+    Keywords: "",
+    Order: 0,
+    Sortable: 0,
+    IsLogin: false
+  }
   onGetAppIdNameList()
 }
 const on时间_是否过期 = (time: Number) => {
@@ -495,7 +597,7 @@ const onGetAppIdNameList = async () => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
   localStorage.setItem('列宽_软件用户', JSON.stringify(局_列宽数组));
 }
@@ -686,4 +788,5 @@ export interface UserInfo2 {
 .el-table .cell {
   white-space: pre-line;
 }
+
 </style>

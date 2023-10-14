@@ -86,7 +86,6 @@ const on读取图表数据 = async () => {
   is加载中.value = false
   console.log(返回)
   if (返回.code === 10000) {
-
     data.value = {Id: 0, User: "代理组织架构图(双击复制代理名称)", UPAgentId: 0, AgentDiscount: 0, Children: 返回.data}
 
   }

@@ -104,6 +104,7 @@
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
             <li class="工具_更多_li" @click="导出到csv(tableRef)">导出到csv</li>
             <li class="工具_更多_li" @click="on对话框详细信息打开(0,true)">导入误删卡</li>
+            <li class="工具_更多_li" @click="on批量维护删除(1)">删除已耗尽卡号</li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -321,7 +322,7 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote, Del批量追回Ka} from "@/api/卡号列表api.js";
+import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote, Del批量追回Ka,Del批量维护_删除} from "@/api/卡号列表api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
   时间_时间戳到时间,
@@ -339,6 +340,7 @@ import {Delete} from "@element-plus/icons-vue";
 import KaNew from "./组件/卡号列表制卡.vue";
 import KaEdit from "./组件/卡号详细信息.vue";
 import ChartData from "@/view/应用管理/组件/卡号列表图表抽屉.vue";
+
 
 const is图表分析抽屉可见 = ref(false)
 const on图表分析被点击 = () => {
@@ -446,7 +448,33 @@ const on批量删除 = async () => {
     on读取列表()
   }
 }
+const on批量维护删除 = async (Type: number) => {
 
+  var 提示信息 = {
+    1: "删除全部已耗尽次数卡号"
+  }
+  console.log(提示信息)
+  ElMessageBox.confirm(
+      '确定要' + 提示信息[Type] + '?',
+      '',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(async () => {
+    let 返回 = await Del批量维护_删除({AppId: 对象_搜索条件.value.AppId, Type: Type})
+    if (返回.code == 10000) {
+      ElMessage({
+        type: "success",
+        message: 返回.msg,
+        showClose: true,
+      })
+      on读取列表()
+    }
+
+  }).catch()
+}
 
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
@@ -862,29 +890,6 @@ const 数组_制卡预选日期 = [{
   }
 }
 
-.复制按钮 {
-  background: #fafafa;
-  float: right;
-  /*设置边框阴影*/
-
-  font-size: 12px;
-
-  padding: 5px;
-  ///*边框 1px  颜色 */
-  border: 1px solid rgb(235, 238, 245);
-  color: #0c0d0e;
-  //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
-  speak: none;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  vertical-align: baseline;
-  display: inline-block;
-  -webkit-font-smoothing: antialiased;
-  cursor: pointer; //改变鼠标样式为手型
-
-}
 
 .el-form-item {
   padding: 0;

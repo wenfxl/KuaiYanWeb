@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
-    <img src="@/assets/logo4.png" />
-    <h2   class="title"  v-show="!is折叠">飞鸟快验应用管理系统</h2>
+    <img src="@/assets/logo4.png"/>
+    <el-link href="https://www.fnkuaiyan.cn/" target="_blank"><h2   class="title"  v-show="!is折叠">飞鸟快验应用管理系统</h2></el-link>
   </div>
 </template>
 

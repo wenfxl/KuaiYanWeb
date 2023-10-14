@@ -522,27 +522,4 @@ const on云配置值被改变 = async (表项索引: number, row:any ) => {
   white-space: pre-line;
 }
 
-.复制按钮 {
-  background: #fafafa;
-  float: right;
-  /*设置边框阴影*/
-
-  font-size: 12px;
-
-  padding: 5px;
-  ///*边框 1px  颜色 */
-  border: 1px solid rgb(235, 238, 245);
-  color: #0c0d0e;
-  //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
-  speak: none;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  vertical-align: baseline;
-  display: inline-block;
-  -webkit-font-smoothing: antialiased;
-  cursor: pointer; //改变鼠标样式为手型
-
-}
 </style>

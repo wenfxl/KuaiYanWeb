@@ -79,3 +79,11 @@ export const  Set批量维护增减时间点数 = (data) => {
 }
 
 
+//  Del批量维护_删除
+export const Del批量维护_删除 = (data) => {
+  return service({
+    url: url+'DeleteBatch',
+    method: 'post',
+    data: data
+  })
+}

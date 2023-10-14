@@ -12,12 +12,20 @@ export const GetKaList = (data) => {
   })
 }
 
-//  Del批量删除Ka
-//{ "id": [ 5 ]}
-// @Success 200 {string} json "{"code": 0, "data": {},"msg": "注销成功"}"
+//  Del批量维护_删除
 export const Del批量删除Ka = (data) => {
   return service({
     url: url+'Delete',
+    method: 'post',
+    data: data
+  })
+}
+//  Del批量删除Ka
+//{ "id": [ 5 ]}
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "注销成功"}"
+export const Del批量维护_删除 = (data) => {
+  return service({
+    url: url+'DeleteBatch',
     method: 'post',
     data: data
   })

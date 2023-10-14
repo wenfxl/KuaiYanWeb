@@ -95,11 +95,12 @@
                 fit="fit"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
-        <el-table-column prop="Id" label="Id" width="80" />
-        <el-table-column prop="User" label="用户名" width="130"  show-overflow-tooltip="">
+        <el-table-column prop="Id" label="Id" width="80"/>
+        <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip="">
           <template #default="scope">
 
-            <el-icon  v-if="scope.row.User.length>18" class="复制按钮" @click="置剪辑版文本(scope.row.User,'已复制到剪辑版')">
+            <el-icon  class="复制按钮"
+                     @click="置剪辑版文本(scope.row.User,'已复制到剪辑版')">
               <DocumentCopy/>
             </el-icon>
             <el-tag v-if="scope.row.RiskControl>0" :type="scope.row.RiskControl<20?'info':'danger'">
@@ -133,9 +134,9 @@
         </el-table-column>
         <el-table-column prop="Tab" label="动态标签" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Key" label="绑定信息" width="140" show-overflow-tooltip=""/>
-        <el-table-column  label="登录ip" width="140" show-overflow-tooltip="">
+        <el-table-column label="登录ip" width="140" show-overflow-tooltip="">
           <template #default="scope">
-          {{scope.row.Ip+ " "+scope.row.IPCity}}
+            {{ scope.row.Ip + " " + scope.row.IPCity }}
           </template>
         </el-table-column>
         <el-table-column prop="LoginTime" label="登录时间" width="160" :formatter="on格式化_登录时间"/>
@@ -187,7 +188,7 @@
 
     </div>
   </div>
-  <vueNewWebApiToken :is对话框可见_创建令牌="is对话框可见_创建令牌" @on对话框详细信息关闭="on对话框详细信息关闭" />
+  <vueNewWebApiToken :is对话框可见_创建令牌="is对话框可见_创建令牌" @on对话框详细信息关闭="on对话框详细信息关闭"/>
   <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
 </template>
 
@@ -212,9 +213,9 @@ import ChartData from "@/view/用户管理/组件/在线用户图表抽屉.vue";
 
 const on单个注销 = async (id: number) => {
   console.log('在线注销id' + id)
-  is加载中.value=true
+  is加载中.value = true
   const res = await Del批量注销({"ID": [id]})
-  is加载中.value=false
+  is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
     ElMessage({
@@ -303,7 +304,6 @@ const on对话框详细信息关闭 = (is重新读取: boolean) => {
 }
 
 
-
 const 表格被选中列表 = ref([])
 const is批量注销禁用 = ref(true)
 const is工具_更多 = ref(false)
@@ -331,7 +331,7 @@ const List = ref({
   }]
 })
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0,Tourist:0, Keywords: "", AppId: 0})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 1, Tourist: 1, Keywords: "", AppId: 0})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
@@ -339,7 +339,7 @@ const on读取列表 = () => {
   onGetLinkUserList()
 }
 const onReset = () => {
-  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0,Tourist:0, Keywords: "", AppId: 0}
+  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 1, Tourist: 1, Keywords: "", AppId: 0}
 }
 const on格式化_状态 = (row: any, column: any) => {
   // console.log("on状态格式化")
@@ -385,7 +385,7 @@ const onGetLinkUserList = async () => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
   localStorage.setItem('列宽_支付充值订单', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
@@ -554,27 +554,5 @@ onBeforeUnmount(() => {
     cursor: pointer; //改变鼠标样式为手型
   }
 }
-.复制按钮 {
-  background: #fafafa;
-  float: right;
-  /*设置边框阴影*/
 
-  font-size: 12px;
-
-  padding: 5px;
-  ///*边框 1px  颜色 */
-  border: 1px solid rgb(235, 238, 245);
-  color: #0c0d0e;
-  //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
-  speak: none;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  vertical-align: baseline;
-  display: inline-block;
-  -webkit-font-smoothing: antialiased;
-  cursor: pointer; //改变鼠标样式为手型
-
-}
 </style>

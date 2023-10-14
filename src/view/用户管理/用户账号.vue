@@ -94,7 +94,16 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip=""/>
+        <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.User,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
+            {{ scope.row.User }}
+
+          </template>
+        </el-table-column>
+
 
         <el-table-column align="left" label="状态" prop="status" width="80">
           <template #default="scope">
@@ -178,13 +187,21 @@
   </div>
   <Userinfo v-if="is对话框可见" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
   <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="on图表分析抽屉关闭"/>
-  <BatchAddRmb v-if="is批量维护增减余额输入框可见"  @on批量维护增减余额输入框被关闭="on批量维护增减余额输入框被关闭"></BatchAddRmb>
+  <BatchAddRmb v-if="is批量维护增减余额输入框可见"
+               @on批量维护增减余额输入框被关闭="on批量维护增减余额输入框被关闭"></BatchAddRmb>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetUserList, Del批量删除用户, SetUserStatus, Set批量维护增减余额} from "@/api/用户信息api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
+import {
+  时间_时间戳到时间,
+  时间_取现行时间戳,
+  is移动端,
+  表格读取列宽数组,
+  表格写入列宽数组,
+  置剪辑版文本
+} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
@@ -293,7 +310,7 @@ const on批量维护增减余额输入框可见将打开 = async () => {
     })
     return
   }
-  is批量维护增减余额输入框可见.value=true
+  is批量维护增减余额输入框可见.value = true
 }
 
 const on读取列表 = () => {
@@ -363,7 +380,7 @@ const onGetUserList = async () => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
   localStorage.setItem('列宽_用户账号', JSON.stringify(局_列宽数组));
 }
