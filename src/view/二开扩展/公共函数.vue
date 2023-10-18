@@ -105,13 +105,13 @@
               </el-icon>
               编辑
             </el-button>
-            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Name)"
+<!--            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Name)"
                        style="color:#f56d6d">
               <el-icon color="#f56d6d" class="no-inherit">
                 <Delete/>
               </el-icon>
               删除
-            </el-button>
+            </el-button>-->
           </template>
         </el-table-column>
 
@@ -139,7 +139,7 @@
 
     </div>
   </div>
-  <PublicDataInfo :is对话框可见="is对话框可见" :AppId="1" :id="Id"
+  <PublicDataInfo v-if="is对话框可见" :AppId="1" :id="Id"
                   @on对话框详细信息关闭="on对话框详细信息关闭"></PublicDataInfo>
 </template>
 
@@ -222,8 +222,9 @@ const Id = ref("")
 const 公共变量 = ref(公共变量初始数据)
 
 const on对话框详细信息打开 = (id: string) => {
-  is对话框可见.value = true
   Id.value = id
+  is对话框可见.value = true
+
 }
 const on对话框详细信息关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")

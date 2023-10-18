@@ -8,7 +8,7 @@
 
   >
 
-    <div style="height:72vh;overflow:auto;padding:0 12px;" v-loading="is加载中" >
+    <div style="height:72vh;overflow:auto;padding:0 12px;" v-loading="is加载中">
       <el-form :inline="false" style="min-width: 80px;min-height: 100%" label-width="160px" :rules="on表单校验"
                :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
@@ -105,19 +105,31 @@
             >
               <template #reference>
                 <el-form-item label="可用版本" prop="AppVer">
-                    <el-input type="textarea" autosize v-model="data.AppVer" style="width: 200px"/>
-                  <div >
+                  <el-input type="textarea" autosize v-model="data.AppVer" style="width: 200px"/>
+                  <div>
                     <div style="display: flex;flex-wrap: wrap;flex-direction: row">
-                      <el-button  @click="on增加版本号(1,1)" style="display: flex;width: 90px;padding: 0;margin-left :5px">大版本号+1</el-button>
-                      <el-button  @click="on增加版本号(1,-1)" style="display: flex;width: 20px;padding: 0;margin-left :5px">-1</el-button>
+                      <el-button @click="on增加版本号(1,1)"
+                                 style="display: flex;width: 90px;padding: 0;margin-left :5px">大版本号+1
+                      </el-button>
+                      <el-button @click="on增加版本号(1,-1)"
+                                 style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
+                      </el-button>
                     </div>
                     <div style="display: flex;flex-wrap: wrap;flex-direction: row">
-                      <el-button  @click="on增加版本号(2,1)" style="display: flex;width: 90px;padding: 0;margin-left :5px">小版本号+1</el-button>
-                      <el-button  @click="on增加版本号(2,-1)" style="display: flex;width: 20px;padding: 0;margin-left :5px">-1</el-button>
+                      <el-button @click="on增加版本号(2,1)"
+                                 style="display: flex;width: 90px;padding: 0;margin-left :5px">小版本号+1
+                      </el-button>
+                      <el-button @click="on增加版本号(2,-1)"
+                                 style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
+                      </el-button>
                     </div>
                     <div style="display: flex;flex-wrap: wrap;flex-direction: row">
-                      <el-button  @click="on增加版本号(3,1)" style="display: flex;width: 90px;padding: 0;margin-left :5px">编译版本号+1</el-button>
-                      <el-button  @click="on增加版本号(3,-1)" style="display: flex;width: 20px;padding: 0;margin-left :5px">-1</el-button>
+                      <el-button @click="on增加版本号(3,1)"
+                                 style="display: flex;width: 90px;padding: 0;margin-left :5px">编译版本号+1
+                      </el-button>
+                      <el-button @click="on增加版本号(3,-1)"
+                                 style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
+                      </el-button>
                     </div>
 
                   </div>
@@ -322,9 +334,11 @@
                         </el-divider>-->
             <el-form-item v-for="(data,key) in 专属变量" :label="data.Name" :key="key" style="width: 100%">
               <div class="专属变量" style="display: inline-block ;width: 100%">
-                <el-input v-if="data.Type===1" type="text" v-model="data.Value"
+                <el-input v-if="data.Type===1" type="text" v-model.trim="data.Value"
+                          maxlength="15000"
                           style="width: calc(100% - 70px - 50px)"/>
-                <el-input v-if="data.Type===2" type="textarea" v-model="data.Value"
+                <el-input v-if="data.Type===2" type="textarea" v-model.trim="data.Value" placeholder="最长支持15000长度"
+                          maxlength="15000"
                           :autosize="{ minRows: 2, maxRows: 23 }" style="width: calc(100% - 70px - 50px)"/>
                 <el-radio-group v-if="data.Type===3" v-model="data.Value">
                   <el-radio label="1">开启</el-radio>
@@ -393,11 +407,93 @@
               </el-form>
             </el-dialog>
           </el-tab-pane>
+          <el-tab-pane label="ApiHook" name="ApiHook">
+
+            <div v-for="(data,key) in 数组_ApiHook" :key="key" class="内容div">
+              <el-form-item label="APi接口:" style="width: 100%">
+                <el-select
+                    v-model="data[0]"
+                    placeholder="Api接口"
+                    :style="is移动端()?' width: calc(90% - 32px )':' width: 30%'"
+                    @change="on验证码多选发生变化"
+                >
+                  <el-option
+                      v-for="item in 数组_用户Api"
+                      :key="item[0]"
+                      :label="item[1]+'('+item[0]+')'"
+                      :value="item[0]"
+                  />
+                </el-select>
+                <div style="float: right;padding-left: 5px">
+                  <el-popconfirm title="确定删除?"
+                                 placement="right"
+                                 @confirm="数组_ApiHook.splice(key, 1)" confirm-button-text="确定"
+                                 cancel-button-text="取消">
+                    <template #reference>
+                      <el-button type="danger" size="small" :icon="Delete" circle style=" margin-left: 5px"/>
+                    </template>
+                  </el-popconfirm>
+                </div>
+              </el-form-item>
+              <el-form-item label="执行前hook函数:" style="width: 100%">
+                <el-input type="text" v-model.trim="data[1]"
+                          maxlength="200"
+                          placeholder="直接填写公共hook函数名即可,不存在自动按模板创建,可空"
+                          style="width: calc(90% )"/>
+              </el-form-item>
+              <el-form-item label="执行后hook函数:" style="width: 100%">
+                <el-input type="text" v-model.trim="data[2]"
+                          maxlength="200"
+                          placeholder="直接填写公共hook函数名即可,不存在自动按模板创建,可空"
+                          style="width: calc(90% )"/>
+
+              </el-form-item>
+            </div>
+
+
+            <el-divider>
+              <el-button type="primary" size="large" :icon="Plus" style="width: 110px" round
+                         @click="数组_ApiHook.push([])">
+                添加ApiHook
+              </el-button>
+            </el-divider>
+
+
+            <el-dialog
+                v-model="is添加专属变量"
+                width="30%"
+                title="选择变量类型"
+                append-to-body
+            >
+              <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px"
+                       :model="添加专属变量"
+                       label-position="top" ref="ruleFormRef">
+                <el-form-item label="变量名称" prop="Name">
+                  <el-input v-model.trim="添加专属变量.Name" placeholder="请输入变量名称" style="width: 263px"/>
+                </el-form-item>
+
+                <el-form-item label="变量类型" prop="Status">
+                  <el-radio-group v-model="添加专属变量.Type" :size="is移动端()?'small':''">
+                    <el-radio-button :label="1">单行文本</el-radio-button>
+                    <el-radio-button :label="2">多行文本</el-radio-button>
+                    <el-radio-button :label="3">逻辑开关</el-radio-button>
+                  </el-radio-group>
+                </el-form-item>
+                <div style="text-align: right; margin: 0">
+                  <el-button size="small" text @click="on添加专属变量(false)">取消</el-button>
+                  <el-button size="small" type="primary" @click="on添加专属变量(true)"
+                  >确定
+                  </el-button
+                  >
+                </div>
+              </el-form>
+            </el-dialog>
+          </el-tab-pane>
         </el-tabs>
       </el-form>
     </div>
     <template #footer>
-      <div class="dialog-footer" v-loading="is加载中" >
+      <div class="dialog-footer" v-loading="is加载中">
         <el-button @click="is对话框可见2=false">取 消</el-button>
         <el-button type="primary" @click="on确定按钮被点击(ruleFormRef)">确 定</el-button>
       </div>
@@ -455,7 +551,8 @@ const data = ref({
   "ExceedMaxOnlineOut": 1,
   "AppType": 1,
   "RmbToVipNumber": 1,
-  "Captcha": ""
+  "Captcha": "",
+  "ApiHook": ""
 })
 const on验证码多选发生变化 = () => {
   console.info(数组_验证码英数.value)
@@ -469,7 +566,7 @@ const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   console.info("on确定按钮被点击")
-  console.info(data.value)
+  console.info(formEl)
   if (!formEl) return
 
   let 表单验证结果 = await formEl.validate((valid, fields) => {
@@ -477,16 +574,21 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
       console.log('参数验证失败', fields)
     } else {
       console.log('参数验证通过')
+      console.info(valid)
+      console.info(fields)
     }
   })
   console.info("表单验证结果")
+
   console.info(表单验证结果)
+
+
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
   if (Props.id === 0) {
 
   } else {
-    is加载中.value=true
+    is加载中.value = true
     let 验证码JSon: object = {} as any[];
 
     for (let 索引 in 数组_验证码短信.value) {
@@ -504,8 +606,9 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
     }
 
     data.value.Captcha = JSON.stringify(验证码JSon)
+    data.value.ApiHook = JSON.stringify(取ApiHook整理json(数组_ApiHook.value))
     返回 = await SaveApp信息({"AppData": data.value, "PublicData": 专属变量.value});
-    is加载中.value=false
+    is加载中.value = false
   }
 
   console.log(返回)
@@ -542,8 +645,8 @@ const on重置密钥 = () => {
     })
   }
 }
-const on增加版本号 = ( 位数,增减值) => {
-  const 版本号行 =  data.value.AppVer.split('\n');
+const on增加版本号 = (位数, 增减值) => {
+  const 版本号行 = data.value.AppVer.split('\n');
   const 版本号数组 = 版本号行[0].split('.');
   const 新版本号数组 = 版本号数组.map((item, index) => {
     if (index === 位数 - 1) {
@@ -553,7 +656,7 @@ const on增加版本号 = ( 位数,增减值) => {
     }
   });
   const 新版本号行 = 新版本号数组.join('.');
-  data.value.AppVer=新版本号行 + '\n' + 版本号行.slice(1).join('\n');
+  data.value.AppVer = 新版本号行 + '\n' + 版本号行.slice(1).join('\n');
 }
 const on校验表单重置 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -613,15 +716,14 @@ const on表单校验 = ref({
 })
 
 
-
 const 读取详细信息 = async (id: number) => {
   if (id > 0) {
-    is加载中.value=true
+    is加载中.value = true
     let 返回 = await GetApp详细信息({"Id": id})
-    is加载中.value=false
+    is加载中.value = false
     if (返回.code == 10000) {
-      if (返回.data.AppInfo.AppId!=data.value.AppId){  //打开不同应用 复原标签
-        应用详细信息顶部标签现行选项.value="应用设置"
+      if (返回.data.AppInfo.AppId != data.value.AppId) {  //打开不同应用 复原标签
+        应用详细信息顶部标签现行选项.value = "应用设置"
       }
 
 
@@ -660,7 +762,8 @@ const 读取详细信息 = async (id: number) => {
         }
       }
       console.log(数组_验证码英数.value)
-
+      数组_ApiHook.value=[]
+      数组_ApiHook.value = 取ApiHook反向整理数组(data.value.ApiHook)
       await on读取专属变量()
 
 
@@ -694,7 +797,8 @@ const 读取详细信息 = async (id: number) => {
       "ExceedMaxOnlineOut": 1,
       "AppType": 1,
       "RmbToVipNumber": 1,
-      "Captcha": ""
+      "Captcha": "",
+      "ApiHook": ""
     }
 
   }
@@ -709,9 +813,9 @@ const on读取用户Api数组 = async () => {
   console.log(数组_用户Api.value.length)
   数组_验证码英数.value = []
   if (数组_用户Api.value.length === 0) {
-    is加载中.value=true
+    is加载中.value = true
     const res = await Get全部用户APi()
-    is加载中.value=false
+    is加载中.value = false
     if (res.code == 10000) {
       数组_用户Api.value = res.data
     }
@@ -753,7 +857,7 @@ const on置剪辑版配置信息 = () => {
   置剪辑版文本(JSON.stringify(appINfo), "已复制:" + JSON.stringify(appINfo))
 
 }
-
+//================================================================应用专属变量开始==================================================
 const 专属变量 = ref([
   {
     "AppId": 1,
@@ -794,9 +898,9 @@ const 添加专属变量 = ref({
 })
 const on读取专属变量 = async () => {
   专属变量.value = []
-  is加载中.value=true
+  is加载中.value = true
   const res = await GetList({AppId: data.value.AppId, Type: 1, Size: 50, Order: 2, Page: 1, Keywords: ""})
-  is加载中.value=false
+  is加载中.value = false
   if (res.code == 10000) {
     专属变量.value = res.data.List
     专属变量.value.reverse()
@@ -830,9 +934,9 @@ const on添加专属变量 = async (是否添加: boolean) => {
     "IsVip": 0
   }
 
-  is加载中.value=true
+  is加载中.value = true
   const res = await New(NewPublicData)
-  is加载中.value=false
+  is加载中.value = false
   if (res.code == 10000) {
     is添加专属变量.value = false
     专属变量.value.push(NewPublicData)
@@ -845,14 +949,14 @@ const on添加专属变量 = async (是否添加: boolean) => {
 }
 
 const on删除专属变量 = async (数组索引: number) => {
-  is加载中.value=true
+  is加载中.value = true
   const res = await DeleteInfo({
     "data": [{
       "AppId": 专属变量.value[数组索引].AppId,
       "Name": 专属变量.value[数组索引].Name
     }]
   })
-  is加载中.value=false
+  is加载中.value = false
 
   if (res.code == 10000) {
     is添加专属变量.value = false
@@ -864,7 +968,32 @@ const on删除专属变量 = async (数组索引: number) => {
     })
   }
 }
+//================================================================应用专属变量结束==================================================
+//================================================================ApiHook相关==================================================
+const 数组_ApiHook = ref([["UserLogin", "hook登录前", "hook登录后"], ["UseKa", "hook使用充值卡前", "hook使用充值卡后后"]])
 
+const 取ApiHook整理json = (数组) => {
+  //补充这里 最后返回对象{"UserLogin":{"Before":"hook登录前","After":"hook登录之后"},"UseKa":{"Before":"hook使用充值卡前","After":"hook使用充值卡后后"}}
+  const result = {};
+  for (const item of 数组) {
+    const [key, before, after] = item;
+    if (key) {
+      result[key] = {Before: before ? before : "", After: after ? after : ""};
+    }
+  }
+  return result;
+}
+const 取ApiHook反向整理数组 = (str) => {
+  let obj = JSON.parse(str)
+  const result: any = [];
+  for (const key in obj) {
+    let {Before, After} = obj[key];
+    result.push([key, Before, After]);
+  }
+
+  return result;
+}
+//================================================================ApiHook相关结束==================================================
 
 </script>
 
@@ -908,5 +1037,12 @@ const on删除专属变量 = async (数组索引: number) => {
     -webkit-font-smoothing: antialiased;
     cursor: pointer; //改变鼠标样式为手型
   }
+}
+
+.内容div {
+  min-height: 20%;
+  padding: 12px 16px;
+  margin: 0 2px 10px;
+  background: #f2f6fc;
 }
 </style>

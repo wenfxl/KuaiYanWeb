@@ -1,7 +1,6 @@
 <template>
   <el-dialog v-model="is对话框可见2"
              :title="Props.id===''?'添加新公共函数:':'修改公共函数'"
-             @open="on对话框被打开"
              :width="is移动端()?'90%':'80%'"
              top="3%"
              @close="on对话框被关闭">
@@ -14,7 +13,7 @@
             <el-input v-model.trim="data.Name" placeholder="请输入函数名称" :class="[Props.id!==''?'只读编辑框':'']"
                       :readonly="Props.id!==''" style="width: 80%;" @blur="on编辑框函数名失去焦点"/>
             <div style="float: right;padding-left: 5px">
-              <el-switch v-if="data.AppId!==2"
+              <el-switch v-if="data.AppId!==2&&data.AppId!==3"
                   :active-value="1"
                   :inactive-value="0"
                   v-model="data.IsVip"
@@ -105,10 +104,6 @@ import {GetAppIdNameList} from "@/api/应用列表api";
 
 
 const Props = defineProps({
-  is对话框可见: {
-    type: Boolean,
-    default: false
-  },
   id: {
     type: String,
     default: 0
@@ -122,14 +117,7 @@ const Props = defineProps({
 const emit = defineEmits(['on对话框详细信息关闭'])
 
 
-watch(() => Props.is对话框可见, (newVal, oldVal) => {
-  if (newVal) {
-    is对话框可见2.value = newVal;
-    console.info("is对话框可见2被检测到改变了:")
-  }
-})
-
-const is对话框可见2 = ref(false)
+const is对话框可见2 = ref(true)
 const 公共变量初始数据 = {
   "AppId": 1,
   "Name": "",
@@ -293,7 +281,11 @@ const onGetAppIdNameList = async () => {
   })
   数组AppId_Name.value.unshift({
     "Appid": 2,
-    "AppName": "Hook函数"
+    "AppName": "任务池Hook函数"
+  })
+  数组AppId_Name.value.unshift({
+    "Appid": 3,
+    "AppName": "ApiHook函数"
   })
   MapAppId_Name.value = res.data.Map
 }
@@ -301,6 +293,7 @@ const onGetAppIdNameList = async () => {
 onMounted(async () => {
 
   await onGetAppIdNameList()
+  on对话框被打开()
 })
 // 编辑器相关数据==============================
 import {Codemirror} from "vue-codemirror";
