@@ -79,6 +79,7 @@
             <li class="工具_更多_li" @click="on批量删除(6)">删除90天前</li>
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定用户</li>
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
+            <li class="工具_更多_li" @click="on批量删除(8)">删除过期待支付</li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -237,6 +238,8 @@ const on批量删除 = async (Type: number) => {
   } else if (Type === 5) { //30天前日志
     提交数据 = {"Type": Type, "Id": [], Keywords: ""}
   } else if (Type === 6) { //90天前日志
+    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
+  } else if (Type === 8) { //过期待支付
     提交数据 = {"Type": Type, "Id": [], Keywords: ""}
   } else {
     return

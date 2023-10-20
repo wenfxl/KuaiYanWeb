@@ -747,23 +747,29 @@ const 读取详细信息 = async (id: number) => {
       数组_验证码英数.value = []
       数组_验证码行为.value = []
       数组_验证码短信.value = []
-      let 验证码Json = JSON.parse(data.value.Captcha)
 
-      for (let Api in 验证码Json) {
-        console.log("枚举验证码json:" + Api)
-        if (验证码Json.hasOwnProperty(Api)) {
-          if (验证码Json[Api] === 1) {
-            数组_验证码英数.value.push(Api)
-          } else if (验证码Json[Api] === 2) {
-            数组_验证码行为.value.push(Api)
-          } else if (验证码Json[Api] === 3) {
-            数组_验证码短信.value.push(Api)
+      try {
+        //防止不是json,导致报错
+        let 验证码Json = JSON.parse(data.value.Captcha)
+        for (let Api in 验证码Json) {
+          console.log("枚举验证码json:" + Api)
+          if (验证码Json.hasOwnProperty(Api)) {
+            if (验证码Json[Api] === 1) {
+              数组_验证码英数.value.push(Api)
+            } else if (验证码Json[Api] === 2) {
+              数组_验证码行为.value.push(Api)
+            } else if (验证码Json[Api] === 3) {
+              数组_验证码短信.value.push(Api)
+            }
           }
         }
+        console.log(数组_验证码英数.value)
+        数组_ApiHook.value = []
+        数组_ApiHook.value = 取ApiHook反向整理数组(data.value.ApiHook)
+      }catch (e){
+
       }
-      console.log(数组_验证码英数.value)
-      数组_ApiHook.value=[]
-      数组_ApiHook.value = 取ApiHook反向整理数组(data.value.ApiHook)
+
       await on读取专属变量()
 
 
@@ -970,7 +976,7 @@ const on删除专属变量 = async (数组索引: number) => {
 }
 //================================================================应用专属变量结束==================================================
 //================================================================ApiHook相关==================================================
-const 数组_ApiHook = ref([["UserLogin", "hook登录前", "hook登录后"], ["UseKa", "hook使用充值卡前", "hook使用充值卡后后"]])
+const 数组_ApiHook = ref([])
 
 const 取ApiHook整理json = (数组) => {
   //补充这里 最后返回对象{"UserLogin":{"Before":"hook登录前","After":"hook登录之后"},"UseKa":{"Before":"hook使用充值卡前","After":"hook使用充值卡后后"}}
