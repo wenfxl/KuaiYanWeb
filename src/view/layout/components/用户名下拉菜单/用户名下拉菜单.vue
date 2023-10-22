@@ -1,5 +1,5 @@
 <template>
-  <el-badge :value="Store.state.UserInfo.UserMsgNoRead" :max="99" class="item"
+  <el-badge v-if="!is移动端()" :value="Store.state.UserInfo.UserMsgNoRead" :max="99" class="item"
             :hidden="Store.state.UserInfo.UserMsgNoRead===0">
     <el-icon class="右上角图标" @click="on路由跳转('用户消息')">
       <Bell/>

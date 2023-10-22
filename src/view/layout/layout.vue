@@ -1,7 +1,7 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-aside :width="is折叠?is移动端()?'0px':'60px':'256px'">
+      <el-aside :width="is折叠?is移动端()?'0px':'60px':'256px'" :style="is移动端()?'':'overflow: hidden; //消除侧边栏' " >
         <!--左侧侧边栏-->
         <logoBar :is折叠="is折叠"></logoBar>
         <MenuBar :is折叠="is折叠"></MenuBar>
@@ -97,8 +97,6 @@ onMounted(()=>{
   background-color: $menuBg;
   //color: #333;
   //text-align: center;
-
-  overflow: hidden; //消除侧边栏
 }
 
 .el-main {

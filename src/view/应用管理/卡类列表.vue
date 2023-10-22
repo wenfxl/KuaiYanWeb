@@ -170,7 +170,7 @@
         </el-table-column>
         <el-table-column prop="MaxOnline" label="最大在线数" width="100"/>
 
-        <el-table-column fixed="right" label="操作" width="110">
+        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="75">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
@@ -186,9 +186,9 @@
             <!--            </el-button>-->
           </template>
         </el-table-column>
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
       </el-table>
@@ -203,7 +203,7 @@
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-                :total="parseInt( Data.Count)"
+              :total="parseInt( Data.Count)"
               @current-change="on读取列表"
           />
         </el-config-provider>
@@ -295,7 +295,7 @@ const on选择框被选择 = (val: any) => {
 }
 
 const Data = ref({
-  "Count":0,
+  "Count": 0,
   "AppType": 1,
   "List": [
     {
@@ -378,7 +378,7 @@ const 对象_用户类型 = ref({"0": "未分类"})
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
   localStorage.setItem('列宽_卡类列表', JSON.stringify(局_列宽数组));
 }
@@ -400,12 +400,7 @@ const tableHeight = ref();
 
 
 onMounted(async () => {
-  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  // 监听浏览器高度变化
-  window.onresize = () => {
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  };
+
   onReset()
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
   if (Store.state.搜索_卡类列表.Size != 0 && Store.state.搜索_卡类列表.Size != null) {
@@ -417,6 +412,14 @@ onMounted(async () => {
 
   await onGetAppIdNameList()
   await onGetKaClassList()
+  if (!is移动端()){
+    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    // 监听浏览器高度变化
+    window.onresize = () => {
+      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    }
+  }
 })
 
 onBeforeUnmount(() => {

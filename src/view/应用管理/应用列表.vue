@@ -34,8 +34,8 @@
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 65px" @click="on对话框详细信息打开(0)">
-          新增
+        <el-button icon="Plus" type="primary"  :style="is移动端()?'width: 45px':'margin: 8px 8px 8px; width: 65px'" @click="on对话框详细信息打开(0)">
+          {{is移动端()?"新":"新增"}}
         </el-button>
 
         <el-popconfirm
@@ -44,12 +44,11 @@
             confirm-button-text="确定"
             cancel-button-text="取消">
           <template #reference>
-            <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 85px"
-                       :disabled=is批量删除禁用>超级删除
+            <el-button icon="delete" type="danger"   :style="is移动端()?'width: 45px':'margin: 8px 8px 8px; width: 85px'"
+                       :disabled=is批量删除禁用>{{is移动端()?"删":"超级删除"}}
             </el-button>
           </template>
         </el-popconfirm>
-
         <div class="工具栏">
           <el-tooltip content="分析"
                       effect="dark"
@@ -349,12 +348,7 @@ onMounted(async () => {
 const tableHeight = ref();
 onMounted(async () => {
   is移动端值.value = is移动端()
-  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  // 监听浏览器高度变化
-  window.onresize = () => {
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  };
+
   onReset()
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
   if (Store.state.搜索_应用列表.Size != 0 && Store.state.搜索_应用列表.Size != null) {
@@ -365,6 +359,14 @@ onMounted(async () => {
   }
 
   await onGetAppList()
+  if (!is移动端()){
+    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    // 监听浏览器高度变化
+    window.onresize = () => {
+      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    }
+  }
 })
 
 onBeforeUnmount(() => {

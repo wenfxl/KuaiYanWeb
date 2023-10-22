@@ -24,7 +24,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="status" style="width:120px">
+        <el-form-item prop="status" style="width:120px" v-if="!is移动端()">
           <el-select v-model="对象_搜索条件.Num" clear placeholder="请选择">
             <el-option key="0" label="全部使用" :value="0"/>
             <el-option key="1" label="已耗尽次数" :value="1"/>
@@ -32,7 +32,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="status" style="width:250px">
+        <el-form-item prop="status" style="width:250px" v-if="!is移动端()">
           <el-config-provider :locale="zhCn">
             <el-date-picker
                 v-model="对象_搜索条件.RegisterTime"
@@ -82,9 +82,11 @@
           制新卡
         </el-button>
 
-        <el-popconfirm :title="Data.AppType>=3?'卡号登录应用,删除后无法登录改卡号,确定删除勾选卡号?':'确定删除勾选卡号?'" width="200"
-                       @confirm="on批量删除" confirm-button-text="确定"
-                       cancel-button-text="取消">
+        <el-popconfirm
+            :title="Data.AppType>=3?'卡号登录应用,删除后无法登录改卡号,确定删除勾选卡号?':'确定删除勾选卡号?'"
+            width="200"
+            @confirm="on批量删除" confirm-button-text="确定"
+            cancel-button-text="取消">
           <template #reference>
             <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
                        :disabled=is批量删除禁用>删除
@@ -260,7 +262,7 @@
             {{ scope.row.EndTime >= 9999999999 ? "无限制" : 时间_时间戳到时间(scope.row.EndTime) }}
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="140">
+        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="140">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
@@ -317,12 +319,12 @@
   <KaEdit :is对话框可见="is对话框可见卡详细信息" :id="is对话框卡详细信息id" :AppId="对象_搜索条件.AppId"
           :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
           @on对话框详细信息关闭="on对话框详细信息关闭" :KaClass="对象_卡类型" :UserType="对象_用户类型"></KaEdit>
-  <ChartData  v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 </template>
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote, Del批量追回Ka,Del批量维护_删除} from "@/api/卡号列表api.js";
+import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote, Del批量追回Ka, Del批量维护_删除} from "@/api/卡号列表api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
   时间_时间戳到时间,
@@ -621,7 +623,7 @@ const 对象_卡类型 = ref({})
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
   localStorage.setItem('列宽_卡号列表', JSON.stringify(局_列宽数组));
 }
@@ -643,13 +645,8 @@ const tableHeight = ref();
 
 
 onMounted(async () => {
-      // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-      // 监听浏览器高度变化
-      window.onresize = () => {
-        tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-      }
-      Data.value = {"AppType": 1, "List": []}
+
+      Data.value = {"Count": 0, "AppType": 1, "List": []}
       onReset()
       //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
       if (Store.state.搜索_卡号列表.Size != 0 && Store.state.搜索_卡号列表.Size != null) {
@@ -658,10 +655,21 @@ onMounted(async () => {
         console.log(Store.state.搜索_卡号列表.Size)
         console.log(Store.state.搜索_卡号列表)
       }
-
       await onGetAppIdNameList()
       await onGetKaList()
       on表格列宽初始化()
+
+
+      if (!is移动端()) {
+        // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+        tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+        // 监听浏览器高度变化
+        window.onresize = () => {
+          tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+        }
+      }
+
+
     }
 )
 

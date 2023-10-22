@@ -100,7 +100,7 @@
         <el-table-column prop="HookReturnDataEnd" label="Hook函数执行入库后" width="230"/>
 
 
-        <el-table-column fixed="right" label="操作" width="140">
+        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="140">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
@@ -300,12 +300,7 @@ onMounted(async () => {
 // table高度
 const tableHeight = ref();
 onMounted(() => {
-  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  // 监听浏览器高度变化
-  window.onresize = () => {
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  };
+
   onReset()
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
   if (Store.state.搜索_任务池.Size != 0 && Store.state.搜索_任务池.Size != null) {
@@ -316,6 +311,14 @@ onMounted(() => {
   }
 
   onGetList()
+  if (!is移动端()){
+    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    // 监听浏览器高度变化
+    window.onresize = () => {
+      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    }
+  }
 })
 const on状态被改变 = async (表项索引: number, ID: number, Status: number) => {
   // console.info("on状态被改变索引:"+表项索引+",Id:"+ID,"Status:"+Status)

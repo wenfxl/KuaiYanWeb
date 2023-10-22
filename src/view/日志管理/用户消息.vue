@@ -137,7 +137,7 @@
           </template>
 
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="75">
+        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="75">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个已读(scope.$index,scope.row.Id)"
                        style="color:#79bbff" v-show="!scope.row.IsRead">
@@ -391,12 +391,7 @@ const on表格列宽初始化 = () => {
 const tableHeight = ref();
 
 onMounted(async () => {
-  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  // 监听浏览器高度变化
-  window.onresize = () => {
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  };
+
   Data.value = {
     "Count": 0,
     "List": []
@@ -410,6 +405,14 @@ onMounted(async () => {
     console.log(Store.state.搜索_用户消息)
   }
   await onGetLogLoginList()
+  if (!is移动端()){
+    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    // 监听浏览器高度变化
+    window.onresize = () => {
+      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    }
+  }
 })
 
 onBeforeUnmount(() => {

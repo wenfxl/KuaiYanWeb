@@ -303,12 +303,7 @@ onMounted(async () => {
 const tableHeight = ref();
 
 onMounted(async () => {
-  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  // 监听浏览器高度变化
-  window.onresize = () => {
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  };
+
   Data.value = {
     "Count": 0,
     "List": []
@@ -322,6 +317,14 @@ onMounted(async () => {
     console.log(Store.state.搜索_登录日志)
   }
   await onGetLogLoginList()
+  if (!is移动端()){
+    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    // 监听浏览器高度变化
+    window.onresize = () => {
+      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    }
+  }
 })
 
 onBeforeUnmount(() => {

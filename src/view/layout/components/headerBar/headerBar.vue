@@ -1,8 +1,8 @@
 <template>
   <el-breadcrumb class="面包屑">
     <el-breadcrumb-item v-for="面包屑 in tempString" :key="面包屑" class="面包屑">
-      <span class="最后一个" v-if="面包屑 === tempString[tempString.length - 1]"  style="color: #324258;">{{ 面包屑 }}</span>
-      <span class="no-最后一个" v-else  style="color: #97a8be" >{{ 面包屑 }}</span>
+      <span class="最后一个" v-if="面包屑 === tempString[tempString.length - 1] "  style="color: #324258;">{{ 面包屑 }}</span>
+      <span class="no-最后一个"  v-else-if="!is移动端()"  style="color: #97a8be" >{{ 面包屑 }}</span>
 
     </el-breadcrumb-item>
   </el-breadcrumb>
@@ -12,6 +12,7 @@
 <script setup lang='ts'>
 import {RouteLocationMatched, useRoute} from "vue-router";
 import {Ref, ref, watch} from "vue";
+import {is移动端} from "@/utils/utils";
 
 const Route = useRoute()
 const 数组_面包屑: Ref<RouteLocationMatched[]> = ref([])

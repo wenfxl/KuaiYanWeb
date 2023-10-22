@@ -85,7 +85,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="Note" label="备注" width="%100" show-overflow-tooltip=""/>
-        <el-table-column fixed="right" label="操作" :width="2*85">
+        <el-table-column :fixed="is移动端?false:'right'" label="操作" :width="2*85">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Name)"
                        style="color:#79bbff">
@@ -296,12 +296,7 @@ onMounted(async () => {
 const tableHeight = ref();
 
 onMounted(async () => {
-  // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  // 监听浏览器高度变化
-  window.onresize = () => {
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-  };
+
   Data.value.List = []
   onReset()
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
@@ -309,6 +304,14 @@ onMounted(async () => {
     对象_搜索条件.value = Store.state.搜索_公共变量
   }
   await onGetList()
+  if (!is移动端()){
+    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
+    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    // 监听浏览器高度变化
+    window.onresize = () => {
+      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+    }
+  }
 })
 
 onBeforeUnmount(() => {
