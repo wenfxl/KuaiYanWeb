@@ -16,10 +16,11 @@
             </div>
             <div class="user_qianming">
               <span v-if="UserInfo.VipTime>时间_取现行时间戳()"> 有效期:{{ 时间_时间戳到时间(UserInfo.VipTime) }}</span>
-              <span
+<!--因为客户看着不舒服,所以不显示了-->
+<!--              <span
                   v-if="UserInfo.UserClassName !=='商业会员' || UserInfo.VipTime<时间_取现行时间戳()">{{
                   "在线用户量(" + UserInfo.linkTokenCount + ")<100无需开通商业会员"
-                }}</span>
+                }}</span>-->
             </div>
             <div class="user_anniu">
               <el-button

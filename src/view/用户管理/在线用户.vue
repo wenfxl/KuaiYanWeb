@@ -134,7 +134,7 @@
         </el-table-column>
         <el-table-column prop="Tab" label="动态标签" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Key" label="绑定信息" width="140" show-overflow-tooltip=""/>
-        <el-table-column label="登录ip" width="140" show-overflow-tooltip="">
+        <el-table-column label="在线ip" width="140" show-overflow-tooltip="">
           <template #default="scope">
             {{ scope.row.Ip + " " + scope.row.IPCity }}
           </template>
@@ -327,7 +327,8 @@ const List = ref({
     "Tab": "",
     "Ip": "127.0.0.1",
     "AppName": "管理后台",
-    "RiskControl": 0
+    "RiskControl": 0,
+    "IPCity": ""
   }]
 })
 const Store = useStore()

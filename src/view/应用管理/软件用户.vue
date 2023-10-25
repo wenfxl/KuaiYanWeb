@@ -75,6 +75,9 @@
             <li class="工具_更多_li" @click="on批量维护删除(1)">
               删除{{ (Data.AppType === 2 || Data.AppType === 4) ? "0点数" : "vip到期" }}
             </li>
+            <li class="工具_更多_li" @click="on批量维护删除(2)" v-if="isAppType卡号2">
+              删除{{ (Data.AppType === 2 || Data.AppType === 4) ? "0点数" : "vip到期" }}且删卡号
+            </li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -219,7 +222,7 @@
 </template>
 
 <script lang="ts" setup>
-import {onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {
   GetAppUserList,
   Del批量删除AppUser,
@@ -326,6 +329,10 @@ const isAppType计点 = () => {
 const isAppType卡号 = () => {
   return Data.value.AppType === 3 || Data.value.AppType === 4
 }
+const isAppType卡号2 = computed(() => {
+  return Data.value.AppType === 3 || Data.value.AppType === 4
+})
+
 const on单个编辑 = async (id: number) => {
   on对话框详细信息打开(id)
 
@@ -387,7 +394,8 @@ const on批量维护删除 = async (Type: number) => {
     app类型 = "0点数"
   }
   var 提示信息 = {
-    1: "删除全部" + app类型 + "软件用户信息"
+    1: "删除全部" + app类型 + "软件用户信息",
+    2: "删除全部" + app类型 + "软件用户信息且删卡号"
   }
   console.log(提示信息)
   ElMessageBox.confirm(
@@ -630,7 +638,7 @@ onMounted(async () => {
 
   await onGetAppIdNameList()
   await onGetAppUserList()
-  if (!is移动端()){
+  if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
     // 监听浏览器高度变化
