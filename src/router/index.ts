@@ -1,6 +1,4 @@
-import {createRouter, createWebHashHistory, RouteRecordRaw,} from "vue-router";
-import path from "path";
-import 权限json from "@/store/权限.json"
+import {createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw,} from "vue-router";
 import Nprogress from 'nprogress'
 // @ts-ignore
 // @ts-ignore
@@ -152,7 +150,7 @@ const routes: Array<RouteRecordRaw> = [
 
 //修改为二级目录Admin下
 const router = createRouter({
-    history: createWebHashHistory('/Admin/'),
+    history: createWebHistory('/Admin/'),
     routes: routes
 })
 
@@ -180,6 +178,12 @@ const 路由守卫白名单 = ['/Login', '/Init']
 //路由守卫
 router.beforeEach(async (to, from) => {
     Nprogress.start()
+    console.log(to.path)
+
+    to.path= decodeURI(to.path) //中文路由坑点, 正常跳转没问题,但是刷新后路由会是url编码后 所以会找不到路由 跳404,必须解码一次才能找到正确路由,英文就没这个问题,但是我还是喜欢中文,
+
+
+
     console.log("路由守卫:" + localStorage.getItem("AdminToken"))
     if (to.path == "/Login") {
         return true;
@@ -189,16 +193,15 @@ router.beforeEach(async (to, from) => {
     if (路由守卫白名单.indexOf(to.path) > -1) {
         return true
     }
+
     //如果没有 token  跳转登录
     if (!localStorage.getItem("AdminToken")) {
-
-        return {path: "/Login"};
+            return {path: "/Login"};
     } else {
         if (isF) {
             return true;
         } else {
-            //let add = Store.getters.menuList || "";
-            //routerData(add);
+            //递归添加路由(routes);
             isF = true;
             return {...to, replace: true};
         }

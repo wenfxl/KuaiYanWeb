@@ -133,7 +133,7 @@
           <el-input v-model.trim="Data.小叮当接口密钥"/>
         </el-form-item>
         <el-form-item label="支付类型" disabled="disabled" >
-          <el-input v-model.trim="Data.小叮当支付类型"/>
+          <el-input-number v-model.trim="Data.小叮当支付类型"/>
         </el-form-item>
         <el-form-item label="异步通知网址" disabled="disabled"  class="只读编辑框">
           <el-input v-model="小叮当异步地址"/>

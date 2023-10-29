@@ -193,7 +193,7 @@ export const 表格读取列宽数组 = (tableRef: any): any => {
 };
 
 export const 表格写入列宽数组 = (tableRef: any, widths: number[]) => {
-    if (tableRef.data===undefined || tableRef.data.length === 0) {
+    if (tableRef.data === undefined || tableRef.data.length === 0) {
         return
     }
     let tableColumns = tableRef.store.states.columns._rawValue; //这个行有问题 有时会取出空数组
@@ -212,6 +212,10 @@ export const 时间_计算分钟提示 = (Time: number) => {
     }
     let time: number = 时间_取现行时间戳()
     time = time - Time //看剩余秒数
+    if ((time === 0)) {
+        return time + "刚刚\n"
+    }
+
     if (time < 0) {
         time = parseInt((-time / 60).toString())//看剩余分钟数
         if (time > 60) {
@@ -385,6 +389,7 @@ export const 金额整数转中文 = (money) => {
     ChineseStr = Symbol + ChineseStr
     return ChineseStr
 }
+
 function 文本_取出中间文本(text, startKeyword, endKeyword) {
     const startIndex = text.indexOf(startKeyword);
     const endIndex = text.indexOf(endKeyword);

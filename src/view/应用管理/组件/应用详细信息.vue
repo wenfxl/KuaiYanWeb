@@ -842,8 +842,6 @@ const on置剪辑版配置信息 = () => {
   if (data.value.CryptoType === 1) {
     appINfo = {
       "AppWeb": SerVerUrl.value + data.value.AppWeb,
-      "CryptoKeyAes": data.value.CryptoKeyAes,
-      "CryptoKeyPublic": data.value.CryptoKeyPublic,
       "CryptoType": data.value.CryptoType
     }
   } else if (data.value.CryptoType === 2) {
