@@ -134,6 +134,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/日志管理/用户消息.vue"),
             },
             {
+                path: "日志管理/代理操作日志",
+                name: "代理操作日志",
+                component: () => import("@/view/日志管理/代理操作日志.vue"),
+            },
+            {
                 path: "财务管理/支付充值订单",
                 name: "支付充值订单",
                 component: () => import("@/view/财务管理/支付充值订单.vue"),
@@ -150,7 +155,7 @@ const routes: Array<RouteRecordRaw> = [
 
 //修改为二级目录Admin下
 const router = createRouter({
-    history: createWebHistory('/Admin/'),
+    history: createWebHistory('/Admin/#'),  //必须有＃ 分割路径和本地单页路由,否则容易404
     routes: routes
 })
 
@@ -180,9 +185,10 @@ router.beforeEach(async (to, from) => {
     Nprogress.start()
     console.log(to.path)
 
-    to.path= decodeURI(to.path) //中文路由坑点, 正常跳转没问题,但是刷新后路由会是url编码后 所以会找不到路由 跳404,必须解码一次才能找到正确路由,英文就没这个问题,但是我还是喜欢中文,
 
-
+    if ( to.path.indexOf('%') !== -1) {
+        to.path= decodeURI(to.path) //中文路由坑点, 正常跳转没问题,但是刷新后路由会是url编码后 所以会找不到路由 跳404,必须解码一次才能找到正确路由,英文就没这个问题,但是我还是喜欢中文,
+    }
 
     console.log("路由守卫:" + localStorage.getItem("AdminToken"))
     if (to.path == "/Login") {

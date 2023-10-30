@@ -220,6 +220,12 @@ const menus = [{
     "name": "制卡日志",
     "meta": {"title": "制卡日志", "icon": "Postcard"},
     "children": []
+  }, {
+    "ID": 6,
+    "path": "日志管理/代理操作日志",
+    "name": "代理操作日志",
+    "meta": {"title": "代理操作", "icon": "Postcard"},
+    "children": []
   }]
 }]
 defineProps({
