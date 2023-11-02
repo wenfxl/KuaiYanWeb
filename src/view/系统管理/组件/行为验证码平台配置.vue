@@ -3,7 +3,9 @@
     <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="130px" :model="Data"
              :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
       <div class="内容div">
-        <el-divider content-position="left" >极验行为验证4</el-divider>
+        <el-divider content-position="left" >极验行为验证4
+          <el-link href="http://www.geetest.com/" target="_blank">www.geetest.com</el-link>
+        </el-divider>
         <el-form-item label="验证_ID" disabled="disabled">
           <el-input v-model.trim="Data.极验行为验证4.验证_ID" placeholder="请输入极验行为验证4.0 验证id 任意业务模块与场景部署">
           </el-input>

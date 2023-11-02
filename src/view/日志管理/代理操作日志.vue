@@ -90,7 +90,7 @@
         <el-table-column prop="Id" label="Id" width="80"/>
         <el-table-column prop="AgentUser" label="代理" width="210">
           <template #default="scope">
-            {{ scope.row.AgentUid }}
+            {{ scope.row.AgentUser }}
             <el-tag size="small"
                     :type="scope.row.AgentType === 4 ? 'success' : scope.row.AgentType === 5 ? 'info' : ''">
               {{
@@ -99,15 +99,21 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="AppUser" label="软件用户名" width="210" show-overflow-tooltip="">
+        <el-table-column prop="AppUser" label="软件用户名或卡号" width="210" show-overflow-tooltip="">
           <template #default="scope">
-            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Ka,'已复制到剪辑版')">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.AppUser,'已复制到剪辑版')">
               <DocumentCopy/>
             </el-icon>
-            {{ scope.row.Ka }}
+            {{ scope.row.AppUser }}
           </template>
         </el-table-column>
-        <el-table-column prop="Func" label="操作" width="140" show-overflow-tooltip=""/>
+        <el-table-column prop="FuncTxt" label="操作" width="140" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-tag size="small" type="success">
+              {{ scope.row.FuncTxt }}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="Time" label="时间" width="160">
           <template #default="scope">
             {{ 时间_时间戳到时间(scope.row.Time) }}
@@ -227,11 +233,13 @@ const Data = ref({
       "Id": 1,
       "AgentType": 1,
       "AgentUid": 1,
+      "AgentUser": "",
       "AppId": 1,
       "AppUser": "",
       "AppUserid": 0,
       "Time": 0,
       "Func": 0,
+      "FuncTxt": 0,
       "Ip": "",
       "Count": 0,
       "Note": ""
@@ -247,9 +255,10 @@ const 对象_搜索条件 = ref({
   Type: 1,
   Size: 10,
   Page: 1,
+  Order: 2,
   Keywords: "",
   Count: 0,
-  Func: 1
+  Func: 0
 })
 
 const on读取列表 = (Type: number) => {

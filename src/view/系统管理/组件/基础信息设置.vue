@@ -14,13 +14,14 @@
             <el-input v-model.trim="Data.系统地址" placeholder="系统地址"/>
           </el-tooltip>
         </el-form-item>
-        <el-form-item label="备案号" prop="备案号" disabled="disabled" >
-          <el-input  clearable  v-model.trim="Data.备案号" placeholder="登录页底部显示,可空"/>
+        <el-form-item label="备案号" prop="备案号" disabled="disabled">
+          <el-input clearable v-model.trim="Data.备案号" placeholder="登录页底部显示,可空"/>
         </el-form-item>
         <el-form-item label="管理员后台Host" prop="管理员后台Host">
           <el-row style="width: 100%">
-            <el-col :span="18" >
-              <el-input  clearable  v-model.trim="Data.管理员后台Host" placeholder="127.0.0.1:18888  限制该域名可访问,空不限制,这样可以管理员后台和用户Api使用不同的域名访问,"/>
+            <el-col :span="18">
+              <el-input clearable v-model.trim="Data.管理员后台Host"
+                        placeholder="127.0.0.1:18888  限制该域名可访问,空不限制,这样可以管理员后台和用户Api使用不同的域名访问,"/>
             </el-col>
             <el-col :span="2">
               <el-tooltip
@@ -29,8 +30,12 @@
                   content="设置host后打不开后台解决办法"
                   placement="top"
               >
-                <el-link href="https://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html#清除管理员后台host限制" target="_blank">
-                  <el-icon size="24" ><Link /></el-icon>
+                <el-link
+                    href="https://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html#清除管理员后台host限制"
+                    target="_blank">
+                  <el-icon size="24">
+                    <Link/>
+                  </el-icon>
                 </el-link>
               </el-tooltip>
             </el-col>
@@ -38,7 +43,8 @@
 
         </el-form-item>
         <el-form-item label="WebApiHost" prop="WebApiHost">
-            <el-input  clearable v-model.trim="Data.WebApiHost" placeholder="127.0.0.1:18888  限制该域名可访问,空不限制,这样可以WebApi和用户Api使用不同的域名访问,"/>
+          <el-input clearable v-model.trim="Data.WebApiHost"
+                    placeholder="127.0.0.1:18888  限制该域名可访问,空不限制,这样可以WebApi和用户Api使用不同的域名访问,"/>
         </el-form-item>
 
         <el-form-item label="系统开关" prop="系统开关">
@@ -48,12 +54,13 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="系统关闭提示" prop="系统关闭提示">
-          <el-input  v-model.trim="Data.系统关闭提示" placeholder="系统关闭提示" clearable/>
+          <el-input v-model.trim="Data.系统关闭提示" placeholder="系统关闭提示" clearable/>
         </el-form-item>
         <el-form-item label="用户API加密盐" prop="用户API加密盐">
           <el-row style="width: 100%">
-            <el-col :span="18" >
-              <el-input clearable v-model.trim="Data.用户API加密盐" placeholder="新Api名称=MD5(Api名称 + 用户API加密盐) ,正确使用,有效解决服务器山寨问题,点击右侧打开官网查看详细说明"/>
+            <el-col :span="18">
+              <el-input clearable v-model.trim="Data.用户API加密盐"
+                        placeholder="新Api名称=MD5(Api名称 + 用户API加密盐) ,正确使用,有效解决服务器山寨问题,点击右侧打开官网查看详细说明"/>
             </el-col>
             <el-col :span="2">
               <el-tooltip
@@ -62,8 +69,11 @@
                   content="打开官网查询详细说明"
                   placement="top"
               >
-                <el-link href="http://www.fnkuaiyan.cn/%E7%94%A8%E6%88%B7Api/%E7%94%A8%E6%88%B7Api.html#api名称加密摘要" target="_blank">
-                  <el-icon size="24" ><Link /></el-icon>
+                <el-link href="http://www.fnkuaiyan.cn/%E7%94%A8%E6%88%B7Api/%E7%94%A8%E6%88%B7Api.html#api名称加密摘要"
+                         target="_blank">
+                  <el-icon size="24">
+                    <Link/>
+                  </el-icon>
                 </el-link>
               </el-tooltip>
               <el-tooltip
@@ -73,7 +83,10 @@
                   placement="top"
               >
                 <el-link @click="on生成API加密源码SDK('E')">
-                  <el-icon size="24" ><Download />易</el-icon>
+                  <el-icon size="24">
+                    <Download/>
+                    易
+                  </el-icon>
                 </el-link>
               </el-tooltip>
             </el-col>
@@ -81,7 +94,7 @@
         </el-form-item>
       </div>
       <div class="内容div">
-        <el-divider content-position="left">代理中心</el-divider>
+        <el-divider content-position="left">代理中心   <el-link href="/Agent" target="_blank">/Agent</el-link></el-divider>
         <el-form-item label="代理中心开关" prop="代理中心开关">
           <el-radio-group v-model="Data.代理中心开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
@@ -93,8 +106,9 @@
         </el-form-item>
         <el-form-item label="代理后台Host" prop="代理后台Host">
           <el-row style="width: 100%">
-            <el-col :span="18" >
-              <el-input v-model.trim="Data.代理后台Host" placeholder="127.0.0.1:18888 代理后台限制该地址可访问,空不限制,这样可以管理后台和代理后台使用不同的域名访问,"/>
+            <el-col :span="18">
+              <el-input v-model.trim="Data.代理后台Host"
+                        placeholder="127.0.0.1:18888 代理后台限制该地址可访问,空不限制,这样可以管理后台和代理后台使用不同的域名访问,"/>
             </el-col>
             <el-col :span="2">
               <el-tooltip
@@ -104,7 +118,9 @@
                   placement="top"
               >
                 <el-link href="/Agent/#/Login" target="_blank">
-                  <el-icon size="24" ><Link /></el-icon>
+                  <el-icon size="24">
+                    <Link/>
+                  </el-icon>
                 </el-link>
               </el-tooltip>
             </el-col>
@@ -114,12 +130,12 @@
       </div>
       <div class="内容div">
         <el-divider content-position="left">其他(真诚等待您的建议+.0)</el-divider>
-<!--        <el-form-item label="用户中心开关" prop="用户中心开关">
-          <el-radio-group v-model="Data.用户中心开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
-          </el-radio-group>
-        </el-form-item>-->
+        <!--        <el-form-item label="用户中心开关" prop="用户中心开关">
+                  <el-radio-group v-model="Data.用户中心开关">
+                    <el-radio-button :label="true" size="" border>开启</el-radio-button>
+                    <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+                  </el-radio-group>
+                </el-form-item>-->
 
 
         <div style="text-align:center">
@@ -168,21 +184,21 @@ onMounted(async () => {
   await onGetList()
 })
 
-const 校验系统地址 = () :boolean => {
-if (Data.value.系统地址.endsWith("/")){
-  ElMessage({
-    type: "error",
-    message: "系统地址尾部不用 / 斜杠",
-    showClose: true,
-  })
-  return false
-}
+const 校验系统地址 = (): boolean => {
+  if (Data.value.系统地址.endsWith("/")) {
+    ElMessage({
+      type: "error",
+      message: "系统地址尾部不用 / 斜杠",
+      showClose: true,
+    })
+    return false
+  }
   return true
 };
 
 
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
-  if (!formEl ||!校验系统地址()) return
+  if (!formEl || !校验系统地址()) return
   let 表单验证结果 = await formEl.validate((valid, fields) => {
     if (!valid) {
       console.log('参数验证失败', fields)
@@ -207,9 +223,9 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   }
 }
 
-const on生成API加密源码SDK =  async (Type:string) => {
+const on生成API加密源码SDK = async (Type: string) => {
 
-  if (Data.value.用户API加密盐=== "") {
+  if (Data.value.用户API加密盐 === "") {
     ElMessage({
       type: "success",
       message: "API加密盐不能为空",
@@ -220,7 +236,7 @@ const on生成API加密源码SDK =  async (Type:string) => {
 
   let 返回;
   is加载中.value = true
-  返回 = await S生成API加密源码SDK({Type:Type,用户API加密盐:Data.value.用户API加密盐});
+  返回 = await S生成API加密源码SDK({Type: Type, 用户API加密盐: Data.value.用户API加密盐});
   is加载中.value = false
   console.log(返回)
   if (返回.code == 10000) {
@@ -260,13 +276,14 @@ const downloadFile = (data, filename) => {
 .最底层div {
 
   padding: 12px 16px;
-  margin:0  2px 10px;
+  margin: 0 2px 10px;
   background: #f0f2f5;
 }
+
 .内容div {
   min-height: 20%;
   padding: 12px 16px;
-  margin:0  2px 10px;
+  margin: 0 2px 10px;
   background: #ffffff;
 }
 </style>

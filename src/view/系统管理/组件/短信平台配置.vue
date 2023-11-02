@@ -2,8 +2,16 @@
   <div class="最底层div">
     <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="130px" :model="Data"
              :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-      <div class="内容div">
-        <el-divider content-position="left" >腾讯云短信(SMS)</el-divider>
+      <div class="内容div" style="order:3;">
+        <el-form-item label="当前选择" disabled="disabled">
+          <el-select v-model="Data.当前选择" class="m-2" placeholder="Select" size="">
+            <el-option label="腾讯云短信(SMS)" :value="1"/>
+            <el-option label="短信宝" :value="2"/>
+          </el-select>
+        </el-form-item>
+      </div>
+      <div class="内容div" v-if="Data.当前选择===1" >
+        <el-divider content-position="left">腾讯云短信(SMS)</el-divider>
         <el-form-item label="SECRET_ID" disabled="disabled">
           <el-input v-model.trim="Data.TX云Sms.SECRET_ID">
           </el-input>
@@ -20,10 +28,30 @@
         <el-form-item label="正文模板ID" disabled="disabled">
           <el-input v-model.trim="Data.TX云Sms.正文模板ID"/>
         </el-form-item>
-        <div style="text-align:center">
-          <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>
-        </div>
-
+      </div>
+      <div class="内容div"  v-if="Data.当前选择===2">
+        <el-divider content-position="left">短信宝
+          <el-link href="https://www.smsbao.com/reg?r=H713" target="_blank">www.smsbao.com</el-link>
+        </el-divider>
+        <el-form-item label="用户名" disabled="disabled">
+          <el-input v-model.trim="Data.Sms短信宝.User">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="ApiKey" disabled="disabled">
+          <el-input v-model.trim="Data.Sms短信宝.ApiKey" placeholder="可空">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="产品ID" disabled="disabled">
+          <el-input v-model.trim="Data.Sms短信宝.ProductId" placeholder="可空">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="发送内容" disabled="disabled">
+          <el-input v-model.trim="Data.Sms短信宝.SendValue" placeholder="【短信宝】您的验证码是{code}">
+          </el-input>
+        </el-form-item>
+      </div>
+      <div style="text-align:center">
+        <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>
       </div>
     </el-form>
   </div>
@@ -37,12 +65,19 @@ import {is移动端} from "@/utils/utils";
 
 
 const Data = ref({
+  "当前选择": 1,
   "TX云Sms": {
     "SECRET_ID": "",
     "SECRET_KEY": "",
     "短信应用ID": "",
     "短信签名": "",
     "正文模板ID": ""
+  },
+  "Sms短信宝": {
+    "User": "",
+    "ApiKey": "",
+    "ProductId": "",
+    "SendValue": "",
   }
 })
 
@@ -52,6 +87,9 @@ const onGetList = async () => {
   is加载中.value = true
   const res = await GetInfoSMS({})
   Data.value = res.data
+  if (Data.value.当前选择 === 0) {
+    Data.value.当前选择 = 1
+  }
   is加载中.value = false
 }
 
@@ -88,20 +126,8 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped lang="scss">
-.el-table .cell {
-  white-space: pre-wrap; /*这是重点。文本换行*/
 
-}
-
-/*.gva-search-box {*/
-/*  padding: 24px;*/
-/*  padding-bottom: 2px;*/
-/*  background-color: #fff;*/
-/*  border-radius: 2px;*/
-/*  margin-bottom: 12px;*/
-/*}*/
 .最底层div {
-
   padding: 12px 16px;
   margin: 0 2px 10px;
   background: #f0f2f5;
@@ -113,115 +139,12 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   margin: 0 2px 10px;
   background: #ffffff;
 }
-
-.搜索框 {
-  top: -5px;
-  padding: 0 0;
-  margin: 0 0 10px;
-  align-items: center;
-}
-
-.demo-pagination-block {
-  margin-top: 15px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.el-statistic__number {
-  font-size: 18px;
-  color: #eebe77;
-}
-
-.gva-btn-list {
-  border: 1px solid rgb(235, 238, 245);
-}
-
-.工具栏 {
-  margin: 7px 8px 8px;
-  background: #fafafa;
-  color: #606266;
-  float: right;
-  padding-right: 1px;
-
-  .el-icon {
-    /*设置边框阴影*/
-
-    font-size: 16px;
-    margin-left: 10px;
-    padding: 5px;
-    ///*边框 1px  颜色 */
-    border: 1px solid rgb(235, 238, 245);
-    color: #0c0d0e;
-    //box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
-    speak: none;
-    font-style: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    vertical-align: baseline;
-    display: inline-block;
-    -webkit-font-smoothing: antialiased;
-    cursor: pointer; //改变鼠标样式为手型
-  }
-}
-
-
-.工具_更多 {
-  background-color: #ffffff;
-  width: 150px;
-  margin: 0;
-  /*边框 1px  颜色 */
-  border: 1px solid #ccc;
-  /*图层高度  3000  值大一点 会在顶层*/
-  z-index: 3000;
-  /*定位方式 绝对定位*/
-  position: absolute;
-  list-style-type: none;
-  border-radius: 4px; //设置圆角
-  /*设置边框阴影*/
-  box-shadow: 2px 2px 3px 0 rgba(45, 75, 74, 0.6);
-  padding: 5px 0;
-  font-size: 12px;
-
-  li {
-    margin: 0;
-    padding: 7px 16px;
-    //设置 鼠标悬停时样式
-    &:hover {
-      background: #889aa4; //改变背景颜色
-      cursor: pointer; //改变鼠标样式为手型
-    }
-  }
-
-}
-
-.工具_更多_li {
-  list-style-type: none;
-  font-size: 12px;
-  margin: 0;
-  padding: 7px 16px;
-  //设置 鼠标悬停时样式
-  &:hover {
-    background: #889aa4; //改变背景颜色
-    cursor: pointer; //改变鼠标样式为手型
-  }
-}
-
-.el-form-item {
-  padding: 0;
-  margin: 0 15px 8px 0;
-}
-
-.el-table .cell {
-  white-space: pre-line;
-}
-
-.编辑框 {
-  width: 200px;
-}
-
-单条信息分组框 {
-  padding: 20px 10px 10px 10px;
-
+.active-div { //失败了,想实现,选择那个,就让那个在上边显示,但是没成功 以后实现
+  min-height: 20%;
+  padding: 12px 16px;
+  margin: 0 2px 10px;
+  background: #ffffff;
+  position: relative;
+  z-index: 9999; /* 设置较大的z-index值 */
 }
 </style>

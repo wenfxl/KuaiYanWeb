@@ -155,7 +155,7 @@ const routes: Array<RouteRecordRaw> = [
 
 //修改为二级目录Admin下
 const router = createRouter({
-    history: createWebHistory('/Admin/#'),  //必须有＃ 分割路径和本地单页路由,否则容易404
+    history: createWebHashHistory('/Admin/'),  //必须有＃ 分割路径和本地单页路由,否则容易404
     routes: routes
 })
 

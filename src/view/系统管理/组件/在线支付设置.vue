@@ -3,7 +3,11 @@
     <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="130px" :model="Data"
              :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
       <div class="内容div">
-        <el-divider content-position="left">支付宝PC -><el-link href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001000" target="_blank">电脑网页支付</el-link></el-divider>
+        <el-divider content-position="left">支付宝PC ->
+          <el-link href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001000"
+                   target="_blank">电脑网页支付
+          </el-link>
+        </el-divider>
         <el-form-item label="开关" prop="支付宝开关">
           <el-radio-group v-model="Data.支付宝开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
@@ -33,7 +37,11 @@
         </el-form-item>
       </div>
       <div class="内容div">
-        <el-divider content-position="left">支付宝当面付 -><el-link href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003" target="_blank">当面付</el-link></el-divider>
+        <el-divider content-position="left">支付宝当面付 ->
+          <el-link href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003"
+                   target="_blank">当面付
+          </el-link>
+        </el-divider>
         <el-form-item label="开关" prop="支付宝当面付开关">
           <el-radio-group v-model="Data.支付宝当面付开关">
             <el-radio-button :label="true" size="" border>开启</el-radio-button>
@@ -132,10 +140,11 @@
         <el-form-item label="接口密钥" disabled="disabled">
           <el-input v-model.trim="Data.小叮当接口密钥"/>
         </el-form-item>
-        <el-form-item label="支付类型" disabled="disabled" >
+        <el-form-item label="支付类型" disabled="disabled">
           <el-input-number v-model.trim="Data.小叮当支付类型"/>
+          <el-link href="https://www.xddpay.com/doc/pay.htm" target="_blank">43支付宝,44微信,其他看官网支付类型参数</el-link>
         </el-form-item>
-        <el-form-item label="异步通知网址" disabled="disabled"  class="只读编辑框">
+        <el-form-item label="异步通知网址" disabled="disabled" class="只读编辑框">
           <el-input v-model="小叮当异步地址"/>
         </el-form-item>
         <el-form-item label="单次最大金额" disabled="disabled">
@@ -157,7 +166,7 @@ import {GetInfoPay, SaveInfoPay} from "@/api/系统设置api.js";
 import {ElMessage, FormInstance} from 'element-plus'
 import {is移动端} from "@/utils/utils";
 
-const 小叮当异步地址=ref("http://域名/WebApi/PayXiaoDingDangNotify")
+const 小叮当异步地址 = ref("http://域名/WebApi/PayXiaoDingDangNotify")
 const Data = ref({
 
 
