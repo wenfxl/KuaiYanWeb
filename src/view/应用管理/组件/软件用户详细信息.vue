@@ -96,14 +96,15 @@
             <el-form-item label="最大同时在线数量" prop="MaxOnline">
               <el-input-number v-model.number="data.MaxOnline" :step="1" :value-on-clear="0" :min="1"/>
             </el-form-item>
-
             <el-form-item :label="'用户类型'+data.UserClassId" prop="UserClassId" style="width:280px">
               <el-select v-model="data.UserClassId" clear placeholder="全部">
                 <!--            <el-option key="0" label="未分类" :value="0"/>-->
                 <el-option v-for="(ver,key) in UserType" :key="key" :label="ver" :value="Number(key)"/>
               </el-select>
             </el-form-item>
-
+            <el-form-item label="首次登录" prop="MaxOnline">
+              <el-text>{{ 时间_时间戳到时间(data.RegisterTime) }}</el-text>
+            </el-form-item>
 
           </el-form>
         </el-tab-pane>
@@ -196,7 +197,8 @@ const data = ref({
   "Msg": "用户备注",
   "MaxOnline": 1,
   "UserClassId": 0,
-  "AppType": 1
+  "AppType": 1,
+  "RegisterTime": 0
 })
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)

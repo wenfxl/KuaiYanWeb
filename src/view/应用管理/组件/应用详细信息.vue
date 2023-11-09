@@ -240,7 +240,40 @@
             <el-form-item v-show="data.CryptoType===3" label="Rsa公钥" prop="CryptoKeyPublic">
               <el-input type="textarea" v-model="data.CryptoKeyPublic"/>
             </el-form-item>
+            <el-form-item label="封包超时">
+              <el-tooltip
+                  class="box-item"
+                  effect="light"
+                  :content="时间_计算天时分秒提示 (data.PackTimeOut)"
+                  placement="left"
+              >
+                <div style="display: flex; align-items: center">
+                  <el-input-number v-model="data.PackTimeOut" :step="10" :value-on-clear="10" :min="0"/>
+                  秒
+                  <el-button @click="data.PackTimeOut=5*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
+                    {{ "5分钟" }}
+                  </el-button>
+                  <el-button @click="data.PackTimeOut=15*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
+                    {{ "15分" }}
+                  </el-button>
+                  <el-button @click="data.PackTimeOut=30*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
+                    {{ "30分" }}
+                  </el-button>
+                  <el-button @click="data.PackTimeOut=60*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
+                    {{ "60分" }}
+                  </el-button>
+                </div>
+              </el-tooltip>
+              <el-tooltip content="封包时间戳校验,超过后报错封包超时,0不校验"
+                          effect="dark"
+                          placement="top">
+                <el-icon size="24" color="#409EFC" class="no-inherit">
+                  <QuestionFilled/>
+                </el-icon>
+              </el-tooltip>
+            </el-form-item>
             <el-form-item label="心跳超时" prop="OutTime">
+
               <el-tooltip
                   class="box-item"
                   effect="light"
@@ -250,6 +283,7 @@
                 <div style="display: flex; align-items: center">
                   <el-input-number v-model="data.OutTime" :step="10" :value-on-clear="10" :min="0"/>
                   秒
+
                   <el-button @click="data.OutTime=5*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
                     {{ "5分钟" }}
                   </el-button>
@@ -262,8 +296,18 @@
                   <el-button @click="data.OutTime=60*60" :style="is移动端()?'width: 9vh':'width: 4vh'">
                     {{ "60分" }}
                   </el-button>
+
+                  <el-tooltip content="超过时间没调用接口或心跳的的在线Token,自动注销在线状态"
+                              effect="dark"
+                              placement="top">
+                    <el-icon size="24" color="#409EFC" class="no-inherit">
+                      <QuestionFilled/>
+                    </el-icon>
+                  </el-tooltip>
+
                 </div>
               </el-tooltip>
+
 
             </el-form-item>
 
@@ -766,7 +810,7 @@ const 读取详细信息 = async (id: number) => {
         console.log(数组_验证码英数.value)
         数组_ApiHook.value = []
         数组_ApiHook.value = 取ApiHook反向整理数组(data.value.ApiHook)
-      }catch (e){
+      } catch (e) {
 
       }
 

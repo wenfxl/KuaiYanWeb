@@ -78,6 +78,9 @@
             <li class="工具_更多_li" @click="on批量维护删除(2)" v-if="isAppType卡号2">
               删除{{ (Data.AppType === 2 || Data.AppType === 4) ? "0点数" : "vip到期" }}且删卡号
             </li>
+            <li class="工具_更多_li" @click="is批量修改全部用户时间点数=true" >
+              批量维护修改全部软件用户
+            </li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -199,7 +202,7 @@
           <el-pagination
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
-              :page-sizes="[10, 20, 30, 40,50]"
+              :page-sizes="[10, 20, 30, 40,50,100]"
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
@@ -219,6 +222,9 @@
                   :提示信息='isAppType计点()?"请输入增减点数(点)":"请输入增减时间(秒)"'
                   :AppType="Data.AppType"
                   @on批量维护输入框被关闭="on批量维护输入框被关闭"></BatchElMessage>
+  <BatchSetAllUserVipTime v-if="is批量修改全部用户时间点数"
+                          :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, AppName:MapAppId_Name[对象_搜索条件.AppId.toString()]}"
+                          @on批量维护输入框被关闭="on对话框修改全部用户时间点数关闭"></BatchSetAllUserVipTime>
 </template>
 
 <script lang="ts" setup>
@@ -245,10 +251,12 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import AppUserinfo from "./组件/软件用户详细信息.vue";
 import BatchElMessage from "./组件/批量维护积分时间增减输入框.vue";
+import BatchSetAllUserVipTime from "./组件/批量维护全部用户时间点数.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
-import {快验系统更新} from "@/api/快验个人中心api";
+
 
 const is图表分析抽屉可见 = ref(false)
+
 
 const on图表分析被点击 = () => {
   Store.commit("set搜索_软件用户", 对象_搜索条件.value)
@@ -668,6 +676,15 @@ export interface UserInfo2 {
   registerIp: string;
   registerTime: string;
 }
+//==========批量修改全部用户
+const is批量修改全部用户时间点数 = ref(false)
+const on对话框修改全部用户时间点数关闭 = (is重新读取: boolean) => {
+  is批量修改全部用户时间点数.value=false
+  if (is重新读取) {
+    on读取列表()
+  }
+}
+
 
 </script>
 

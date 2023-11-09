@@ -67,7 +67,7 @@ export const  SetStatus = (data) => {
   })
 }
 
-//  Set批量维护_增减时间点数
+//  Set批量维护_勾选用户增减时间点数
 //...
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
 export const  Set批量维护增减时间点数 = (data) => {
@@ -78,6 +78,16 @@ export const  Set批量维护增减时间点数 = (data) => {
   })
 }
 
+//  Set批量维护_全部用户增减时间点数
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
+export const  Set批量维护_全部用户增减时间点数 = (data) => {
+  return service({
+    url: url+'SetBatchAllUserVipTime',
+    method: 'post',
+    data: data
+  })
+}
 
 //  Del批量维护_删除
 export const Del批量维护_删除 = (data) => {

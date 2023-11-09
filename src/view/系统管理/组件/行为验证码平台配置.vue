@@ -3,16 +3,42 @@
     <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="130px" :model="Data"
              :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
       <div class="内容div">
-        <el-divider content-position="left" >极验行为验证4
-          <el-link href="http://www.geetest.com/" target="_blank">www.geetest.com</el-link>
-        </el-divider>
-        <el-form-item label="验证_ID" disabled="disabled">
-          <el-input v-model.trim="Data.极验行为验证4.验证_ID" placeholder="请输入极验行为验证4.0 验证id 任意业务模块与场景部署">
-          </el-input>
+        <el-form-item label="当前选择" disabled="disabled">
+          <el-select v-model="Data.当前选择" class="m-2" placeholder="Select" size="">
+            <el-option label="极验行为验证4" :value="1"/>
+            <el-option label="快验Api代极验4" :value="2"/>
+          </el-select>
         </el-form-item>
-        <el-form-item label="验证_KEY" disabled="disabled">
-          <el-input v-model.trim="Data.极验行为验证4.验证_KEY" placeholder="请输入极验行为验证4.0 验证KEY 任意业务模块与场景部署"/>
-        </el-form-item>
+        <div class="内容div" v-if="Data.当前选择===1">
+          <el-divider content-position="left">极验行为验证4
+            <el-link href="http://www.geetest.com/" target="_blank">www.geetest.com</el-link>
+          </el-divider>
+          <el-form-item label="验证_ID" disabled="disabled">
+            <el-input v-model.trim="Data.极验行为验证4.验证_ID"
+                      placeholder="请输入极验行为验证4.0 验证id 任意业务模块与场景部署">
+            </el-input>
+          </el-form-item>
+          <el-form-item label="验证_KEY" disabled="disabled">
+            <el-input v-model.trim="Data.极验行为验证4.验证_KEY"
+                      placeholder="请输入极验行为验证4.0 验证KEY 任意业务模块与场景部署"/>
+          </el-form-item>
+        </div>
+        <div class="内容div" v-if="Data.当前选择===2">
+          <el-divider content-position="left">快验Api代极验4
+          </el-divider>
+          <el-form-item label="说明" disabled="disabled">
+            <el-text>快验系统Api,直接使用飞鸟申请的极验接口,前端使用下边的极验Id对接极验Sdk,提交值实际就是极验返回的对象转字符串</el-text>
+          </el-form-item>
+          <el-form-item label="验证_ID" disabled="disabled">
+            <el-text>ea872eea9e20dce9de4e5da4297ee704</el-text>
+          </el-form-item>
+
+          <el-form-item label="验证_Value例子" disabled="disabled">
+            <el-text>
+              {"captcha_id":"ea872eea9e20dce9de4e5da4297ee704","lot_number":"8e27bb557c6940578902a6f051469a23","pass_token":"c32a92646b50b5b9f3d8a5d5a13decaed7484fa0fcca785ee0e872fc3a545ea5","gen_time":"1699182135","captcha_output":"BFZFX-sB_WLMfXEmGExfGpsZMglB2WrplEl76jcF0gLteAgVkZXtN-N2Niy-idLz8JnsBBkE8av0stsW81b3TJcwlvmtrajS-PDVM30XbHCAW_P36XJlngPpn9O9W454xXXUNbCHTv-w8EZKeiAgxdY5vXGBAUF8Xvp97SRY9LWSuttJbo8qbOCSADY3HZXaWSjBj3DrR7naeXpdBlHE3sM0HsPcX_gmHg-EKeImnzW8MJ6zcpRPR8YrplxZykcD_9zFcumxwH-llL5j-S-wJw=="}
+              </el-text>
+          </el-form-item>
+        </div>
         <div style="text-align:center">
           <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>
         </div>
@@ -30,6 +56,7 @@ import {is移动端} from "@/utils/utils";
 
 
 const Data = ref({
+  "当前选择": 1,
   "极验行为验证4": {
     "验证_ID": "",
     "验证_KEY": "",
@@ -42,6 +69,9 @@ const onGetList = async () => {
   is加载中.value = true
   const res = await GetInfoCaptcha2({})
   Data.value = res.data
+  if (!Data.value.当前选择) {
+    Data.value.当前选择 = 1
+  }
   is加载中.value = false
 }
 
@@ -64,7 +94,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
   is加载中.value = true
-  返回 = await SaveInfoCaptcha2  (Data.value);
+  返回 = await SaveInfoCaptcha2(Data.value);
   is加载中.value = false
   console.log(返回)
   if (返回.code == 10000) {
