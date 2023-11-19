@@ -22,17 +22,17 @@
               <el-button @click="data.RMB=0" :style="is移动端()?'width: 5vh':'width: 4vh'">
                 {{ "清零" }}
               </el-button>
+              <el-button @click="data.RMB+=10" :style="is移动端()?'width: 5vh':'width: 4vh'">
+                {{ "+10" }}
+              </el-button>
               <el-button @click="data.RMB+=100" :style="is移动端()?'width: 5vh':'width: 4vh'">
                 {{ "+100" }}
               </el-button>
+              <el-button @click="data.RMB+=500" :style="is移动端()?'width: 5vh':'width: 4vh'">
+                {{ "+500" }}
+              </el-button>
               <el-button @click="data.RMB+=1000" :style="is移动端()?'width: 5vh':'width: 4vh'">
                 {{ "+1000" }}
-              </el-button>
-              <el-button @click="data.RMB+=5000" :style="is移动端()?'width: 5vh':'width: 4vh'">
-                {{ "+5000" }}
-              </el-button>
-              <el-button @click="data.RMB+=10000" :style="is移动端()?'width: 5vh':'width: 4vh'">
-                {{ "+1W" }}
               </el-button>
               <el-button @click="data.RMB=-data.RMB" :style="is移动端()?'width: 5vh':'width: 4vh'">
                 {{ "负数" }}
@@ -61,27 +61,9 @@ import {NewRMBPayOrder} from "@/api/支付充值订单api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 金额整数转中文} from "@/utils/utils";
 
-const Props = defineProps({
-  is对话框可见: {
-    type: Boolean,
-    default: false
-  },
-  AppId: {
-    type: Number,
-    default: 10001
-  },
-})
-
 const emit = defineEmits(['on对话框详细信息关闭'])
-watch(() => Props.is对话框可见, (newVal, oldVal) => {
-  if (newVal) {
-    is对话框可见2.value = newVal;
-    console.info("is对话框可见2被检测到改变了:")
-  }
-})
 
-const formLabelWidth = '140px'
-const is对话框可见2 = ref(false)
+const is对话框可见2 = ref(true)
 const data = ref({
   "User": "",
   "RMB": 0,
