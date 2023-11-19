@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import {ref, watch} from 'vue'
 import {is移动端, 时间_计算天时分秒提示} from "@/utils/utils";
-import zhCn from 'element-plus/lib/locale/lang/zh-cn' // 引入中文包
+import zhCn from 'element-plus/es/locale/lang/zh-cn' // 引入中文包
 
 const Props = defineProps({
   is批量维护输入框可见: {

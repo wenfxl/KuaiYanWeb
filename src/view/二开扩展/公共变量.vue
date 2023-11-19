@@ -136,7 +136,7 @@ import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetList, DeleteInfo} from "@/api/公共变量api.js";
 import {useStore} from "vuex";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import PublicDataInfo from "./组件/公共变量详细信息.vue";
 import {Delete} from "@element-plus/icons-vue";

@@ -205,7 +205,7 @@ import {
 } from "@/utils/utils.js";
 import {useStore} from "vuex";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox, FormInstance} from 'element-plus'
 import {GetAppIdNameList} from "@/api/应用列表api";
 import vueNewWebApiToken from "@/view/用户管理/组件/创建WebApi令牌.vue";

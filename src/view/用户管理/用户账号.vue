@@ -204,7 +204,7 @@ import {
 } from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import Userinfo from "@/view/用户管理/组件/普通用户详细信息.vue";

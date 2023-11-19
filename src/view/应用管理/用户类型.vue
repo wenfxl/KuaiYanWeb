@@ -130,7 +130,7 @@ import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import UserClassinfo from "./组件/用户类型详细信息.vue";

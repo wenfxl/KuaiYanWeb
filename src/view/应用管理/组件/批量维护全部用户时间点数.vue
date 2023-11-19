@@ -124,7 +124,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue'
 import {is移动端, 时间_计算天时分秒提示} from "@/utils/utils";
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {SaveApp信息} from "@/api/应用列表api";
 import {ElMessage} from "element-plus";
 import {Set批量维护_全部用户增减时间点数} from "@/api/软件用户api"; // 引入中文包

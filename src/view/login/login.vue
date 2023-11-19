@@ -148,6 +148,7 @@ const loginVerify = () => {
     picPath.value = ele.data.picPath
     loginFormData.captchaId = ele.data.captchaId
     loginFormData.openCaptcha = ele.data.openCaptcha
+    loginFormData.captcha = ""
   })
 }
 loginVerify()

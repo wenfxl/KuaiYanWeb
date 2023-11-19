@@ -271,6 +271,10 @@ export const Is卡号 = (AppType: number) => {
 
 
 export const 金额整数转中文 = (money) => {
+    if (money===null){
+        return ""
+    }
+
     // 接收数字或者字符串数字
     if (typeof money === "string") {
         if (money === '') return ''

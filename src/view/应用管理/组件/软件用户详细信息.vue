@@ -150,7 +150,7 @@ import {NewAppUser信息, SaveAppUser信息, GetAppUser详细信息} from "@/api
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 时间_取现行时间戳, 时间_时间戳到时间, 时间_计算天时分秒提示} from "@/utils/utils";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {GetList, DeleteInfo} from "@/api/用户云配置api.js";
 import {Delete} from "@element-plus/icons-vue";
 

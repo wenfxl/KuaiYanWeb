@@ -77,7 +77,7 @@ import {NewKa信息, NewKa信息_指定卡号} from "@/api/卡号列表api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 const Props = defineProps({
   is对话框可见: {

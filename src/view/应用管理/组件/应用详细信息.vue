@@ -187,7 +187,7 @@
                       content="复制App配置到剪辑版"
                   >
                     <template #reference>
-                      <el-button @click="on置剪辑版配置信息" icon="DocumentCopy"/>
+                      <el-button type="primary"  @click="on置剪辑版配置信息" icon="DocumentCopy">复制App配置</el-button>
                     </template>
                   </el-popover>
                 </template>

@@ -187,7 +187,7 @@ import {GetList, Del批量删除, C撤回库存} from "@/api/代理库存管理a
 import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
 import {useStore} from "vuex";
 
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'// 引入中文包
+import zhCn from 'element-plus/es/locale/lang/zh-cn'// 引入中文包
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import NewAgentInventory from "@/view/代理管理/组件/代理库存新增.vue";

@@ -246,7 +246,7 @@ import {
   表格写入列宽数组, 置剪辑版文本
 } from "@/utils/utils";
 import {useStore} from "vuex";
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import AppUserinfo from "./组件/软件用户详细信息.vue";

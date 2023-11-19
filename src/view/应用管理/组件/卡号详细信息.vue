@@ -177,7 +177,7 @@ import {SaveKa信息, GetKa详细信息} from "@/api/卡号列表api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 时间_取现行时间戳, 时间_时间戳到时间, 时间_计算天时分秒提示} from "@/utils/utils";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 const Props = defineProps({
   is对话框可见: {

@@ -186,7 +186,7 @@ import {
 } from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, MuteNotification, RefreshRight} from "@element-plus/icons";
 import {Del批量删除UserClass} from "@/api/用户类型api";

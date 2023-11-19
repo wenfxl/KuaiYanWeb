@@ -196,7 +196,7 @@
       </div>
     </div>
   </div>
-  <NewRMBPayOrder :is对话框可见="is对话框可见_应用新增" :id="is对话框id"
+  <NewRMBPayOrder v-if="is对话框可见_手动充值"
                   @on对话框详细信息关闭="on对话框详细信息关闭"></NewRMBPayOrder>
   <ViewOutRMBPayOrder :Is退款订单可见="Is退款订单可见" :退款订单="退款订单"
                       @on对话框退款关闭="on对话框退款关闭"></ViewOutRMBPayOrder>
@@ -219,7 +219,7 @@ import NewRMBPayOrder from "./组件/余额订单手动充值.vue";
 import ViewOutRMBPayOrder from "./组件/支付充值订单退款.vue";
 
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
 import ChartData from "@/view/财务管理/组件/支付充值订单图表抽屉.vue";
@@ -483,19 +483,14 @@ const 数组_日志预选日期 = [{
 ]
 
 
-const is对话框可见_应用新增 = ref(false)
+const is对话框可见_手动充值 = ref(false)
 const is对话框id = ref(0)
 const on对话框详细信息打开 = (id: number) => {
-  if (id === 0) {
-    is对话框可见_应用新增.value = true
-  } else {
-    //is对话框可见_详细信息.value = true
-  }
-  is对话框id.value = id
+    is对话框可见_手动充值.value = true
 }
 const on对话框详细信息关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")
-  is对话框可见_应用新增.value = false
+  is对话框可见_手动充值.value = false
   is对话框id.value = 0
   if (is重新读取) {
     onGetLogRMBPayOrderList()

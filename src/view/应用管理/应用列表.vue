@@ -169,7 +169,7 @@ import {onBeforeUnmount, onMounted, ref,} from "vue";
 import {GetAppList, Del批量删除App} from "@/api/应用列表api.js";
 import {useStore} from "vuex";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage} from 'element-plus'
 import NewApp from "@/view/应用管理/组件/应用新增.vue";
 import New详细信息 from "@/view/应用管理/组件/应用详细信息.vue";

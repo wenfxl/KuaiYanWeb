@@ -140,7 +140,7 @@ import {
 } from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
 

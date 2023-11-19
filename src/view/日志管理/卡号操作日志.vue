@@ -150,7 +150,7 @@ import {GetLogList, Del批量删除} from "@/api/制卡日志api.js";
 import {is移动端, 时间_时间戳到时间, 置剪辑版文本, 表格写入列宽数组, 表格读取列宽数组,} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
 

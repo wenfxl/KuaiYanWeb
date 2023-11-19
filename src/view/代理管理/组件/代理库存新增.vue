@@ -90,7 +90,7 @@ import {Get代理树和应用卡类树, New库存信息} from "@/api/代理库�
 import {ElMessage} from "element-plus";
 import {is移动端, 时间_取现行时间戳, 时间_时间戳到时间, 时间_计算天时分秒提示} from "@/utils/utils";
 import {useStore} from "vuex";
-import zhCn from "element-plus/lib/locale/lang/zh-cn";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
 
 const Props = defineProps({
   id: {
