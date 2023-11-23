@@ -96,7 +96,7 @@
                   </template>
                 </el-table-column>-->
 
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" :width="2*85">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" :width="2*85">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Name)"
                        style="color:#79bbff">

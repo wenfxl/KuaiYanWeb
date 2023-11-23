@@ -151,7 +151,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="75">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="75">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个注销(scope.row.Id)"
                        v-if="scope.row.Status === 1"

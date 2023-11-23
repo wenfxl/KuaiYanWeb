@@ -77,7 +77,7 @@
         <el-table-column prop="Mark" label="整数代号" width="100"/>
         <el-table-column prop="Weight" label="权重" width="100"/>
 
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="110">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="110">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">

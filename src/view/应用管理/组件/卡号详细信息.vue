@@ -10,7 +10,7 @@
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
         <el-form-item label="卡号" prop="Name">
-          <el-input class="只读编辑框" v-model="data.Name"  readonly />
+          <el-input class="只读编辑框" v-model="data.Name" readonly/>
         </el-form-item>
         <el-form-item label="状态" prop="Status">
           <el-switch
@@ -33,15 +33,15 @@
               重置
             </el-button>
             <el-button @click="data.Num=data.NumMax"
-                       :style="is移动端()?'width: 11vh':'width: 6vh'">最大{{data.NumMax}}
+                       :style="is移动端()?'width: 11vh':'width: 6vh'">最大{{ data.NumMax }}
             </el-button>
           </div>
         </el-form-item>
         <el-form-item label="管理员备注" prop="AdminNote">
-          <el-input v-model.trim="data.AdminNote"  />
+          <el-input v-model.trim="data.AdminNote"/>
         </el-form-item>
         <el-form-item label="代理备注" prop="AgentNote">
-          <el-input v-model.trim="data.AgentNote"  />
+          <el-input v-model.trim="data.AgentNote"/>
         </el-form-item>
         <el-form-item :label="isAppType计点()?'加点数':'加秒数'" prop="VipTime">
           <el-tooltip
@@ -66,13 +66,34 @@
                          :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+1000' : '+30' }}
               </el-button>
               <el-button @click="data.VipTime+=isAppType计点()?10000:86400*365"
-                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+10000' : '+365' }}
+                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+10000' : '+365a' }}
               </el-button>
+
+              <el-config-provider :locale="zhCn" v-if="!isAppType计点()">
+                <el-button
+                    @click="is计算日期?(计算日期对象.handleClose ()):(计算日期=时间_取现行时间戳(),计算日期对象.handleOpen())"
+                    :style="is移动端()?'width: 15vh':'width: 15vh'">当前到日
+                  <el-date-picker
+                      style="visibility:hidden;width: 0px"
+                      v-model.number="计算日期"
+                      ref="计算日期对象"
+                      type="datetime"
+                      format="YYYY/MM/DD hh:mm:ss"
+                      value-format="X"
+                      @change="data.VipTime=计算日期-时间_取现行时间戳()"
+                      @visible-change="on计算日期关闭"
+                  />
+                  期秒数
+                </el-button>
+
+              </el-config-provider>
+
+
             </div>
           </el-tooltip>
 
         </el-form-item>
-        <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="InviteCount"  v-if="AppType<=2">
+        <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="InviteCount" v-if="AppType<=2">
           <el-tooltip
               class="box-item"
               effect="light"
@@ -101,7 +122,7 @@
           </el-tooltip>
         </el-form-item>
 
-        <el-form-item label="余额" prop="RMb"  v-if="AppType<=2">
+        <el-form-item label="余额" prop="RMb" v-if="AppType<=2">
           <el-input-number v-model="data.RMb" :precision="2" :step="1" :value-on-clear="0.00" :min="0"/>
         </el-form-item>
         <el-form-item label="积分" prop="VipNumber">
@@ -129,34 +150,34 @@
             <el-radio-button :label="2">禁止充值</el-radio-button>
           </el-radio-group>
         </el-form-item>
-<!--        <el-form-item label="充值方式" prop="KaType">
-          <el-radio-group v-model="data.KaType">
-            <el-radio-button :label="1">有次数即可</el-radio-button>
-            <el-radio-button :label="2">每用户一次</el-radio-button>
-          </el-radio-group>
-        </el-form-item>-->
-<!--        <el-form-item label="最大在线数" prop="MaxOnline">
-          <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="1"/>
-        </el-form-item>-->
+        <!--        <el-form-item label="充值方式" prop="KaType">
+                  <el-radio-group v-model="data.KaType">
+                    <el-radio-button :label="1">有次数即可</el-radio-button>
+                    <el-radio-button :label="2">每用户一次</el-radio-button>
+                  </el-radio-group>
+                </el-form-item>-->
+        <!--        <el-form-item label="最大在线数" prop="MaxOnline">
+                  <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="1"/>
+                </el-form-item>-->
         <div v-if="Props.id>0 " class="展示不可修改信息">
           <ul>
             <li class="li展示不可修改信息">最大在线数:
-              <el-text type="info"  size="large">{{data.MaxOnline}}</el-text>
+              <el-text type="info" size="large">{{ data.MaxOnline }}</el-text>
             </li>
-            <li class="li展示不可修改信息" >充值方式:
-              <el-text type="info"  size="large">{{data.KaType===1?"有次数即可":"每用户一次" }}</el-text>
+            <li class="li展示不可修改信息">充值方式:
+              <el-text type="info" size="large">{{ data.KaType === 1 ? "有次数即可" : "每用户一次" }}</el-text>
             </li>
             <li class="li展示不可修改信息" v-if="data.EndTime!==9999999999">有效期:
-              <el-text type="info"  size="large">{{时间_时间戳到时间(data.EndTime)}}</el-text>
+              <el-text type="info" size="large">{{ 时间_时间戳到时间(data.EndTime) }}</el-text>
             </li>
-            <li class="li展示不可修改信息" >充值用户User:
-              <el-text type="info"  size="large">{{ data.User }}</el-text>
+            <li class="li展示不可修改信息">充值用户User:
+              <el-text type="info" size="large">{{ data.User }}</el-text>
             </li>
             <li class="li展示不可修改信息">最后使用时间:
-              <el-text type="info"  size="large">{{ on最后使用时间(data.UserTime) }}</el-text>
+              <el-text type="info" size="large">{{ on最后使用时间(data.UserTime) }}</el-text>
             </li>
-            <li class="li展示不可修改信息" >邀请人:
-              <el-text type="info"  size="large">{{ data.InviteUser }}</el-text>
+            <li class="li展示不可修改信息">邀请人:
+              <el-text type="info" size="large">{{ data.InviteUser }}</el-text>
             </li>
           </ul>
         </div>
@@ -324,21 +345,27 @@ const on对话框被关闭 = () => {
 const isAppType计点 = () => {
   return Props.AppType === 2 || Props.AppType === 4
 }
-const on最后使用时间 = (str:string) => {
-if (str===""){
-  return "未使用过"
-}
+const on最后使用时间 = (str: string) => {
+  if (str === "") {
+    return "未使用过"
+  }
 
   let myArray = str.split(",");
 
-  return 时间_时间戳到时间(Number(myArray[myArray.length-2]))
+  return 时间_时间戳到时间(Number(myArray[myArray.length - 2]))
 }
 
+const is计算日期 = ref(false)
+const 计算日期 = ref(时间_取现行时间戳())
+const 计算日期对象 = ref<FormInstance>()
+const on计算日期关闭 = (b) => {
+  is计算日期.value = b
+}
 
 
 </script>
 
-<style scoped  lang="scss">
+<style scoped lang="scss">
 
 .li展示不可修改信息 {
   font-size: 16px;
@@ -349,6 +376,13 @@ if (str===""){
   height: 30px;
   word-wrap: break-word;
   word-break: normal;
+}
+
+.timnePickCSS {
+  position: fixed;
+  top: 30%;
+  left: 70%;
+  z-index: -1;
 }
 
 </style>

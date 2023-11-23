@@ -138,7 +138,7 @@
         </el-table-column>
         <el-table-column prop="StartTime" label="创建时间" width="160" :formatter="on格式化_创建时间"/>
 
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="80">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="80">
           <template #default="scope">
             <el-button link type="primary" size="default"
                        style="color:#79bbff" @click="on单个撤回(scope.row)" v-show="scope.row.Num<scope.row.NumMax">

@@ -7,7 +7,7 @@
              @close="on对话框被关闭">
 
     <div style="overflow:auto;padding:0 12px;" v-loading="is加载中">
-      <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px"  :rules="on表单校验" :model="data"
+      <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
         <el-form-item label="卡类名称" prop="Name">
@@ -50,7 +50,7 @@
           </el-tooltip>
 
         </el-form-item>
-        <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="VipTime"  v-if="AppType<=2">
+        <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="VipTime" v-if="AppType<=2">
           <el-tooltip
               class="box-item"
               effect="light"
@@ -79,7 +79,7 @@
           </el-tooltip>
         </el-form-item>
 
-        <el-form-item label="余额" prop="RMb"   v-if="AppType<=2">
+        <el-form-item label="余额" prop="RMb" v-if="AppType<=2">
 
           <div style="display: flex; align-items: center">
             <el-input-number v-model="data.RMb" :precision="2" :step="1" :value-on-clear="0.00" :min="0"/>
@@ -90,13 +90,13 @@
                        :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10' }}
             </el-button>
             <el-button @click="data.RMb+=isAppType计点()?100:86400*3"
-                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{'+100' }}
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+100' }}
             </el-button>
             <el-button @click="data.RMb+=1000"
                        :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+1000' }}
             </el-button>
             <el-button @click="data.RMb+=10000"
-                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10000'  }}
+                       :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10000' }}
             </el-button>
           </div>
         </el-form-item>
@@ -116,13 +116,13 @@
                          :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10' }}
               </el-button>
               <el-button @click="data.VipNumber+=isAppType计点()?100:86400*3"
-                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{'+100' }}
+                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+100' }}
               </el-button>
               <el-button @click="data.VipNumber+=1000"
                          :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+1000' }}
               </el-button>
               <el-button @click="data.VipNumber+=10000"
-                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10000'  }}
+                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10000' }}
               </el-button>
             </div>
           </el-tooltip>
@@ -161,11 +161,18 @@
 
         </el-form-item>
         <el-form-item label="用户类型" prop="UserClassId" style="width:280px">
-          <el-select v-model="data.UserClassId" clear placeholder="全部">
-            <el-option v-for="(ver,key) in UserType" :key="key" :label="ver" :value="Number(key)"/>
-          </el-select>
+          <el-tooltip
+              class="box-item"
+              effect="light"
+              :content="(isAppType计点()?'加点数':'加秒数')+'=0 不生效不修改原用户类型'"
+              placement="left"
+          >
+            <el-select v-model="data.UserClassId" clear placeholder="全部">
+              <el-option v-for="(ver,key) in UserType" :key="key" :label="ver" :value="Number(key)"/>
+            </el-select>
+          </el-tooltip>
         </el-form-item>
-        <el-form-item label="类型不同处理方式" prop="NoUserClass"  >
+        <el-form-item label="类型不同处理方式" prop="NoUserClass">
           <el-radio-group v-model="data.NoUserClass">
             <el-radio-button :label="1">自动根据权重转换分组</el-radio-button>
             <el-radio-button :label="2">禁止充值</el-radio-button>
@@ -175,30 +182,38 @@
           <el-input-number v-model="data.KaLength" :step="1" :value-on-clear="0" :min="10"/>
         </el-form-item>
         <el-form-item label="卡内容字符集" prop="KaLength">
-            <el-select v-model="data.KaStringType" placeholder="大小写字母+数字" style="width: 190px;">
-              <el-option label="大小写字母+数字" :value="1"/>
-              <el-option label="大写字母+数字" :value="2"/>
-              <el-option label="小写字母+数字" :value="3"/>
-            </el-select>
+          <el-select v-model="data.KaStringType"  style="width: 190px;">
+            <el-option label="大小写字母+数字" :value="1"/>
+            <el-option label="大写字母+数字" :value="2"/>
+            <el-option label="小写字母+数字" :value="3"/>
+          </el-select>
         </el-form-item>
         <el-form-item label="可用次数" prop="Num" v-if="AppType<=2">
           <el-input-number v-model="data.Num" :step="1" :value-on-clear="1" :min="1"/>
         </el-form-item>
-        <el-form-item label="充值方式" prop="KaType"  v-if="AppType<=2">
+        <el-form-item label="充值方式" prop="KaType" v-if="AppType<=2">
           <el-radio-group v-model="data.KaType">
             <el-radio-button :label="1">有次数即可</el-radio-button>
             <el-radio-button :label="2">每用户一次</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="最大在线数" prop="MaxOnline">
-          <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="1"/>
+          <el-tooltip
+              class="box-item"
+              effect="light"
+              content="值为0不修改"
+              placement="left"
+          >
+            <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="1"/>
+          </el-tooltip>
+
         </el-form-item>
 
 
       </el-form>
     </div>
     <template #footer>
-      <div class="dialog-footer"  v-loading="is加载中">
+      <div class="dialog-footer" v-loading="is加载中">
         <el-button :disabled="Props.id===0" @click="on确定按钮被点击(ruleFormRef,true)">添加为新卡类</el-button>
         <el-button @click="is对话框可见2=false">取 消</el-button>
         <el-button type="primary" @click="on确定按钮被点击(ruleFormRef)">确 定</el-button>
@@ -272,12 +287,12 @@ const data = ref({
   "KaStringType": 1,
   "Num": 1,
   "KaType": 1,
-  "MaxOnline":1
+  "MaxOnline": 1
 })
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const is加载中 = ref(false)
-const on确定按钮被点击 = async (formEl: FormInstance | undefined,添加为新卡类:boolean) => {
+const on确定按钮被点击 = async (formEl: FormInstance | undefined, 添加为新卡类: boolean) => {
 
   console.info("on确定按钮被点击")
   console.info(data.value)
@@ -295,14 +310,14 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined,添加�
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
   data.value.AppId = Props.AppId
-  is加载中.value=true
+  is加载中.value = true
   if (Props.id === 0 || 添加为新卡类) {
-    data.value.Id=0
+    data.value.Id = 0
     返回 = await NewKaClass信息(data.value);
   } else {
     返回 = await SaveKaClass信息(data.value);
   }
-  is加载中.value=false
+  is加载中.value = false
   console.log(返回)
   if (返回.code == 10000) {
     is重新读取.value = true
@@ -374,7 +389,7 @@ const 读取详细信息 = async (id: number) => {
       "KaStringType": 1,
       "Num": 1,
       "KaType": 1,
-      "MaxOnline":1
+      "MaxOnline": 1
     }
   }
 }

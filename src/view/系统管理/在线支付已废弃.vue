@@ -20,7 +20,7 @@
           <el-input v-model.trim="Data.支付宝商户公钥"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝同步回调url"/>
+          <el-input v-model.trim="Data.支付宝同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
         </el-form-item>
       </div>
 

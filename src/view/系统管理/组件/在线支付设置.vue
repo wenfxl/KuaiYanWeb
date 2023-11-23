@@ -30,10 +30,42 @@
           <el-input v-model.trim="Data.支付宝公钥"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝同步回调url"/>
+          <el-input v-model.trim="Data.支付宝同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
         </el-form-item>
         <el-form-item label="单次最大金额" disabled="disabled">
           <el-input-number v-model="Data.支付宝单次最大金额"/>
+        </el-form-item>
+      </div>
+      <div class="内容div">
+        <el-divider content-position="left">支付宝H5 ->
+          <el-link href="https://b.alipay.com/page/product-mall/product-detail/I1080300001000041949"
+                   target="_blank">手机网站支付
+          </el-link>
+        </el-divider>
+        <el-form-item label="开关" prop="支付宝H5开关">
+          <el-radio-group v-model="Data.支付宝H5开关">
+            <el-radio-button :label="true" size="" border>开启</el-radio-button>
+            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="显示名称" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝H5显示名称"/>
+        </el-form-item>
+        <el-form-item label="商户ID" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝H5商户ID"/>
+        </el-form-item>
+        <el-form-item label="商户私钥" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝H5商户私钥"/>
+        </el-form-item>
+
+        <el-form-item label="支付宝H5公钥" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝H5公钥"/>
+        </el-form-item>
+        <el-form-item label="同步回调url" disabled="disabled">
+          <el-input v-model.trim="Data.支付宝H5同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+        </el-form-item>
+        <el-form-item label="单次最大金额" disabled="disabled">
+          <el-input-number v-model="Data.支付宝H5单次最大金额"/>
         </el-form-item>
       </div>
       <div class="内容div">
@@ -57,19 +89,17 @@
         <el-form-item label="商户私钥" disabled="disabled">
           <el-input v-model.trim="Data.支付宝当面付商户私钥"/>
         </el-form-item>
-        <!--        <el-form-item label="商户公钥" disabled="disabled">
-                  <el-input v-model.trim="Data.支付宝当面付商户公钥"/>
-                </el-form-item>-->
         <el-form-item label="支付宝当面付公钥" disabled="disabled">
           <el-input v-model.trim="Data.支付宝当面付公钥"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝当面付同步回调url"/>
+          <el-input v-model.trim="Data.支付宝当面付同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
         </el-form-item>
         <el-form-item label="单次最大金额" disabled="disabled">
           <el-input-number v-model="Data.支付宝当面付单次最大金额"/>
         </el-form-item>
       </div>
+
       <div class="内容div">
         <el-divider content-position="left">微信支付</el-divider>
         <el-form-item label="开关" prop="微信支付开关">
@@ -111,9 +141,7 @@
             <el-input type="textarea" v-model="Data.微信支付商户证书串"/>
           </el-tooltip>
         </el-form-item>
-        <!--        <el-form-item  label="异步回调url" disabled="disabled">
-                  <el-input v-model.trim="Data.微信支付异步回调Url"/>
-                </el-form-item>-->
+
         <el-form-item label="单次最大金额" disabled="disabled">
           <el-input-number v-model="Data.微信支付单次最大金额"/>
         </el-form-item>
@@ -187,6 +215,15 @@ const Data = ref({
   "支付宝当面付公钥": "666666666666",
   "支付宝当面付同步回调url": "https://www.baidu.com/s?wd=%E5%85%85%E5%80%BC%E6%88%90%E5%8A%9F%E6%9B%B4%E6%96%B0%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B",
   "支付宝当面付单次最大金额": 2000,
+
+  "支付宝H5开关": false,
+  "支付宝H5显示名称": "",
+  "支付宝H5商户ID": "20210088888818",
+  "支付宝H5商户私钥": "xxxxxxx",
+  "支付宝H5商户公钥": "666666666666",
+  "支付宝H5公钥": "666666666666",
+  "支付宝H5同步回调url": "https://www.baidu.com/s?wd=%E5%85%85%E5%80%BC%E6%88%90%E5%8A%9F%E6%9B%B4%E6%96%B0%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B",
+  "支付宝H5单次最大金额": 2000,
 
   "微信支付开关": false,
   "微信支付显示名称": "",

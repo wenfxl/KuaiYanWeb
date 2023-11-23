@@ -137,7 +137,7 @@
           </template>
 
         </el-table-column>
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="75">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="75">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个已读(scope.$index,scope.row.Id)"
                        style="color:#79bbff" v-show="!scope.row.IsRead">

@@ -105,3 +105,26 @@ export const SetAdminNote = (data) => {
     data: data
   })
 }
+
+
+//  取卡号格式模板配置
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
+export const SetKaTemplate = (data) => {
+  return service({
+    url: url+'SetKaTemplate',
+    method: 'post',
+    data: data
+  })
+}
+
+//  取卡号格式模板配置
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
+export const GetKaTemplate = (data) => {
+  return service({
+    url: url+'GetKaTemplate',
+    method: 'post',
+    data: data
+  })
+}

@@ -100,7 +100,7 @@
         <el-table-column prop="HookReturnDataEnd" label="Hook函数执行入库后" width="230"/>
 
 
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="140">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="140">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">

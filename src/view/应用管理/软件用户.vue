@@ -173,7 +173,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="MaxOnline" label="最大在线数量" width="110"/>
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="80">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="80">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">

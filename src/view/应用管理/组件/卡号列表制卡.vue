@@ -8,7 +8,7 @@
     <div style="overflow:auto;padding:0 12px;">
       <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-        <el-form-item label="应用名称" >
+        <el-form-item label="应用名称">
           <el-input class="只读编辑框" v-model="Props.AppName"></el-input>
         </el-form-item>
         <el-form-item label="选择卡类" prop="Name">
@@ -46,14 +46,21 @@
           </el-button>
         </el-form-item>
         <el-form-item label="格式模板" prop="Prefix">
-          <el-input
-              v-model="格式模板"
-              placeholder="格式模板"
+          <el-tooltip
+              class="box-item"
+              :content="模板支持变量"
+              placement="bottom"
           >
-            <template #append>
-              <el-button @click="格式化卡号内容">重新格式化</el-button>
-            </template>
-          </el-input>
+            <el-input
+                v-model="格式模板"
+                placeholder="格式模板"
+            >
+              <template #append>
+                <el-button @click="格式化卡号内容(true)">重新格式化</el-button>
+              </template>
+            </el-input>
+          </el-tooltip>
+
         </el-form-item>
 
         <el-form-item label="生成内容" prop="Prefix">
@@ -73,9 +80,9 @@
 
 <script setup lang="ts">
 import {onMounted, ref,} from 'vue'
-import {NewKa信息, NewKa信息_指定卡号} from "@/api/卡号列表api";
+import {NewKa信息, NewKa信息_指定卡号, SetKaTemplate, GetKaTemplate} from "@/api/卡号列表api";
 import {ElMessage, FormInstance} from "element-plus";
-import {is移动端, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
+import {is移动端, 时间_时间戳到时间, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
@@ -142,6 +149,7 @@ const on校验表单重置 = (formEl: FormInstance | undefined) => {
 
 
 const on表单校验 = ref({})
+const 模板支持变量 = ref("支持变量 卡号:{Name} 点数:{VipTime} 软件:{AppName} 余额:{RMb} 积分:{VipNumber} 用户类型:{UserClassName} 可用次数:{Num} 同时最大在线数{MaxOnline} 制卡时间:{RegisterTime}")
 
 const on对话框被打开 = () => {
   is重新读取.value = false
@@ -215,7 +223,7 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
   console.log(返回)
   if (返回.code == 10000) {
     生成卡号Data.value = 返回.data
-    格式化卡号内容()
+    格式化卡号内容(false)
     is重新读取.value = true
     ElMessage({
       type: "success",
@@ -224,7 +232,8 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
     })
   }
 }
-const 格式化卡号内容 = () => {
+
+const 格式化卡号内容 = (保存配置 = false) => {
   let 最终内容 = ""
   let 临时文本 = ""
   for (let i = 0; i < 生成卡号Data.value.length; i++) {
@@ -232,15 +241,30 @@ const 格式化卡号内容 = () => {
     临时文本 = 格式模板.value.replace('{Name}', 生成卡号Data.value[i].Name)
     临时文本 = 临时文本.replace('{VipTime}', isAppType计点() ? 生成卡号Data.value[i].VipTime.toString() : 时间_计算天时分秒提示(生成卡号Data.value[i].VipTime))
     临时文本 = 临时文本.replace('{AppName}', Props.AppName)
-
+    临时文本 = 临时文本.replace('{RMb}',  生成卡号Data.value[i].RMb.toString())
+    临时文本 = 临时文本.replace('{VipNumber}',  生成卡号Data.value[i].VipNumber.toString())
+    临时文本 = 临时文本.replace('{UserClassName}',  生成卡号Data.value[i].UserClassName)
+    临时文本 = 临时文本.replace('{Num}',  生成卡号Data.value[i].Num.toString())
+    临时文本 = 临时文本.replace('{MaxOnline}',  生成卡号Data.value[i].MaxOnline.toString())
+    临时文本 = 临时文本.replace('{RegisterTime}',  时间_时间戳到时间(生成卡号Data.value[i].RegisterTime))
     最终内容 += 临时文本 + "\n"
 
   }
   生成内容.value = 最终内容
+  if (保存配置) {
+    let 保存结果 = SetKaTemplate({AppId: Props.AppId, KaTemplate: 格式模板.value})
+    console.log(保存结果)
+  }
 }
+
 const isAppType计点 = () => {
   return Props.AppType === 2 || Props.AppType === 4
 }
+onMounted(async () => {
+  let 保存结果 = await GetKaTemplate({AppId: Props.AppId, KaTemplate: ""})
+  格式模板.value = 保存结果.data
+  console.log(保存结果)
+})
 </script>
 
 <style scoped lang="scss">

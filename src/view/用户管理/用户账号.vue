@@ -48,7 +48,7 @@
           新增
         </el-button>
 
-        <el-popconfirm title="确定删除勾选用户?" width="200" @confirm="on批量删除" confirm-button-text="确定"
+        <el-popconfirm title="确定删除勾选用户信息和对应软件用户信息?" width="200" @confirm="on批量删除" confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
             <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
@@ -144,7 +144,7 @@
                 <el-table-column prop="RegisterIp" label="注册ip" width="140"/>-->
         <el-table-column prop="RegisterTime" label="注册时间" width="160" :formatter="on格式化_注册时间"/>
 
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="140">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="140">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">

@@ -161,7 +161,7 @@
 
 
         <el-table-column prop="PayOrder2" label="支付通道订单ID" width="170" show-overflow-tooltip=""/>
-        <el-table-column :fixed="is移动端?false:'right'" label="操作" width="110">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="110">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个退款(scope.row)" style="color:#f56d6d"
                        v-show="scope.row.Status===3">
