@@ -23,6 +23,13 @@ export const Del批量注销 = (data) => {
   })
 }
 
+export const 批量永不注销 = (data) => {
+  return service({
+    url: '/Admin/User/SetTokenOutTime',
+    method: 'post',
+    data: data
+  })
+}
 //  Del批量删除在线用户
 //{ "Page": 0,"Size": 10 }
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "注销成功"}"

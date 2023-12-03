@@ -211,11 +211,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -230,11 +226,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除({"ID": ids})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -383,11 +375,7 @@ const on单个撤回 = async (row: any) => {
   is对话框id.value = row.Id
   剩余库存可撤回数量.value = row.NumMax - row.Num
   if (剩余库存可撤回数量.value === 0) {
-    ElMessage({
-      type: "error",
-      message: "可撤回库存数量为0",
-      showClose: true,
-    })
+    ElMessage.error("可撤回库存数量为0")
     return
   }
   is对话框库存撤回可见.value = true

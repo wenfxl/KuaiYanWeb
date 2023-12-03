@@ -156,11 +156,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除TaskPool({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -188,11 +184,7 @@ const on清空队列 = async (索引:number, row: any) => {
         List.value.List[索引].QueueCount=0
         console.log(返回)
         if (返回.code == 10000) {
-          ElMessage({
-            type: "success",
-            message: 返回.msg,
-            showClose: true,
-          })
+          ElMessage.success(返回.msg)
         }
 
       })
@@ -208,11 +200,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除TaskPool({"ID": ids})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -328,11 +316,7 @@ const on状态被改变 = async (表项索引: number, ID: number, Status: numbe
 
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     return true
   } else {
     List.value.List[表项索引].Status = Status == 1 ? 2 : 1

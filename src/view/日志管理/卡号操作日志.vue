@@ -151,7 +151,6 @@ import {is移动端, 时间_时间戳到时间, 置剪辑版文本, 表格写入
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
 
 
@@ -176,11 +175,7 @@ const on批量删除 = async (Type: number) => {
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表(1)
   }
 }
@@ -191,25 +186,18 @@ const on批量删除用户名或关键字 = async (Type: number) => {
     cancelButtonText: '取消',
   })
       .then(async ({value}) => {
-        if (value != "") {
+        if (value) {
           let 提交数据 = {"Type": Type, "Id": [], Keywords: value}
           is加载中.value = true
           const res = await Del批量删除(提交数据)
           is加载中.value = false
           if (res.code == 10000) {
-            ElMessage({
-              type: "success",
-              message: res.msg,
-              showClose: true,
-            })
+            ElMessage.success(res.msg)
             on读取列表(1)
           }
 
         } else {
-          ElMessage({
-            type: 'info',
-            message: (Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空',
-          })
+          ElMessage.info((Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空')
         }
       })
 }

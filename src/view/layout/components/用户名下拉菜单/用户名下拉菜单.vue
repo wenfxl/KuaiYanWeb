@@ -50,18 +50,11 @@ const on修改密码 = async () => {
         const res = await AdminNewPassword({NewPassword: value})
         console.log(res)
         if (res.code === 10000) {
-          ElMessage({
-            type: "success",
-            message: res.msg,
-            showClose: true,
-          })
+          ElMessage.success(res.msg)
         }
       })
       .catch(() => {
-        /*        ElMessage({
-                  type: 'info',
-                  message: 'Input canceled',
-                })*/
+
       })
 }
 const on退出登录 = async () => {

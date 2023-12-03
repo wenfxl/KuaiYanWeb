@@ -6,11 +6,23 @@ export const is移动端 = (): boolean => {
     }
     return false
 }
+export const is苹果端 = (): boolean => {
+    if (navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+        return true
+    }
+    return false
+/*    let u = navigator.userAgent;
+    //var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+
+    return  !!u.match(); //ios终端*/
+}
+
 //从1970年开始的毫秒数然后截取10位变成 从1970年开始的秒数
 export const 时间_取现行时间戳 = (): number => {
     let outcome = Math.round(new Date().getTime() / 1000).toString();
     return Number(outcome)
 }
+
 /**获取前monthNum个月的月份 */
 export const 获取前几个个月的月份 = (monthNum): any => {
     let datelist = [""]
@@ -93,19 +105,7 @@ export const 置剪辑版文本2 = (text: string, 成功提示: string) => {
     document.execCommand('copy');
     document.body.removeChild(textarea);
 
-    if (成功提示 == "") {
-        ElMessage({
-            type: "success",
-            message: "复制成功",
-            showClose: true,
-        });
-    } else {
-        ElMessage({
-            type: "success",
-            message: 成功提示,
-            showClose: true,
-        });
-    }
+    ElMessage.success(成功提示??"复制成功")
 }
 
 
@@ -115,27 +115,11 @@ export const 置剪辑版文本 = (text: string, 成功提示: string) => {
         navigator.clipboard.writeText(text).then(
             // 复制成功callback
             function () {
-                if (成功提示 == "") {
-                    ElMessage({
-                        type: "success",
-                        message: "复制成功",
-                        showClose: true,
-                    })
-                } else {
-                    ElMessage({
-                        type: "success",
-                        message: 成功提示,
-                        showClose: true,
-                    })
-                }
+                ElMessage.success(成功提示??"复制成功")
             },
             // 复制失败callback
             function () {
-                ElMessage({
-                    type: "success",
-                    message: "复制失败无操作剪辑版权限",
-                    showClose: true,
-                })
+                ElMessage.error("复制失败无操作剪辑版权限")
             },
         )
     } else {

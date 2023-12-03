@@ -24,11 +24,7 @@ service.interceptors.request.use(
         return config
     },
     error => {
-        ElMessage({
-            showClose: true,
-            message: error,
-            type: 'error'
-        })
+        ElMessage.error(error)
         return error
     }
 )
@@ -51,11 +47,7 @@ service.interceptors.response.use(
 
                 router.push('/个人中心')
                 if (response.data.msg!==""){
-                    ElMessage({
-                        showClose: true,
-                        message: response.data.msg || decodeURI(response.headers.msg),
-                        type: 'success'
-                    })
+                    ElMessage.success(response.data.msg || decodeURI(response.headers.msg))
                 }
             } else if (response.data.code === 202) {
 
@@ -66,11 +58,7 @@ service.interceptors.response.use(
                 router.replace('Login')
 
             } else {
-                ElMessage({
-                    showClose: true,
-                    message: response.data.msg || decodeURI(response.headers.msg),
-                    type: 'error'
-                })
+                ElMessage.error(response.data.msg || decodeURI(response.headers.msg))
             }
 
 

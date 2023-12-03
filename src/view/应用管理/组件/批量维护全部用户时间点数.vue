@@ -212,11 +212,7 @@ type 结构请求_全部用户增减时间点数 struct {
 
 const on确定按钮被点击 = async () => {
   if (!PostData.value.Number) {
-    ElMessage({
-      type: "error",
-      message: "修改值不能为:" + PostData.value.Number,
-      showClose: true,
-    })
+    ElMessage.error("修改值不能为:" + PostData.value.Number)
     return
   }
 
@@ -234,11 +230,7 @@ const on确定按钮被点击 = async () => {
   if (返回.code == 10000) {
     is重新读取.value = true
     is显示对话框.value = false
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 const on对话框被关闭 = () => {

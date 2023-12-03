@@ -186,11 +186,7 @@ onMounted(async () => {
 
 const 校验系统地址 = (): boolean => {
   if (Data.value.系统地址.endsWith("/")) {
-    ElMessage({
-      type: "error",
-      message: "系统地址尾部不用 / 斜杠",
-      showClose: true,
-    })
+    ElMessage.error("系统地址尾部不用 / 斜杠")
     return false
   }
   return true
@@ -215,22 +211,14 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   is加载中.value = false
   console.log(返回)
   if (返回.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 
 const on生成API加密源码SDK = async (Type: string) => {
 
   if (Data.value.用户API加密盐 === "") {
-    ElMessage({
-      type: "success",
-      message: "API加密盐不能为空",
-      showClose: true,
-    })
+    ElMessage.error("API加密盐不能为空")
     return   //如果是假直接返回
   }
 
@@ -240,11 +228,7 @@ const on生成API加密源码SDK = async (Type: string) => {
   is加载中.value = false
   console.log(返回)
   if (返回.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
     const decodedData = atob(返回.data.Base64Data);
     const byteArray = new Uint8Array(decodedData.length);
     for (let i = 0; i < decodedData.length; i++) {

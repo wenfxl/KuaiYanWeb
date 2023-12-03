@@ -189,11 +189,7 @@ const on单个删除 = async (row: any) => {
   const res = await DeleteInfo({"data": [{"AppId": row.AppId, "Name": row.Name, "Uid": row.Uid}]})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -232,11 +228,7 @@ const on批量删除 = async () => {
   const res = await DeleteInfo({"data": ids})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -378,11 +370,7 @@ const on云配置值被改变 = async (表项索引: number, row:any ) => {
         if (res.code == 10000) {
           Data.value.List[表项索引].Value = 新云配置值   //成功赋新值
           Data.value.List[表项索引].UpdateTime = 时间_取现行时间戳()   //成功赋新值
-          ElMessage({
-            type: "success",
-            message: res.msg,
-            showClose: true,
-          })
+          ElMessage.success(res.msg)
           return true
         } else {
           return false

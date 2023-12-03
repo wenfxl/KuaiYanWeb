@@ -104,14 +104,14 @@
         <el-table-column prop="Count" label="变化值" width="110">
           <template #default="scope">
             <el-tag :type="scope.row.Count>0?'warning':''">
-              {{scope.row.Count}}
+              {{ scope.row.Count }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="Note" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
-              <template v-slot:empty >
-          <div slot="empty"   style="text-align: left;">
-            <el-empty description="居然没有数据啊" />
+        <template v-slot:empty>
+          <div slot="empty" style="text-align: left;">
+            <el-empty description="居然没有数据啊"/>
           </div>
         </template>
       </el-table>
@@ -140,21 +140,16 @@ import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetLogMoneyList, Del批量删除LogMoney} from "@/api/余额日志api.js";
 import {
   时间_时间戳到时间,
-  时间_取现行时间戳,
-  时间_计算天时分秒提示,
   is移动端,
   表格读取列宽数组,
   表格写入列宽数组
 } from "@/utils/utils";
 import {useStore} from "vuex";
-// 引入中文包
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import {Delete} from "@element-plus/icons-vue";
+import zhCn from 'element-plus/es/locale/lang/zh-cn' // 引入中文包
 import {More, RefreshRight} from "@element-plus/icons";
 import ChartData from "@/view/财务管理/组件/支付充值订单图表抽屉.vue";
-
+import {ElMessage} from "element-plus";
 const is图表分析抽屉可见 = ref(false)
-
 const on批量删除 = async (Type: number) => {
   let 提交数据 = {"Type": 0, "Id": [0], Keywords: ""}
   if (Type === 1) {
@@ -176,11 +171,7 @@ const on批量删除 = async (Type: number) => {
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+    ElMessage.success(res.msg)
     on读取列表(1)
   }
 }
@@ -197,19 +188,14 @@ const on批量删除用户名或关键字 = async (Type: number) => {
           const res = await Del批量删除LogMoney(提交数据)
           is加载中.value = false
           if (res.code == 10000) {
-            ElMessage({
-              type: "success",
-              message: res.msg,
-              showClose: true,
-            })
+            ElMessage.success(res.msg)
+
             on读取列表(1)
           }
 
         } else {
-          ElMessage({
-            type: 'info',
-            message: (Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空',
-          })
+          ElMessage.info((Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空')
+
         }
       })
 }
@@ -278,7 +264,7 @@ const onGetLogMoneyList = async () => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
   localStorage.setItem('列宽_余额日志', JSON.stringify(局_列宽数组));
 }
@@ -313,7 +299,7 @@ onMounted(async () => {
     console.log(Store.state.搜索_余额日志)
   }
   await onGetLogMoneyList()
-  if (!is移动端()){
+  if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
     // 监听浏览器高度变化

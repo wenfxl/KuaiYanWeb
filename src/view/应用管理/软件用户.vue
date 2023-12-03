@@ -267,11 +267,7 @@ const on图表分析被点击 = () => {
 const is批量维护输入框可见 = ref(false)
 const on批量维护输入框将打开 = async () => {
   if (表格被选中列表.value.length == 0) {
-    ElMessage({
-      type: "error",
-      message: "选中数据不能为0",
-      showClose: true,
-    })
+    ElMessage.error("选中数据不能为0")
     return
   }
   is批量维护输入框可见.value = true
@@ -285,11 +281,7 @@ const on批量维护输入框被关闭 = async (is确定: boolean, 增减值: nu
   }
 
   if (增减值 == 0) {
-    ElMessage({
-      type: "error",
-      message: "增减数值不能为0",
-      showClose: true,
-    })
+    ElMessage.error("增减数值不能为0")
     return
   }
 
@@ -301,11 +293,7 @@ const on批量维护输入框被关闭 = async (is确定: boolean, 增减值: nu
   })
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     for (let i = 0; i < Data.value.List.length; i++) {
       if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
         Data.value.List[i].VipTime += 增减值
@@ -322,11 +310,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除AppUser({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -352,11 +336,7 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
 
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     return true
   } else {
     Data.value.List[表项索引].Status = Status == 1 ? 2 : 1
@@ -370,22 +350,14 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
 const on批量冻结解冻 = async (Status: number) => {
   const ids = 表格被选中列表.value.map((item => item.Id))
   if (ids.length == 0) {
-    ElMessage({
-      type: "error",
-      message: "选中数据不能为0",
-      showClose: true,
-    })
+    ElMessage.error("选中数据不能为0")
     return
   }
   const res = await SetStatus({"AppId": 对象_搜索条件.value.AppId, "Id": ids, "Status": Status})
 
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
 
     for (let i = 0; i < Data.value.List.length; i++) {
       if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
@@ -417,11 +389,7 @@ const on批量维护删除 = async (Type: number) => {
   ).then(async () => {
     let 返回 = await Del批量维护_删除({AppId: 对象_搜索条件.value.AppId, Type: Type})
     if (返回.code == 10000) {
-      ElMessage({
-        type: "success",
-        message: 返回.msg,
-        showClose: true,
-      })
+     ElMessage.success(返回.msg)
       on读取列表()
     }
 
@@ -433,11 +401,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除AppUser({"AppId": 对象_搜索条件.value.AppId, "ID": ids})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -571,11 +535,7 @@ const on格式化_时间 = (Time: number) => {
 const is加载中 = ref(false)
 const onGetAppUserList = async () => {
   if (对象_搜索条件.value.AppId === 10000) {
-    ElMessage({
-      type: "success",
-      message: "请选选择应用",
-      showClose: true,
-    })
+    ElMessage.info("请选选择应用")
     return   // 默认值 不搜索
   }
 

@@ -199,11 +199,7 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
       data.value.KaName = []
       let a = 待导入卡号.value.match(pattern);
       if (a == null) {
-        ElMessage({
-          type: "error",
-          message: "正则失败,导入卡号格式不正确,一行一个最短10位",
-          showClose: true,
-        })
+        ElMessage.error( "正则失败,导入卡号格式不正确,一行一个最短10位")
         return
       }
       data.value.KaName = a
@@ -212,11 +208,7 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
 
 
   } else {
-    ElMessage({
-      type: "error",
-      message: "卡类Id错误,如果没有卡类请先去卡类列表添加",
-      showClose: true,
-    })
+    ElMessage.error("卡类Id错误,如果没有卡类请先去卡类列表添加")
     返回.code = 7
     return
   }
@@ -225,11 +217,7 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
     生成卡号Data.value = 返回.data
     格式化卡号内容(false)
     is重新读取.value = true
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 

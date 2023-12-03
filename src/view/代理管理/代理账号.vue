@@ -224,11 +224,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除用户({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -239,11 +235,7 @@ const on单个编辑 = async (id: number) => {
 const is批量维护增减余额输入框可见 = ref(false)
 const on批量维护增减余额输入框可见将打开 = async () => {
   if (表格被选中列表.value.length == 0) {
-    ElMessage({
-      type: "error",
-      message: "选中数据不能为0",
-      showClose: true,
-    })
+    ElMessage.error("选中数据不能为0")
     return
   }
   is批量维护增减余额输入框可见.value = true
@@ -256,11 +248,7 @@ const on批量维护增减余额输入框被关闭 = async (is确定: boolean, �
   }
 
   if (请求.RMB == 0) {
-    ElMessage({
-      type: "error",
-      message: "增减数值不能为0",
-      showClose: true,
-    })
+    ElMessage.error("增减数值不能为0")
     return
   }
 
@@ -270,11 +258,7 @@ const on批量维护增减余额输入框被关闭 = async (is确定: boolean, �
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     for (let i = 0; i < List.value.List.length; i++) {
       if (请求.Id.some(ele => ele === List.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
         List.value.List[i].Rmb += 请求.RMB
@@ -289,11 +273,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除用户({"ID": ids})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -362,11 +342,7 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
 
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     return true
   } else {
     List.value.List[表项索引].Status = Status == 1 ? 2 : 1

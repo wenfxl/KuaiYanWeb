@@ -89,11 +89,7 @@ const on确定按钮被点击 = async () => {
   if (返回.code == 10000) {
     Is退款订单可见2.value = false
     is重新读取.value=true
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 
 }

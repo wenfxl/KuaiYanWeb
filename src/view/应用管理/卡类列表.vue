@@ -242,11 +242,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除KaClass({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -260,11 +256,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除KaClass({"AppId": 对象_搜索条件.value.AppId, "ID": ids})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -337,11 +329,7 @@ const onReset = () => {
 const is加载中 = ref(false)
 const onGetKaClassList = async () => {
   if (对象_搜索条件.value.AppId === 10000) {
-    ElMessage({
-      type: "success",
-      message: "请选选择应用",
-      showClose: true,
-    })
+    ElMessage.success("请选选择应用")
     return   // 默认值 不搜索
   }
 

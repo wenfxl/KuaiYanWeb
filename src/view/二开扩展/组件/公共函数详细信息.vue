@@ -153,11 +153,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   console.info("表单验证结果")
   console.info(表单验证结果)
   if (data.value.Value.indexOf(data.value.Name + "(") === -1) {
-    ElMessage({
-      type: "error",
-      message: "缺少函数: " + data.value.Name,
-      showClose: true,
-    })
+    ElMessage.error("缺少函数: " + data.value.Name)
     return
   }
 
@@ -177,11 +173,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
       is对话框可见2.value = false
     }
 
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 

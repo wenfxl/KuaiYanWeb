@@ -156,6 +156,7 @@ const on更新个人信息 = async () => {
   is对话框可见.value = UserInfo.value.User.length < 6
   console.log(UserInfo.value.User.length < 6)
   console.log(UserInfo.value)
+
 }
 
 const on对话框详细信息关闭 = (is重新读取: boolean) => {

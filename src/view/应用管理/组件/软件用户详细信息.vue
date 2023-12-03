@@ -54,7 +54,7 @@
                       <el-date-picker
                           v-model.number="data.VipTime"
                           type="datetime"
-                          format="YYYY/MM/DD hh:mm:ss"
+                          format="YYYY/MM/DD HH:mm:ss"
                           value-format="X"
                       />
                     </el-config-provider>
@@ -241,11 +241,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 
@@ -301,11 +297,7 @@ const 读取详细信息 = async (id: number) => {
       if (res.code == 10000) {
         用户云配置.value = res.data.List
         用户云配置.value.reverse()
-        ElMessage({
-          type: "success",
-          message: res.msg,
-          showClose: true,
-        })
+        ElMessage.success(res.msg)
       }
     } else {
       is重新读取.value = false
@@ -338,11 +330,7 @@ const on删除用户云配置 = async (数组索引: number) => {
 
   if (res.code == 10000) {
     用户云配置.value.splice(数组索引, 1)
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
   }
 }
 const on对话框被关闭 = () => {

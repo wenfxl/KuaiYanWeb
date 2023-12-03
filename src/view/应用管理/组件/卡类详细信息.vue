@@ -322,11 +322,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined, 添加�
   if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 

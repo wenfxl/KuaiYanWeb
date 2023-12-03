@@ -659,11 +659,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 const on打开版本信息详细描述 = () => {
@@ -952,11 +948,7 @@ const on读取专属变量 = async () => {
   if (res.code == 10000) {
     专属变量.value = res.data.List
     专属变量.value.reverse()
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
   }
 }
 const on添加专属变量 = async (是否添加: boolean) => {
@@ -966,11 +958,7 @@ const on添加专属变量 = async (是否添加: boolean) => {
   }
   添加专属变量.value.Name = 添加专属变量.value.Name.replace(/\s/g, "");
   if (添加专属变量.value.Name === "") {
-    ElMessage({
-      type: "warning",
-      message: "名称不能为空",
-      showClose: true,
-    })
+    ElMessage.error("名称不能为空")
     return
   }
 
@@ -988,11 +976,7 @@ const on添加专属变量 = async (是否添加: boolean) => {
   if (res.code == 10000) {
     is添加专属变量.value = false
     专属变量.value.push(NewPublicData)
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
   }
 }
 
@@ -1009,11 +993,7 @@ const on删除专属变量 = async (数组索引: number) => {
   if (res.code == 10000) {
     is添加专属变量.value = false
     专属变量.value.splice(数组索引, 1)
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
   }
 }
 //================================================================应用专属变量结束==================================================

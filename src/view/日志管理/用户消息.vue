@@ -216,11 +216,7 @@ const on批量删除 = async (Type: number) => {
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -237,19 +233,12 @@ const on批量删除用户名或关键字 = async (Type: number) => {
           const res = await Del批量删除(提交数据)
           is加载中.value = false
           if (res.code == 10000) {
-            ElMessage({
-              type: "success",
-              message: res.msg,
-              showClose: true,
-            })
+            ElMessage.success(res.msg)
             on读取列表()
           }
 
         } else {
-          ElMessage({
-            type: 'info',
-            message: (Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空',
-          })
+          ElMessage.info((Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空')
         }
       })
 }
@@ -262,11 +251,7 @@ const on单个已读 = async (表项索引: number, id: number) => {
     let temp = Store.state.UserInfo
     temp.UserMsgNoRead--
     Store.commit("setUserInfo", temp)
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     return true
   } else {
     return false
@@ -284,11 +269,7 @@ const on全部已读 = async () => {
     temp.UserMsgNoRead = 0
     Store.commit("setUserInfo", temp)
 
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     return true
   } else {
     return false

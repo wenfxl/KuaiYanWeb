@@ -67,6 +67,7 @@
             </template>
             <li class="工具_更多_li" @click="is对话框可见_创建令牌=1">新WebApi令牌</li>
             <li class="工具_更多_li" @click="on删除已注销">删除已注销</li>
+            <li class="工具_更多_li" @click="on批量永不注销">修改永不注销</li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -194,7 +195,7 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, Ref, ref, watch,} from "vue";
-import {GetLinkUserList, Del批量注销, Del批量删除} from "@/api/在线用户api.js";
+import {GetLinkUserList, Del批量注销, Del批量删除, 批量永不注销} from "@/api/在线用户api.js";
 import {
   时间_时间戳到时间,
   时间_取现行时间戳,
@@ -218,11 +219,7 @@ const on单个注销 = async (id: number) => {
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     for (let i = 0; i < List.value.List.length; i++) {
       //console.log(List.value.List[i])
       if (List.value.List[i].Id == id) {
@@ -238,15 +235,14 @@ const on单个注销 = async (id: number) => {
 
 const on批量注销 = async () => {
   const ids = 表格被选中列表.value.map((item => item.Id))
-  console.log(ids)
+  if (ids.length == 0) {
+    ElMessage.error("选中数据不能为0")
+    return
+  }
   const res = await Del批量注销({"ID": ids})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
 
     for (let i = 0; i < List.value.List.length; i++) {
       if (ids.includes(List.value.List[i].Id)) {
@@ -255,17 +251,42 @@ const on批量注销 = async () => {
     }
   }
 }
+const on批量永不注销 = async () => {
 
+  ElMessageBox.confirm(
+      '确定修改在线为永不超时注销吗?',
+      'Warning',
+      {
+        confirmButtonText: '确定修改',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(async () => {
+        const ids = 表格被选中列表.value.map((item => item.Id))
+        if (ids.length == 0) {
+          ElMessage.error("选中数据不能为0")
+          return
+        }
+        const res = await 批量永不注销({"Id": ids, "OutTime": 9999999999})
+        if (res.code == 10000) {
+          ElMessage.success(res.msg)
+          for (let i = 0; i < List.value.List.length; i++) {
+            if (ids.includes(List.value.List[i].Id)) {
+              List.value.List[i].OutTime = 9999999999
+            }
+          }
+        }
+      })
+      .catch(() => {
+      })
+}
 const on删除已注销 = async () => {
   is工具_更多.value = false
   const res = await Del批量删除({"ID": [-1]})
 
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }

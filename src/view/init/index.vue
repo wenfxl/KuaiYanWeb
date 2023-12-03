@@ -159,10 +159,7 @@ const onSubmit = async() => {
     const res = await initDB(form)
     if (res.code === 10000) {
       out.value = true
-      ElMessage({
-        type: 'success',
-        message: res.msg,
-      })
+      ElMessage.success(res.msg)
       router.push({ name: 'Login' })
     }
     loading.close()

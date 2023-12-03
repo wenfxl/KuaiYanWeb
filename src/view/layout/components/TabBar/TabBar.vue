@@ -76,10 +76,7 @@ const on子夹被删除 = (Path: string) => {
   console.log("on子夹被删除:" + Path)
   if (editableTabs.value.length == 1) {
     console.log("on子夹被删除:" + editableTabs.value.length)
-    ElMessage({
-      message: '已经是最后一页了.',
-      type: 'warning',
-    })
+    ElMessage.warning("已经是最后一页了.")
     return
   }
   //判断是不是当前页,新型切换子夹

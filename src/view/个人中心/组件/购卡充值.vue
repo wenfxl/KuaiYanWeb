@@ -155,19 +155,11 @@ const on使用充值卡充值 = async () => {
     if (返回.code === 10000) {
       emit('on更新个人信息')
       await on充值卡记录加一(局_使用充值卡.value)
-      ElMessage({
-        type: "success",
-        message: 返回.msg,
-        showClose: true,
-      })
+     ElMessage.success(返回.msg)
 
     }
   }else {
-    ElMessage({
-      type: "error",
-      message: "卡号不存在",
-      showClose: true,
-    })
+    ElMessage.error("卡号不存在")
   }
 }
 const on购买充值卡 = async (Id) => {
@@ -180,11 +172,7 @@ const on购买充值卡 = async (Id) => {
     if (返回.code === 10000) {
       局_使用充值卡.value = 返回.data.KaName
 
-      ElMessage({
-        type: "success",
-        message: 返回.msg,
-        showClose: true,
-      })
+     ElMessage.success(返回.msg)
       if (数组_已购买充值卡.value.length>0){
         await on刷新购买记录()
       }

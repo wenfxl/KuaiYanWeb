@@ -109,11 +109,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   is加载中.value = false
   console.log(返回)
   if (返回.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 </script>

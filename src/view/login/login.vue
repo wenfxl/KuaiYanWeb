@@ -191,12 +191,7 @@ const onLogin = async (loginInfo) => {
     } else {
       router.replace({path: "/"})
     }
-
-    ElMessage({
-      message: res.msg,
-      type: 'success',
-    })
-
+    ElMessage.success(res.msg)
     return true
   } else {
     return false
@@ -215,11 +210,8 @@ const submitForm = () => {
         loginVerify()
       }
     } else {
-      ElMessage({
-        type: 'error',
-        message: '请正确填写登录信息',
-        showClose: true,
-      })
+      ElMessage.error("请正确填写登录信息")
+
       loginVerify()
       return false
     }
@@ -249,15 +241,7 @@ const checkInit = async () => {
   if (res.code === 10000) {
     if (res.data?.needInit) {
       Store.commit("NeedInit")
-
       return true
-
-    } else {
-      // loginFormData.hidden = 'hidden'
-      // ElMessage({
-      //   type: 'info',
-      //   message: '已配置数据库信息，无法初始化',
-      // })
     }
   }
   return false

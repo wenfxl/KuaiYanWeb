@@ -51,7 +51,7 @@
                 <el-date-picker
                     v-model.number="data.EndTime"
                     type="datetime"
-                    format="YYYY/MM/DD hh:mm:ss"
+                    format="YYYY/MM/DD HH:mm:ss"
                     value-format="X"
                 />
               </el-config-provider>
@@ -118,11 +118,7 @@ const is重新读取 = ref(false)
 const Store = useStore()
 const on确定按钮被点击 = async () => {
   if (data.value.Uid.length == 0 || data.value.KaClassId.length == 0) {
-    ElMessage({
-      type: "error",
-      message: "请选择代理用户名和库存所属卡类",
-      showClose: true,
-    })
+    ElMessage.error("请选择代理用户名和库存所属卡类")
     return
   }
   is加载中.value = true
@@ -136,11 +132,7 @@ const on确定按钮被点击 = async () => {
   if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   }
 }
 

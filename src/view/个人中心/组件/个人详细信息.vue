@@ -130,11 +130,7 @@ const on升级最新版本 = () => {
   )
       .then(async () => {
         let 返回 = await 快验系统更新({})
-          ElMessage({
-            type: "success",
-            message: 返回.msg,
-            showClose: true,
-          })
+        ElMessage.success(返回.msg)
       })
 
 }

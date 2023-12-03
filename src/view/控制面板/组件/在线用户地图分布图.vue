@@ -13,11 +13,10 @@
 import * as echarts from 'echarts'
 import chinaJson from "@/assets/json/china.json";
 import {nextTick, onMounted, onUnmounted, ref, shallowRef} from 'vue'
-import {is移动端, 获取前几个个月的月份} from "@/utils/utils";
-import {get图表在线用户统计, Get在线用户Ip地图分布统计} from "@/api/分析页Api.js";
+import {is移动端} from "@/utils/utils";
+import {Get在线用户Ip地图分布统计} from "@/api/分析页Api.js";
 
 const is加载中 = ref(false)
-const 图表时间单位 = ref(1)
 const chart = shallowRef(null)
 const echart = ref(null)
 // 各省的人口数据
@@ -71,8 +70,8 @@ const setOptions = (data) => {
   for (let i = 0; i < 临时数据.length; i++) {
     临时数据[i].value = 0
     for (let j = 0; j < data.length; j++) {
-/*      console.log(临时数据[i].name)
-      console.log(data[j].name)*/
+      /*      console.log(临时数据[i].name)
+            console.log(data[j].name)*/
       if (临时数据[i].name === data[j].name) {
 
         临时数据[i].value = data[j].value;
@@ -157,7 +156,7 @@ onUnmounted(() => {
   chart.value = null
 })
 window.onresize = function () {
-  if (chart.value){
+  if (chart.value) {
     chart.value.resize();
   }
 }

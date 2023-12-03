@@ -249,11 +249,7 @@ const on批量删除 = async (Type: number) => {
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表(1)
   }
 }
@@ -270,19 +266,12 @@ const on批量删除用户名或关键字 = async (Type: number) => {
           const res = await Del批量删除LogRMBPayOrder(提交数据)
           is加载中.value = false
           if (res.code == 10000) {
-            ElMessage({
-              type: "success",
-              message: res.msg,
-              showClose: true,
-            })
+ElMessage.success(res.msg)
             on读取列表(1)
           }
 
         } else {
-          ElMessage({
-            type: 'info',
-            message: (Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空',
-          })
+          ElMessage.info((Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空')
         }
       })
 }
@@ -308,11 +297,7 @@ const on订单备注被改变 = async (表项索引: number, PayOrder: string, N
         console.log(res)
         if (res.code == 10000) {
           Data.value.List[表项索引].Note = 新备注   //成功赋新值
-          ElMessage({
-            type: "success",
-            message: res.msg,
-            showClose: true,
-          })
+     ElMessage.success(res.msg)
           return true
         } else {
           return false

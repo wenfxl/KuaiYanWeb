@@ -195,11 +195,7 @@ const on发送短信被点击 = async () => {
   }
 
   if (错误信息 != "") {
-    ElMessage({
-      type: "error",
-      message: 错误信息,
-      showClose: true,
-    })
+    ElMessage.error(错误信息)
     return
   }
 
@@ -219,11 +215,7 @@ const on发送短信被点击 = async () => {
     data.value.CaptCha3.captchaId = 返回.data.CaptchaId
     data.value.CaptCha3.CaptChaValue = ""
     data.value.CaptCha2.CaptChaValue = ""   //滑动结果页删除
-    ElMessage({
-      type: "success",
-      message: 返回.msg,
-      showClose: true,
-    })
+ElMessage.success(返回.msg)
   } else {
     timer.value = 0
     pause()
@@ -276,11 +268,7 @@ const on检查验证码合格 = () => {
 
 
   if (!局_通过) {
-    ElMessage({
-      type: "error",
-      message: 错误内容,
-      showClose: true,
-    })
+    ElMessage.error(错误内容)
   }
 
   return 局_通过
@@ -300,11 +288,7 @@ const on功能按钮被点击 = async () => {
     data.value.CaptCha2.CaptChaValue = ""   //滑动结果页删除
     if (返回.code == 10000) {
       当前功能.value = "登录"
-      ElMessage({
-        type: "success",
-        message: 返回.msg,
-        showClose: true,
-      })
+      ElMessage.success(返回.msg)
       return
     }
     if (开启验证码接口列表.value.GetSMSCaptcha === 1) {
@@ -317,11 +301,7 @@ const on功能按钮被点击 = async () => {
     is加载中.value = false
     data.value.CaptCha2.CaptChaValue = ""   //滑动结果页删除
     if (返回.code == 10000) {
-      ElMessage({
-        type: "success",
-        message: 返回.msg,
-        showClose: true,
-      })
+     ElMessage.success(返回.msg)
       is对话框可见2.value = false
       emit('on对话框详细信息关闭', true)
       return
@@ -339,11 +319,7 @@ const on功能按钮被点击 = async () => {
     data.value.CaptCha2.CaptChaValue = ""   //滑动结果页删除
     if (返回.code == 10000) {
       当前功能.value = "登录"
-      ElMessage({
-        type: "success",
-        message: 返回.msg,
-        showClose: true,
-      })
+     ElMessage.success(返回.msg)
       is对话框可见2.value = false
       emit('on对话框详细信息关闭', true)
       return

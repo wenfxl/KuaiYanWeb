@@ -159,11 +159,7 @@ const on单个删除 = async (id: string) => {
   const res = await DeleteInfo({"data": [{"AppId": 1, "Name": id}]})
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -195,11 +191,7 @@ const on批量删除 = async () => {
   const res = await DeleteInfo({"Id": ids,"Type": 1 })
   console.log(res)
   if (res.code == 10000) {
-    ElMessage({
-      type: "success",
-      message: res.msg,
-      showClose: true,
-    })
+ElMessage.success(res.msg)
     on读取列表()
   }
 }

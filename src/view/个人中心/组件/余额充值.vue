@@ -36,16 +36,20 @@
             <el-form-item v-if="订单信息.订单状态===1" label="">
               <div style="text-align:center" v-if="订单信息.PayURL!==''">请在打开的网页支付</div>
               <div style="text-align:center"
-                   v-if="订单信息.PayQRCode!==''">请使用扫码支付
+                   v-if="订单信息.PayQRCodePNG!==''">请使用扫码支付
               </div>
             </el-form-item>
 
-            <el-form-item v-if="订单信息.订单状态===1 && 订单信息.PayQRCode!=='' ">
-              <qrcode-vue
-                  :value="订单信息.PayQRCode" :size="200"
-                  level="H"></qrcode-vue>
+            <el-form-item v-if="订单信息.订单状态===1 && 订单信息.PayQRCodePNG!=='' ">
+              <img
+                  :src="订单信息.PayQRCodePNG"
+              >
             </el-form-item>
-
+            <el-form-item v-if="订单信息.订单状态===1 && 订单信息.PayURL!=='' && !is苹果端()">
+              <div id="app">
+                <iframe id="iframeContainer" :src="订单信息.PayURL" frameborder="0" />
+              </div>
+            </el-form-item>
           </div>
         </div>
       </el-form>
@@ -58,7 +62,7 @@ import {onMounted, ref} from "vue";
 import {取支付通道状态, 取余额充值地址, 余额购买充值卡} from "@/api/快验个人中心api.js";
 import {useStore} from "vuex";
 import {ElMessage} from "element-plus";
-import QrcodeVue from 'qrcode.vue';
+import {is苹果端} from "@/utils/utils";
 
 const Store = useStore()
 const Props = defineProps({
@@ -78,7 +82,7 @@ const Props = defineProps({
 const 充值金额 = ref(5)
 const 支付方式 = ref("")
 
-const 订单信息 = ref({订单ID: "", PayQRCode: "", PayURL: "", 订单状态: 0})
+const 订单信息 = ref({订单ID: "", PayQRCode: "", PayURL: "", PayQRCodePNG: "", 订单状态: 0})
 
 const 支付通道状态 = ref({})
 
@@ -118,7 +122,7 @@ const on取余额充值地址 = async () => {
   if (充值金额.value > 0) {
     clearInterval(轮询id.value)
     订单信息.value.PayURL = ""
-    订单信息.value.PayQRCode = ""
+    订单信息.value.PayQRCodePNG = ""
     订单信息.value.订单ID = ""
     订单信息.value.订单状态 = 0
     is加载中.value = true
@@ -127,32 +131,27 @@ const on取余额充值地址 = async () => {
     console.info("取余额充值地址")
     console.info(返回)
     if (返回.code === 10000) {
-      ElMessage({
-        type: "success",
-        message: 返回.msg,
-        showClose: true,
-      })
-
       订单信息.value.订单ID = 返回.data.OrderId
       订单信息.value.订单状态 = 返回.data.Status
 
-
       订单信息.value.PayURL = 返回.data?.PayURL || ""
-      订单信息.value.PayQRCode = 返回.data?.PayQRCode || ""
-
+      if (返回.data?.PayQRCodePNG) {
+        订单信息.value.PayQRCodePNG = 'data:image/png;base64,' + 返回.data.PayQRCodePNG
+      }
 
       if (订单信息.value.PayURL !== "") {
-        window.open(订单信息.value.PayURL, '网页支付')
+        if (is苹果端()) {
+          location.href = 订单信息.value.PayURL
+        } else {
+          window.open(订单信息.value.PayURL, '网页支付')
+        }
       }
+      ElMessage.success(返回.msg)
 
       await on取支付结果()
     }
   } else {
-    ElMessage({
-      type: "error",
-      message: "充值金额必须大于0",
-      showClose: true,
-    })
+    ElMessage.error("充值金额必须大于0")
   }
 }
 const emit = defineEmits(['on更新个人信息'])
