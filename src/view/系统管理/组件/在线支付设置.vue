@@ -30,7 +30,28 @@
           <el-input v-model.trim="Data.支付宝公钥"/>
         </el-form-item>
         <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+          <el-row style="width: 100%">
+            <el-col :span="18">
+              <el-input v-model.trim="Data.支付宝同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+            </el-col>
+            <el-col :span="2">
+              <el-tooltip
+                  class="box-item"
+                  effect="dark"
+                  content="配置为自己服务器地址教程"
+                  placement="top"
+              >
+                <el-link
+                    href="http://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html#添加自己的在线支付同步回调页"
+                    target="_blank">
+                  <el-icon size="24">
+                    <Link/>
+                  </el-icon>
+                </el-link>
+              </el-tooltip>
+            </el-col>
+          </el-row>
+
         </el-form-item>
         <el-form-item label="单次最大金额" disabled="disabled">
           <el-input-number v-model="Data.支付宝单次最大金额"/>
@@ -196,8 +217,6 @@ import {is移动端} from "@/utils/utils";
 
 const 小叮当异步地址 = ref("http://域名/WebApi/PayXiaoDingDangNotify")
 const Data = ref({
-
-
   "支付宝开关": false,
   "支付宝商户ID": "20210088888818",
   "支付宝显示名称": "",

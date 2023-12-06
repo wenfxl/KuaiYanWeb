@@ -372,10 +372,6 @@
           </el-tab-pane>
           <el-tab-pane label="专属云变量" name="专属云变量">
 
-            <!--            <el-divider v-if="专属变量.length>0">
-                          {{ data.AppName }}
-                          -专属变量
-                        </el-divider>-->
             <el-form-item v-for="(data,key) in 专属变量" :label="data.Name" :key="key" style="width: 100%">
               <div class="专属变量" style="display: inline-block ;width: 100%">
                 <el-input v-if="data.Type===1" type="text" v-model.trim="data.Value"

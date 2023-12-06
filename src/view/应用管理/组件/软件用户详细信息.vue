@@ -287,7 +287,7 @@ const 读取详细信息 = async (id: number) => {
       用户云配置.value = []
       //直接通过搜索用户Uid方式
       const res = await GetList({
-        AppId: data.value.AppId,
+        AppId: Props.AppId,
         Type: 3,
         Size: 50,
         Order: 2,
