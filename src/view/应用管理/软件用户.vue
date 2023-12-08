@@ -16,6 +16,11 @@
             <el-option key="0" label="全部" :value="0"/>
             <el-option key="1" :label="isAppType计点()?'有点':'正常'" :value="1"/>
             <el-option key="2" :label="isAppType计点()?'无点':'到期'" :value="2"/>
+
+            <el-option  v-if="!isAppType计点()" key="3"   label="1日内到期" :value="3"/>
+            <el-option  v-if="!isAppType计点()" key="4"   label="3日内到期" :value="4"/>
+            <el-option  v-if="!isAppType计点()" key="5"   label="7日内到期" :value="5"/>
+            <el-option  v-if="!isAppType计点()" key="6"   label="30日内到期" :value="6"/>
           </el-select>
         </el-form-item>
         <el-form-item>
