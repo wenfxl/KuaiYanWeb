@@ -76,7 +76,7 @@
         <el-table-column prop="Name" label="卡类名称" width="100"/>
         <el-table-column prop="Note" label="卡类备注" width="100"/>
         <el-table-column prop="Prefix" label="卡前缀" width="100"/>
-        <el-table-column prop="VipTime" :label="isAppType计点()?'加点数':'加时间'" width="170">
+        <el-table-column prop="VipTime" :label="isAppType计点()?'点数':'时间'" width="170">
           <template #default="scope" v-if="!isAppType计点()">
             <div style="display: flex; align-items: center">
               <el-icon>

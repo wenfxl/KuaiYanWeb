@@ -169,7 +169,7 @@
         </el-table-column>
 
 
-        <el-table-column prop="VipTime" :label="isAppType计点()?'加点数':'加时间'" width="120">
+        <el-table-column prop="VipTime" :label="isAppType计点()?'点数':'时间'" width="120">
           <template #default="scope" v-if="!isAppType计点()">
             <div style="display: flex; align-items: center">
               <el-icon>

@@ -78,6 +78,7 @@
             <li class="工具_更多_li" @click="on批量删除(6)">删除90天前</li>
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定用户</li>
             <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
+            <li class="工具_更多_li" @click="on删除重复消息">删除重复消息</li>
           </el-popover>
           <el-tooltip content="刷新"
                       effect="dark"
@@ -175,7 +176,7 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetLogList, Del批量删除, 批量已读} from "@/api/用户消息api.js";
+import {GetLogList, Del批量删除, 批量已读, 删除重复用户消息} from "@/api/用户消息api.js";
 import {
   时间_时间戳到时间,
   时间_取现行时间戳,
@@ -216,7 +217,7 @@ const on批量删除 = async (Type: number) => {
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -242,7 +243,14 @@ const on批量删除用户名或关键字 = async (Type: number) => {
         }
       })
 }
-
+const on删除重复消息 = async () => {
+  const res = await 删除重复用户消息({})
+  if (res.code == 10000) {
+    ElMessage.success(res.msg)
+    on读取列表()
+    return true
+  }
+}
 const on单个已读 = async (表项索引: number, id: number) => {
   const res = await 批量已读({"Id": [id], "IsRead": true, Type: 1})
   if (res.code == 10000) {
@@ -251,7 +259,7 @@ const on单个已读 = async (表项索引: number, id: number) => {
     let temp = Store.state.UserInfo
     temp.UserMsgNoRead--
     Store.commit("setUserInfo", temp)
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     return true
   } else {
     return false
@@ -269,7 +277,7 @@ const on全部已读 = async () => {
     temp.UserMsgNoRead = 0
     Store.commit("setUserInfo", temp)
 
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     return true
   } else {
     return false
@@ -386,7 +394,7 @@ onMounted(async () => {
     console.log(Store.state.搜索_用户消息)
   }
   await onGetLogLoginList()
-  if (!is移动端()){
+  if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
     // 监听浏览器高度变化

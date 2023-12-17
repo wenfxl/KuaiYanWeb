@@ -33,3 +33,13 @@ export const 批量已读 = (data) => {
     data: data
   })
 }
+//  Del批量删除Ka
+//{ "id": [ 5 ]}
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "注销成功"}"
+export const 删除重复用户消息 = (data) => {
+  return service({
+    url: url+'DeleteDuplicateMsg',
+    method: 'post',
+    data: data
+  })
+}

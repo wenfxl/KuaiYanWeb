@@ -8,15 +8,18 @@
                        :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
           </el-select>
         </el-form-item>
-        <el-form-item prop="status" style="width:140px">
-          <el-checkbox-button v-model="对象_搜索条件.IsLogin" label="仅在线" size="large" @change="on读取列表"/>
+          <el-form-item label="在线状态" style="width:160px" >
+            <el-select v-model="对象_搜索条件.IsLogin" clear placeholder="全部" @change="on读取列表">
+              <el-option key="0" label="全部" :value="0"/>
+              <el-option key="1" label="仅在线" :value="1"/>
+              <el-option key="2" label="不在线" :value="2"/>
+            </el-select>
         </el-form-item>
         <el-form-item :label="isAppType计点()?'剩余点数':'vip时间'" prop="status" style="width:140px">
           <el-select v-model="对象_搜索条件.Status" clear placeholder="全部">
             <el-option key="0" label="全部" :value="0"/>
             <el-option key="1" :label="isAppType计点()?'有点':'正常'" :value="1"/>
             <el-option key="2" :label="isAppType计点()?'无点':'到期'" :value="2"/>
-
             <el-option  v-if="!isAppType计点()" key="3"   label="1日内到期" :value="3"/>
             <el-option  v-if="!isAppType计点()" key="4"   label="3日内到期" :value="4"/>
             <el-option  v-if="!isAppType计点()" key="5"   label="7日内到期" :value="5"/>
@@ -485,7 +488,7 @@ const 对象_搜索条件 = ref({
   Keywords: "",
   Order: 0,
   Sortable: 0,
-  IsLogin: false
+  IsLogin: 0
 })
 
 const on读取列表 = () => {
@@ -507,7 +510,7 @@ const onReset = () => {
     Keywords: "",
     Order: 0,
     Sortable: 0,
-    IsLogin: false
+    IsLogin: 0
   }
   onGetAppIdNameList()
 }

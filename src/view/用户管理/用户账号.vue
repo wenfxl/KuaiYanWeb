@@ -48,7 +48,8 @@
           新增
         </el-button>
 
-        <el-popconfirm title="确定删除勾选用户信息和对应软件用户信息?" width="200" @confirm="on批量删除" confirm-button-text="确定"
+        <el-popconfirm title="确定删除勾选用户信息和对应软件用户信息?" width="200" @confirm="on批量删除"
+                       confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
             <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
@@ -91,9 +92,10 @@
                 @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
-                :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
+                :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}"
+                @sort-change="on排序被改变">
         <el-table-column type="selection" width="45"/>
-        <el-table-column prop="Id" label="Id" width="80"/>
+        <el-table-column prop="Id" label="Id" width="80" sortable="custom"/>
         <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip="">
           <template #default="scope">
             <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.User,'已复制到剪辑版')">
@@ -227,7 +229,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除用户({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -242,7 +244,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除用户({"ID": ids})
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -291,7 +293,7 @@ const List = ref({
     }]
 })
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: ""})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: "", Order: 2})
 const is批量维护增减余额输入框可见 = ref(false)
 const on批量维护增减余额输入框可见将打开 = async () => {
   if (表格被选中列表.value.length == 0) {
@@ -307,7 +309,7 @@ const on读取列表 = () => {
   onGetUserList()
 }
 const onReset = () => {
-  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: ""}
+  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: "", Order: 2}
 }
 const on冻结状态被改变 = async (表项索引: number, ID: number, Status: number) => {
   // console.info("on冻结状态被改变索引:"+表项索引+",Id:"+ID,"Status:"+Status)
@@ -317,7 +319,7 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
 
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     return true
   } else {
     List.value.List[表项索引].Status = Status == 1 ? 2 : 1
@@ -395,7 +397,7 @@ onMounted(() => {
   }
 
   onGetUserList()
-  if (!is移动端()){
+  if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
     // 监听浏览器高度变化
@@ -428,7 +430,7 @@ const on批量维护增减余额输入框被关闭 = async (is确定: boolean, �
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     for (let i = 0; i < List.value.List.length; i++) {
       if (请求.Id.some(ele => ele === List.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
         List.value.List[i].Rmb += 请求.RMB
@@ -451,6 +453,17 @@ export interface UserInfo2 {
   loginTime: number;
   registerIp: string;
   registerTime: string;
+}
+
+const on排序被改变 = (order) => {
+//{column: Proxy(Object), prop: 'User', order: 'ascending'}
+  对象_搜索条件.value.Order = 1  //默认
+  if (order.prop == "id", order.order == "ascending") {
+    对象_搜索条件.value.Order = 1
+  } else if (order.prop == "id", order.order == "descending") {
+    对象_搜索条件.value.Order = 2
+  }
+on读取列表()
 }
 
 </script>

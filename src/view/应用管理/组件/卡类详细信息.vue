@@ -20,7 +20,7 @@
           <el-input v-model.trim="data.Prefix" placeholder="请输入前缀"/>
         </el-form-item>
 
-        <el-form-item :label="isAppType计点()?'加点数':'加秒数'" prop="VipTime">
+        <el-form-item :label="isAppType计点()?'点数':'时间(秒)'" prop="VipTime">
 
           <el-tooltip
               class="box-item"
