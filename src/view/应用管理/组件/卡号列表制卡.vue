@@ -56,7 +56,7 @@
                 placeholder="格式模板"
             >
               <template #append>
-                <el-button @click="格式化卡号内容(true)">重新格式化</el-button>
+                <el-button plain style="background: #68c23c;color: white" @click="格式化卡号内容(true)">重新格式化</el-button>
               </template>
             </el-input>
           </el-tooltip>
