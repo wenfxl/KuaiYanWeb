@@ -224,7 +224,6 @@ const Data = ref({
 })
 const Store = useStore()
 
-Store.state.搜索_卡号列表.Size
 const 对象_搜索条件 = ref({
   RegisterTime: ["", ""],
   Type: 1,

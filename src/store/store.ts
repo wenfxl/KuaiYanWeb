@@ -30,6 +30,7 @@ interface state全局状态 {
     搜索_用户消息: object
     搜索_个人中心: object
     搜索_库存日志: object
+    搜索_黑名单: object
 
 }
 
@@ -71,6 +72,7 @@ export const store = createStore<state全局状态>({
             搜索_余额日志: {},
             搜索_积分点数: {},
             搜索_制卡日志: {},
+            搜索_黑名单: {},
             搜索_用户消息: {},
             搜索_库存日志: {},
             搜索_个人中心: {数组_可购买充值卡:[],支付通道状态:{},订单信息:{订单ID: "", PayQRCode: "", PayURL: "", 订单状态: 0}},
@@ -188,6 +190,9 @@ export const store = createStore<state全局状态>({
         },
         set搜索_库存日志(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_库存日志 = data
+        },
+        set搜索_搜索_黑名单(state全局状态: state全局状态, data: object) {
+            state全局状态.搜索_黑名单 = data
         },
 
     },

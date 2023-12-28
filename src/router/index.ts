@@ -79,6 +79,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/应用管理/用户类型.vue"),
             },
             {
+                path: "应用管理/黑名单",
+                name: "黑名单",
+                component: () => import("@/view/应用管理/黑名单.vue"),
+            },
+            {
                 path: "系统管理/系统设置",
                 name: "系统设置",
                 component: () => import("@/view/系统管理/系统设置3改.vue"),

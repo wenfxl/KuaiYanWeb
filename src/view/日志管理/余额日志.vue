@@ -60,6 +60,7 @@
                 <More/>
               </el-icon>
             </template>
+            <li class="工具_更多_li" @click="表格导出csv文本并下载(tableRef, '日志' + Date().toLocaleString())">导出到csv</li>
             <li class="工具_更多_li" @click="on批量删除(3)">删除 全部</li>
             <li class="工具_更多_li" @click="on批量删除(4)">删除 7天前</li>
             <li class="工具_更多_li" @click="on批量删除(5)">删除30天前</li>
@@ -121,7 +122,7 @@
           <el-pagination
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
-              :page-sizes="[10, 20, 30, 40,50,100]"
+              :page-sizes="[10, 20, 30, 40,50,100,1000,10000]"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt(Data.Count.toString())"
@@ -142,7 +143,7 @@ import {
   时间_时间戳到时间,
   is移动端,
   表格读取列宽数组,
-  表格写入列宽数组
+  表格写入列宽数组, 表格导出csv文本并下载
 } from "@/utils/utils";
 import {useStore} from "vuex";
 import zhCn from 'element-plus/es/locale/lang/zh-cn' // 引入中文包

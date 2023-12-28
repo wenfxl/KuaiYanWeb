@@ -143,7 +143,6 @@ export const 表格导出csv文本并下载 = (tableRef: any, 文件名称: stri
 
 //Element-Plus 只能传入这个ui库的表格
 export const 表格导出csv文本 = (tableRef: any): string => {
-
     console.log(tableRef); // 检查tableRef的值
     const tableData = tableRef.data;
     const tableColumns = tableRef.store.states.columns._rawValue;
@@ -161,7 +160,16 @@ export const 表格导出csv文本 = (tableRef: any): string => {
     for (const row of tableData) {
         const csvColumns: string[] = [];
         for (const column of tableColumns) {
-            csvColumns.push(`"${row[column.property]}"`);
+
+            if (column.label && column.label.includes("时间")){
+
+                csvColumns.push(`"`+时间_时间戳到时间(row[column.property])+`"`);
+            } else {
+                csvColumns.push(`"${row[column.property]}"`);
+            }
+
+
+
         }
         csvColumns.shift()//删除数组第一个元素选择框 因为这个是 空
         csvRows.push(csvColumns.join(','));

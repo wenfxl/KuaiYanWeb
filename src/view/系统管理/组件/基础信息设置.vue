@@ -69,14 +69,14 @@
                   content="打开官网查询详细说明"
                   placement="top"
               >
-                <el-link href="http://www.fnkuaiyan.cn/%E7%94%A8%E6%88%B7Api/%E7%94%A8%E6%88%B7Api.html#api名称加密摘要"
+                <el-link href="https://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html#api%E5%90%8D%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%91%98%E8%A6%81"
                          target="_blank">
                   <el-icon size="24">
                     <Link/>
                   </el-icon>
                 </el-link>
               </el-tooltip>
-              <el-tooltip
+<!--              <el-tooltip
                   class="box-item"
                   effect="dark"
                   content="生成易语言Api加密对接源码并下载,其他语言,请按照官网说明修改"
@@ -88,7 +88,7 @@
                     易
                   </el-icon>
                 </el-link>
-              </el-tooltip>
+              </el-tooltip>-->
             </el-col>
           </el-row>
         </el-form-item>

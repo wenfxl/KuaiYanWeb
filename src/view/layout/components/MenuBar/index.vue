@@ -106,6 +106,12 @@ const menus = [{
     "name": "卡号列表",
     "meta": {"title": "卡号列表", "icon": "Tickets"},
     "children": []
+  }, {
+    "ID": 6,
+    "path": "应用管理/黑名单",
+    "name": "黑名单",
+    "meta": {"title": "黑名单", "icon": "DocumentRemove"},
+    "children": []
   }]
 }, {
   "ID": 6,

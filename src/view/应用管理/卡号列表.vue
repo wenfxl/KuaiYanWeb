@@ -104,7 +104,7 @@
             </template>
             <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
-            <li class="工具_更多_li" @click="导出到csv(tableRef)">导出到csv</li>
+            <li class="工具_更多_li" @click="表格导出csv文本并下载(tableRef, '卡号列表' + Date().toLocaleString())">导出到csv</li>
             <li class="工具_更多_li" @click="on对话框详细信息打开(0,true)">导入误删卡</li>
             <li class="工具_更多_li" @click="on批量维护删除(1)">删除已耗尽卡号</li>
           </el-popover>
@@ -299,7 +299,7 @@
           <el-pagination
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
-              :page-sizes="[10, 20, 30, 40,50,100]"
+              :page-sizes="[10, 20, 30, 40,50,100,1000]"
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
@@ -371,12 +371,7 @@ ElMessage.success(res.msg)
   }
 
 }
-const 导出到csv = (table) => {
-  console.log(table.store.states.columns)
-  let timer = new Date()
-  // 日期+时间 2023/5/28 23:07:35
-  表格导出csv文本并下载(table, "卡号列表" + timer.toLocaleString())
-}
+
 
 const on单个追回 = async (id: number) => {
 

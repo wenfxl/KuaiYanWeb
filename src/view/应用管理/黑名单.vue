@@ -2,24 +2,15 @@
   <div class="最底层div">
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
-        <el-form-item prop="status" style="width:250px">
-          <el-config-provider :locale="zhCn">
-            <el-date-picker
-                v-model="对象_搜索条件.RegisterTime"
-                value-format="X"
-                type="daterange"
-                unlink-panels
-                range-separator="到"
-                start-placeholder="日志开始日期"
-                end-placeholder="日志结束日期"
-                :shortcuts="数组_日志预选日期"
-            />
-          </el-config-provider>
+        <el-form-item label="选择应用" prop="">
+          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用">
+            <el-option :key="0" label="全部" :value="0"/>
+            <el-option :key="1" label="全局" :value="1"/>
+            <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
+                       :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
+          </el-select>
         </el-form-item>
-
-
         <el-form-item prop="Keywords">
-
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
@@ -28,10 +19,8 @@
           >
             <template #prepend>
               <el-select v-model="对象_搜索条件.Type" placeholder="名称" style="width: 100px;">
-                <el-option label="代理用户名" :value="1"/>
-                <el-option label="软件用户名" :value="2"/>
-                <el-option label="Ip" :value="3"/>
-                <el-option label="消息" :value="4"/>
+                <el-option label="id" :value="1"/>
+                <el-option label="拉黑信息" :value="2"/>
               </el-select>
             </template>
           </el-input>
@@ -44,7 +33,10 @@
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-popconfirm title="确定删除勾选日志?" width="200"
+        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 65px" @click="is新增对话框=true">
+          新增
+        </el-button>
+        <el-popconfirm title="确定删除勾选?" width="200"
                        @confirm="on批量删除(1)" confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
@@ -53,21 +45,14 @@
             </el-button>
           </template>
         </el-popconfirm>
-
         <div class="工具栏">
-
           <el-popover placement="right" trigger="click" width="100">
             <template #reference>
               <el-icon>
                 <More/>
               </el-icon>
             </template>
-            <li class="工具_更多_li" @click="on批量删除(3)">删除 全部</li>
-            <li class="工具_更多_li" @click="on批量删除(4)">删除 7天前</li>
-            <li class="工具_更多_li" @click="on批量删除(5)">删除30天前</li>
-            <li class="工具_更多_li" @click="on批量删除(6)">删除90天前</li>
-            <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定软件用户</li>
-            <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
+            <li class="工具_更多_li" @click="on批量删除维护(1)">删除 全部</li>
           </el-popover>
           <el-tooltip content="刷新"
                       effect="dark"
@@ -88,41 +73,21 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}  ">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="AgentUser" label="代理" width="210">
+        <el-table-column prop="ItemKey" label="拉黑信息" width="210" show-overflow-tooltip="">
           <template #default="scope">
-            {{ scope.row.AgentUser }}
-            <el-tag size="small"
-                    :type="scope.row.AgentType === 4 ? 'success' : scope.row.AgentType === 5 ? 'info' : ''">
-              {{
-                scope.row.AgentType === 0 ? '普通用户' : scope.row.AgentType === 4 ? '管理员' : scope.row.AgentType === 5 ? '系统自动' : scope.row.AgentType.toString() + "级代理"
-              }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="AppUser" label="软件用户名或卡号" width="210" show-overflow-tooltip="">
-          <template #default="scope">
-            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.AppUser,'已复制到剪辑版')">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.ItemKey,'已复制到剪辑版')">
               <DocumentCopy/>
             </el-icon>
-            {{ scope.row.AppUser }}
+            {{ scope.row.ItemKey }}
           </template>
         </el-table-column>
-        <el-table-column prop="FuncTxt" label="操作" width="140" show-overflow-tooltip="">
+        <el-table-column prop="AppId" label="应用名称" width="210" show-overflow-tooltip="">
           <template #default="scope">
-            <el-tag size="small" type="success">
-              {{ scope.row.FuncTxt }}
-            </el-tag>
+            {{ MapAppId_Name.hasOwnProperty(scope.row.AppId) ? MapAppId_Name[scope.row.AppId] : '已删待改' + scope.row.AppId.toString()}}
           </template>
         </el-table-column>
-        <el-table-column prop="Time" label="时间" width="160">
-          <template #default="scope">
-            {{ 时间_时间戳到时间(scope.row.Time) }}
-          </template>
-        </el-table-column>
-
-        <el-table-column prop="Ip" label="IP" width="140" show-overflow-tooltip=""/>
-
-        <el-table-column prop="Note" label="消息"/>
+        <el-table-column prop="Count" label="拦截次数" width="100"/>
+        <el-table-column prop="Note" label="备注" width="200" show-overflow-tooltip=""/>
         <template v-slot:empty>
           <div slot="empty" style="text-align: left;">
             <el-empty description="居然没有数据啊"/>
@@ -146,68 +111,65 @@
       </div>
     </div>
   </div>
-</template>
+  <el-dialog v-model="is新增对话框" title="添加黑名单">
+        <el-form  label-width="100px">
+          <el-form-item label="拉黑应用"  >
+            <el-select v-model="新增黑名单data.AppId" >
+              <el-option :key="1" label="全局" :value="1"/>
+              <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
+                         :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="IP或绑定信息"  >
+            <el-input  v-model="新增黑名单data.ItemKey" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="备注"  >
+            <el-input  v-model="新增黑名单data.Note" autocomplete="off" />
+          </el-form-item>
 
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="is新增对话框 = false">取消</el-button>
+            <el-button type="primary" @click="on添加黑名单">
+              确定
+            </el-button>
+          </span>
+        </template>
+  </el-dialog>
+</template>
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetLogList, Del批量删除} from "@/api/代理操作日志.js";
+import {GetList, Info, Create, Delete, Update,DeleteBatch} from "@/api/黑名单管理.js";
 import {is移动端, 时间_时间戳到时间, 置剪辑版文本, 表格写入列宽数组, 表格读取列宽数组,} from "@/utils/utils";
 import {useStore} from "vuex";
-// 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
 import {ElMessage} from "element-plus";
+import {GetAppIdNameList} from "@/api/应用列表api";
 
 
 const on批量删除 = async (Type: number) => {
-  let 提交数据 = {"Type": 0, "Id": [0], Keywords: ""}
-  if (Type === 1) {
-    const ids = 表格被选中列表.value.map((item => item.Id))
-    提交数据 = {"Type": Type, "Id": ids, Keywords: ""}
-  } else if (Type === 3) { //清空日志
-    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
-  } else if (Type === 4) { //3天前日志
-    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
-  } else if (Type === 5) { //30天前日志
-    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
-  } else if (Type === 6) { //90天前日志
-    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
-  } else {
-    return
-  }
+  const ids = 表格被选中列表.value.map((item => item.Id))
   is加载中.value = true
-  const res = await Del批量删除(提交数据)
+  const res = await Delete({Ids:ids})
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表(1)
   }
 }
-
-const on批量删除用户名或关键字 = async (Type: number) => {
-  ElMessageBox.prompt('请输入要删除的' + (Type === 2 ? '软件用户名' : Type === 7 ? '消息关键字' : '未知类型'), 'Tip', {
-    confirmButtonText: '确定删除',
-    cancelButtonText: '取消',
-  })
-      .then(async ({value}) => {
-        if (value != "") {
-          let 提交数据 = {"Type": Type, "Id": [], Keywords: value}
-          is加载中.value = true
-          const res = await Del批量删除(提交数据)
-          is加载中.value = false
-          if (res.code == 10000) {
-            ElMessage.success(res.msg)
-            on读取列表(1)
-          }
-
-        } else {
-          ElMessage.info((Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空')
-        }
-      })
+const on批量删除维护 = async (Type: number) => {
+  is加载中.value = true
+  const res = await DeleteBatch({Type:Type})
+  is加载中.value = false
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage.success(res.msg)
+    on读取列表(1)
+  }
 }
-
 
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
@@ -221,33 +183,24 @@ const Data = ref({
   "List": [
     {
       "Id": 1,
-      "AgentType": 1,
-      "AgentUid": 1,
-      "AgentUser": "",
-      "AppId": 1,
-      "AppUser": "",
-      "AppUserid": 0,
-      "Time": 0,
-      "Func": 0,
-      "FuncTxt": 0,
-      "Ip": "",
+      "AppId": 10001,
+      "ItemKey": "",
+      "Time": 1,
       "Count": 0,
       "Note": ""
     }]
 })
 
-
 const Store = useStore()
 
 const 对象_搜索条件 = ref({
-  Time: ["", ""],
-  Type: 1,
-  Size: 10,
   Page: 1,
-  Order: 2,
+  Size: 10,
+  Type: 2,
   Keywords: "",
+  Order: 2,
   Count: 0,
-  Func: 0
+  AppId: 0,
 })
 
 const on读取列表 = (Type: number) => {
@@ -256,25 +209,25 @@ const on读取列表 = (Type: number) => {
   }
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
-  onGetLogMoneyList()
+  onGetList()
 }
 const onReset = () => {
   对象_搜索条件.value = {
-    Time: ["", ""],
-    Type: 1,
-    Size: 10,
     Page: 1,
+    Size: 10,
+    Type: 2,
     Keywords: "",
+    Order: 2,
     Count: 0,
-    Func: 1
+    AppId: 0,
   }
 }
 
 
 const is加载中 = ref(false)
-const onGetLogMoneyList = async () => {
+const onGetList = async () => {
   is加载中.value = true
-  const res = await GetLogList(对象_搜索条件.value)
+  const res = await GetList(对象_搜索条件.value)
   is加载中.value = false
   console.log(res)
   Data.value = res.data
@@ -286,12 +239,11 @@ const onGetLogMoneyList = async () => {
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
-
-  localStorage.setItem('列宽_卡号操作日志', JSON.stringify(局_列宽数组));
+  localStorage.setItem('列宽_黑名单', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
 
-  let 局_列宽数组文本 = localStorage.getItem('列宽_卡号操作日志')
+  let 局_列宽数组文本 = localStorage.getItem('列宽_黑名单')
   if (局_列宽数组文本 != null) {
     let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
 
@@ -306,20 +258,19 @@ onMounted(async () => {
 const tableHeight = ref();
 
 onMounted(async () => {
-
   Data.value = {
     "Count": 0,
     "List": []
   }
-
   onReset()
-  if (Store.state.搜索_制卡日志.Size != 0 && Store.state.搜索_制卡日志.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_制卡日志
+  if (Store.state.搜索_黑名单.Size != 0 && Store.state.搜索_黑名单.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_黑名单
     console.log("恢复搜索条件")
-    console.log(Store.state.搜索_制卡日志.Size)
-    console.log(Store.state.搜索_制卡日志)
+    console.log(Store.state.搜索_黑名单.Size)
+    console.log(Store.state.搜索_黑名单)
   }
-  await onGetLogMoneyList()
+  await onGetAppIdNameList()
+  await onGetList()
   if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
@@ -329,57 +280,44 @@ onMounted(async () => {
     }
   }
 })
+const onGetAppIdNameList = async () => {
+  let res = await GetAppIdNameList()
+  数组AppId_Name.value = res.data.Array
+  MapAppId_Name.value = res.data.Map
+  MapAppId_Name.value["1"]="全局"
+  console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[对象_搜索条件.value.AppId.toString()])
 
+  if (res.data.Map[对象_搜索条件.value.AppId.toString()] == null || 对象_搜索条件.value.AppId <= 10000) {
+    console.log("顶顶顶顶没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + 数组AppId_Name.value[0].Appid)
+    //对象_搜索条件.value.AppId = 数组AppId_Name.value[0].Appid
+  }
+
+}
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_制卡日志", 对象_搜索条件.value)
+  Store.commit("set搜索_黑名单", 对象_搜索条件.value)
 })
 
-const 数组_日志预选日期 = [{
-  text: '今天',
-  value: () => {
-    const end = new Date()
-    const start = new Date()
-    start.setTime(start.getTime() - 3600 * 1000);
-    return [start, end]
+const is新增对话框=ref(false)
+const 新增黑名单data=ref({ItemKey:"",AppId:1,Note:""})
+const MapAppId_Name = ref({})
+const 数组AppId_Name = ref([{
+  "Appid": 10000,
+  "AppName": ""
+}])
+
+const on添加黑名单 = async (Type: number) => {
+  is加载中.value = true
+  const res = await Create(新增黑名单data.value)
+  is加载中.value = false
+  console.log(res)
+  if (res.code == 10000) {
+    is新增对话框.value = false;
+    新增黑名单data.value={ItemKey:"",AppId:1,Note:""}
+    ElMessage.success(res.msg)
+    on读取列表(1)
   }
-}, {
-  text: '最近1天',
-  value: () => {
-    const end = new Date()
-    const start = new Date()
-    start.setTime(start.getTime() - 3600 * 1000 * 24);
-    return [start, end]
-  }
-},
-  {
-    text: '最近1周',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-      return [start, end]
-    },
-  },
-  {
-    text: '最近1个月',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-      return [start, end]
-    },
-  },
-  {
-    text: '最近3个月',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-      return [start, end]
-    },
-  },
-]
+}
 </script>
 
 <style scoped lang="scss">

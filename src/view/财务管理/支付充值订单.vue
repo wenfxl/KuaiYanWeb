@@ -5,8 +5,7 @@
         <el-form-item prop="Status" label="订单状态">
           <el-select v-model="对象_搜索条件.Status" style="width: 100px;">
             <el-option label="全部" :value="0"/>
-            <el-option label="等待支付" :value="1"/>
-            <el-option label="充值成功" :value="2"/>
+            <el-option v-for="(item,index) in 支付状态Map" :label="item" :value="Number(index)"/>
           </el-select>
         </el-form-item>
         <el-form-item prop="status" style="width:250px">
@@ -117,16 +116,14 @@
             <el-tag size="small" type="info" v-if="!scope.row.User">
               游客
             </el-tag>
-            {{scope.row.User}}
+            {{ scope.row.User }}
           </template>
         </el-table-column>
         <el-table-column prop="Status" label="订单状态" width="100">
           <template #default="scope">
             <el-tag
                 :type="scope.row.Status===1||scope.row.Status===4?'info':scope.row.Status===2?'':scope.row.Status === 3 ? 'success' : scope.row.Status === 4 ? '' :scope.row.Status === 6 ? 'warning' : 'danger' ">
-              {{
-                scope.row.Status === 1 ? '等待支付' : scope.row.Status === 2 ? '已付待处理' : scope.row.Status === 3 ? '成功' : scope.row.Status === 4 ? '退款中' : scope.row.Status === 5 ? '退款失败' : scope.row.Status === 6 ? '退款成功' : "未知状态"
-              }}
+              {{ 支付状态Map[scope.row.Status] ? 支付状态Map[scope.row.Status] : "未知状态" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -147,7 +144,7 @@
 
 
         <el-table-column prop="Ip" label="IP" width="135"/>
-        <el-table-column prop="Note" label="备注" show-overflow-tooltip="" >
+        <el-table-column prop="Note" label="备注" show-overflow-tooltip="">
           <template #default="scope">
             <el-button link type="primary" size="default"
                        @click="on订单备注被改变(scope.$index,scope.row.PayOrder,scope.row.Note)" style="color:#79bbff">
@@ -225,6 +222,16 @@ import {More, RefreshRight} from "@element-plus/icons";
 import ChartData from "@/view/财务管理/组件/支付充值订单图表抽屉.vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 
+const 支付状态Map = {
+  1: '等待支付',
+  2: '已付待处理',
+  3: '成功',
+  4: '退款中',
+  5: '退款失败',
+  6: '退款成功',
+}
+
+
 const is图表分析抽屉可见 = ref(false)
 const on批量删除 = async (Type: number) => {
   let 提交数据 = {"Type": 0, "Id": [0], Keywords: ""}
@@ -249,7 +256,7 @@ const on批量删除 = async (Type: number) => {
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表(1)
   }
 }
@@ -266,7 +273,7 @@ const on批量删除用户名或关键字 = async (Type: number) => {
           const res = await Del批量删除LogRMBPayOrder(提交数据)
           is加载中.value = false
           if (res.code == 10000) {
-ElMessage.success(res.msg)
+            ElMessage.success(res.msg)
             on读取列表(1)
           }
 
@@ -297,7 +304,7 @@ const on订单备注被改变 = async (表项索引: number, PayOrder: string, N
         console.log(res)
         if (res.code == 10000) {
           Data.value.List[表项索引].Note = 新备注   //成功赋新值
-     ElMessage.success(res.msg)
+          ElMessage.success(res.msg)
           return true
         } else {
           return false
@@ -326,7 +333,7 @@ onMounted(async () => {
 const tableHeight = ref();
 
 onMounted(() => {
-  if (!is移动端()){
+  if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
     // 监听浏览器高度变化
@@ -353,8 +360,8 @@ const Data = ref({
       "Ip": "",
       "Count": 0,
       "Msg": "",
-      "UidType":1,
-      "Note":""
+      "UidType": 1,
+      "Note": ""
     }]
 })
 const Store = useStore()
@@ -471,7 +478,7 @@ const 数组_日志预选日期 = [{
 const is对话框可见_手动充值 = ref(false)
 const is对话框id = ref(0)
 const on对话框详细信息打开 = (id: number) => {
-    is对话框可见_手动充值.value = true
+  is对话框可见_手动充值.value = true
 }
 const on对话框详细信息关闭 = (is重新读取: boolean) => {
   //console.info("父组件收到对话框被关闭了")
