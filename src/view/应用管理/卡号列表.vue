@@ -299,7 +299,7 @@
           <el-pagination
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
-              :page-sizes="[10, 20, 30, 40,50,100,1000]"
+              :page-sizes="[10, 20, 30, 50,100,1000]"
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"

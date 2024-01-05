@@ -201,6 +201,35 @@
         </el-form-item>
       </div>
       <div class="内容div">
+        <el-divider content-position="left">虎皮椒
+          <el-link href="https://www.xunhupay.com" target="_blank">www.xunhupay.com</el-link>
+        </el-divider>
+        <el-form-item label="开关" prop="虎皮椒支付开关">
+          <el-radio-group v-model="Data.虎皮椒支付开关">
+            <el-radio-button :label="true" size="" border>开启</el-radio-button>
+            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="显示名称" >
+          <el-input v-model.trim="Data.虎皮椒支付显示名称"/>
+        </el-form-item>
+        <el-form-item label="appId" >
+          <el-input v-model.trim="Data.虎皮椒appId"/>
+        </el-form-item>
+        <el-form-item label="appSecret" >
+          <el-input v-model.trim="Data.虎皮椒appSecret"/>
+        </el-form-item>
+        <el-form-item label="虎皮椒支付网关" >
+          <el-input v-model.trim="Data.虎皮椒支付网关" placeholder="(可空)"/>
+        </el-form-item>
+        <el-form-item label="同步回调url" d>
+          <el-input v-model.trim="Data.虎皮椒同步回调url" placeholder="(可空)同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+        </el-form-item>
+        <el-form-item label="单次最大金额" >
+          <el-input-number v-model="Data.虎皮椒单次最大金额"/>
+        </el-form-item>
+      </div>
+      <div class="内容div">
         <div style="text-align:center">
           <el-button style="width: 15vh; " type="primary" @click="on确定按钮被点击(ruleFormRef)">保存</el-button>
         </div>
@@ -253,12 +282,15 @@ const Data = ref({
   "微信支付商户证书序列号": "66666666666",
   "微信支付异步回调Url": "6666666666666",
   "微信支付单次最大金额": 500,
-  "小叮当支付开关": false,
-  "小叮当app_id": "1234567",
-  "小叮当支付显示名称": "",
-  "小叮当接口密钥": "1234567",
-  "小叮当支付类型": 43,
-  "小叮当单次最大金额": 500
+
+  "虎皮椒支付开关": false,
+  "虎皮椒支付显示名称": "",
+  "虎皮椒appId": "",
+  "虎皮椒appSecret": "",
+  "虎皮椒支付类型": "",
+  "虎皮椒单次最大金额": 500,
+  "虎皮椒支付网关": "",
+  "虎皮椒同步回调url": "",
 })
 
 const ruleFormRef = ref<FormInstance>()
