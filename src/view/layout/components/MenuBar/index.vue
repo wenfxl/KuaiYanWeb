@@ -162,6 +162,12 @@ const menus = [{
     "children": []
   }, {
     "ID": 999,
+    "path": "二开扩展/定时任务",
+    "name": "定时任务",
+    "meta": {"title": "定时任务", "icon": "Timer"},
+    "children": []
+  }, {
+    "ID": 999,
     "path": "二开扩展/任务池",
     "name": "任务池",
     "meta": {"title": "任务池", "icon": "ChromeFilled"},
@@ -225,6 +231,12 @@ const menus = [{
     "path": "日志管理/制卡日志",
     "name": "制卡日志",
     "meta": {"title": "制卡日志", "icon": "Postcard"},
+    "children": []
+  }, {
+    "ID": 6,
+    "path": "日志管理/定时任务日志",
+    "name": "定时任务",
+    "meta": {"title": "定时任务", "icon": "Postcard"},
     "children": []
   }, {
     "ID": 6,

@@ -73,7 +73,7 @@ export const  SetStatus = (data) => {
 export const  GetIdNameList = (data) => {
   return service({
     url: url+'GetIdNameList',
-    method: 'get',
+    method: 'post',
     data: data
   })
 }

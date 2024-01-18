@@ -2,24 +2,7 @@
   <div class="最底层div">
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
-        <el-form-item prop="status" style="width:250px">
-          <el-config-provider :locale="zhCn">
-            <el-date-picker
-                v-model="对象_搜索条件.RegisterTime"
-                value-format="X"
-                type="daterange"
-                unlink-panels
-                range-separator="到"
-                start-placeholder="日志开始日期"
-                end-placeholder="日志结束日期"
-                :shortcuts="数组_日志预选日期"
-            />
-          </el-config-provider>
-        </el-form-item>
-
-
         <el-form-item prop="Keywords">
-
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
@@ -28,10 +11,8 @@
           >
             <template #prepend>
               <el-select v-model="对象_搜索条件.Type" placeholder="名称" style="width: 100px;">
-                <el-option label="用户名" :value="1"/>
-                <el-option label="消息" :value="2"/>
-                <el-option label="Ip" :value="3"/>
-                <el-option label="库存ID" :value="4"/>
+                <el-option label="id" :value="1"/>
+                <el-option label="任务名称" :value="2"/>
               </el-select>
             </template>
           </el-input>
@@ -44,7 +25,10 @@
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-popconfirm title="确定删除勾选日志?" width="200"
+        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 65px" @click="on对话框详细信息打开(0)">
+          新增
+        </el-button>
+        <el-popconfirm title="确定删除勾选?" width="200"
                        @confirm="on批量删除(1)" confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
@@ -53,29 +37,15 @@
             </el-button>
           </template>
         </el-popconfirm>
-
         <div class="工具栏">
-
           <el-popover placement="right" trigger="click" width="100">
             <template #reference>
               <el-icon>
                 <More/>
               </el-icon>
             </template>
-            <li class="工具_更多_li" @click="on批量删除(3)">删除 全部</li>
-            <li class="工具_更多_li" @click="on批量删除(4)">删除 7天前</li>
-            <li class="工具_更多_li" @click="on批量删除(5)">删除30天前</li>
-            <li class="工具_更多_li" @click="on批量删除(6)">删除90天前</li>
-            <li class="工具_更多_li" @click="on批量删除用户名或关键字(2)">删指定用户</li>
-            <li class="工具_更多_li" @click="on批量删除用户名或关键字(7)">删消息关键字</li>
+            <li class="工具_更多_li" @click="on批量删除维护(1)">删除 全部</li>
           </el-popover>
-<!--          <el-tooltip content="分析"
-                      effect="dark"
-                      placement="top">
-            <el-icon @click="is图表分析抽屉可见=true">
-              <DataAnalysis/>
-            </el-icon>
-          </el-tooltip>-->
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -95,46 +65,55 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}  ">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-
-        <el-table-column prop="User1" label="用户名" width="360" show-overflow-tooltip="">
+        <el-table-column prop="Name" label="任务名称" width="210" show-overflow-tooltip=""/>
+        <el-table-column align="left" label="状态" prop="status" width="80">
           <template #default="scope">
-            {{ scope.row.User1 }}
-            <el-tag size="small"
-                    :type="scope.row.User1Role === 4 ? 'success' : scope.row.User1Role === 5 ? 'info' : ''">
-              {{ scope.row.User1Role === 0 ? '普通用户' : scope.row.User1Role === 4 ? '管理员' : scope.row.User1Role === 5 ? '系统自动' : scope.row.User1Role.toString() + "级代理" }}
-            </el-tag>
-
-            <el-tag :type="scope.row.Type === 2?'info':''" effect="plain">
-              {{ scope.row.Type === 1 ? "发送库存给" : scope.row.Type === 2 ? "接收来自" : scope.row.Type === 3 ? "创建" : "未知"   }}
-            </el-tag>
-
-            {{ scope.row.User2 }}
-            <el-tag size="small"
-                    :type="scope.row.User2Role === 4 ? 'success' : scope.row.User2Role === 5 ? 'info' : ''">
-              {{ scope.row.User2Role === 0 ? '普通用户' : scope.row.User2Role === 4 ? '管理员' : scope.row.User2Role === 5 ? '系统自动' : scope.row.User2Role.toString() + "级代理" }}
-            </el-tag>
-            <el-tag v-if="scope.row.Type === 2" :type="scope.row.Type === 2?'info':''" effect="plain">
-              {{ scope.row.Type === 1 ? "" : scope.row.Type === 2 ? "的库存" : "未知" }}
-            </el-tag>
+            <el-switch
+                :active-value="1"
+                :inactive-value="2"
+                v-model="scope.row.Status"
+                class="ml-2"
+                inline-prompt
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                active-text="正常"
+                inactive-text="冻结"
+                @change="on任务状态被改变(scope.$index,scope.row.Id,scope.row.Status)"
+            />
           </template>
         </el-table-column>
-        <el-table-column prop="Time" label="时间" width="160">
+        <el-table-column prop="Cron" label="Cron表达式" width="200" show-overflow-tooltip=""/>
+        <el-table-column prop="Type" label="类型" width="100" show-overflow-tooltip=""/>
+        <el-table-column prop="Note" label="备注" width="200" show-overflow-tooltip=""/>
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" :width="3*85">
           <template #default="scope">
-            {{ 时间_时间戳到时间(scope.row.Time) }}
+            <el-button link type="primary" size="default" @click="on测试执行(scope.row.Id)"
+                       style="color:#79bbff">
+              <el-icon color="#79bbff" class="no-inherit">
+                <MagicStick/>
+              </el-icon>
+              执行
+            </el-button>
+            <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)"
+                       style="color:#79bbff">
+              <el-icon color="#79bbff" class="no-inherit">
+                <Edit/>
+              </el-icon>
+              编辑
+            </el-button>
+            <el-button link type="primary" size="default" @click="on单个删除(scope.row.Id)"
+                       style="color:#f56d6d">
+              <el-icon color="#f56d6d" class="no-inherit">
+                <Delete/>
+              </el-icon>
+              删除
+            </el-button>
           </template>
         </el-table-column>
-
-        <el-table-column prop="Num" label="变化值" width="110"/>
-
-        <el-table-column prop="InventoryId" label="库存Id" width="80"/>
-        <el-table-column prop="Note" label="消息" :width="is移动端()?140:800" show-overflow-tooltip=""/>
-        <el-table-column prop="Ip" label="IP" width="140" show-overflow-tooltip=""/>
         <template v-slot:empty>
           <div slot="empty" style="text-align: left;">
             <el-empty description="居然没有数据啊"/>
           </div>
         </template>
-
       </el-table>
 
       <div class="demo-pagination-block">
@@ -143,86 +122,84 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
+              small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-              :total="parseInt(Data.Count.toString())"
-              small="small"
-              @current-change=" on读取列表(0) "
+              :total="parseInt( Data.Count)"
+              @current-change="on读取列表(0)"
           />
         </el-config-provider>
       </div>
     </div>
   </div>
+  <CronTaskInfo v-if="is对话框可见"  :id="Id"
+                  @on对话框详细信息关闭="on对话框详细信息关闭"></CronTaskInfo>
 </template>
-
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetLogMoneyList, Del批量删除LogMoney} from "@/api/库存日志api.js";
-import {
-  时间_时间戳到时间,
-  时间_取现行时间戳,
-  时间_计算天时分秒提示,
-  is移动端,
-  表格读取列宽数组,
-  表格写入列宽数组
-} from "@/utils/utils";
+import {GetList, Info, Create, DeleteInfo, Update, UpdateStatus, DeleteBatch, TestRunId} from "@/api/定时任务管理.js";
+import {is移动端, 时间_时间戳到时间, 置剪辑版文本, 表格写入列宽数组, 表格读取列宽数组,} from "@/utils/utils";
 import {useStore} from "vuex";
-// 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
+import CronTaskInfo from "./组件/定时任务详细信息.vue";
 
-const is图表分析抽屉可见 = ref(false)
-
-const on批量删除 = async (Type: number) => {
-  let 提交数据 = {"Type": 0, "Id": [0], Keywords: ""}
-  if (Type === 1) {
-    const ids = 表格被选中列表.value.map((item => item.Id))
-    提交数据 = {"Type": Type, "Id": ids, Keywords: ""}
-  } else if (Type === 3) { //清空日志
-    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
-  } else if (Type === 4) { //3天前日志
-    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
-  } else if (Type === 5) { //30天前日志
-    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
-  } else if (Type === 6) { //90天前日志
-    提交数据 = {"Type": Type, "Id": [], Keywords: ""}
-  } else {
-    return
-  }
+const on单个编辑 = async (Id: number) => {
+  on对话框详细信息打开(Id)
+}
+const on单个删除 = async (id: number) => {
   is加载中.value = true
-  const res = await Del批量删除LogMoney(提交数据)
+  const res = await DeleteInfo({Ids:[id]})
   is加载中.value = false
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
+    on读取列表(1)
+  }
+}
+const on测试执行 = async (id: number) => {
+  is加载中.value = true
+  const res = await TestRunId({Id:id})
+  is加载中.value = false
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage.success(res.msg)
+  }
+}
+const on批量删除 = async (Type: number) => {
+  const ids = 表格被选中列表.value.map((item => item.Id))
+  is加载中.value = true
+  const res = await DeleteInfo({Ids:ids})
+  is加载中.value = false
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage.success(res.msg)
+    on读取列表(1)
+  }
+}
+const on批量删除维护 = async (Type: number) => {
+  is加载中.value = true
+  const res = await DeleteBatch({Type:Type})
+  is加载中.value = false
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage.success(res.msg)
     on读取列表(1)
   }
 }
 
-const on批量删除用户名或关键字 = async (Type: number) => {
-  ElMessageBox.prompt('请输入要删除的' + (Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型'), 'Tip', {
-    confirmButtonText: '确定删除',
-    cancelButtonText: '取消',
-  })
-      .then(async ({value}) => {
-        if (value != "") {
-          let 提交数据 = {"Type": Type, "Id": [], Keywords: value}
-          is加载中.value = true
-          const res = await Del批量删除LogMoney(提交数据)
-          is加载中.value = false
-          if (res.code == 10000) {
-            ElMessage.success(res.msg)
-            on读取列表(1)
-          }
+const on任务状态被改变 = async (表项索引: number, ID: number, Status: number) => {
 
-        } else {
-          ElMessage.info((Type === 2 ? '用户名' : Type === 7 ? '消息关键字' : '未知类型') + '不能为空')
-        }
-      })
+  const res = await UpdateStatus({"Id": ID, "Status": Status})
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage.success(res.msg)
+    return true
+  } else {
+    Data.value.List[表项索引].Status = Status == 1 ? 2 : 1
+    return false
+  }
 }
-
-
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
 const on选择框被选择 = (val: any) => {
@@ -235,21 +212,24 @@ const Data = ref({
   "List": [
     {
       "Id": 1,
-      "User": "",
-      "Time": 0,
-      "Ip": "",
-      "Count": 0,
-      "Msg": ""
+      "Name": "",
+      "Status": 1,
+      "Cron": "",
+      "Type": 1,
+      "RunText": "",
+      "Note": ""
     }]
 })
+
 const Store = useStore()
+
 const 对象_搜索条件 = ref({
-  RegisterTime: ["", ""],
-  Type: 1,
-  Size: 10,
   Page: 1,
+  Size: 10,
+  Type: 2,
   Keywords: "",
-  Count: 0
+  Order: 2,
+  Count: 0,
 })
 
 const on读取列表 = (Type: number) => {
@@ -258,24 +238,24 @@ const on读取列表 = (Type: number) => {
   }
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
-  onGetLogMoneyList()
+  onGetList()
 }
 const onReset = () => {
   对象_搜索条件.value = {
-    RegisterTime: ["", ""],
-    Type: 1,
-    Size: 10,
     Page: 1,
+    Size: 10,
+    Type: 2,
     Keywords: "",
-    Count: 0
+    Order: 2,
+    Count: 0,
   }
 }
 
 
 const is加载中 = ref(false)
-const onGetLogMoneyList = async () => {
+const onGetList = async () => {
   is加载中.value = true
-  const res = await GetLogMoneyList(对象_搜索条件.value)
+  const res = await GetList(对象_搜索条件.value)
   is加载中.value = false
   console.log(res)
   Data.value = res.data
@@ -286,13 +266,12 @@ const onGetLogMoneyList = async () => {
 // table元素
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
-  let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
-
-  localStorage.setItem('列宽_库存日志', JSON.stringify(局_列宽数组));
+  let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
+  localStorage.setItem('列宽_定时任务', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
 
-  let 局_列宽数组文本 = localStorage.getItem('列宽_库存日志')
+  let 局_列宽数组文本 = localStorage.getItem('列宽_定时任务')
   if (局_列宽数组文本 != null) {
     let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
 
@@ -307,21 +286,18 @@ onMounted(async () => {
 const tableHeight = ref();
 
 onMounted(async () => {
-
   Data.value = {
     "Count": 0,
     "List": []
   }
-
   onReset()
-  if (Store.state.搜索_库存日志.Size != 0 && Store.state.搜索_库存日志.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_库存日志
+  if (Store.state.搜索_定时任务.Size != 0 && Store.state.搜索_定时任务.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_定时任务
     console.log("恢复搜索条件")
-    console.log(Store.state.搜索_库存日志.Size)
-    console.log(Store.state.搜索_库存日志)
   }
-  await onGetLogMoneyList()
-  if (!is移动端()){
+
+  await onGetList()
+  if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
     // 监听浏览器高度变化
@@ -333,54 +309,23 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_库存日志", 对象_搜索条件.value)
+  Store.commit("set搜索_定时任务", 对象_搜索条件.value)
 })
 
-const 数组_日志预选日期 = [{
-  text: '今天',
-  value: () => {
-    const end = new Date()
-    const start = new Date()
-    start.setTime(start.getTime() - 3600 * 1000);
-    return [start, end]
+const is对话框可见=ref(false)
+const Id = ref(0)
+const on对话框详细信息打开 = (id: number) => {
+  Id.value = id
+  is对话框可见.value = true
+}
+const on对话框详细信息关闭 = (is重新读取: boolean) => {
+  //console.info("父组件收到对话框被关闭了")
+  is对话框可见.value = false
+  if (is重新读取) {
+    on读取列表(1)
   }
-}, {
-  text: '最近1天',
-  value: () => {
-    const end = new Date()
-    const start = new Date()
-    start.setTime(start.getTime() - 3600 * 1000 * 24);
-    return [start, end]
-  }
-},
-  {
-    text: '最近1周',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-      return [start, end]
-    },
-  },
-  {
-    text: '最近1个月',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-      return [start, end]
-    },
-  },
-  {
-    text: '最近3个月',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-      return [start, end]
-    },
-  },
-]
+}
+
 </script>
 
 <style scoped lang="scss">

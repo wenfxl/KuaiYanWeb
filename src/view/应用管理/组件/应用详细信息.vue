@@ -1,11 +1,10 @@
 <template>
+  <div style="height: 95%">
   <el-dialog v-model="is对话框可见2" :title="'编辑应用配置AppID:'+Props.id"
              :width="is移动端()?'90%':'60%'"
              @close="on对话框被关闭"
              top="5vh"
-             style="height: 90%"
              draggable
-
   >
 
     <div style="height:72vh;overflow:auto;padding:0 12px;" v-loading="is加载中">
@@ -173,7 +172,7 @@
             </el-popover>
           </el-tab-pane>
           <el-tab-pane label="安全设置" name="安全设置">
-            <el-form-item label="web地址" prop="AppWeb">
+            <el-form-item label="用户Api地址" prop="AppWeb">
               <el-input v-model="data.AppWeb" class="只读编辑框" readonly="readonly" style="background: #889aa4">
 
                 <template #prepend>
@@ -539,6 +538,7 @@
       </div>
     </template>
   </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">

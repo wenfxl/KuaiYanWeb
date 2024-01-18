@@ -9,6 +9,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    DayUI: typeof import('./src/components/EasyCron/tabs/DayUI.vue')['default']
+    EasyCronInner: typeof import('./src/components/EasyCron/EasyCronInner.vue')['default']
+    EasyCronInput: typeof import('./src/components/EasyCron/EasyCronInput.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -64,8 +67,14 @@ declare module '@vue/runtime-core' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    HourUI: typeof import('./src/components/EasyCron/tabs/HourUI.vue')['default']
+    MinuteUI: typeof import('./src/components/EasyCron/tabs/MinuteUI.vue')['default']
+    MonthUI: typeof import('./src/components/EasyCron/tabs/MonthUI.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SecondUI: typeof import('./src/components/EasyCron/tabs/SecondUI.vue')['default']
+    WeekUI: typeof import('./src/components/EasyCron/tabs/WeekUI.vue')['default']
+    YearUI: typeof import('./src/components/EasyCron/tabs/YearUI.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

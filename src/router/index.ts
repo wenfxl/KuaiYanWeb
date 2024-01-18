@@ -109,6 +109,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/二开扩展/任务池.vue"),
             },
             {
+                path: "二开扩展/定时任务",
+                name: "定时任务",
+                component: () => import("@/view/二开扩展/定时任务.vue"),
+            },
+            {
                 path: "日志管理/登录日志",
                 name: "登录日志",
                 component: () => import("@/view/日志管理/登录日志.vue"),
@@ -132,6 +137,11 @@ const routes: Array<RouteRecordRaw> = [
                 path: "日志管理/制卡日志",
                 name: "制卡日志",
                 component: () => import("@/view/日志管理/卡号操作日志.vue"),
+            },
+            {
+                path: "日志管理/定时任务日志",
+                name: "定时任务日志",
+                component: () => import("@/view/日志管理/定时任务日志.vue"),
             },
             {
                 path: "日志管理/用户消息",

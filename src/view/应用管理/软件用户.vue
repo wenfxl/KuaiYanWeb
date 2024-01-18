@@ -8,22 +8,36 @@
                        :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
           </el-select>
         </el-form-item>
-          <el-form-item label="在线状态" style="width:160px" >
-            <el-select v-model="对象_搜索条件.IsLogin" clear placeholder="全部" @change="on读取列表">
-              <el-option key="0" label="全部" :value="0"/>
-              <el-option key="1" label="仅在线" :value="1"/>
-              <el-option key="2" label="不在线" :value="2"/>
-            </el-select>
+        <el-form-item label="在线" style="width:130px">
+          <el-select v-model="对象_搜索条件.IsLogin" clear placeholder="全部" @change="on读取列表">
+            <el-option key="0" label="全部" :value="0"/>
+            <el-option key="1" label="仅在线" :value="1"/>
+            <el-option key="2" label="不在线" :value="2"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态" style="width:120px">
+          <el-select v-model="对象_搜索条件.Status" clear placeholder="全部" @change="on读取列表">
+            <el-option key="0" label="全部" :value="0"/>
+            <el-option key="1" label="正常" :value="1"/>
+            <el-option key="2" label="冻结" :value="2"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="用户类型" prop="">
+          <el-select v-model.number="对象_搜索条件.UserClassId" clear placeholder="选择用户类型">
+            <el-option key="-1" label="全部" :value="-1"/>
+            <el-option v-for="(item,index) in 对象_用户类型Arr" :key="item.Id"
+                       :label="item.Name" :value="item.Id"/>
+          </el-select>
         </el-form-item>
         <el-form-item :label="isAppType计点()?'剩余点数':'vip时间'" prop="status" style="width:140px">
-          <el-select v-model="对象_搜索条件.Status" clear placeholder="全部">
+          <el-select v-model="对象_搜索条件.VipTimeStatus" clear placeholder="全部">
             <el-option key="0" label="全部" :value="0"/>
             <el-option key="1" :label="isAppType计点()?'有点':'正常'" :value="1"/>
             <el-option key="2" :label="isAppType计点()?'无点':'到期'" :value="2"/>
-            <el-option  v-if="!isAppType计点()" key="3"   label="1日内到期" :value="3"/>
-            <el-option  v-if="!isAppType计点()" key="4"   label="3日内到期" :value="4"/>
-            <el-option  v-if="!isAppType计点()" key="5"   label="7日内到期" :value="5"/>
-            <el-option  v-if="!isAppType计点()" key="6"   label="30日内到期" :value="6"/>
+            <el-option v-if="!isAppType计点()" key="3" label="1日内到期" :value="3"/>
+            <el-option v-if="!isAppType计点()" key="4" label="3日内到期" :value="4"/>
+            <el-option v-if="!isAppType计点()" key="5" label="7日内到期" :value="5"/>
+            <el-option v-if="!isAppType计点()" key="6" label="30日内到期" :value="6"/>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -69,7 +83,7 @@
 
         <div class="工具栏">
 
-          <el-popover placement="right" trigger="hover">
+          <el-popover placement="right" trigger="hover" >
             <template #reference>
               <el-icon>
                 <More/>
@@ -86,8 +100,11 @@
             <li class="工具_更多_li" @click="on批量维护删除(2)" v-if="isAppType卡号2">
               删除{{ (Data.AppType === 2 || Data.AppType === 4) ? "0点数" : "vip到期" }}且删卡号
             </li>
-            <li class="工具_更多_li" @click="is批量修改全部用户时间点数=true" >
+            <li class="工具_更多_li" @click="is批量修改全部用户时间点数=true">
               批量维护修改全部软件用户
+            </li>
+            <li class="工具_更多_li" @click="on批量维护删除(3)"  v-if="isAppType卡号2">
+              删除已删卡号软件用户
             </li>
           </el-popover>
           <el-tooltip content="分析"
@@ -231,7 +248,7 @@
                   :AppType="Data.AppType"
                   @on批量维护输入框被关闭="on批量维护输入框被关闭"></BatchElMessage>
   <BatchSetAllUserVipTime v-if="is批量修改全部用户时间点数"
-                          :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, AppName:MapAppId_Name[对象_搜索条件.AppId.toString()]}"
+                          :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, AppName:MapAppId_Name[对象_搜索条件.AppId.toString()]}" :UserClassId="对象_用户类型Arr"
                           @on批量维护输入框被关闭="on对话框修改全部用户时间点数关闭"></BatchSetAllUserVipTime>
 </template>
 
@@ -261,6 +278,7 @@ import AppUserinfo from "./组件/软件用户详细信息.vue";
 import BatchElMessage from "./组件/批量维护积分时间增减输入框.vue";
 import BatchSetAllUserVipTime from "./组件/批量维护全部用户时间点数.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
+import {GetIdNameList} from "@/api/用户类型api";
 
 
 const is图表分析抽屉可见 = ref(false)
@@ -301,7 +319,7 @@ const on批量维护输入框被关闭 = async (is确定: boolean, 增减值: nu
   })
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     for (let i = 0; i < Data.value.List.length; i++) {
       if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
         Data.value.List[i].VipTime += 增减值
@@ -318,7 +336,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除AppUser({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -344,7 +362,7 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
 
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     return true
   } else {
     Data.value.List[表项索引].Status = Status == 1 ? 2 : 1
@@ -365,7 +383,7 @@ const on批量冻结解冻 = async (Status: number) => {
 
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
 
     for (let i = 0; i < Data.value.List.length; i++) {
       if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
@@ -383,7 +401,8 @@ const on批量维护删除 = async (Type: number) => {
   }
   var 提示信息 = {
     1: "删除全部" + app类型 + "软件用户信息",
-    2: "删除全部" + app类型 + "软件用户信息且删卡号"
+    2: "删除全部" + app类型 + "软件用户信息且删卡号",
+    3: "删除全部卡号已删除软件用户"
   }
   console.log(提示信息)
   ElMessageBox.confirm(
@@ -397,7 +416,7 @@ const on批量维护删除 = async (Type: number) => {
   ).then(async () => {
     let 返回 = await Del批量维护_删除({AppId: 对象_搜索条件.value.AppId, Type: Type})
     if (返回.code == 10000) {
-     ElMessage.success(返回.msg)
+      ElMessage.success(返回.msg)
       on读取列表()
     }
 
@@ -409,7 +428,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除AppUser({"AppId": 对象_搜索条件.value.AppId, "ID": ids})
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -488,7 +507,9 @@ const 对象_搜索条件 = ref({
   Keywords: "",
   Order: 0,
   Sortable: 0,
-  IsLogin: 0
+  IsLogin: 0,
+  VipTimeStatus: 0,
+  UserClassId: -1
 })
 
 const on读取列表 = () => {
@@ -510,7 +531,9 @@ const onReset = () => {
     Keywords: "",
     Order: 0,
     Sortable: 0,
-    IsLogin: 0
+    IsLogin: 0,
+    VipTimeStatus: 0,
+    UserClassId: -1
   }
   onGetAppIdNameList()
 }
@@ -541,6 +564,8 @@ const on格式化_时间 = (Time: number) => {
 
 
 const is加载中 = ref(false)
+const 对象_用户类型 = ref({"0": "未分类"})
+const 对象_用户类型Arr = ref([])
 const onGetAppUserList = async () => {
   if (对象_搜索条件.value.AppId === 10000) {
     ElMessage.info("请选选择应用")
@@ -555,8 +580,14 @@ const onGetAppUserList = async () => {
   对象_用户类型.value = res.data.UserClass
   //对象_用户类型.value["0"] = "未分类"
   对象_用户类型.value = {...对象_用户类型.value, 0: '未分类'};
-  console.log("对象_用户类型")
-  console.log(对象_用户类型.value)
+  对象_用户类型Arr.value = []
+
+  for (let 索引 in 对象_用户类型.value) {
+    let a = {Id: Number(索引), Name: 对象_用户类型.value[索引]}
+    对象_用户类型Arr.value.push(a)
+
+  }
+  console.log( 对象_用户类型Arr.value)
 }
 
 const MapAppId_Name = ref({})
@@ -564,7 +595,7 @@ const 数组AppId_Name = ref([{
   "Appid": 10004,
   "AppName": ""
 }])
-const 对象_用户类型 = ref({"0": "未分类"})
+
 const onGetAppIdNameList = async () => {
   const res = await GetAppIdNameList()
   数组AppId_Name.value = res.data.Array
@@ -644,10 +675,11 @@ export interface UserInfo2 {
   registerIp: string;
   registerTime: string;
 }
+
 //==========批量修改全部用户
 const is批量修改全部用户时间点数 = ref(false)
 const on对话框修改全部用户时间点数关闭 = (is重新读取: boolean) => {
-  is批量修改全部用户时间点数.value=false
+  is批量修改全部用户时间点数.value = false
   if (is重新读取) {
     on读取列表()
   }
@@ -765,6 +797,7 @@ const on对话框修改全部用户时间点数关闭 = (is重新读取: boolean
 
 .工具_更多_li {
   list-style-type: none;
+  width: auto;
   font-size: 12px;
   margin: 0;
   padding: 7px 16px;

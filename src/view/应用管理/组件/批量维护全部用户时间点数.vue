@@ -95,6 +95,18 @@
         <el-form-item :label="isAppType卡号?'卡号前缀:':'账号前缀:'" label-width="120">
           <el-input v-model.trim="PostData.UserPrefix" style="width: 270px" placeholder="可空"/>
         </el-form-item>
+        <el-form-item label="用户类型" label-width="120">
+          <el-select
+              v-model="PostData.UserClassId"
+              multiple
+              value-key="id"
+              placeholder="可空"
+              style="width: 240px"
+          >
+            <el-option v-for="(item,index) in Props.UserClassId" :key="item.Id"
+                       :label="item.Name" :value="item.Id"/>
+          </el-select>
+        </el-form-item>
         <el-form-item label="首次登录时间" label-width="120">
           <el-config-provider :locale="zhCn">
             <el-date-picker
@@ -182,6 +194,10 @@ const Props = defineProps({
   AppInfo: {
     type: Object,
     default: {}
+  },
+  UserClassId: {
+    type: Object,
+    default: []
   }
 })
 const emit = defineEmits(['on批量维护输入框被关闭'])
@@ -193,6 +209,7 @@ const PostData = ref({
   UserPrefix: "",
   OneLoginTimeStart: 0,
   OneLoginTimeEnd: 0,
+  UserClassId: [],
 })
 const 首次登录时间数组 = ref(["", ""])
 

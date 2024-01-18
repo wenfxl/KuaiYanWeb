@@ -1,8 +1,8 @@
 import service from '@/api/request'
 
-const url="/Admin/Blacklist/"
+const url="/Admin/Cron/"
 
-// 黑名单列表
+// 列表
 export const GetList = (data) => {
   return service({
     url: url+'GetList',
@@ -20,7 +20,7 @@ export const Create = (data) => {
   })
 }
 //  Del批量删除
-export const Delete = (data) => {
+export const DeleteInfo = (data) => {
   return service({
     url: url+'Delete',
     method: 'post',
@@ -28,7 +28,7 @@ export const Delete = (data) => {
   })
 }
 
-//  Del批量删除Ka
+//  Del批量删除
 export const Update = (data) => {
   return service({
     url: url+'Update',
@@ -49,6 +49,24 @@ export const Info = (data) => {
 export const DeleteBatch = (data) => {
   return service({
     url: url+'DeleteBatch',
+    method: 'post',
+    data: data
+  })
+}
+
+//  更新状态
+export const UpdateStatus = (data) => {
+  return service({
+    url: url+'UpdateStatus',
+    method: 'post',
+    data: data
+  })
+}
+
+//  测试执行
+export const TestRunId = (data) => {
+  return service({
+    url: url+'TestRunId',
     method: 'post',
     data: data
   })

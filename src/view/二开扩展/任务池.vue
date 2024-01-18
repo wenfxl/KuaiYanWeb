@@ -86,11 +86,10 @@
           <template #default="scope">
             <el-tag>
               {{ scope.row.QueueCount}}
-              <el-icon v-if="scope.row.QueueCount>0"  class="复制按钮" @click="on清空队列(scope.$index,scope.row)">
-                <Delete/>
-              </el-icon>
             </el-tag>
-
+            <el-icon v-if="scope.row.QueueCount>0"  class="复制按钮" @click="on清空队列(scope.$index,scope.row)">
+              <Delete/>
+            </el-icon>
           </template>
         </el-table-column>
         <el-table-column prop="TaskCount" label="24H任务总计" width="130"/>

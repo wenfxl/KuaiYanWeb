@@ -117,7 +117,7 @@
                   content="打开代理后台"
                   placement="top"
               >
-                <el-link href="/Agent/#/Login" target="_blank">
+                <el-link href="/Agent" target="_blank">
                   <el-icon size="24">
                     <Link/>
                   </el-icon>

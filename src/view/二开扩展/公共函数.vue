@@ -150,9 +150,9 @@ import {useStore} from "vuex";
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import PublicDataInfo from "./组件/公共函数详细信息.vue";
-import {Delete} from "@element-plus/icons-vue";
+
 import {is移动端, 表格写入列宽数组, 表格读取列宽数组} from "@/utils/utils";
-import {Del批量删除TaskPool} from "@/api/任务池api";
+
 
 const on单个删除 = async (id: string) => {
   console.log('on单个删除' + id)
