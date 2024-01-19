@@ -7,6 +7,9 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+// 引入 vite-plugin-cdn-import 插件
+import { Plugin as importToCDN } from 'vite-plugin-cdn-import'
+
 // https://vitejs.dev/config/
 export default defineConfig({
     base: '/Admin/',
@@ -18,7 +21,6 @@ export default defineConfig({
         }
     },
     build: {
-
         outDir:'E:\\yun\\xuhaonan\\project\\TY通用后台管理系统\\server2\\core\\dist\\VueAdmin',
         minify: "terser",
         terserOptions: {
@@ -44,6 +46,32 @@ export default defineConfig({
         }),
         Components({
             resolvers: [ElementPlusResolver()],
+        }),
+        // 配置 CDN  打包时会自动替换
+        importToCDN({
+            modules: [
+/*                {     //vue 正确应该引入 3.3.8  但是网站暂时没有,这个引入会失败,所以放弃
+                    name: 'vue',
+                    var: 'Vue',
+                    path: `https://cdn.bootcdn.net/ajax/libs/vue/3.3.4/vue.runtime.global.prod.min.js`,
+                },*/
+                {
+                    name: "echarts",
+                    var: "echarts",
+                    path: "https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js",
+                },
+                {
+                    name: "echarts",
+                    var: "echarts",
+                    path: "https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js",
+                },
+                {
+                    name: "element-plus", // 依赖名称,
+                    var: "ElementPlus",  // 全局变量名
+                    path: "https://cdn.bootcdn.net/ajax/libs/element-plus/2.3.1/index.full.min.js", // CDN 链接
+                    css: "https://cdn.bootcdn.net/ajax/libs/element-plus/2.3.1/index.min.css", // 依赖有css就填，没有就去掉这个
+                },
+            ],
         }),
     ],
     server: {

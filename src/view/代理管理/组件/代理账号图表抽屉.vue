@@ -18,16 +18,20 @@
 
 <script setup lang='ts'>
 import Echarts代理组织架构图 from '@/view/控制面板/组件/代理组织架构图.vue'
-import {onMounted, ref, watch} from "vue";
-
+import {onMounted, ref, getCurrentInstance} from "vue";
+import  vue3TreeOrg from 'vue3-tree-org';
+import "vue3-tree-org/lib/vue3-tree-org.css";
 
 const Props = defineProps({
 })
 const emit = defineEmits(['on图表分析抽屉关闭'])
 
 const is图表分析抽屉可见2 = ref(true)
+const instance = getCurrentInstance();
 onMounted(() => {
-  console.info("图表分析加载完毕了")
+  const app = instance.appContext.app;
+  app.use(vue3TreeOrg)
+  console.info("图表分析加载完毕了");
 })
 const on抽屉被关闭 = () => {
   console.info("on对话框被关闭")

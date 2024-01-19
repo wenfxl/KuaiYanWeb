@@ -27,11 +27,6 @@
             <Echarts应用卡使用统计/>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
-          <el-col :xs="18" :sm="12">
-            <Echarts代理组织架构图/>
-          </el-col>
-        </el-row>
       </div>
     </div>
   </div>

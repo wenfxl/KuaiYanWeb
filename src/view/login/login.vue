@@ -5,11 +5,9 @@
         <div class="login_panel_form_title">
           <img
               class="login_panel_form_title_logo"
-              src="@/assets/logo4.png"
+              src="@/assets/logo4_128_128.png"
               alt
           >
-
-
           <p class="login_panel_form_title_p">{{ Store.state.ServerName }}</p>
         </div>
         <el-form

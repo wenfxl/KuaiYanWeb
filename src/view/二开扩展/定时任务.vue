@@ -75,8 +75,8 @@
                 class="ml-2"
                 inline-prompt
                 style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-                active-text="正常"
-                inactive-text="冻结"
+                active-text="启用"
+                inactive-text="停用"
                 @change="on任务状态被改变(scope.$index,scope.row.Id,scope.row.Status)"
             />
           </template>
