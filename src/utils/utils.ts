@@ -11,10 +11,10 @@ export const is苹果端 = (): boolean => {
         return true
     }
     return false
-/*    let u = navigator.userAgent;
-    //var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    /*    let u = navigator.userAgent;
+        //var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 
-    return  !!u.match(); //ios终端*/
+        return  !!u.match(); //ios终端*/
 }
 
 //从1970年开始的毫秒数然后截取10位变成 从1970年开始的秒数
@@ -102,20 +102,31 @@ export const 置剪辑版文本2 = (text: string, 成功提示: string) => {
     textarea.value = text;
     document.body.appendChild(textarea);
     textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
 
-    ElMessage.success(成功提示??"复制成功")
+    let success = false;
+    try {
+        success = document.execCommand('copy');
+    } catch (err) {
+
+    }
+    document.body.removeChild(textarea);
+    if (success) {
+        ElMessage.success(成功提示+text ?? "复制成功")
+    } else {
+        ElMessage.error("复制失败")
+    }
+
 }
 
 
 //这个置剪辑版必须 https或本地才正常  因为 window.isSecureContext 这个值真才可以使用,安全上下文
 export const 置剪辑版文本 = (text: string, 成功提示: string) => {
+    console.log(text)
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(
             // 复制成功callback
             function () {
-                ElMessage.success(成功提示??"复制成功")
+                ElMessage.success(成功提示 ?? "复制成功")
             },
             // 复制失败callback
             function () {
@@ -161,13 +172,12 @@ export const 表格导出csv文本 = (tableRef: any): string => {
         const csvColumns: string[] = [];
         for (const column of tableColumns) {
 
-            if (column.label && column.label.includes("时间")){
+            if (column.label && column.label.includes("时间")) {
 
-                csvColumns.push(`"`+时间_时间戳到时间(row[column.property])+`"`);
+                csvColumns.push(`"` + 时间_时间戳到时间(row[column.property]) + `"`);
             } else {
                 csvColumns.push(`"${row[column.property]}"`);
             }
-
 
 
         }
@@ -263,7 +273,7 @@ export const Is卡号 = (AppType: number) => {
 
 
 export const 金额整数转中文 = (money) => {
-    if (money===null){
+    if (money === null) {
         return ""
     }
 

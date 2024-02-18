@@ -95,7 +95,14 @@
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip=""/>
+        <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.User,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
+            {{ scope.row.User }}
+          </template>
+        </el-table-column>
 
         <el-table-column align="left" label="状态" prop="status" width="80">
           <template #default="scope">
@@ -197,7 +204,7 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {GetUserList, Del批量删除用户, SetUserStatus} from "@/api/代理信息api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
+import {时间_时间戳到时间, 时间_取现行时间戳, is移动端,   置剪辑版文本,表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
 import {useStore} from "vuex";
 
 import zhCn from 'element-plus/es/locale/lang/zh-cn'// 引入中文包

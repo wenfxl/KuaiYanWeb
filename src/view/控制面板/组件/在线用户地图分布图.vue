@@ -118,7 +118,7 @@ const setOptions = (data) => {
     }],
     visualMap: {
       min: 0,
-      max: 1000,
+      max: 100,
       text: ['High', 'Low'],
       realtime: false,
       calculable: true,

@@ -22,14 +22,14 @@
             <el-option key="2" label="冻结" :value="2"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="用户类型" prop="">
+        <el-form-item label="用户类型" prop="" v-if="is更多筛选">
           <el-select v-model.number="对象_搜索条件.UserClassId" clear placeholder="选择用户类型">
             <el-option key="-1" label="全部" :value="-1"/>
             <el-option v-for="(item,index) in 对象_用户类型Arr" :key="item.Id"
                        :label="item.Name" :value="item.Id"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="isAppType计点()?'剩余点数':'vip时间'" prop="status" style="width:140px">
+        <el-form-item :label="isAppType计点()?'剩余点数':'vip时间'" prop="status" style="width:140px" v-if="is更多筛选">
           <el-select v-model="对象_搜索条件.VipTimeStatus" clear placeholder="全部">
             <el-option key="0" label="全部" :value="0"/>
             <el-option key="1" :label="isAppType计点()?'有点':'正常'" :value="1"/>
@@ -50,8 +50,8 @@
             <template #prepend>
               <el-select v-model="对象_搜索条件.Type" placeholder="用户名Id" style="width: 100px;">
                 <el-option label="Id" :value="1"/>
-                <el-option :label="isAppType卡号()?'卡号Id':'用户名Id'" :value="2"/>
-                <el-option :label="isAppType卡号()?'卡号':'用户名'" :value="3"/>
+                <el-option :label="isAppType卡号2?'卡号Id':'用户名Id'" :value="2"/>
+                <el-option :label="isAppType卡号2?'卡号':'用户名'" :value="3"/>
                 <el-option label="绑定信息" :value="4"/>
                 <el-option label="软件用户备注" :value="5"/>
               </el-select>
@@ -62,6 +62,14 @@
         <el-form-item style="padding-left: 5px">
           <el-button type="primary" icon="search" @click="on读取列表">查询</el-button>
           <el-button icon="refresh" @click="onReset">重置</el-button>
+          <el-tooltip
+              class="box-item"
+              effect="light"
+              content="更多筛选"
+              placement="top"
+          >
+            <el-button icon="Plus" v-show="is更多筛选===false" @click="is更多筛选=true"></el-button>
+          </el-tooltip>
         </el-form-item>
       </el-form>
     </div>
@@ -83,7 +91,7 @@
 
         <div class="工具栏">
 
-          <el-popover placement="right" trigger="hover" >
+          <el-popover placement="right" trigger="hover">
             <template #reference>
               <el-icon>
                 <More/>
@@ -91,6 +99,7 @@
             </template>
             <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
+            <li class="工具_更多_li" @click="is批量修改用户类型=true">批量修改用户类型</li>
             <li class="工具_更多_li" @click="on批量维护输入框将打开">
               批量增减{{ (Data.AppType === 2 || Data.AppType === 4) ? "点数" : "时间" }}
             </li>
@@ -103,7 +112,7 @@
             <li class="工具_更多_li" @click="is批量修改全部用户时间点数=true">
               批量维护修改全部软件用户
             </li>
-            <li class="工具_更多_li" @click="on批量维护删除(3)"  v-if="isAppType卡号2">
+            <li class="工具_更多_li" @click="on批量维护删除(3)" v-if="isAppType卡号2">
               删除已删卡号软件用户
             </li>
           </el-popover>
@@ -135,14 +144,15 @@
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="70" sortable="custom"/>
         <!--        <el-table-column prop="Uid" label="用户id" width="100"/>-->
-        <el-table-column :label="isAppType卡号()?'卡号':'用户名'" :width="isAppType卡号()?280:180"
+        <el-table-column :label="isAppType卡号2?'卡号':'用户名'" :width="isAppType卡号2?280:180"
                          show-overflow-tooltip="">
           <template #default="scope">
-            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Name,'已复制到剪辑版')">
+            <el-icon class="复制按钮"
+                     @click="置剪辑版文本( isAppType卡号2?scope.row.Name:scope.row.User,'已复制到剪辑版')">
               <DocumentCopy/>
             </el-icon>
             {{
-              isAppType卡号() ? scope.row.Name === '' ? '已删卡号ID' + scope.row.Uid : scope.row.Name : scope.row.User
+              isAppType卡号2 ? scope.row.Name === '' ? '已删卡号ID' + scope.row.Uid : scope.row.Name : scope.row.User
             }}
             <el-tag v-if="scope.row.LinksCount>0">
               在线 {{ scope.row.LinksCount > 1 ? scope.row.LinksCount : "" }}
@@ -248,8 +258,20 @@
                   :AppType="Data.AppType"
                   @on批量维护输入框被关闭="on批量维护输入框被关闭"></BatchElMessage>
   <BatchSetAllUserVipTime v-if="is批量修改全部用户时间点数"
-                          :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, AppName:MapAppId_Name[对象_搜索条件.AppId.toString()]}" :UserClassId="对象_用户类型Arr"
+                          :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, AppName:MapAppId_Name[对象_搜索条件.AppId.toString()]}"
+                          :UserClassId="对象_用户类型Arr"
                           @on批量维护输入框被关闭="on对话框修改全部用户时间点数关闭"></BatchSetAllUserVipTime>
+
+  <el-dialog v-model="is批量修改用户类型" title="Shipping address">
+    <el-form>
+      <el-form-item>
+        <el-button v-for="(item,index) in 对象_用户类型Arr" :key="item.Id" type="primary"
+                   style="margin: 8px 8px 8px; width: 65px" @click="on批量维护修改用户类型(item.Id)">
+          {{ item.Name }}
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -259,7 +281,7 @@ import {
   Del批量删除AppUser,
   SetStatus,
   Set批量维护增减时间点数,
-  Del批量维护_删除
+  Del批量维护_删除, Set批量维护修改用户类型
 } from "@/api/软件用户api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
@@ -282,6 +304,7 @@ import {GetIdNameList} from "@/api/用户类型api";
 
 
 const is图表分析抽屉可见 = ref(false)
+const is更多筛选 = ref(false)
 
 
 const on图表分析被点击 = () => {
@@ -343,12 +366,22 @@ const on单个删除 = async (id: number) => {
 const isAppType计点 = () => {
   return Data.value.AppType === 2 || Data.value.AppType === 4
 }
+const isAppType计点2 = computed(() => {
+  if (Data.value.AppType === 2 || Data.value.AppType === 4) {
+    return true
+  }
+  return false
+})
+
 
 const isAppType卡号 = () => {
   return Data.value.AppType === 3 || Data.value.AppType === 4
 }
 const isAppType卡号2 = computed(() => {
-  return Data.value.AppType === 3 || Data.value.AppType === 4
+  if (Data.value.AppType === 3 || Data.value.AppType === 4) {
+    return true
+  }
+  return false
 })
 
 const on单个编辑 = async (id: number) => {
@@ -587,7 +620,7 @@ const onGetAppUserList = async () => {
     对象_用户类型Arr.value.push(a)
 
   }
-  console.log( 对象_用户类型Arr.value)
+  console.log(对象_用户类型Arr.value)
 }
 
 const MapAppId_Name = ref({})
@@ -684,8 +717,29 @@ const on对话框修改全部用户时间点数关闭 = (is重新读取: boolean
     on读取列表()
   }
 }
+//===========
+const is批量修改用户类型 = ref(false)
 
+const on批量维护修改用户类型 = async (新类型: number) => {
+  is批量修改用户类型.value = false
 
+  let ids = 表格被选中列表.value.map((item => item.Id))
+  const res = await Set批量维护修改用户类型({
+    "AppId": 对象_搜索条件.value.AppId,
+    "Id": ids,
+    "UserClassId": 新类型
+  })
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage.success(res.msg)
+    for (let i = 0; i < Data.value.List.length; i++) {
+      if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
+        Data.value.List[i].UserClassId =新类型
+      }
+    }
+    return true
+  }
+}
 </script>
 
 <style scoped lang="scss">

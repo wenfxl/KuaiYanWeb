@@ -66,7 +66,7 @@
                          :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+1000' : '+30' }}
               </el-button>
               <el-button @click="data.VipTime+=isAppType计点()?10000:86400*365"
-                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+10000' : '+365a' }}
+                         :style="is移动端()?'width: 9vh':'width: 4vh'">{{ isAppType计点() ? '+10000' : '+365' }}
               </el-button>
 
               <el-config-provider :locale="zhCn" v-if="!isAppType计点()">

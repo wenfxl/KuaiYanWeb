@@ -24,7 +24,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="status" style="width:120px" v-if="!is移动端()">
+        <el-form-item prop="status" style="width:120px" v-if="!is移动端()" v-show="is更多筛选">
           <el-select v-model="对象_搜索条件.Num" clear placeholder="请选择">
             <el-option key="0" label="全部使用" :value="0"/>
             <el-option key="1" label="已耗尽次数" :value="1"/>
@@ -32,7 +32,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="status" style="width:250px" v-if="!is移动端()">
+        <el-form-item prop="status" style="width:250px" v-if="!is移动端()" v-show="is更多筛选">
           <el-config-provider :locale="zhCn">
             <el-date-picker
                 v-model="对象_搜索条件.RegisterTime"
@@ -72,6 +72,14 @@
         <el-form-item style="padding-left: 5px">
           <el-button type="primary" icon="search" @click="on读取列表">查询</el-button>
           <el-button icon="refresh" @click="onReset">重置</el-button>
+          <el-tooltip
+              class="box-item"
+              effect="light"
+              content="更多筛选"
+              placement="top"
+          >
+            <el-button icon="Plus" v-show="is更多筛选===false" @click="is更多筛选=true"></el-button>
+          </el-tooltip>
         </el-form-item>
       </el-form>
     </div>
@@ -104,7 +112,9 @@
             </template>
             <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
-            <li class="工具_更多_li" @click="表格导出csv文本并下载(tableRef, '卡号列表' + Date().toLocaleString())">导出到csv</li>
+            <li class="工具_更多_li" @click="表格导出csv文本并下载(tableRef, '卡号列表' + Date().toLocaleString())">
+              导出到csv
+            </li>
             <li class="工具_更多_li" @click="on对话框详细信息打开(0,true)">导入误删卡</li>
             <li class="工具_更多_li" @click="on批量维护删除(1)">删除已耗尽卡号</li>
           </el-popover>
@@ -345,6 +355,7 @@ import ChartData from "@/view/应用管理/组件/卡号列表图表抽屉.vue";
 
 
 const is图表分析抽屉可见 = ref(false)
+const is更多筛选 = ref(false)
 const on图表分析被点击 = () => {
   Store.commit("set搜索_卡号列表", 对象_搜索条件.value)
   is图表分析抽屉可见.value = true
@@ -360,7 +371,7 @@ const on批量冻结解冻 = async (Status: number) => {
 
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
 
     for (let i = 0; i < Data.value.List.length; i++) {
       if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
@@ -392,7 +403,7 @@ const on单个追回 = async (id: number) => {
         const res = await Del批量追回Ka({"ID": [id]})
         console.log(res)
         if (res.code == 10000) {
-     ElMessage.success(res.msg)
+          ElMessage.success(res.msg)
           on读取列表()
         }
       })
@@ -406,7 +417,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除Ka({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -421,7 +432,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除Ka({"AppId": 对象_搜索条件.value.AppId, "ID": ids})
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -442,7 +453,7 @@ const on批量维护删除 = async (Type: number) => {
   ).then(async () => {
     let 返回 = await Del批量维护_删除({AppId: 对象_搜索条件.value.AppId, Type: Type})
     if (返回.code == 10000) {
-     ElMessage.success(返回.msg)
+      ElMessage.success(返回.msg)
       on读取列表()
     }
 
@@ -655,7 +666,7 @@ const on冻结状态被改变 = async (表项索引: number, ID: number, Status:
 
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     return true
   } else {
     Data.value.List[表项索引].Status = Status == 1 ? 2 : 1
@@ -678,7 +689,7 @@ const on管理员备注被改变 = async (表项索引: number, ID: number, Admi
         console.log(res)
         if (res.code == 10000) {
           Data.value.List[表项索引].AdminNote = 新管理员备注   //成功赋新值
-     ElMessage.success(res.msg)
+          ElMessage.success(res.msg)
           return true
         } else {
           return false

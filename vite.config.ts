@@ -60,17 +60,12 @@ export default defineConfig({
                     var: "echarts",
                     path: "https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js",
                 },
-                {
-                    name: "echarts",
-                    var: "echarts",
-                    path: "https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js",
-                },
-                {
+/*                {
                     name: "element-plus", // 依赖名称,
                     var: "ElementPlus",  // 全局变量名
                     path: "https://cdn.bootcdn.net/ajax/libs/element-plus/2.3.1/index.full.min.js", // CDN 链接
                     css: "https://cdn.bootcdn.net/ajax/libs/element-plus/2.3.1/index.min.css", // 依赖有css就填，没有就去掉这个
-                },
+                },*/
             ],
         }),
     ],

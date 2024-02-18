@@ -77,6 +77,16 @@ export const  Set批量维护增减时间点数 = (data) => {
     data: data
   })
 }
+//  Set批量维护_勾选用户增减时间点数
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
+export const  Set批量维护修改用户类型 = (data) => {
+  return service({
+    url: url+'SetBatchUserClass',
+    method: 'post',
+    data: data
+  })
+}
 
 //  Set批量维护_全部用户增减时间点数
 //...

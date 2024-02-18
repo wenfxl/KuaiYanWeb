@@ -6,6 +6,7 @@
       :collapse="is折叠"
       COLLAPSE-transition="false"
       popper-effect="light"
+      popper-class="子菜单"
       @open="handleOpen"
       @close="handleClose"
       @select="select"
@@ -13,8 +14,9 @@
       router="router"
       unique-opened=""
       :default-active="$route.path"
+      :collapse-transition="false"
   >
-    <menuItem :menus="menus"></menuItem>
+    <menuItem :is折叠="is折叠" :menus="menus"></menuItem>
 
   </el-menu>
 
@@ -33,7 +35,7 @@ const menus = [{
   "ID": 1,
   "path": "控制面板",
   "name": "控制面板",
-  "meta": {"title": "控制面板", "icon": "Promotion"},
+  "meta": {"title": "控制面板", "icon": "Promotion","text": "面板"},
   "children": [{
     "ID": 2,
     "path": "控制面板/仪表台",
@@ -57,7 +59,7 @@ const menus = [{
   "ID": 6,
   "path": "用户管理",
   "name": "用户管理",
-  "meta": {"title": "用户管理", "icon": "User"},
+  "meta": {"title": "用户管理", "icon": "User","text": "用户"},
   "children": [{
     "ID": 6,
     "path": "用户管理/在线用户",
@@ -75,7 +77,7 @@ const menus = [{
   "ID": 6,
   "path": "应用管理",
   "name": "应用管理",
-  "meta": {"title": "应用管理", "icon": "SwitchFilled"},
+  "meta": {"title": "应用管理", "icon": "SwitchFilled","text": "应用"},
   "children": [{
     "ID": 6,
     "path": "应用管理/应用列表",
@@ -117,7 +119,7 @@ const menus = [{
   "ID": 6,
   "path": "财务管理",
   "name": "财务管理",
-  "meta": {"title": "财务管理", "icon": "Histogram"},
+  "meta": {"title": "财务管理", "icon": "Histogram","text": "财务"},
   "children": [{
     "ID": 6,
     "path": "财务管理/支付充值订单",
@@ -129,7 +131,7 @@ const menus = [{
   "ID": 6,
   "path": "系统管理",
   "name": "系统管理",
-  "meta": {"title": "系统管理", "icon": "Setting"},
+  "meta": {"title": "系统管理", "icon": "Setting","text": "系统"},
   "children": [{
     "ID": 6,
     "path": "系统管理/系统设置",
@@ -141,7 +143,7 @@ const menus = [{
   "ID": 6,
   "path": "二开扩展",
   "name": "二开扩展",
-  "meta": {"title": "二开扩展", "icon": "Operation"},
+  "meta": {"title": "二开扩展", "icon": "Operation","text": "扩展"},
   "children": [{
     "ID": 999,
     "path": "二开扩展/用户云配置",
@@ -177,7 +179,7 @@ const menus = [{
   "ID": 6,
   "path": "代理管理",
   "name": "代理管理",
-  "meta": {"title": "代理管理", "icon": "HelpFilled"},
+  "meta": {"title": "代理管理", "icon": "HelpFilled","text": "代理"},
   "children": [{
     "ID": 6,
     "path": "代理管理/代理账号",
@@ -195,7 +197,7 @@ const menus = [{
   "ID": 6,
   "path": "日志管理",
   "name": "日志管理",
-  "meta": {"title": "日志管理", "icon": "Calendar"},
+  "meta": {"title": "日志管理", "icon": "Calendar","text": "日志"},
   "children": [{
     "ID": 6,
     "path": "日志管理/用户消息",
@@ -283,6 +285,10 @@ const select = (key: string, keyPath: string[]) => {
 <style scoped lang="scss">
 .el-menu {
   background-color: $menuBg;
+  border: none; //消除边框
+}
+.子菜单 {
+  background-color: #ffffff;
   border: none; //消除边框
 }
 

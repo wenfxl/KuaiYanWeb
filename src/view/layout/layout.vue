@@ -1,7 +1,7 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-aside :width="is折叠?is移动端()?'0px':'60px':'256px'" :style="is移动端()?'':'overflow: hidden; //消除侧边栏' " >
+      <el-aside :class="is折叠?'el-aside2 侧边栏菜单':'el-aside1 侧边栏菜单'" :width="is折叠?is移动端()?'0px':'60px':'256px'" :style="is移动端()?'':'overflow: hidden; //消除侧边栏' " >
         <!--左侧侧边栏-->
         <logoBar :is折叠="is折叠"></logoBar>
         <MenuBar :is折叠="is折叠"></MenuBar>
@@ -47,11 +47,11 @@ import HeaderBar from "@/view/layout/components/headerBar/headerBar.vue";
 import tabs from "@/view/layout/components/TabBar/TabBar.vue";
 import Userinfo from "@/view/layout/components/用户名下拉菜单/用户名下拉菜单.vue";
 
-const is折叠 = ref<boolean>(false);
+const is折叠 = ref<boolean>(true);
 
 
 onMounted(()=>{
-  is折叠.value=is移动端()
+  is折叠.value=true
 })
 
 </script>
@@ -93,8 +93,15 @@ onMounted(()=>{
 
 }
 
-.el-aside {
-  background-color: $menuBg;
+.el-aside1 {
+  background: #344359FF;
+  background-size: 80% 160%;
+  //color: #333;
+  //text-align: center;
+}
+.el-aside2 {
+  background: linear-gradient(-45deg, #dae, #f66, #3c9, #09f, #66f);
+  background-size: 80% 160%;
   //color: #333;
   //text-align: center;
 }
@@ -110,6 +117,6 @@ onMounted(()=>{
 }
 
 .el-menu {
-
+  background-color: transparent; /* 设置背景色为透明 */
 }
 </style>
