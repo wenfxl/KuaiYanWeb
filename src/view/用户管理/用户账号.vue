@@ -140,7 +140,8 @@
         </el-table-column>
         <el-table-column prop="Note" label="备注" width="160"/>
         <el-table-column prop="LoginAppName" label="最后登录应用" width="160" show-overflow-tooltip=""/>
-        <el-table-column prop="LoginTime" label="最后登录时间" width="160" :formatter="on格式化_登录时间"/>
+        <el-table-column prop="LoginTime" label="最后登录时间" width="160" :formatter="on格式化_登录时间"
+                         sortable="custom"/>
         <!--        <el-table-column prop="LoginIp" label="登录ip" width="140"/>
 
                 <el-table-column prop="RegisterIp" label="注册ip" width="140"/>-->
@@ -458,12 +459,16 @@ export interface UserInfo2 {
 const on排序被改变 = (order) => {
 //{column: Proxy(Object), prop: 'User', order: 'ascending'}
   对象_搜索条件.value.Order = 1  //默认
-  if (order.prop == "id", order.order == "ascending") {
-    对象_搜索条件.value.Order = 1
-  } else if (order.prop == "id", order.order == "descending") {
-    对象_搜索条件.value.Order = 2
+  let 局_排序 = order.prop + "_" + order.order
+
+  let 局_排序map = {"Id_ascending": 1, "Id_descending": 2, "LoginTime_ascending": 3, "LoginTime_descending": 4}
+
+  if (局_排序 in 局_排序map) {
+    对象_搜索条件.value.Order =局_排序map[局_排序]
   }
-on读取列表()
+console.log(局_排序)
+console.log(局_排序map[局_排序])
+  on读取列表()
 }
 
 </script>

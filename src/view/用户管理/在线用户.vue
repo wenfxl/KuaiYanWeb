@@ -36,6 +36,7 @@
                 <el-option label="绑定信息" :value="3"/>
                 <el-option label="动态标签" :value="4"/>
                 <el-option label="软件版本" :value="5"/>
+                <el-option label="代理标识Uid" :value="6"/>
               </el-select>
             </template>
           </el-input>
@@ -129,6 +130,9 @@
               {{ scope.row.AppName }}
               <el-tag type="success" v-if="scope.row.AppVer">
                 {{ scope.row.AppVer }}
+              </el-tag>
+              <el-tag type="primary" v-if="scope.row.AgentUid" >
+                代:{{ scope.row.AgentUid }}
               </el-tag>
             </div>
           </template>

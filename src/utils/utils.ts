@@ -111,7 +111,7 @@ export const 置剪辑版文本2 = (text: string, 成功提示: string) => {
     }
     document.body.removeChild(textarea);
     if (success) {
-        ElMessage.success(成功提示+text ?? "复制成功")
+        ElMessage.success(成功提示 + text ?? "复制成功")
     } else {
         ElMessage.error("复制失败")
     }
@@ -138,9 +138,8 @@ export const 置剪辑版文本 = (text: string, 成功提示: string) => {
     }
 }
 //Element-Plus 只能传入这个ui库的表格 并激活下载
-export const 表格导出csv文本并下载 = (tableRef: any, 文件名称: string): void => {
-
-    const csvContent = 表格导出csv文本(tableRef);
+export const 表格导出csv文本并下载 = (tableRef: any, 文件名称: string, 默认键名数组: any): void => {
+    const csvContent = 表格导出csv文本(tableRef, 默认键名数组);
     const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
     const link = document.createElement('a');
     link.setAttribute('href', URL.createObjectURL(blob));
@@ -152,8 +151,8 @@ export const 表格导出csv文本并下载 = (tableRef: any, 文件名称: stri
 };
 
 
-//Element-Plus 只能传入这个ui库的表格
-export const 表格导出csv文本 = (tableRef: any): string => {
+//Element-Plus 只能传入这个ui库的表格   默认键名数组 因为有时column.property 为空, 所以备用
+export const 表格导出csv文本 = (tableRef: any, 默认键名数组: string[]): string => {
     console.log(tableRef); // 检查tableRef的值
     const tableData = tableRef.data;
     const tableColumns = tableRef.store.states.columns._rawValue;
@@ -170,16 +169,19 @@ export const 表格导出csv文本 = (tableRef: any): string => {
     // 获取表格数据
     for (const row of tableData) {
         const csvColumns: string[] = [];
+        let i = 0
         for (const column of tableColumns) {
-
+            let 局_键名 = column.property
+            if (默认键名数组[i]) { //优先使用提供的键值,更准确
+                局_键名 = 默认键名数组[i]
+            }
             if (column.label && column.label.includes("时间")) {
 
-                csvColumns.push(`"` + 时间_时间戳到时间(row[column.property]) + `"`);
+                csvColumns.push(`"` + 时间_时间戳到时间(row[局_键名]) + `"`);
             } else {
-                csvColumns.push(`"${row[column.property]}"`);
+                csvColumns.push(`"${row[局_键名]}"`);
             }
-
-
+            i++
         }
         csvColumns.shift()//删除数组第一个元素选择框 因为这个是 空
         csvRows.push(csvColumns.join(','));
@@ -187,6 +189,8 @@ export const 表格导出csv文本 = (tableRef: any): string => {
 
     return csvRows.join('\n');
 };
+
+
 //Element-Plus 只能传入这个ui库的表格  读取列宽数组  返回整数数组
 export const 表格读取列宽数组 = (tableRef: any): any => {
     const tableColumns = tableRef.store.states.columns._rawValue;

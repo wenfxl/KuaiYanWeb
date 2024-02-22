@@ -112,7 +112,7 @@
             </template>
             <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
-            <li class="工具_更多_li" @click="表格导出csv文本并下载(tableRef, '卡号列表' + Date().toLocaleString())">
+            <li class="工具_更多_li" @click="表格导出csv文本并下载(tableRef, '卡号列表' + Date().toLocaleString(),[])">
               导出到csv
             </li>
             <li class="工具_更多_li" @click="on对话框详细信息打开(0,true)">导入误删卡</li>

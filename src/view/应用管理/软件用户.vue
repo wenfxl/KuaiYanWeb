@@ -97,9 +97,11 @@
                 <More/>
               </el-icon>
             </template>
-            <li class="工具_更多_li" @click="on批量冻结解冻(2)">批量冻结</li>
+            <li class="工具_更多_li" @click="表格导出csv文本并下载(tableRef, '软件用户列表' + Date().toLocaleString(),['','',isAppType卡号2?'Name':'User','Status'])">
+              导出到csv
+            </li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
-            <li class="工具_更多_li" @click="is批量修改用户类型=true">批量修改用户类型</li>
+            <li class="工具_更多_li" @click="is批量修改用户类型=true">批量改用户类型</li>
             <li class="工具_更多_li" @click="on批量维护输入框将打开">
               批量增减{{ (Data.AppType === 2 || Data.AppType === 4) ? "点数" : "时间" }}
             </li>
@@ -237,7 +239,7 @@
           <el-pagination
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
-              :page-sizes="[10, 20, 30, 40,50,100]"
+              :page-sizes="[10,20,30,50,100,1000,10000]"
               small="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
@@ -290,7 +292,7 @@ import {
   Is卡号,
   is移动端,
   表格读取列宽数组,
-  表格写入列宽数组, 置剪辑版文本
+  表格写入列宽数组, 置剪辑版文本, 表格导出csv文本并下载
 } from "@/utils/utils";
 import {useStore} from "vuex";
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
@@ -529,6 +531,8 @@ const Data = ref({
       "LinksCount": 0
     }]
 })
+
+
 const Store = useStore()
 const 对象_搜索条件 = ref({
   AppId: 10000,
@@ -734,7 +738,7 @@ const on批量维护修改用户类型 = async (新类型: number) => {
     ElMessage.success(res.msg)
     for (let i = 0; i < Data.value.List.length; i++) {
       if (ids.some(ele => ele === Data.value.List[i].Id)) { //判断数组内是否存在该ID,如果存在则修改状态
-        Data.value.List[i].UserClassId =新类型
+        Data.value.List[i].UserClassId = 新类型
       }
     }
     return true

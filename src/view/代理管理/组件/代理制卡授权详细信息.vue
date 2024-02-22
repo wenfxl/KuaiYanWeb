@@ -17,7 +17,14 @@
         <el-checkbox v-for="(Key,val) in D代理功能_功能可见ID测 " :Id="Key"
                      :label="val" border/>
       </el-checkbox-group>
-      <el-divider>可制卡号授权</el-divider>
+      <el-divider>可制卡类授权
+        <el-tooltip content="应用必须有可以授权的卡类,才会显示到下方"
+                    effect="dark"
+                    placement="top">
+          <el-icon><WarningFilled /></el-icon>
+        </el-tooltip>
+      </el-divider>
+      <el-text></el-text>
       <el-tree
           ref="treeRef"
           :data="data"
@@ -88,7 +95,7 @@ interface Tree {
 
 const is加载中 = ref(false)
 const D代理功能_功能已选中测 = ref([])
-const D代理功能_功能可见ID测 =ref({})
+const D代理功能_功能可见ID测 = ref({})
 //const D代理功能_功能可见ID测 =ref({卡号冻结: -1, 卡号解冻: -2, 卡号追回: -7})
 
 const data = ref([
@@ -164,7 +171,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
-ElMessage.success(返回.msg)
+    ElMessage.success(返回.msg)
   }
 
 }
@@ -189,25 +196,24 @@ const 读取详细信息 = async (id: number) => {
       treeRef.value!.setCheckedKeys(返回.data.IdListAuthority, false)
       D代理功能_功能可见ID测.value = 返回.data.FunctionList
       console.log(返回.data.FunctionList)
-      D代理功能_功能已选中测.value =[]
-      for(let key in D代理功能_功能可见ID测.value){
+      D代理功能_功能已选中测.value = []
+      for (let key in D代理功能_功能可见ID测.value) {
         for (let a = 0; a < 返回.data.FunctionId.length; a++) {
-          if (D代理功能_功能可见ID测.value[key]===返回.data.FunctionId[a]){
+          if (D代理功能_功能可见ID测.value[key] === 返回.data.FunctionId[a]) {
             D代理功能_功能已选中测.value.push(key)
           }
         }
       }
 
 
-
-/*
-      D代理功能_卡号冻结.value = 返回.data.FunctionId.includes(-1)
-      D代理功能_卡号解冻.value = 返回.data.FunctionId.includes(-2)
-      D代理功能_更换卡号.value = 返回.data.FunctionId.includes(-3)
-      //D代理功能_删除卡号.value=返回.data.FunctionId.includes(-4)
-      D代理功能_余额充值.value = 返回.data.FunctionId.includes(-5)
-      D代理功能_发展下级代理.value = 返回.data.FunctionId.includes(-6)
-      D代理功能_卡号追回.value = 返回.data.FunctionId.includes(-7)*/
+      /*
+            D代理功能_卡号冻结.value = 返回.data.FunctionId.includes(-1)
+            D代理功能_卡号解冻.value = 返回.data.FunctionId.includes(-2)
+            D代理功能_更换卡号.value = 返回.data.FunctionId.includes(-3)
+            //D代理功能_删除卡号.value=返回.data.FunctionId.includes(-4)
+            D代理功能_余额充值.value = 返回.data.FunctionId.includes(-5)
+            D代理功能_发展下级代理.value = 返回.data.FunctionId.includes(-6)
+            D代理功能_卡号追回.value = 返回.data.FunctionId.includes(-7)*/
 
     } else {
       is重新读取.value = false
