@@ -76,3 +76,12 @@ export const  New = (data) => {
     data: data
   })
 }
+
+//测试执行js {"Id":1,"Param":"{}"}
+export const  TestRunJs = (data) => {
+  return service({
+    url: url+'TestRunJs',
+    method: 'post',
+    data: data
+  })
+}

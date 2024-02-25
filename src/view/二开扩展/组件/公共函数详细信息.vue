@@ -5,10 +5,10 @@
              top="3%"
              @close="on对话框被关闭">
     <div style="overflow:auto;padding:0 12px;">
-      <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px" :rules="on表单校验" :model="data"
+      <el-form v-loading="is加载中" :inline="false" style="min-width: 80px ;top: 10px" label-width="130px" :rules="on表单校验" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
-        <el-form-item label="函数名称" prop="Name">
+        <el-form-item label="函数名称" prop="Name" >
           <div style="display: inline-block ;width: 100%">
             <el-input v-model.trim="data.Name" placeholder="请输入函数名称" :class="[Props.id!==''?'只读编辑框':'']"
                       :readonly="Props.id!==''" style="width: 80%;" @blur="on编辑框函数名失去焦点"/>
@@ -55,27 +55,38 @@
                   <el-checkbox-button
                       :key="true"
                   >
-                    <el-icon>
+                    <el-icon >
                       <Search/>
                     </el-icon>
                   </el-checkbox-button
                   >
                 </el-checkbox-group>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <div class="grid-content ep-bg-purple-light"/>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <div class="grid-content ep-bg-purple"/>
               </el-col>
-              <el-col :span="4">
-                <div class="grid-content ep-bg-purple-light"/>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content ep-bg-purple"/>
-              </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <el-button @click="onJS格式化">格式化</el-button>
+              </el-col>
+              <el-col :span="3">
+                <div class="grid-content ep-bg-purple-light"/>
+              </el-col>
+              <el-col :span="3">
+                <div class="grid-content ep-bg-purple"/>
+              </el-col>
+              <el-col :span="3" v-show="data.Id">
+                <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="只能简单测试,全局变量如$应用信息,$用户在线信息,可能会无数据"
+                    placement="top"
+                >
+                  <el-button @click="onJS测试执行">测试执行</el-button>
+                </el-tooltip>
+
               </el-col>
             </el-row>
           </div>
@@ -85,6 +96,7 @@
                       :tabSize="2" :extensions="extensions"/>
         </el-form-item>
       </el-form>
+
     </div>
     <template #footer>
       <div class="dialog-footer">
@@ -99,7 +111,7 @@
 import {onMounted, ref} from 'vue'
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端} from "@/utils/utils";
-import {GetInfo, New, SaveInfo} from "@/api/公共函数api";
+import {GetInfo, New, SaveInfo,TestRunJs} from "@/api/公共函数api";
 import {GetAppIdNameList} from "@/api/应用列表api";
 
 
@@ -300,6 +312,18 @@ const extensions = [javascript(), myTheme];
 // 代码美化
 function onJS格式化() {
   data.value.Value = js_beautify(data.value.Value)
+}
+// 代码美化
+async function onJS测试执行() {
+  is加载中.value=true
+  let postData = {id: data.value.Id}
+
+  let 返回 = await TestRunJs(postData);
+  is加载中.value=false
+  if (返回.code == 10000) {
+    await ElMessageBox.prompt("返回数据" , 返回.msg,{"inputValue":JSON.stringify(返回.data),"showCancelButton":false} )
+  }
+
 }
 
 </script>
