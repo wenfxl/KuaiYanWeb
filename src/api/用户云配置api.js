@@ -33,6 +33,7 @@ export const DeleteInfo= (data) => {
   })
 }
 
+
 //  GetInfo
 //*{
 // 	"AppId": 1,

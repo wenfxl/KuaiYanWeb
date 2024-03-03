@@ -129,6 +129,12 @@
 
               </div>
             </el-form-item>
+            <el-divider>
+              <el-button type="primary" size="large" :icon="Plus" style="width: 110px" round
+                         @click="on添加用户云配置()">
+                添加
+              </el-button>
+            </el-divider>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -151,9 +157,9 @@ import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 时间_取现行时间戳, 时间_时间戳到时间, 时间_计算天时分秒提示} from "@/utils/utils";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import {GetList, DeleteInfo} from "@/api/用户云配置api.js";
+import {GetList, DeleteInfo, New} from "@/api/用户云配置api.js";
 import {Delete} from "@element-plus/icons-vue";
-
+import {Plus} from "@element-plus/icons";
 
 const Props = defineProps({
   id: {
@@ -241,7 +247,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
-ElMessage.success(返回.msg)
+    ElMessage.success(返回.msg)
   }
 }
 
@@ -315,13 +321,35 @@ const 读取详细信息 = async (id: number) => {
       "Msg": "",
       "MaxOnline": 1,
       "UserClassId": 0,
-      "AppType": Props.AppType
+      "AppType": Props.AppType,
+      "RegisterTime": 0
     }
   }
 
 
 }
 
+const on添加用户云配置 = async () => {
+  ElMessageBox.prompt('请输入用户云配置名称', 'Tip', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+  }).then(async ({value}) => {
+        let tempData = {Name: value, Value: ""}
+        let tempData2 = tempData
+        tempData2.AppId =Props.AppId
+        tempData2.Uid = data.value.Uid
+        const res = await New(tempData2)
+        console.log(res)
+        if (res.code == 10000) {
+          用户云配置.value.push(tempData)
+          ElMessage.success(res.msg)
+        }
+      })
+      .catch(() => {
+
+      })
+
+}
 const on删除用户云配置 = async (数组索引: number) => {
   const res = await DeleteInfo({
     "data": [用户云配置.value[数组索引]]
@@ -330,7 +358,7 @@ const on删除用户云配置 = async (数组索引: number) => {
 
   if (res.code == 10000) {
     用户云配置.value.splice(数组索引, 1)
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
   }
 }
 const on对话框被关闭 = () => {
