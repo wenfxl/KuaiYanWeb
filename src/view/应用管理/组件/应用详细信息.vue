@@ -310,7 +310,7 @@
 
             </el-form-item>
 
-            <el-form-item label="默认最大在线数量" prop="MaxOnline">
+            <el-form-item label="新用户默认最大在线数量" prop="MaxOnline">
               <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>
             </el-form-item>
 
@@ -391,7 +391,7 @@
                       width="60"
                       style="margin-left: 5px"
                       inline-prompt
-                      active-text="限Vip"
+                      active-text="限登录"
                       inactive-text="任意"
                   />
                   <el-popconfirm title="确定删除?"

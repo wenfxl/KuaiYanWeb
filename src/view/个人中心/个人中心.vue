@@ -136,6 +136,7 @@ const UserInfo = ref({
   AppVerUpdateTime: "",
   AppVarNew: "",
   linkTokenCount: 0,
+  AgentUid: 0,
 });
 const is加载中 = ref(false);
 const 当前选择 = ref("个人信息");

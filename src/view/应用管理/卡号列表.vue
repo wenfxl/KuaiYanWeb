@@ -101,7 +101,9 @@
             </el-button>
           </template>
         </el-popconfirm>
-
+        <el-button icon="Memo" type="" style="margin: 8px 8px 8px; width: 85px" @click="on跳转卡类列表(对象_搜索条件.AppId)">
+          卡类列表
+        </el-button>
         <div class="工具栏">
 
           <el-popover placement="right" trigger="hover">
@@ -352,6 +354,7 @@ import {Delete} from "@element-plus/icons-vue";
 import KaNew from "./组件/卡号列表制卡.vue";
 import KaEdit from "./组件/卡号详细信息.vue";
 import ChartData from "@/view/应用管理/组件/卡号列表图表抽屉.vue";
+import router from "@/router";
 
 
 const is图表分析抽屉可见 = ref(false)
@@ -746,6 +749,12 @@ const 数组_制卡预选日期 = [{
     },
   },
 ]
+
+const on跳转卡类列表 = (AppId: Number) => {
+
+  Store.commit("set搜索_卡类列表", {AppId: AppId, Type: 2, Size: 10, Page: 1, Keywords: ""})
+  router.push("/应用管理/卡类列表")
+}
 </script>
 
 <style scoped lang="scss">

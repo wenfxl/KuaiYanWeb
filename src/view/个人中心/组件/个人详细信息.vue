@@ -18,7 +18,7 @@
             <i class="el-icon-user"></i>
 
           </template>
-
+          <el-tag v-if="Props.UserInfo.AgentUid>0 " size="small">定制编号{{Props.UserInfo.AgentUid}}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item>
           <template #label>
@@ -62,6 +62,7 @@
             登录时间
           </template>
           {{ 时间_时间戳到时间(Props.UserInfo.LoginTime) }}
+
         </el-descriptions-item>
         <el-descriptions-item>
           <template #label>

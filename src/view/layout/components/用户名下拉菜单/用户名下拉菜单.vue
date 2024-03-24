@@ -43,8 +43,8 @@ const on修改密码 = async () => {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     inputPattern:
-        /^[a-zA-Z]\w{5,17}$/,
-    inputErrorMessage: '密码以字母开头，长度在6-18之间，只能包含字符、数字和下划线',
+        /^\S{5,18}$/,
+    inputErrorMessage: '密码以字母开头，长度在5-18之间，只能包含字符、数字和下划线',
   })
       .then(async ({value}) => {
         const res = await AdminNewPassword({NewPassword: value})

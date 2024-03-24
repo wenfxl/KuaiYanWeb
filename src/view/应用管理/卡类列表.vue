@@ -45,7 +45,9 @@
             </el-button>
           </template>
         </el-popconfirm>
-
+        <el-button icon="Tickets" type="" style="margin: 8px 8px 8px; width: 85px" @click="on跳转卡号列表(对象_搜索条件.AppId)">
+          卡号列表
+        </el-button>
         <div class="工具栏">
 
           <!--          <el-popover placement="right"  trigger="hover">-->
@@ -234,6 +236,7 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import KaClassInfo from "./组件/卡类详细信息.vue";
+import router from "@/router";
 
 
 const on单个删除 = async (id: number) => {
@@ -417,6 +420,24 @@ onBeforeUnmount(() => {
 const isAppType计点 = () => {
   return Data.value.AppType === 2 || Data.value.AppType === 4
 }
+
+
+const on跳转卡号列表 = (AppId: Number) => {
+  console.log("on跳转卡号列表" + AppId)
+  Store.commit("set搜索_卡号列表", {
+    AppId: AppId,
+    Status: 0,
+    Num: 0,
+    RegisterTime: ["", ""],
+    KaClassId: 0,
+    Type: 2,
+    Size: 10,
+    Page: 1,
+    Keywords: ""
+  })
+  router.push("/应用管理/卡号列表")
+}
+
 
 
 </script>

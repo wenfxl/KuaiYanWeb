@@ -119,9 +119,9 @@ const toolCards = ref([
     bg: 'rgba(179, 127, 235,.3)'
   },
   {
-    label: '公共变量',
-    icon: 'ElementPlus',
-    name: '公共变量',
+    label: '卡号列表',
+    icon: 'Tickets',
+    name: '卡号列表',
     color: '#ffd666',
     bg: 'rgba(255, 214, 102,.3)'
   },

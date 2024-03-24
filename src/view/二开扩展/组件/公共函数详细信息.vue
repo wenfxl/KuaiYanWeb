@@ -20,7 +20,7 @@
                   width="60"
                   style="margin-left: 5px"
                   inline-prompt
-                  active-text="限Vip"
+                  active-text="限登录"
                   inactive-text="任意"
               />
             </div>
@@ -50,43 +50,11 @@
         <el-form-item  label="JS函数" prop="Value" style="height: 50Vh">
           <div style="float: right;">
             <el-row>
-              <el-col :span="4">
-                <el-checkbox-group v-model="Is展示全局云函数">
-                  <el-checkbox-button
-                      :key="true"
-                  >
-                    <el-icon >
-                      <Search/>
-                    </el-icon>
-                  </el-checkbox-button
-                  >
-                </el-checkbox-group>
+              <el-col :span="12" v-show="data.Id">
+                  <el-button @click="onJS格式化">格式化</el-button>
               </el-col>
-              <el-col :span="3">
-                <div class="grid-content ep-bg-purple-light"/>
-              </el-col>
-              <el-col :span="3">
-                <div class="grid-content ep-bg-purple"/>
-              </el-col>
-              <el-col :span="3">
-                <el-button @click="onJS格式化">格式化</el-button>
-              </el-col>
-              <el-col :span="3">
-                <div class="grid-content ep-bg-purple-light"/>
-              </el-col>
-              <el-col :span="3">
-                <div class="grid-content ep-bg-purple"/>
-              </el-col>
-              <el-col :span="3" v-show="data.Id">
-                <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    content="只能简单测试,全局变量如$应用信息,$用户在线信息,可能会无数据"
-                    placement="top"
-                >
-                  <el-button @click="onJS测试执行">测试执行</el-button>
-                </el-tooltip>
-
+              <el-col :span="12">
+                <el-button @click="onJS测试执行">测试执行</el-button>
               </el-col>
             </el-row>
           </div>

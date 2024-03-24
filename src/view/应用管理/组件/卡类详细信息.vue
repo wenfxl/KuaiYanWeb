@@ -204,7 +204,7 @@
               content="值为0不修改"
               placement="left"
           >
-            <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="1"/>
+            <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>
           </el-tooltip>
 
         </el-form-item>
