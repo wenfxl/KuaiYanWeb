@@ -2,6 +2,13 @@
   <div class="最底层div">
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
+        <el-form-item label="选择应用" prop="" style="width:300px">
+          <el-select v-model.number="对象_搜索条件.Appid" clear placeholder="请选择应用" @change="on读取列表">
+            <el-option label="全部" :value="0"/>
+            <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
+                       :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
+          </el-select>
+        </el-form-item>
         <el-form-item prop="status" style="width:250px">
           <el-config-provider :locale="zhCn">
             <el-date-picker
@@ -144,6 +151,7 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, RefreshRight} from "@element-plus/icons";
 import {ElMessage} from "element-plus";
+import {GetAppIdNameList} from "@/api/应用列表api";
 
 
 const on批量删除 = async (Type: number) => {
@@ -212,7 +220,7 @@ const Data = ref({
       "User": "",
       "Time": 0,
       "Ip": "",
-      "LoginType": 0,
+      "Appid": 0,
       "Msg": ""
     }]
 })
@@ -222,7 +230,8 @@ const 对象_搜索条件 = ref({
   Type: 0,
   Size: 10,
   Page: 1,
-  Keywords: ""
+  Keywords: "",
+  Appid: 0
 })
 
 const on读取列表 = () => {
@@ -236,20 +245,12 @@ const onReset = () => {
     Type: 1,
     Size: 10,
     Page: 1,
-    Keywords: ""
+    Keywords: "",
+    Appid: 0
   }
 }
 
-const 对象_登录类型 = ref({
-  "1": "1级代理平台",
-  "2": "2级代理平台",
-  "3": "3级代理平台",
-  "4": "管理平台",
-  "5": "系统自动",
-})
-const on登录类型 = (id: number) => {
-  return 对象_登录类型.value[id.toString()]
-}
+
 
 const is加载中 = ref(false)
 const onGetLogLoginList = async () => {
@@ -260,12 +261,7 @@ const onGetLogLoginList = async () => {
   console.log(res)
   is加载中.value = false
   Data.value = res.data
-  对象_登录类型.value = res.data.AppName
-  对象_登录类型.value["1"] = "1级代理平台"
-  对象_登录类型.value["2"] = "2级代理平台"
-  对象_登录类型.value["3"] = "3级代理平台"
-  对象_登录类型.value["4"] = "管理平台"
-  对象_登录类型.value["5"] = "系统自动"
+
 }
 
 
@@ -286,6 +282,7 @@ const on表格列宽初始化 = () => {
   }
 }
 onMounted(async () => {
+  Data.value.List=[]
       on表格列宽初始化()
     }
 )
@@ -293,7 +290,7 @@ onMounted(async () => {
 const tableHeight = ref();
 
 onMounted(async () => {
-
+  await onGetAppIdNameList()
   Data.value = {
     "Count": 0,
     "List": []
@@ -367,6 +364,40 @@ const 数组_日志预选日期 = [{
     },
   },
 ]
+
+
+const on登录类型 = (id: number) => {
+  return MapAppId_Name.value[id]
+}
+const MapAppId_Name = ref({
+  1: "1级代理平台",
+  2: "2级代理平台",
+  3: "3级代理平台",
+  4: "管理平台",
+  5: "系统自动",
+})
+const 数组AppId_Name = ref([{
+  "Appid": 1,
+  "AppName": "1级代理平台"
+}])
+const onGetAppIdNameList = async () => {
+
+  const res = await GetAppIdNameList()
+  数组AppId_Name.value = res.data.Array
+  MapAppId_Name.value = res.data.Map
+  let a={
+    1: "1级代理平台",
+    2: "2级代理平台",
+    3: "3级代理平台",
+    4: "管理平台",
+    5: "系统自动",
+  }
+  for ( let key in a){
+    数组AppId_Name.value.push({"Appid":Number(key),"AppName":a[key]})
+    MapAppId_Name.value[Number(key)]=a[key]
+  }
+
+}
 </script>
 
 <style scoped lang="scss">

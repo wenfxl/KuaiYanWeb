@@ -89,7 +89,7 @@
             <el-button @click="data.RMb+=10"
                        :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10' }}
             </el-button>
-            <el-button @click="data.RMb+=isAppType计点()?100:86400*3"
+            <el-button @click="data.RMb+=100"
                        :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+100' }}
             </el-button>
             <el-button @click="data.RMb+=1000"
@@ -115,7 +115,7 @@
               <el-button @click="data.VipNumber+=10"
                          :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+10' }}
               </el-button>
-              <el-button @click="data.VipNumber+=isAppType计点()?100:86400*3"
+              <el-button @click="data.VipNumber+=100"
                          :style="is移动端()?'width: 9vh':'width: 4vh'">{{ '+100' }}
               </el-button>
               <el-button @click="data.VipNumber+=1000"
@@ -287,7 +287,7 @@ const data = ref({
   "KaStringType": 1,
   "Num": 1,
   "KaType": 1,
-  "MaxOnline": 1
+  "MaxOnline": 0
 })
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
