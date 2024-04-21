@@ -139,6 +139,7 @@
         </el-table-column>
         <el-table-column prop="Tab" label="动态标签" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Key" label="绑定信息" width="140" show-overflow-tooltip=""/>
+        <el-table-column prop="Note" label="软件用户备注" width="140" show-overflow-tooltip=""/>
         <el-table-column label="在线ip" width="140" show-overflow-tooltip="">
           <template #default="scope">
             {{ scope.row.Ip + " " + scope.row.IPCity }}
