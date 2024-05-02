@@ -49,7 +49,7 @@
           >
             <template #prepend>
               <el-select v-model="对象_搜索条件.Type" placeholder="用户名Id" style="width: 100px;">
-                <el-option label="Id" :value="1"/>
+<!--                <el-option label="Id" :value="1"/>-->
                 <el-option :label="isAppType卡号2?'卡号Id':'用户名Id'" :value="2"/>
                 <el-option :label="isAppType卡号2?'卡号':'用户名'" :value="3"/>
                 <el-option label="绑定信息" :value="4"/>
@@ -144,7 +144,7 @@
                 @sort-change="on排序被改变"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
-        <el-table-column prop="Id" label="Id" width="70" sortable="custom"/>
+        <el-table-column prop="Uid" label="Uid" width="80" sortable="custom"/>
         <!--        <el-table-column prop="Uid" label="用户id" width="100"/>-->
         <el-table-column :label="isAppType卡号2?'卡号':'用户名'" :width="isAppType卡号2?280:180"
                          show-overflow-tooltip="">

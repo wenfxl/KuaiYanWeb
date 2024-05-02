@@ -7,6 +7,9 @@
       <div style="flex: auto;width: 100%">
         <Echarts在线统计/>
       </div>
+      <div style="flex: auto;width: 100%">
+        <Echarts积分消费排行/>
+      </div>
     </template>
     <template #footer>
       <div style="flex: auto">
@@ -18,6 +21,7 @@
 
 <script setup lang='ts'>
 import Echarts在线统计 from '@/view/控制面板/组件/积分点数消费统计折线.vue'
+import Echarts积分消费排行 from '@/view/控制面板/组件/积分消费排行柱状图.vue'
 import {onMounted, ref, watch} from "vue";
 
 

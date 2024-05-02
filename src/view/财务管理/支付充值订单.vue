@@ -132,8 +132,26 @@
             {{ 时间_时间戳到时间(scope.row.Time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="Type" label="支付类型" width="130"/>
-        <el-table-column prop="Extra" label="支付原因" width="130"/>
+        <el-table-column prop="Type" label="支付类型" width="200" show-overflow-tooltip="">
+        <template #default="scope">
+          {{ scope.row.Type }}
+          <el-tag v-if="scope.row.ReceivedUid>0" type="success">
+            代收{{ scope.row.ReceivedUid }}
+          </el-tag>
+        </template>
+        </el-table-column>
+        <el-table-column prop="Processing" label="支付原因" width="130">
+          <template #default="scope">
+            <el-tooltip
+                :content="scope.row.Extra"
+                raw-content
+                placement="left"
+                effect="light"
+            >
+              <el-text>{{scope.row.Processing}}</el-text>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="Rmb" label="金额" width="90">
           <template #default="scope">
             <el-tag :type="scope.row.Rmb>0?'success':'danger'">
@@ -143,7 +161,7 @@
         </el-table-column>
 
 
-        <el-table-column prop="Ip" label="IP" width="135"/>
+        <el-table-column prop="Ip" label="IP" width="135" show-overflow-tooltip=""/>
         <el-table-column prop="Note" label="备注" show-overflow-tooltip="">
           <template #default="scope">
             <el-button link type="primary" size="default"

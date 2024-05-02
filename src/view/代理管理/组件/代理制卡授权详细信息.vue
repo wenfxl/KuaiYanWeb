@@ -12,18 +12,23 @@
             const D代理功能_余额充值 = -5
             const D代理功能_发展下级代理 = -6
             const D代理功能_卡号追回 = -7  -->
-      <el-divider>功能授权</el-divider>
+      <el-tooltip content="点击进入官网查看权限详细说明"
+                  effect="dark"
+                  placement="top">
+        <el-divider><el-link href="https://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/3%E7%BA%A7%E4%BB%A3%E7%90%86%E7%B3%BB%E7%BB%9F.html#代理权限说明" target="_blank">功能授权<el-icon><WarningFilled /></el-icon></el-link></el-divider>
+
+      </el-tooltip>
       <el-checkbox-group v-model="D代理功能_功能已选中测" @change="on代理选中被改变">
         <el-checkbox v-for="(Key,val) in D代理功能_功能可见ID测 " :Id="Key"
                      :label="val" border/>
       </el-checkbox-group>
-      <el-divider>可制卡类授权
+
         <el-tooltip content="应用必须有可以授权的卡类,才会显示到下方"
                     effect="dark"
                     placement="top">
-          <el-icon><WarningFilled /></el-icon>
+          <el-divider>可制卡类授权<el-icon><WarningFilled /></el-icon></el-divider>
         </el-tooltip>
-      </el-divider>
+
       <el-text></el-text>
       <el-tree
           ref="treeRef"

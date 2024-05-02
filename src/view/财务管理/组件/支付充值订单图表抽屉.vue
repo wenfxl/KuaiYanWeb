@@ -7,6 +7,20 @@
       <div style="flex: auto;width: 100%">
         <Echarts在线统计/>
       </div>
+      <el-row>
+        <el-col :span="12">
+          <div style="flex: auto;width: 100%">
+            <Echarts余额消费排行/>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <div style="flex: auto;width: 100%">
+            <Echarts余额增长排行/>
+          </div>
+        </el-col>
+      </el-row>
+
+
     </template>
     <template #footer>
       <div style="flex: auto">
@@ -18,7 +32,9 @@
 
 <script setup lang='ts'>
 import Echarts在线统计 from '@/view/控制面板/组件/余额充值消费折线.vue'
-import {onMounted, ref, watch} from "vue";
+import Echarts余额消费排行 from '@/view/控制面板/组件/余额消费排行柱状图.vue'
+import Echarts余额增长排行 from '@/view/控制面板/组件/余额增长排行柱状图.vue'
+import {onMounted, ref} from "vue";
 
 
 const Props = defineProps({

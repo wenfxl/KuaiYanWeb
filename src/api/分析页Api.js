@@ -51,6 +51,30 @@ export const get图表积分点数消费统计 = (data) => {
         data: data
     })
 }
+export const get图表取余额消费排行榜 = (data) => {
+    return service({
+        url: url+'getConsumptionRanking',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+export const get图表取余额增长排行榜 = (data) => {
+    return service({
+        url: url+'getRmbIncreaseRanking',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
+export const get图表取积分消费排行榜 = (data) => {
+    return service({
+        url: url+'getNumberIncreaseRanking',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
 export const get图表在线用户登录活动时间 = (data) => {
     return service({
         url: url+'ChartLinksUserLoginTime',
