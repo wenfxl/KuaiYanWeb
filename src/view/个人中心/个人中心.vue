@@ -15,8 +15,8 @@
               <span class="user-v-font">{{ UserInfo.UserClassName }}</span>
             </div>
             <div class="user_qianming">
-              <span v-if="UserInfo.VipTime>时间_取现行时间戳()"> 有效期:{{ 时间_时间戳到时间(UserInfo.VipTime) }}</span>
-              <span style="color: red" v-else-if="UserInfo.linkTokenCount>120">恭喜管理员同时在线用户数量已超过100,当前{{UserInfo.linkTokenCount}},请开通商业会员,感谢您的支持</span>
+<!--              <span v-if="UserInfo.VipTime>时间_取现行时间戳()"> 有效期:{{ 时间_时间戳到时间(UserInfo.VipTime) }}</span>
+              <span style="color: red" v-else-if="UserInfo.linkTokenCount>120">恭喜管理员同时在线用户数量已超过100,当前{{UserInfo.linkTokenCount}},请开通商业会员,感谢您的支持</span>-->
 
 <!--因为客户看着不舒服,所以不显示了-->
 <!--              <span
@@ -45,7 +45,7 @@
           <div class="user_num">
             <div style="cursor: pointer">
               <div class="num_number">{{ UserInfo.RMB }}</div>
-              <span class="num_text">会员余额</span>
+              <span class="num_text">历史赞助</span>
             </div>
             <div style="cursor: pointer">
               <div class="num_number">{{ UserInfo.VipNumber }}</div>
@@ -79,17 +79,17 @@
                 <i class="el-icon-user"></i>
                 <span slot="title">个人信息</span>
               </el-menu-item>
-              <el-menu-item
+<!--              <el-menu-item
                   index="购卡充值"
               >
                 <i class="el-icon-edit-outline"></i>
                 <span slot="title">购卡充值</span>
-              </el-menu-item>
+              </el-menu-item>-->
               <el-menu-item
                   index="余额充值"
               >
                 <i class="el-icon-document"></i>
-                <span slot="title">余额充值</span>
+                <span slot="title">我要赞助</span>
               </el-menu-item>
             </el-menu>
           </el-card>

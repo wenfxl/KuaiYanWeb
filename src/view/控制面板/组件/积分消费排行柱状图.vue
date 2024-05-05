@@ -64,7 +64,7 @@ const setOptions = (单位,data=[]) => {
     ],
     series: [
       {
-        name: 'Direct',
+        name: '消费积分',
         type: 'bar',
         barWidth: '60%',
         data: [10, 52, 200, 334, 390, 330, 220]

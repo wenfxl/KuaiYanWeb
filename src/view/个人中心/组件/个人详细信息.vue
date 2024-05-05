@@ -38,7 +38,7 @@
           <template #label>
             <i class="el-icon-male"></i>
             <i class="el-icon-female"></i>
-            会员类型
+            类型
           </template>
           <el-tag size="small"> {{ Props.UserInfo.UserClassName }}</el-tag>
         </el-descriptions-item>

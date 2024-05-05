@@ -3,23 +3,20 @@
     <el-card>
       <el-form label-width="120px">
         <div style="align-items: center ">
-          <el-form-item label="充值金额">
+          <el-form-item label="赞助金额">
             <el-input-number v-model="充值金额" :precision="2" :step="1" :value-on-clear="0.00" :min="0"/>
             <el-button type="primary" style="margin-left: 5px" @click="充值金额=5">5</el-button>
             <el-button type="primary" style="margin-left: 5px" @click="充值金额=50">50</el-button>
             <el-button type="primary" style="margin-left: 5px" @click="充值金额=100">100</el-button>
           </el-form-item>
-
-
           <div style="align-items: center ">
-            <el-form-item label="充值方式" style="width: 100%">
+            <el-form-item label="赞助方式" style="width: 100%">
               <el-radio-group v-model="支付方式">
                 <el-radio v-for="key in Object.keys(支付通道状态)" :key="key" :label="key" v-show="支付通道状态[key]"
                           border>{{ key }}
                 </el-radio>
               </el-radio-group>
             </el-form-item>
-
           </div>
           <div style="text-align:center">
             <el-button style="width: 15vh; " type="primary" @click="on取余额充值地址">充值</el-button>
