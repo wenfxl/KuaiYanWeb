@@ -43,16 +43,11 @@ import Echarts应用卡使用统计 from './组件/应用卡使用统计柱状.v
 import Echarts在线用户地图分布 from './组件/在线用户地图分布图.vue'
 import Echarts代理组织架构图 from './组件/代理组织架构图.vue'
 // import DashboardTable from '@/view/dashboard/dashboardTable/dashboardTable.vue'
-import {ref} from 'vue'
+
 import {useRouter} from 'vue-router'
-import {useWeatherInfo} from '@/api/第三方/高德天气接口.js'
 
 
 const router = useRouter()
-
-const toTarget = (name) => {
-  router.push({name})
-}
 
 
 </script>
