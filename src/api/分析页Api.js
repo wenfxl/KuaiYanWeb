@@ -133,3 +133,12 @@ export const get图表应用用户账号注册统计 = (data) => {
         data: data
     })
 }
+
+export const get高德天气接口 = (data) => {
+    return service({
+        url: url+'gaodeWeather',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}

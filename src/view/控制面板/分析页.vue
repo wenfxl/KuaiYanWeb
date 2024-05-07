@@ -47,52 +47,6 @@ import {ref} from 'vue'
 import {useRouter} from 'vue-router'
 import {useWeatherInfo} from '@/api/第三方/高德天气接口.js'
 
-const weatherInfo = useWeatherInfo()
-
-const toolCards = ref([
-  {
-    label: '在线用户',
-    icon: 'monitor',
-    name: '在线用户',
-    color: '#ff9c6e',
-    bg: 'rgba(255, 156, 110,.3)'
-  },
-  {
-    label: '应用列表',
-    icon: 'SwitchFilled',
-    name: '应用列表',
-    color: '#69c0ff',
-    bg: 'rgba(105, 192, 255,.3)'
-  },
-  {
-    label: '用户消息',
-    icon: 'ChatLineSquare',
-    name: '用户消息',
-    color: '#b37feb',
-    bg: 'rgba(179, 127, 235,.3)'
-  },
-  {
-    label: '公共变量',
-    icon: 'ElementPlus',
-    name: '公共变量',
-    color: '#ffd666',
-    bg: 'rgba(255, 214, 102,.3)'
-  },
-  {
-    label: '充值订单',
-    icon: 'document-checked',
-    name: '支付充值订单',
-    color: '#ff85c0',
-    bg: 'rgba(255, 133, 192,.3)'
-  },
-  {
-    label: '关于我们',
-    icon: 'user',
-    name: 'about',
-    color: '#5cdbd3',
-    bg: 'rgba(92, 219, 211,.3)'
-  }
-])
 
 const router = useRouter()
 
