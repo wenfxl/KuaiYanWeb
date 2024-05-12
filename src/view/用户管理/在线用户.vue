@@ -97,7 +97,7 @@
                 fit="fit"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
-        <el-table-column prop="Id" label="Id" width="80"/>
+        <el-table-column prop="Id" label="Id" width="80" show-overflow-tooltip=""/>
         <el-table-column prop="User" label="用户名" width="130" show-overflow-tooltip="">
           <template #default="scope">
 
@@ -145,9 +145,9 @@
             {{ scope.row.Ip + " " + scope.row.IPCity }}
           </template>
         </el-table-column>
-        <el-table-column prop="LoginTime" label="登录时间" width="160" :formatter="on格式化_登录时间"/>
-        <el-table-column prop="LastTime" label="最后活动时间" width="160" :formatter="on格式化_最后活动时间"/>
-        <el-table-column prop="OutTime" label="心跳超时注销" width="160">
+        <el-table-column prop="LoginTime" label="登录时间" width="160" :formatter="on格式化_登录时间" show-overflow-tooltip=""/>
+        <el-table-column prop="LastTime" label="最后活动时间" width="160" :formatter="on格式化_最后活动时间" show-overflow-tooltip=""/>
+        <el-table-column prop="OutTime" label="心跳超时注销" width="160" >
           <template #default="scope">
             <div v-if="scope.row.OutTime<315360000">
               <el-countdown style="font-size: 18px" :value="(scope.row.LastTime+scope.row.OutTime)*1000"/>
@@ -303,6 +303,9 @@ const 数组AppId_Name = ref([{
 const onGetAppIdNameList = async () => {
   let res = await GetAppIdNameList()
   数组AppId_Name.value = res.data.Array
+  数组AppId_Name.value.push({Appid:1,AppName:"管理平台"})
+  数组AppId_Name.value.push({Appid:2,AppName:"代理平台"})
+  数组AppId_Name.value.push({Appid:3,AppName:"WebApi"})
   MapAppId_Name.value = res.data.Map
   console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[对象_搜索条件.value.AppId.toString()])
 
