@@ -105,7 +105,9 @@
             <el-form-item label="首次登录" prop="MaxOnline">
               <el-text>{{ 时间_时间戳到时间(data.RegisterTime) }}</el-text>
             </el-form-item>
-
+            <el-form-item label="归属代理Uid" prop="AgentUid">
+              <el-text>{{data.AgentUid}}</el-text>
+            </el-form-item>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="用户云配置" name="用户云配置">
@@ -204,7 +206,8 @@ const data = ref({
   "MaxOnline": 1,
   "UserClassId": 0,
   "AppType": 1,
-  "RegisterTime": 0
+  "RegisterTime": 0,
+  "AgentUid": 0
 })
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)

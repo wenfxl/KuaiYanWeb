@@ -48,12 +48,14 @@
                     clearable
           >
             <template #prepend>
-              <el-select v-model="对象_搜索条件.Type" placeholder="用户名Id" style="width: 100px;">
+              <el-select v-model="对象_搜索条件.Type" placeholder="用户名Id" style="width: 150px;">
 <!--                <el-option label="Id" :value="1"/>-->
                 <el-option :label="isAppType卡号2?'卡号Id':'用户名Id'" :value="2"/>
                 <el-option :label="isAppType卡号2?'卡号':'用户名'" :value="3"/>
                 <el-option label="绑定信息" :value="4"/>
                 <el-option label="软件用户备注" :value="5"/>
+                <el-option label="归属代理" :value="6"/>
+                <el-option label="归属代理含子代理" :value="7"/>
               </el-select>
             </template>
           </el-input>
