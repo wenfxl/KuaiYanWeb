@@ -376,7 +376,7 @@
                 <el-input v-if="data.Type===1" type="text" v-model.trim="data.Value"
                           maxlength="15000"
                           style="width: calc(100% - 70px - 50px)"/>
-                <el-input v-if="data.Type===2" type="textarea" v-model.trim="data.Value" placeholder="最长支持15000长度"
+                <el-input v-if="data.Type===2" type="textarea" v-model="data.Value" placeholder="最长支持15000长度"
                           maxlength="15000"
                           :autosize="{ minRows: 2, maxRows: 23 }" style="width: calc(100% - 70px - 50px)"/>
                 <el-radio-group v-if="data.Type===3" v-model="data.Value">
