@@ -186,6 +186,7 @@
             <el-option label="大小写字母+数字" :value="1"/>
             <el-option label="大写字母+数字" :value="2"/>
             <el-option label="小写字母+数字" :value="3"/>
+            <el-option label="数字" :value="4"/>
           </el-select>
         </el-form-item>
         <el-form-item label="可用次数" prop="Num" v-if="AppType<=2">
@@ -385,7 +386,7 @@ const 读取详细信息 = async (id: number) => {
       "KaStringType": 1,
       "Num": 1,
       "KaType": 1,
-      "MaxOnline": 1
+      "MaxOnline": 0
     }
   }
 }
