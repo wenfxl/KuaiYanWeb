@@ -11,6 +11,9 @@
         <el-form-item label="任务类型名称" prop="Name"  style="width: 90%">
           <el-input v-model.trim="data.Name" />
         </el-form-item>
+        <el-form-item label="新任务MQTT通知主题" prop="MqttSendMsg"   style="width: 90%">
+          <el-input v-model.trim="data.MqttSendMsg" placeholder="新任务使用mqtt向该主题发送通知,让处理端可以更快响应(可空,不发送通知)" />
+        </el-form-item>
         <el-form-item label="Hook任务创建入库前" prop="Name"   style="width: 90%">
           <el-input v-model.trim="data.HookSubmitDataStart" placeholder="有需要直接填写公共函数名即可,不存在自动按模板创建,可空" />
         </el-form-item>
@@ -61,7 +64,7 @@ watch(() => Props.is对话框可见, (newVal, oldVal) => {
 })
 
 const is对话框可见2 = ref(false)
-const data = ref({Id:0,Name:"",HookSubmitDataStart:"",HookSubmitDataEnd:"",HookReturnDataStart:"",HookReturnDataEnd:""})
+const data = ref({Id:0,Name:"",HookSubmitDataStart:"",HookSubmitDataEnd:"",HookReturnDataStart:"",HookReturnDataEnd:"",MqttSendMsg:""})
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
@@ -129,10 +132,10 @@ const 读取详细信息 = async (id: number) => {
       "HookSubmitDataEnd": "",
       "HookReturnDataStart": "",
       "HookReturnDataEnd": "",
+      "MqttSendMsg": "",
     }
   }
 }
-
 
 const on对话框被关闭 = () => {
   console.info("on对话框被关闭")
