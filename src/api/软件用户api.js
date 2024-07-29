@@ -77,6 +77,17 @@ export const  Set批量维护增减时间点数 = (data) => {
     data: data
   })
 }
+
+//  Set批量维护_勾选用户增减积分
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
+export const  Set批量维护增减积分 = (data) => {
+  return service({
+    url: url+'SetBatchAddVipNumber',
+    method: 'post',
+    data: data
+  })
+}
 //  Set批量维护_勾选用户增减时间点数
 //...
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"

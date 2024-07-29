@@ -2,12 +2,12 @@
   <el-dialog v-model="is对话框可见2"
              :title="Props.标题"
              @open="on对话框被打开"
-             width="520"
+             width="720"
              draggable="draggable"
              @close="on对话框被关闭">
     <div style="overflow:auto;padding:0 12px;">
       <el-form>
-        <el-form-item :label="Props.提示信息">
+        <el-form-item :label="Props.提示信息"  label-width="140">
           <div v-if="isAppType计点()">
           <el-input-number  v-model="输入框值" :precision="0" :step="1" :value-on-clear="0" style="width: auto"/>
             <div>
@@ -54,11 +54,15 @@
                       负值
                     </el-button>
                 </div>
-
               </div>
             </el-tooltip>
+
           </template>
         </el-form-item>
+        <el-form-item label="操作原因:"  label-width="140">
+          <el-input v-model="备注"  />
+        </el-form-item>
+
       </el-form>
     </div>
     <template #footer>
@@ -103,6 +107,7 @@ watch(() => Props.is批量维护输入框可见, (newVal, oldVal) => {
 
 const is对话框可见2 = ref(false)
 const 输入框值 = ref(0)
+const 备注 = ref("")
 const is确认被点击 = ref(false)
 const on对话框被打开 = () => {
   is确认被点击.value = false
@@ -114,7 +119,7 @@ const on确定按钮被点击 =  () => {
 }
 const on对话框被关闭 = () => {
   console.info("on对话框被关闭")
-  emit('on批量维护输入框被关闭', is确认被点击.value, 输入框值.value)
+  emit('on批量维护输入框被关闭', is确认被点击.value, 输入框值.value,备注.value)
   is对话框可见2.value = false
 }
 

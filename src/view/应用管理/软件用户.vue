@@ -49,7 +49,7 @@
           >
             <template #prepend>
               <el-select v-model="对象_搜索条件.Type" placeholder="用户名Id" style="width: 150px;">
-<!--                <el-option label="Id" :value="1"/>-->
+                <!--                <el-option label="Id" :value="1"/>-->
                 <el-option :label="isAppType卡号2?'卡号Id':'用户名Id'" :value="2"/>
                 <el-option :label="isAppType卡号2?'卡号':'用户名'" :value="3"/>
                 <el-option label="绑定信息" :value="4"/>
@@ -99,11 +99,13 @@
                 <More/>
               </el-icon>
             </template>
-            <li class="工具_更多_li" @click="表格导出csv文本并下载(tableRef, '软件用户列表' + Date().toLocaleString(),['','',isAppType卡号2?'Name':'User','Status'])">
+            <li class="工具_更多_li"
+                @click="表格导出csv文本并下载(tableRef, '软件用户列表' + Date().toLocaleString(),['','',isAppType卡号2?'Name':'User','Status'])">
               导出到csv
             </li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
             <li class="工具_更多_li" @click="is批量修改用户类型=true">批量改用户类型</li>
+            <li class="工具_更多_li" @click="on批量维护积分输入框将打开">批量增减积分</li>
             <li class="工具_更多_li" @click="on批量维护输入框将打开">
               批量增减{{ (Data.AppType === 2 || Data.AppType === 4) ? "点数" : "时间" }}
             </li>
@@ -257,10 +259,17 @@
                :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
                @on对话框详细信息关闭="on对话框详细信息关闭" :UserType="对象_用户类型"></AppUserinfo>
   <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
+
   <BatchElMessage :is批量维护输入框可见="is批量维护输入框可见" 标题="批量修改勾选用户,负数可能减到0以下"
                   :提示信息='isAppType计点()?"请输入增减点数(点)":"请输入增减时间(秒)"'
                   :AppType="Data.AppType"
                   @on批量维护输入框被关闭="on批量维护输入框被关闭"></BatchElMessage>
+
+
+  <BatchElMessage2 v-if="is批量维护积分输入框可见"
+                   :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, ids:局_ids}"
+                   :UserClassId="对象_用户类型Arr"
+                   @on批量维护输入框被关闭="on批量维护积分输入框被关闭"></BatchElMessage2>
   <BatchSetAllUserVipTime v-if="is批量修改全部用户时间点数"
                           :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, AppName:MapAppId_Name[对象_搜索条件.AppId.toString()]}"
                           :UserClassId="对象_用户类型Arr"
@@ -285,13 +294,12 @@ import {
   Del批量删除AppUser,
   SetStatus,
   Set批量维护增减时间点数,
-  Del批量维护_删除, Set批量维护修改用户类型
+  Del批量维护_删除, Set批量维护修改用户类型, Set批量维护增减积分
 } from "@/api/软件用户api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
   时间_时间戳到时间,
   时间_取现行时间戳,
-  Is卡号,
   is移动端,
   表格读取列宽数组,
   表格写入列宽数组, 置剪辑版文本, 表格导出csv文本并下载
@@ -301,10 +309,10 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import AppUserinfo from "./组件/软件用户详细信息.vue";
-import BatchElMessage from "./组件/批量维护积分时间增减输入框.vue";
+import BatchElMessage from "./组件/批量维护点数时间增减输入框.vue";
+import BatchElMessage2 from "./组件/批量维护积分.vue";
 import BatchSetAllUserVipTime from "./组件/批量维护全部用户时间点数.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
-import {GetIdNameList} from "@/api/用户类型api";
 
 
 const is图表分析抽屉可见 = ref(false)
@@ -316,7 +324,7 @@ const on图表分析被点击 = () => {
   is图表分析抽屉可见.value = true
 }
 
-//批量维护输入框=============================================================
+//批量维护时间点数输入框=============================================================
 const is批量维护输入框可见 = ref(false)
 const on批量维护输入框将打开 = async () => {
   if (表格被选中列表.value.length == 0) {
@@ -326,7 +334,7 @@ const on批量维护输入框将打开 = async () => {
   is批量维护输入框可见.value = true
 }
 
-const on批量维护输入框被关闭 = async (is确定: boolean, 增减值: number) => {
+const on批量维护输入框被关闭 = async (is确定: boolean, 增减值: number, 备注: string) => {
   console.log("on批量维护输入框被关闭")
   is批量维护输入框可见.value = false
   if (!is确定) {
@@ -342,7 +350,8 @@ const on批量维护输入框被关闭 = async (is确定: boolean, 增减值: nu
   const res = await Set批量维护增减时间点数({
     "AppId": 对象_搜索条件.value.AppId,
     "Id": ids,
-    "Status": 增减值
+    "Status": 增减值,
+    "Note": 备注
   })
   console.log(res)
   if (res.code == 10000) {
@@ -700,21 +709,6 @@ onBeforeUnmount(() => {
 })
 
 
-export interface UserInfo2 {
-  id: number;
-  user: string;
-  status: number;
-  rmb: number;
-  realNameAttestation: string;
-  role: number;
-  loginAppid: string;
-  loginAppName: string;
-  loginIp: string;
-  loginTime: number;
-  registerIp: string;
-  registerTime: string;
-}
-
 //==========批量修改全部用户
 const is批量修改全部用户时间点数 = ref(false)
 const on对话框修改全部用户时间点数关闭 = (is重新读取: boolean) => {
@@ -746,6 +740,25 @@ const on批量维护修改用户类型 = async (新类型: number) => {
     return true
   }
 }
+//批量维护用户积分输入框=============================================================
+const is批量维护积分输入框可见 = ref(false)
+const 局_ids = ref<any>([])
+const on批量维护积分输入框将打开 = async () => {
+  if (表格被选中列表.value.length == 0) {
+    ElMessage.error("选中数据不能为0")
+    return
+  }
+  局_ids.value = 表格被选中列表.value.map((item => item.Id))
+  is批量维护积分输入框可见.value = true
+}
+const on批量维护积分输入框被关闭 = (is重新读取: boolean) => {
+  is批量维护积分输入框可见.value = false
+  if (is重新读取) {
+    on读取列表()
+  }
+}
+//===============================================================
+
 </script>
 
 <style scoped lang="scss">
