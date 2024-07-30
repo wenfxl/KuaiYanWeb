@@ -229,6 +229,7 @@ const 对象_搜索条件 = ref({
   Type: 1,
   Size: 10,
   Page: 1,
+  Order: 2,
   Keywords: "",
   Count: 0
 })
@@ -247,6 +248,7 @@ const onReset = () => {
     Type: 1,
     Size: 10,
     Page: 1,
+    Order: 2,
     Keywords: "",
     Count: 0
   }
