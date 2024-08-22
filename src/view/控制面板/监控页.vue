@@ -10,7 +10,7 @@
             <el-row :gutter="10">
               <el-col :span="12">系统:</el-col>
               <el-col :span="12">{{ state.os.goos }}
-                <el-tooltip content="结束飞鸟快验系统进程"
+                <el-tooltip content="结束自身进程"
                             effect="dark"
                             placement="top">
                   <el-icon @click="StopSystam"  style="cursor: pointer" color="#f56c6c">

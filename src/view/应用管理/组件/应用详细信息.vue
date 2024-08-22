@@ -909,7 +909,7 @@ const 专属变量 = ref([
   {
     "AppId": 1,
     "Name": "系统名称",
-    "Value": "飞鸟快验应用管理系统",
+    "Value": "应用管理系统",
     "Type": 1,
     "IsVip": 1
   },

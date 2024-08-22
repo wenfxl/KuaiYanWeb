@@ -156,8 +156,8 @@ import {is移动端} from "@/utils/utils";
 
 
 const Data = ref({
-  "系统名称": "飞鸟快验后台管理系统111",
-  "备案号": "飞鸟快验后台管理系统111",
+  "系统名称": "后台管理系统111",
+  "备案号": "后台管理系统111",
   "系统地址": "https://www.baidu.com",
   "WebApiHost": "",
   "管理员后台Host": "",

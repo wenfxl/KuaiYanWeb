@@ -3,7 +3,7 @@
     <div class="init_page_panel">
       <div v-if="hello < 2" id="hello" :class="[hello < 1 ? 'slide-in-fwd-top' : 'slide-out-right']" class="hello">
         <div>
-          <div class="hello_title">飞鸟快验应用后台管理系统</div>
+          <div class="hello_title">应用后台管理系统</div>
           <p class="in-two a-fadeinT">初始化须知</p>
           <p class="init_p">1.您需有用一定的软件开发基础</p>
           <p class="init_p">2.请您确认是否已经阅读过官方文档</p>

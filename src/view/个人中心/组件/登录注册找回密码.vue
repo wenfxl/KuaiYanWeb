@@ -4,7 +4,7 @@
              @open="on对话框被打开"
              :width="is移动端()?'90%':'30%'"
              top="5%"
-             title="飞鸟快验"
+             title=""
              :close-on-click-modal="false"
              :close-on-press-escape="false"
              :show-close="false"

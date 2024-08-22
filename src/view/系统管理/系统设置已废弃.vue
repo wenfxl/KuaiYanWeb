@@ -12,7 +12,7 @@ import {is移动端} from "@/utils/utils";
 
 
 const Data = ref({
-  "系统名称": "飞鸟快验后台管理系统111",
+  "系统名称": "后台管理系统111",
   "系统地址": "http://www.baidu.com",
   "系统开关": true,
   "系统关闭提示": "系统已经关闭使用",
