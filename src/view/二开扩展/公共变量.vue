@@ -167,7 +167,7 @@ const onTypeId转换文本 = (Id: number) => {
       str = "逻辑开关"
       break
     case 4:
-      str = "JSON"
+      str = "队列"
       break
   }
 
@@ -256,7 +256,7 @@ const is加载中 = ref(false)
 const onGetList = async () => {
   is加载中.value = true
   对象_搜索条件.value.AppId = 1  //只展示公共变量 值固定为1
-  对象_搜索条件.value.PublicDataType = [1,2,3]
+  对象_搜索条件.value.PublicDataType = [1,2,3,4]
   const res = await GetList(对象_搜索条件.value)
   console.log(res)
   is加载中.value = false

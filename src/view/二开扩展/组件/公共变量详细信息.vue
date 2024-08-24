@@ -10,7 +10,8 @@
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
 
         <el-form-item label="变量名称" prop="Name">
-          <el-input  v-model="data.Name" placeholder="请输入变量名称"  :class="[Props.id!==''?'只读编辑框':'']" :readonly="Props.id!==''"/>
+          <el-input v-model="data.Name" placeholder="请输入变量名称" :class="[Props.id!==''?'只读编辑框':'']"
+                    :readonly="Props.id!==''"/>
         </el-form-item>
 
         <el-form-item label="变量类型" prop="Status">
@@ -18,20 +19,26 @@
             <el-radio-button v-if="Props.id===''|| data.Type===1" :label="1">单行文本</el-radio-button>
             <el-radio-button v-if="Props.id===''|| data.Type===2" :label="2">多行文本</el-radio-button>
             <el-radio-button v-if="Props.id===''|| data.Type===3" :label="3">逻辑开关</el-radio-button>
+            <el-tooltip
+                content="简单队列模型以换行(\n)为分隔符,置公共变量为添加到后面含(\n)会被判断为多条数据,取公共变量为获取第一行变量,并删除该行,"
+                placement="top">
+              <el-radio-button v-if="Props.id===''|| data.Type===4" :label="4">队列</el-radio-button>
+            </el-tooltip>
+
           </el-radio-group>
         </el-form-item>
 
         <el-form-item v-if="data.Type===1" label="变量值" prop="Value">
-          <el-input type="text" v-model="data.Value" />
+          <el-input type="text" v-model="data.Value"/>
         </el-form-item>
-        <el-form-item v-if="data.Type===2" label="变量值" prop="Value">
-          <el-input type="textarea" v-model="data.Value" :autosize="{ minRows: 2, maxRows: 23 }"/>
-        </el-form-item>
-        <el-form-item v-if="data.Type===3" label="变量值" prop="Value">
+        <el-form-item v-else-if="data.Type===3" label="变量值" prop="Value">
           <el-radio-group v-model="data.Value">
             <el-radio label="1">开启</el-radio>
             <el-radio label="0">关闭</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item v-else  label="变量值" prop="Value">
+          <el-input type="textarea" v-model="data.Value" :autosize="{ minRows: 2, maxRows: 23 }"/>
         </el-form-item>
 
       </el-form>
@@ -116,7 +123,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   if (返回.code == 10000) {
     is重新读取.value = true
     is对话框可见2.value = false
-ElMessage.success(返回.msg)
+    ElMessage.success(返回.msg)
   }
 }
 
