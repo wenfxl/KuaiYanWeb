@@ -37,8 +37,9 @@
             <el-radio label="0">关闭</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-else  label="变量值" prop="Value">
-          <el-input type="textarea" v-model="data.Value" :autosize="{ minRows: 2, maxRows: 23 }"/>
+        <el-form-item v-else label="变量值" prop="Value">
+          <el-input  :wrap="data.Type===4?'off':''" :show-word-limit="true" :maxlength="16777215"
+                    type="textarea" v-model="data.Value" :autosize="{ minRows: 2, maxRows: 23}"/>
         </el-form-item>
 
       </el-form>
@@ -143,7 +144,7 @@ const on表单校验 = ref({
     {min: 1, message: '最低1位字符', trigger: ''}
   ],
   Value: [
-    {max: 20000, message: '最长20000位字符', trigger: 'blur'}
+    {max: 16777215, message: '最长16777215位字符', trigger: 'blur'}
   ],
 })
 const on对话框被打开 = () => {
@@ -196,4 +197,11 @@ const on对话框被关闭 = () => {
   word-break: normal;
 }
 
+</style>
+<style scoped>
+.scrollable-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 100%; /* 或者根据需要设置宽度 */
+}
 </style>

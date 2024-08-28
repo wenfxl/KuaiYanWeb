@@ -72,3 +72,12 @@ export const  清空队列Tid = (data) => {
     data: data
   })
 }
+
+
+export const  添加uuid到队列 = (data) => {
+  return service({
+    url: url+'UuidAddQueue',
+    method: 'post',
+    data: data
+  })
+}

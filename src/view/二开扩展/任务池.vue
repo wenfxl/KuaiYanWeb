@@ -41,12 +41,12 @@
 
         <div class="工具栏">
 
-          <!--          <el-popover placement="right"  trigger="hover">-->
-          <!--            <template #reference>-->
-          <!--              <el-icon  ><More /></el-icon>-->
-          <!--            </template>-->
-          <!--            <li class="工具_更多_li"  @click="on删除已注销" >删除已注销</li>-->
-          <!--          </el-popover>-->
+                    <el-popover placement="right"  trigger="hover">
+                      <template #reference>
+                        <el-icon  ><More /></el-icon>
+                      </template>
+                      <li class="工具_更多_li"  @click="on添加uuid到队列" >添加uuid到队列</li>
+                    </el-popover>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -138,7 +138,13 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {Del批量删除TaskPool, GetTaskPoolList, 设置任务池任务类型状态,清空队列Tid} from "@/api/任务池api.js";
+import {
+  Del批量删除TaskPool,
+  GetTaskPoolList,
+  设置任务池任务类型状态,
+  清空队列Tid,
+  添加uuid到队列
+} from "@/api/任务池api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
@@ -193,6 +199,27 @@ const on清空队列 = async (索引:number, row: any) => {
 
 }
 
+const on添加uuid到队列 = async ( ) => {
+  ElMessageBox.prompt('请输入uuid', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+  })
+      .then(async ({value}) => {
+        let 返回;
+        is加载中.value = true
+        返回 = await 添加uuid到队列({uuid: value});
+        is加载中.value = false
+        List.value.List[索引].QueueCount = 0
+        console.log(返回)
+        if (返回.code == 10000) {
+          ElMessage.success(返回.msg)
+        }
+
+      })
+      .catch(() => {
+      })
+
+}
 
 const on批量删除 = async () => {
   const ids = 表格被选中列表.value.map((item => item.Id))
