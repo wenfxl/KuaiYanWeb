@@ -41,12 +41,14 @@
 
         <div class="工具栏">
 
-                    <el-popover placement="right"  trigger="hover">
-                      <template #reference>
-                        <el-icon  ><More /></el-icon>
-                      </template>
-                      <li class="工具_更多_li"  @click="on添加uuid到队列" >添加uuid到队列</li>
-                    </el-popover>
+          <el-popover placement="right" trigger="hover">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on添加uuid到队列">添加uuid到队列</li>
+          </el-popover>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -65,7 +67,7 @@
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
-        <el-table-column  type="selection" width="45"/>
+        <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
         <el-table-column prop="Name" label="任务类型名称" width="230"/>
         <el-table-column label="状态" prop="status">
@@ -85,9 +87,9 @@
         <el-table-column prop="Name" label="队列剩余" width="130">
           <template #default="scope">
             <el-tag>
-              {{ scope.row.QueueCount}}
+              {{ scope.row.QueueCount }}
             </el-tag>
-            <el-icon v-if="scope.row.QueueCount>0"  class="复制按钮" @click="on清空队列(scope.$index,scope.row)">
+            <el-icon v-if="scope.row.QueueCount>0" class="复制按钮" @click="on清空队列(scope.$index,scope.row)">
               <Delete/>
             </el-icon>
           </template>
@@ -162,7 +164,7 @@ const on单个删除 = async (id: number) => {
   const res = await Del批量删除TaskPool({"ID": [id]})
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -171,9 +173,9 @@ const on单个编辑 = async (id: number) => {
 
 }
 
-const on清空队列 = async (索引:number, row: any) => {
+const on清空队列 = async (索引: number, row: any) => {
   ElMessageBox.confirm(
-      '确认清空>'+row.Name+'<剩余队列吗?,被清空的uuid会直接修改任务状态失败',
+      '确认清空>' + row.Name + '<剩余队列吗?,被清空的uuid会直接修改任务状态失败',
       'Warning',
       {
         confirmButtonText: '确定',
@@ -185,9 +187,9 @@ const on清空队列 = async (索引:number, row: any) => {
 
         let 返回;
         is加载中.value = true
-        返回 = await 清空队列Tid({Id:[row.Id]});
+        返回 = await 清空队列Tid({Id: [row.Id]});
         is加载中.value = false
-        List.value.List[索引].QueueCount=0
+        List.value.List[索引].QueueCount = 0
         console.log(返回)
         if (返回.code == 10000) {
           ElMessage.success(返回.msg)
@@ -199,7 +201,7 @@ const on清空队列 = async (索引:number, row: any) => {
 
 }
 
-const on添加uuid到队列 = async ( ) => {
+const on添加uuid到队列 = async () => {
   ElMessageBox.prompt('请输入uuid', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -227,7 +229,7 @@ const on批量删除 = async () => {
   const res = await Del批量删除TaskPool({"ID": ids})
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     on读取列表()
   }
 }
@@ -264,8 +266,8 @@ const List = ref({
       "Id": 1,
       "Name": "test3",
       "Status": 1,
-      "QueueCount":0,
-      "TaskCount":0,
+      "QueueCount": 0,
+      "TaskCount": 0,
       "HookSubmitDataStart": "",
       "HookSubmitDataEnd": "",
       "HookReturnDataStart": "",
@@ -327,7 +329,7 @@ onMounted(() => {
   }
 
   onGetList()
-  if (!is移动端()){
+  if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
     // 监听浏览器高度变化
@@ -344,7 +346,7 @@ const on状态被改变 = async (表项索引: number, ID: number, Status: numbe
 
   console.log(res)
   if (res.code == 10000) {
-ElMessage.success(res.msg)
+    ElMessage.success(res.msg)
     return true
   } else {
     List.value.List[表项索引].Status = Status == 1 ? 2 : 1
@@ -356,7 +358,6 @@ onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
   Store.commit("set搜索_任务池", 对象_搜索条件.value)
 })
-
 
 
 </script>

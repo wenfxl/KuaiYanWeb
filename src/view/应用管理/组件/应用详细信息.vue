@@ -946,7 +946,7 @@ const 添加专属变量 = ref({
 const on读取专属变量 = async () => {
   专属变量.value = []
   is加载中.value = true
-  const res = await GetList({AppId: data.value.AppId, Type: 1, Size: 50, Order: 2, Page: 1, Keywords: ""})
+  const res = await GetList({AppId: data.value.AppId, Type: 1, Size: 500, Order: 1, Page: 1, Keywords: ""})
   is加载中.value = false
   if (res.code == 10000) {
     专属变量.value = res.data.List
