@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item label="退款类型">
         <el-radio-group v-model="Data.IsOutRMB" size="" @change="on退款类型被改变">
-          <el-tooltip effect="dark" placement="top" content="余额积分充值,扣除余额积分,购卡直冲扣除时间点数积分,并退款">
+          <el-tooltip effect="dark" placement="top" content="余额积分充值,扣除余额积分,购卡直冲扣除时间点数积分,支付购卡追回卡号,并退款">
             <el-radio-button :label="true" border>追回并退款</el-radio-button>
           </el-tooltip>
           <el-radio-button :label="false" border>仅退款</el-radio-button>
