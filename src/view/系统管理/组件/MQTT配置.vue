@@ -13,8 +13,8 @@
         <el-form-item label="服务器地址">
           <el-input v-model.trim="Data.服务器地址" placeholder="服务器地址"/>
         </el-form-item>
-        <el-form-item label="服务器地址">
-          <el-input v-model.number="Data.服务器端口" placeholder="服务器地址"/>
+        <el-form-item label="服务器端口">
+          <el-input v-model.number="Data.服务器端口" placeholder="服务器端口"/>
         </el-form-item>
         <el-form-item label="用户名">
           <el-input v-model.trim="Data.用户名" placeholder="(可空)"/>

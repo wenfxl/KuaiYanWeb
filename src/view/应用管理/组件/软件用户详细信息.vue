@@ -8,11 +8,11 @@
         <el-tab-pane label="用户信息" name="用户信息">
           <el-form :inline="false" style="min-width: 80px" label-width="130px" :rules="on表单校验" :model="data"
                    :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-            <el-form-item v-if="data.Id>0" :label="'Id'" prop="Id"
-                          disabled="disabled">
-              <el-input class="只读编辑框" v-model.number="data.Id" placeholder=""
-                        :readonly="true"/>
-            </el-form-item>
+<!--            <el-form-item v-if="data.Id>0" :label="'Id'" prop="Id"-->
+<!--                          disabled="disabled">-->
+<!--              <el-input class="只读编辑框" v-model.number="data.Id" placeholder=""-->
+<!--                        :readonly="true"/>-->
+<!--            </el-form-item>-->
             <el-form-item :label="(Props.AppType === 3 || Props.AppType  === 4)?'来源卡号id':'来源用户id'" prop="Uid"
                           disabled="disabled">
               <el-input :class="[id>0?'只读编辑框':'']" v-model.number="data.Uid" placeholder=""
