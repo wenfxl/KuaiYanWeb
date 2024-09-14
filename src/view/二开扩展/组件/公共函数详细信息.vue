@@ -28,17 +28,9 @@
 
         </el-form-item>
 
-        <!--        <el-form-item label="函数类型" prop="Status">
-                  <el-radio-group v-model="data.Type" :size="is移动端()?'small':''">
-                    <el-radio-button v-if="Props.id===''|| data.Type===1" :label="1">单行文本</el-radio-button>
-                    <el-radio-button v-if="Props.id===''|| data.Type===2" :label="2">多行文本</el-radio-button>
-                    <el-radio-button v-if="Props.id===''|| data.Type===3" :label="3">逻辑开关</el-radio-button>
-                    <el-radio-button v-if="Props.id===''|| data.Type===11" :label="11">JS函数</el-radio-button>
-                  </el-radio-group>
-                </el-form-item>-->
+
         <el-form-item label="归属应用" prop="" style="width:100%">
-          <el-select v-model.number="data.AppId" clear placeholder="请选择应用" style="width:100%"
-                     :class="[Props.id!==''?'只读编辑框':'']" :disabled="Props.id!==''">
+          <el-select v-model.number="data.AppId" clear placeholder="请选择应用" style="width:100%"  >
             <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
                        :label="item.AppName+(item.Appid>10000?'('+item.Appid.toString()+')':'')" :value="item.Appid"/>
 
