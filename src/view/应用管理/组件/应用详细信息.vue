@@ -369,12 +369,12 @@
               </el-form-item>
             </el-tab-pane>
             <el-tab-pane label="专属云变量" name="专属云变量">
-              <el-radio-group v-if="专属变量" v-model="专属变量筛选器" size="mini">
+              <el-radio-group v-if="专属变量" v-model="专属变量筛选器" size="small">
                 <el-radio-button :label="3" border>全部</el-radio-button>
                 <el-radio-button :label="1" border>限登陆</el-radio-button>
                 <el-radio-button :label="0" border>任意</el-radio-button>
               </el-radio-group>
-              <el-form-item v-for="(data,key) in 专属变量"  :key="key" style="width: 100%" label-width="0">
+              <el-form-item v-for="(data,key) in 专属变量" :key="key" style="width: 100%" label-width="0">
                 <div class="专属变量" style="display: inline-block ;width: 100%;left: 100px"
                      v-if="专属变量筛选器==3||Number(data.IsVip)==专属变量筛选器"
                 >
@@ -383,7 +383,7 @@
                         :active-value="1"
                         :inactive-value="0"
                         v-model="data.IsVip"
-                        width="60"      style="margin-left: 5px"
+                        width="60" style="margin-left: 5px"
                         inline-prompt
                         active-text="限登录"
                         inactive-text="任意"
@@ -397,7 +397,7 @@
                             maxlength="15000"
                             :autosize="{ minRows: 2, maxRows: 23 }" style="width: calc(100%  - 50px);margin-left: 5px"/>
                   <el-radio-group v-if="data.Type===3" v-model="data.Value" style="margin-left: 5px">
-                    <el-radio label="1"  style="margin-right: 5px" border>开启</el-radio>
+                    <el-radio label="1" style="margin-right: 5px" border>开启</el-radio>
                     <el-radio label="0" style="margin-left: 5px" border>关闭</el-radio>
                   </el-radio-group>
                   <div style="float: right;padding-left: 5px">
@@ -548,7 +548,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch} from 'vue'
+import {onMounted, onUnmounted, ref, watch} from 'vue'
 import {SaveApp信息, GetApp详细信息, Get全部用户APi} from "@/api/应用列表api";
 import {New, DeleteInfo, GetList} from "@/api/公共变量api";
 import {ElMessage, FormInstance} from "element-plus";
@@ -570,7 +570,7 @@ const isVipType = ref(true)  // 真是件  假点数
 const 应用详细信息顶部标签现行选项 = ref("应用设置")
 
 const is加载中 = ref(false)
-const 专属变量筛选器 = ref(0)
+const 专属变量筛选器 = ref(3)
 const is对话框可见2 = ref(true)
 const 对象_卡类型 = ref({})
 const SerVerUrl = ref("http://127.0.0.1:18888")
@@ -713,6 +713,11 @@ onMounted(() => {
 
   读取详细信息(Props.id)
 })
+onUnmounted(() => {
+  console.info("应用详细信息对话框被关闭了")
+  localStorage.setItem(Props.id + '应用详细信息顶部标签现行选项', 应用详细信息顶部标签现行选项.value)
+  localStorage.setItem(Props.id + '专属变量筛选器', 专属变量筛选器.value)
+})
 
 const 校验是否json = (rule: any, value: any, callback: any) => {
 
@@ -765,9 +770,12 @@ const 读取详细信息 = async (id: number) => {
     let 返回 = await GetApp详细信息({"Id": id})
     is加载中.value = false
     if (返回.code == 10000) {
-      if (返回.data.AppInfo.AppId != data.value.AppId) {  //打开不同应用 复原标签
-        应用详细信息顶部标签现行选项.value = "应用设置"
-      }
+      let 局_临时文本 = localStorage.getItem(Props.id + '应用详细信息顶部标签现行选项')?? "应用设置";
+      console.info("读取本地存储应用详细信息顶部标签现行选项:" + 局_临时文本)
+      应用详细信息顶部标签现行选项.value = 局_临时文本
+      let 局_临时整数 = localStorage.getItem(Props.id + '专属变量筛选器')?? 3;
+      console.info("读取本地存储专属变量筛选器:" + 局_临时文本)
+      专属变量筛选器.value = Number(局_临时整数)
 
 
       data.value = 返回.data.AppInfo
