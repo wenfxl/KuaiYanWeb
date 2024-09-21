@@ -170,7 +170,7 @@ const routes: Array<RouteRecordRaw> = [
 
 //修改为二级目录Admin下
 const router = createRouter({
-    history:createWebHistory('/Admin/#'),  // createWebHistory必须有＃ 分割路径和本地单页路由,否则容易404
+    history: createWebHistory('/Admin/#'),  // createWebHistory必须有＃ 分割路径和本地单页路由,否则容易404
     routes: routes
 })
 
@@ -201,8 +201,13 @@ router.beforeEach(async (to, from) => {
     console.log(to.path)
 
 
-    if ( to.path.indexOf('%') !== -1) {
-        to.path= decodeURI(to.path) //中文路由坑点, 正常跳转没问题,但是刷新后路由会是url编码后 所以会找不到路由 跳404,必须解码一次才能找到正确路由,英文就没这个问题,但是我还是喜欢中文,
+    if (to.path.indexOf('%') !== -1) {
+        //中文路由坑点, 正常跳转没问题,但是刷新后路由会是url编码后 所以会找不到路由 跳404,必须解码一次才能找到正确路由,英文就没这个问题,但是我还是喜欢中文,
+        const decodedPath = decodeURI(to.path)
+        //如果解码后的路径与原路径不同，进行重定向
+        if (decodedPath !== to.path) {
+            return { path: decodedPath, repLace: true }; //使用replace 进行重定向
+        }
     }
 
     console.log("路由守卫:" + localStorage.getItem("AdminToken"))
@@ -217,7 +222,7 @@ router.beforeEach(async (to, from) => {
 
     //如果没有 token  跳转登录
     if (!localStorage.getItem("AdminToken")) {
-            return {path: "/Login"};
+        return {path: "/Login"};
     } else {
         if (isF) {
             return true;
