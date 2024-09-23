@@ -56,11 +56,11 @@ export default defineConfig({
                     var: 'Vue',
                     path: `https://cdn.bootcdn.net/ajax/libs/vue/3.3.4/vue.runtime.global.prod.min.js`,
                 },*/
-                {
-                    name: "echarts",
-                    var: "echarts",
-                    path: "https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js",
-                },
+                // {
+                //     name: "echarts",
+                //     var: "echarts",
+                //     path: "https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js", //预防投毒,避免被攻击改为本地化
+                // },
 /*                {
                     name: "element-plus", // 依赖名称,
                     var: "ElementPlus",  // 全局变量名

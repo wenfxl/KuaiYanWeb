@@ -287,7 +287,7 @@ const onGetAppList = async () => {
 }
 const on跳转软件用户 = (AppId: Number) => {
   console.log("on跳转软件用户" + AppId)
-  Store.commit("set搜索_软件用户", {AppId: AppId, Type: 2, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: ""})
+  Store.commit("set搜索_软件用户", {AppId: AppId, Type: 2, Size: 10, Page: 1, Status: 0, Role: 0, Keywords: "",UserClassId:-1})
   router.push("/应用管理/软件用户")
 }
 
