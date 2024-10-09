@@ -34,7 +34,7 @@
                 <el-option label="Id" :value="1"/>
                 <el-option label="用户名" :value="2"/>
                 <el-option label="绑定信息" :value="3"/>
-                <el-option label="动态标签" :value="4"/>
+                <el-option label="动态标记" :value="4"/>
                 <el-option label="软件版本" :value="5"/>
                 <el-option label="代理标识Uid" :value="6"/>
               </el-select>
@@ -137,7 +137,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="Tab" label="动态标签" width="140" show-overflow-tooltip=""/>
+        <el-table-column prop="Tab" label="动态标记" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Key" label="绑定信息" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Note" label="软件用户备注" width="140" show-overflow-tooltip=""/>
         <el-table-column label="在线ip" width="140" show-overflow-tooltip="">

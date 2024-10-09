@@ -94,7 +94,7 @@
             </el-icon>
           </template>
         </el-table-column>
-        <el-table-column prop="TaskCount" label="24H任务总计" width="130"/>
+        <el-table-column prop="TaskCount" label="72H任务总计" width="130"/>
         <el-table-column prop="MqttSendMsg" label="mqtt通知主题" width="130"/>
         <el-table-column prop="HookSubmitDataStart" label="Hook函数创建入库前" width="230"/>
         <el-table-column prop="HookSubmitDataEnd" label="Hook函数创建入库后" width="230"/>
