@@ -80,7 +80,8 @@
         </div>
         <div class="copyright">
           <!--          <BottomInfo />-->
-          <el-button text>{{  Store.state.备案号 }}</el-button>
+          <el-button text></el-button>
+          <el-link href="https://beian.miit.gov.cn" target="_blank" type="info">{{  Store.state.备案号 }}</el-link>
           <a target="_blank"></a>
         </div>
       </div>
