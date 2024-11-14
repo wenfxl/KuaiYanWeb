@@ -7,6 +7,10 @@
           <el-link href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001000"
                    target="_blank">电脑网页支付
           </el-link>
+          <el-text  >-------</el-text>
+          <el-link href="https://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/%E5%9C%A8%E7%BA%BF%E6%94%AF%E4%BB%98%E6%94%AF%E4%BB%98%E5%AE%9D%E5%AF%B9%E6%8E%A5%E6%95%99%E7%A8%8B.html"
+                   target="_blank">对接教程
+          </el-link>
         </el-divider>
         <el-form-item label="开关" prop="支付宝开关">
           <el-radio-group v-model="Data.支付宝开关">

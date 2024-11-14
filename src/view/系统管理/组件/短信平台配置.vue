@@ -50,7 +50,7 @@
             </el-input>
           </el-form-item>
           <el-form-item label="发送内容" disabled="disabled">
-            <el-input v-model.trim="Data.Sms短信宝.SendValue" placeholder="【短信宝】您的验证码是{code}">
+            <el-input v-model.trim="Data.Sms短信宝.SendValue" placeholder="【短信宝】您的验证码是{Code}">
             </el-input>
           </el-form-item>
         </div>
@@ -102,7 +102,7 @@ import {ElMessage, ElMessageBox, FormInstance} from 'element-plus'
 import {is移动端} from "@/utils/utils";
 import {Del批量删除LogRMBPayOrder} from "@/api/支付充值订单api";
 
-const 七牛云短信验证码模板 = ref("【短信签名】您的验证码是{code}")
+const 七牛云短信验证码模板 = ref("【短信签名】您的验证码是{Code}")
 const Data = ref({
   "当前选择": 1,
   "TX云Sms": {

@@ -57,7 +57,7 @@
             </el-button>
           </template>
         </el-popconfirm>
-
+        <el-link type="success" href="/Agent" target="_blank" >打开代理后台</el-link>
         <div class="工具栏">
 
           <el-popover placement="right" trigger="hover">
