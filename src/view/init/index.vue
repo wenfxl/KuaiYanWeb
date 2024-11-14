@@ -162,6 +162,10 @@ const onSubmit = async() => {
       ElMessage.success(res.msg)
       router.push({ name: 'Login' })
     }
+    if (res.msg === "已存在数据库配置") {
+      router.push({ name: 'Login' })
+    }
+
     loading.close()
   } catch (err) {
     loading.close()

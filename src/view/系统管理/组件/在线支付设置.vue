@@ -24,7 +24,7 @@
         <el-form-item label="商户ID" disabled="disabled">
           <el-input v-model.trim="Data.支付宝商户ID"/>
         </el-form-item>
-        <el-form-item label="商户私钥" disabled="disabled">
+        <el-form-item label="商户应用私钥" disabled="disabled">
           <el-input v-model.trim="Data.支付宝商户私钥"/>
         </el-form-item>
         <!--        <el-form-item label="商户公钥" disabled="disabled">
@@ -79,7 +79,7 @@
         <el-form-item label="商户ID" disabled="disabled">
           <el-input v-model.trim="Data.支付宝H5商户ID"/>
         </el-form-item>
-        <el-form-item label="商户私钥" disabled="disabled">
+        <el-form-item label="商户应用私钥" disabled="disabled">
           <el-input v-model.trim="Data.支付宝H5商户私钥"/>
         </el-form-item>
 
@@ -111,7 +111,7 @@
         <el-form-item label="商户ID" disabled="disabled">
           <el-input v-model.trim="Data.支付宝当面付商户ID"/>
         </el-form-item>
-        <el-form-item label="商户私钥" disabled="disabled">
+        <el-form-item label="商户应用私钥" disabled="disabled">
           <el-input v-model.trim="Data.支付宝当面付商户私钥"/>
         </el-form-item>
         <el-form-item label="支付宝当面付公钥" disabled="disabled">

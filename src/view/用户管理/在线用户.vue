@@ -37,6 +37,7 @@
                 <el-option label="动态标记" :value="4"/>
                 <el-option label="软件版本" :value="5"/>
                 <el-option label="代理标识Uid" :value="6"/>
+<!--                <el-option label="软件用户备注 需链表搜索效率差,暂不考虑" :value="7"/>-->
               </el-select>
             </template>
           </el-input>

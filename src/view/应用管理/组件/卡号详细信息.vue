@@ -179,6 +179,9 @@
             <li class="li展示不可修改信息">邀请人:
               <el-text type="info" size="large">{{ data.InviteUser }}</el-text>
             </li>
+            <li class="li展示不可修改信息">
+              <el-link type="warning" href="/Admin/#/应用管理/软件用户" size="large">提示:卡号使用后会转换成软件用户,如需修改使用后卡号信息,请去软件用户内修改</el-link>
+            </li>
           </ul>
         </div>
       </el-form>
