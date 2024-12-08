@@ -374,33 +374,44 @@
                 <el-radio-button :label="1" border>限登陆</el-radio-button>
                 <el-radio-button :label="0" border>任意</el-radio-button>
               </el-radio-group>
-              <el-form-item v-for="(data,key) in 专属变量" :key="key" style="width: 100%" label-width="0">
-                <div class="专属变量" style="display: inline-block ;width: 100%;left: 100px"
-                     v-if="专属变量筛选器==3||Number(data.IsVip)==专属变量筛选器"
+
+              <el-form-item v-for="(data, key) in sorted专属变量" :key="key" style="width: 100%" label-width="0">
+                <div class="专属变量" style="display: inline-block; width: 100%; left: 100px"
+                     v-if="专属变量筛选器 == 3 || Number(data.IsVip) ==专属变量筛选器"
                 >
-                  <div style="display: flex;align-items: center;">
+                  <div style="display: flex; align-items: center;">
                     <el-switch
                         :active-value="1"
                         :inactive-value="0"
                         v-model="data.IsVip"
-                        width="60" style="margin-left: 5px"
+                        width="60" style="margin-left: 5px;margin-right: 10px"
                         inline-prompt
                         active-text="限登录"
                         inactive-text="任意"
                     />
-                    <div style="margin-left: 5px">{{ data.Name }}</div>
+                    <el-divider content-position="left"  ><el-text class="mx-1" :type="data.Sort>100?'primary':''">{{ data.Name }}</el-text></el-divider>
+                    <div @click="data.Sort?data.Sort=0:data.Sort=时间_取现行时间戳()" class="工具栏" >
+                      <el-tooltip
+                          class="box-item"
+                          effect="dark"
+                          :content="data.Sort>100?'取消':'置顶'"
+                          placement="top-start"
+                      >
+                        <el-icon size="24" :color="data.Sort>100?'#409EFC':'#556375'" class="no-inherit" ><Star /></el-icon>
+                      </el-tooltip>
+
+                    </div>
                   </div>
-                  <el-input v-if="data.Type===1" type="text" v-model.trim="data.Value"
+                  <el-input v-if="data.Type === 1" type="text" v-model.trim="data.Value"
+                            maxlength="15000"                style="width: calc(100% - 50px); margin-left: 5px"/>
+                  <el-input v-if="data.Type === 2" type="textarea" v-model="data.Value" placeholder="最长支持15000长度"
                             maxlength="15000"
-                            style="width: calc(100%   - 50px);margin-left: 5px"/>
-                  <el-input v-if="data.Type===2" type="textarea" v-model="data.Value" placeholder="最长支持15000长度"
-                            maxlength="15000"
-                            :autosize="{ minRows: 2, maxRows: 23 }" style="width: calc(100%  - 50px);margin-left: 5px"/>
-                  <el-radio-group v-if="data.Type===3" v-model="data.Value" style="margin-left: 5px">
+                            :autosize="{ minRows: 2, maxRows: 23 }" style="width: calc(100% - 50px); margin-left: 5px"/>
+                  <el-radio-group v-if="data.Type === 3" v-model="data.Value" style="margin-left: 5px">
                     <el-radio label="1" style="margin-right: 5px" border>开启</el-radio>
                     <el-radio label="0" style="margin-left: 5px" border>关闭</el-radio>
                   </el-radio-group>
-                  <div style="float: right;padding-left: 5px">
+                  <div style="float: right; padding-left: 5px">
                     <el-popconfirm title="确定删除?"
                                    placement="right"
                                    @confirm="on删除专属变量(key)" confirm-button-text="确定"
@@ -410,9 +421,7 @@
                         <el-button type="danger" size="small" :icon="Delete" circle style=" margin-left: 5px"/>
                       </template>
                     </el-popconfirm>
-
                   </div>
-
                 </div>
               </el-form-item>
               <el-divider>
@@ -548,11 +557,11 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref, watch} from 'vue'
+import {computed, onMounted, onUnmounted, ref, watch} from 'vue'
 import {SaveApp信息, GetApp详细信息, Get全部用户APi} from "@/api/应用列表api";
 import {New, DeleteInfo, GetList} from "@/api/公共变量api";
 import {ElMessage, FormInstance} from "element-plus";
-import {is移动端, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
+import {is移动端, 时间_取现行时间戳, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
 import {Rsa密匙对校验, Rsa生成密匙对} from "@/utils/Rsa工具";
 
 import {CirclePlus, Plus, Refresh} from "@element-plus/icons";
@@ -571,6 +580,20 @@ const 应用详细信息顶部标签现行选项 = ref("应用设置")
 
 const is加载中 = ref(false)
 const 专属变量筛选器 = ref(3)
+
+const sorted专属变量 = computed(() => {
+  return 专属变量.value.slice().sort((a, b) => {
+    if (a.Sort !== 0 && b.Sort !== 0) {
+      return b.Sort - a.Sort;
+    } else if (a.Sort !== 0) {
+      return -1;
+    } else if (b.Sort !== 0) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+});
 const is对话框可见2 = ref(true)
 const 对象_卡类型 = ref({})
 const SerVerUrl = ref("http://127.0.0.1:18888")
@@ -919,28 +942,32 @@ const 专属变量 = ref([
     "Name": "测试逻辑开关",
     "Value": "1",
     "Type": 3,
-    "IsVip": 1
+    "IsVip": 1,
+    "Sort": 0
   },
   {
     "AppId": 1,
     "Name": "系统名称",
     "Value": "应用管理系统",
     "Type": 1,
-    "IsVip": 1
+    "IsVip": 1,
+    "Sort": 0
   },
   {
     "AppId": 1,
     "Name": "系统地址",
     "Value": "www.baidu.com",
     "Type": 1,
-    "IsVip": 1
+    "IsVip": 1,
+    "Sort": 0
   },
   {
     "AppId": 1,
     "Name": "超长1w+变量",
     "Value": "const on表单校验 = ref({\n  Name: [\n    {required: true, message: '请输入变量名称', trigger: 'blur'},\n    {min: 1, message: '最低1位字符', trigger: ''}\n  ],\n  Value: [\n    {min: 1, message: '最低1位字符', trigger: ''},\n    {max: 20000, message: '最长20000位字符', trigger: ''}\n  ],\n})\nconst on表单校验 = ref({\n  Name: [\n    {required: true, message: '请输入变量名称', trigger: 'blur'},\n    {min: 1, message: '最低1位字符', trigger: ''}\n  ],\n  Value: [\n    {min: 1, message: '最低1位字符', trigger: ''},\n    {max: 20000, message: '最长20000位字符', trigger: ''}\n  ],\n})\nconst on表单校验 = ref({\n  Name: [\n    {required: true, message: '请输入变量名称', trigger: 'blur'},\n    {min: 1, message: '最低1位字符', trigger: ''}\n  ],\n  Value: [\n    {min: 1, message: '最低1位字符', trigger: ''},\n    {max: 20000, message: '最长20000位字符', trigger: ''}\n  ],\n})const on表单校验 = ref({\n  Name: [\n    {required: true, message: '请输入变量名称', trigger: 'blur'},\n    {min: 1, message: '最低1位字符', trigger: ''}\n  ],\n  Value: [\n    {min: 1, message: '最低1位字符', trigger: ''},\n    {max: 20000, message: '最长20000位字符', trigger: ''}\n  ],\n})\nconst on表单校验 = ref({\n  Name: [\n    {required: true, message: '请输入变量名称', trigger: 'blur'},\n    {min: 1, message: '最低1位字符', trigger: ''}\n  ],\n  Value: [\n    {min: 1, message: '最低1位字符', trigger: ''},\n    {max: 20000, message: '最长20000位字符', trigger: ''}\n  ],\n})const on表单校验 = ref({\n  Name: [\n    {required: true, message: '请输入变量名称', trigger: 'blur'},\n    {min: 1, message: '最低1位字符', trigger: ''}\n  ],\n  Value: [\n    {min: 1, message: '最低1位字符', trigger: ''},\n    {max: 20000, message: '最长20000位字符', trigger: ''}\n  ],\n})const on表单校验 = ref({\n  Name: [\n    {required: true, message: '请输入变量名称', trigger: 'blur'},\n    {min: 1, message: '最低1位字符', trigger: ''}\n  ],\n  Value: [\n    {min: 1, message: '最低1位字符', trigger: ''},\n    {max: 20000, message: '最长20000位字符', trigger: ''}\n  ],\n})\nconst on表单校验 = ref({\n  Name: [\n    {required: true, message: '请输入变量名称', trigger: 'blur'},\n    {min: 1, message: '最低1位字符', trigger: ''}\n  ],\n  Value: [\n    {min: 1, message: '最低1位字符', trigger: ''},\n    {max: 20000, message: '最长20000位字符', trigger: ''}\n  ],\n})",
     "Type": 2,
-    "IsVip": 1
+    "IsVip": 1,
+    "Sort": 0
   }
 ])
 let is添加专属变量 = ref(false)
@@ -949,7 +976,8 @@ const 添加专属变量 = ref({
   "Name": "",
   "Value": "",
   "Type": 1,
-  "IsVip": 0
+  "IsVip": 0,
+  "Sort": 0
 })
 const on读取专属变量 = async () => {
   专属变量.value = []
@@ -978,7 +1006,8 @@ const on添加专属变量 = async (是否添加: boolean) => {
     "Name": 添加专属变量.value.Name,
     "Value": 添加专属变量.value.Type == 3 ? "1" : "",
     "Type": 添加专属变量.value.Type,
-    "IsVip": 0
+    "IsVip": 0,
+    "Sort": 0
   }
 
   is加载中.value = true

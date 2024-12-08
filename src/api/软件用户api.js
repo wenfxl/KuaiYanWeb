@@ -88,6 +88,16 @@ export const  Set批量维护增减积分 = (data) => {
     data: data
   })
 }
+//  Set批量维护_勾选用户增减积分
+//...
+// @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"
+export const  Set批量维护置用户云配置 = (data) => {
+  return service({
+    url: url+'SetBatchSetUserConfig',
+    method: 'post',
+    data: data
+  })
+}
 //  Set批量维护_勾选用户增减时间点数
 //...
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "修改成"}"

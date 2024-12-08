@@ -106,7 +106,7 @@
               <el-text>{{ 时间_时间戳到时间(data.RegisterTime) }}</el-text>
             </el-form-item>
             <el-form-item label="归属代理Uid" prop="AgentUid">
-              <el-text>{{data.AgentUid}}</el-text>
+              <el-input-number v-model.number="data.AgentUid"  :value-on-clear="0" :min="0"/>
             </el-form-item>
           </el-form>
         </el-tab-pane>

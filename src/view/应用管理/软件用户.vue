@@ -106,6 +106,7 @@
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
             <li class="工具_更多_li" @click="is批量修改用户类型=true">批量改用户类型</li>
             <li class="工具_更多_li" @click="on批量维护积分输入框将打开">批量增减积分</li>
+            <li class="工具_更多_li" @click="on维护用户云配置输入框将打开">批量置用户配置</li>
             <li class="工具_更多_li" @click="on批量维护输入框将打开">
               批量增减{{ (Data.AppType === 2 || Data.AppType === 4) ? "点数" : "时间" }}
             </li>
@@ -270,6 +271,11 @@
                    :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, ids:局_ids}"
                    :UserClassId="对象_用户类型Arr"
                    @on批量维护输入框被关闭="on批量维护积分输入框被关闭"></BatchElMessage2>
+  <BatchElMessage3 v-if="is维护用户云配置输入框可见"
+                   :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId}"
+                   :Uids="局_uids"
+                   @on批量维护输入框被关闭="on维护用户云配置输入框被关闭"></BatchElMessage3>
+
   <BatchSetAllUserVipTime v-if="is批量修改全部用户时间点数"
                           :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId, AppName:MapAppId_Name[对象_搜索条件.AppId.toString()]}"
                           :UserClassId="对象_用户类型Arr"
@@ -311,6 +317,7 @@ import {Delete} from "@element-plus/icons-vue";
 import AppUserinfo from "./组件/软件用户详细信息.vue";
 import BatchElMessage from "./组件/批量维护点数时间增减输入框.vue";
 import BatchElMessage2 from "./组件/批量维护积分.vue";
+import BatchElMessage3 from "./组件/批量维护用户云配置.vue";
 import BatchSetAllUserVipTime from "./组件/批量维护全部用户时间点数.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
 
@@ -753,6 +760,23 @@ const on批量维护积分输入框将打开 = async () => {
 }
 const on批量维护积分输入框被关闭 = (is重新读取: boolean) => {
   is批量维护积分输入框可见.value = false
+  if (is重新读取) {
+    on读取列表()
+  }
+}
+//批量维护用户云配置输入框=============================================================
+const is维护用户云配置输入框可见 = ref(false)
+const 局_uids = ref<any>([])
+const on维护用户云配置输入框将打开 = async () => {
+  if (表格被选中列表.value.length == 0) {
+    ElMessage.error("选中数据不能为0")
+    return
+  }
+  局_uids.value = 表格被选中列表.value.map((item => item.Uid))
+  is维护用户云配置输入框可见.value = true
+}
+const on维护用户云配置输入框被关闭 = (is重新读取: boolean) => {
+  is维护用户云配置输入框可见.value = false
   if (is重新读取) {
     on读取列表()
   }
