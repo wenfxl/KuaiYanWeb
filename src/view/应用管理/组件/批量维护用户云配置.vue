@@ -10,7 +10,7 @@
             label="被选中Uid数量"
             label-width="120">
           <div>
-            <el-text class="mx-1">{{Props.Uids}}</el-text>
+            <el-text class="mx-1">{{Props.Uids.length}}</el-text>
           </div>
         </el-form-item>
 
