@@ -52,6 +52,14 @@
 
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="复制指定" prop="">
+          <el-tooltip content="新应用会复制该应用除了公私密钥以外的信息,含卡类列表,用户类型列表" effect="dark" placement="right">
+          <el-select v-model.number="data.CopyAppId" clear placeholder="复制指定应用" >
+            <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
+                       :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
+          </el-select>
+          </el-tooltip>
+        </el-form-item>
 
       </el-form>
     </div>
@@ -69,6 +77,7 @@ import {onMounted, ref, watch} from 'vue'
 import {GetAppIdMax, Get全部用户APi, NewApp信息} from "@/api/应用列表api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端} from "@/utils/utils";
+import {GetAppIdNameList} from "@/api/应用列表api.js";
 
 const Props = defineProps({
   AppId: {
@@ -80,7 +89,7 @@ const Props = defineProps({
 const emit = defineEmits(['on对话框详细信息关闭'])
 
 const is对话框可见2 = ref(true)
-const data = ref({"AppId": 10001, "AppName": "测试应用", "AppType": 1})
+const data = ref({"AppId": 10001, "AppName": "测试应用", "AppType": 1, "CopyAppId": 0})
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
@@ -111,8 +120,9 @@ const on校验表单重置 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
 }
-onMounted(() => {
+onMounted(async () => {
   console.info("用户详细信息对话框加载完毕了")
+  onGetAppIdNameList()
 })
 
 
@@ -152,6 +162,25 @@ const on对话框被关闭 = () => {
 
 }
 
+const 数组AppId_Name = ref([{
+  "Appid": 0,
+  "AppName": "不复制"
+}])
+const onGetAppIdNameList = async () => {
+  let res = await GetAppIdNameList();
+// 假设 res.data.Map 是你提供的数组
+  const maxAppIdItem = res.data.Array.reduce((max, current) => (current.Appid > max.Appid ? current : max), res.data.Array[0]);
+  data.value.AppId = maxAppIdItem.Appid + 1
+  数组AppId_Name.value = res.data.Array
+
+  数组AppId_Name.value.push({
+    "Appid": 0,
+    "AppName": "不复制"
+  })
+  if (res.data.Map[data.value.AppId.toString()] == null || data.value.AppId <= 10000) {
+    data.value.CopyAppId = 0
+  }
+}
 
 </script>
 

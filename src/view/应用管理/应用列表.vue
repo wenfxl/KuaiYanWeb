@@ -50,6 +50,14 @@
           </template>
         </el-popconfirm>
         <div class="工具栏">
+          <el-popover placement="right" trigger="hover">
+            <template #reference>
+              <el-icon>
+                <More/>
+              </el-icon>
+            </template>
+            <li class="工具_更多_li" @click="on批量维护增减余额输入框可见将打开">复制应用</li>
+          </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
                       placement="top">
