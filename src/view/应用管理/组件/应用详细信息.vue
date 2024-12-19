@@ -403,9 +403,9 @@
                     </div>
                   </div>
                   <el-input v-if="data.Type === 1" type="text" v-model.trim="data.Value"
-                            maxlength="15000"                style="width: calc(100% - 50px); margin-left: 5px"/>
-                  <el-input v-if="data.Type === 2" type="textarea" v-model="data.Value" placeholder="最长支持15000长度"
-                            maxlength="15000"
+                            maxlength="16777215"                style="width: calc(100% - 50px); margin-left: 5px"/>
+                  <el-input v-if="data.Type === 2" type="textarea" v-model="data.Value" placeholder="最长支持16777215长度"
+                            maxlength="16777215"
                             :autosize="{ minRows: 2, maxRows: 23 }" style="width: calc(100% - 50px); margin-left: 5px"/>
                   <el-radio-group v-if="data.Type === 3" v-model="data.Value" style="margin-left: 5px">
                     <el-radio label="1" style="margin-right: 5px" border>开启</el-radio>
