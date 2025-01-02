@@ -134,11 +134,26 @@
                   </el-form-item>
                 </template>
               </el-popconfirm>
-              <el-form-item icon="icon" label="更新下载地址json" prop="UrlDownload">
-
-                <el-input type="textarea" autosize v-model="data.UrlDownload"/>
-
-              </el-form-item>
+                <el-form-item icon="icon" label="更新下载地址json" prop="UrlDownload">
+                  <el-tooltip
+                      class="box-item"
+                      effect="light"
+                      content="支持使用变量 最新版本号: {{AppVer}}  {{云存储_取外链('10001/app2.apk',0)}} "
+                      placement="top-end"
+                  >
+                  <el-input class="no-inherit" type="textarea" autosize v-model="data.UrlDownload" />
+                  </el-tooltip>
+                  <div class="toolbar">
+                    <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        content="上传文件"
+                        placement="top-start"
+                    >
+                      <el-icon @click="is显示上传界面=true" size="24" color="#409EFC" class="no-inherit"><UploadFilled /></el-icon>
+                    </el-tooltip>
+                  </div>
+                </el-form-item>
               <el-form-item label="公告" prop="AppGongGao">
                 <el-input type="textarea" autosize v-model="data.AppGongGao"/>
               </el-form-item>
@@ -554,6 +569,7 @@
       </template>
     </el-dialog>
   </div>
+  <uplode v-if="is显示上传界面" :path="Props.id+'/'" @on对话框详细信息关闭="on对话框上传界面关闭"/>
 </template>
 
 <script setup lang="ts">
@@ -563,7 +579,7 @@ import {New, DeleteInfo, GetList} from "@/api/公共变量api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 时间_取现行时间戳, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
 import {Rsa密匙对校验, Rsa生成密匙对} from "@/utils/Rsa工具";
-
+import uplode from "@/view/二开扩展/组件/云存储上传.vue";
 import {CirclePlus, Plus, Refresh} from "@element-plus/icons";
 import {Delete} from "@element-plus/icons-vue";
 
@@ -1062,7 +1078,12 @@ const 取ApiHook反向整理数组 = (str) => {
   return result;
 }
 //================================================================ApiHook相关结束==================================================
-
+//======================================上传文件相关====================================
+const is显示上传界面 = ref(false)
+const on对话框上传界面关闭 = (is重新读取: boolean) => {
+  // console.info("父组件收到对话框被关闭了")
+  is显示上传界面.value = false
+}
 </script>
 
 <style scoped lang="scss">
@@ -1112,5 +1133,16 @@ const 取ApiHook反向整理数组 = (str) => {
   padding: 12px 16px;
   margin: 0 2px 10px;
   background: #f2f6fc;
+}
+.input-container {
+  display: flex;
+  align-items: flex-start; /* 确保输入框和工具栏在同一行 */
+  position: relative;
+}
+
+.toolbar {
+  position: absolute;
+  top: 0;
+  right: 10px; /* 调整工具栏的位置 */
 }
 </style>

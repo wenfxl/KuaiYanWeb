@@ -174,6 +174,12 @@ const menus = [{
     "name": "任务池",
     "meta": {"title": "任务池", "icon": "ChromeFilled"},
     "children": []
+  }, {
+    "ID": 999,
+    "path": "二开扩展/云存储",
+    "name": "云存储",
+    "meta": {"title": "云存储", "icon": "Files"},
+    "children": []
   }]
 }, {
   "ID": 6,

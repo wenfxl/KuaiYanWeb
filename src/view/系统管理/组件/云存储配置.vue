@@ -24,8 +24,16 @@
                       placeholder="请输入SecretKey"/>
           </el-form-item>
           <el-form-item label="空间名称" disabled="disabled">
-            <el-input v-model.trim="Data.七牛云对象存储.空间名称"
+            <el-input v-model.trim="Data.七牛云对象存储.Bucket"
                       placeholder="请输入空间名称"/>
+          </el-form-item>
+          <el-form-item label="根文件夹" disabled="disabled">
+            <el-input v-model.trim="Data.七牛云对象存储.rootPath"
+                      placeholder="可空,系统只占用空间下的一个文件夹,不可为根目录,默认'fnkuaiyan/' 尾部带/ "/>
+          </el-form-item>
+          <el-form-item label="外链域名" disabled="disabled">
+            <el-input v-model.trim="Data.七牛云对象存储.外链域名"
+                      placeholder="(可空) 请输入外链域名"/>
           </el-form-item>
         </div>
         <div style="text-align:center">
@@ -49,7 +57,9 @@ const Data = ref({
   "七牛云对象存储": {
     "AccessKey": "",
     "SecretKey": "",
-    "空间名称": ""
+    "外链域名": "",
+    "Bucket": "",
+    "rootPath": ""
   }
 })
 

@@ -65,6 +65,8 @@ declare module '@vue/runtime-core' {
     ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
+    ElTreeV2: typeof import('element-plus/es')['ElTreeV2']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HourUI: typeof import('./src/components/EasyCron/tabs/HourUI.vue')['default']
     MinuteUI: typeof import('./src/components/EasyCron/tabs/MinuteUI.vue')['default']
