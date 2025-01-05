@@ -62,9 +62,21 @@
                       :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
               <el-table-column type="selection" width="45"/>
               <el-table-column prop="Name" label="文件名" show-overflow-tooltip=""/>
-              <el-table-column prop="Path" label="地址" show-overflow-tooltip=""/>
+
+              <el-table-column prop="Path" label="地址" show-overflow-tooltip="">
+                <template #default="scope">
+                  <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.Path,'已复制到剪辑版')">
+                    <DocumentCopy/>
+                  </el-icon>
+                  {{ scope.row.Path }}
+                </template>
+              </el-table-column>
               <el-table-column prop="MD5" label="MD5" width="280" fixed="right"/>
-              <el-table-column prop="Size" label="大小" width="120" fixed="right"/>
+              <el-table-column prop="Size" label="大小" width="120" fixed="right">
+                <template #default="scope">
+                {{字节转换mb(scope.row.Size)}}
+                </template>
+              </el-table-column>
               <el-table-column prop="UpTime" label="上传时间" width="160" fixed="right">
                 <template #default="scope">
                   {{ 时间_时间戳到时间(scope.row.UpTime) }}
@@ -104,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import {ElMessage, ElMessageBox} from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import {
@@ -318,6 +330,15 @@ const defaultProps = {
   children: 'children',
   label: 'label',
 }
+
+//计算属性, 字节转换mb
+const 字节转换mb = computed(() => {
+  return (value: number) => {
+    return (value / 1024 / 1024).toFixed(2) + "MB"
+  }
+})
+
+
 </script>
 
 <style scoped lang="scss">

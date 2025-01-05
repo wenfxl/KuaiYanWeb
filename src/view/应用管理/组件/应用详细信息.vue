@@ -150,7 +150,7 @@
                         content="上传文件"
                         placement="top-start"
                     >
-                      <el-icon @click="is显示上传界面=true" size="24" color="#409EFC" class="no-inherit"><UploadFilled /></el-icon>
+                      <el-icon @click="is显示上传界面=true" size="24" color="#409EFC" class="复制按钮 no-inherit"><UploadFilled /></el-icon>
                     </el-tooltip>
                   </div>
                 </el-form-item>
