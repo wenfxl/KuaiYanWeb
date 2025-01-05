@@ -1,5 +1,12 @@
 <template>
-  <el-dialog v-model="is显示" :title="'文件上传到->'+Props.path" width="800" @close="on关闭">
+  <el-dialog v-model="is显示" title="文件上传" width="800" @close="on关闭">
+
+    <div style=" display: flex;">
+      <el-text size="large" style="width: 50px">地址:</el-text>
+      <el-input type="text" size="small" v-model="path" @blur="on失去焦点" />
+    </div>
+
+
     <el-upload
         class="upload-demo"
         drag
@@ -28,12 +35,13 @@
 
 <script setup lang="ts">
 import {UploadFilled} from '@element-plus/icons-vue'
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {GetUpToken} from "@/api/云存储api";
 
 
 const is显示 = ref(true)
 const is重新读取 = ref(false)
+const path = ref("")
 const emit = defineEmits(['on对话框详细信息关闭'])
 
 const Props = defineProps({
@@ -41,6 +49,10 @@ const Props = defineProps({
     type: String,
     default: ""
   }
+})
+onMounted(() => {
+  is显示.value = true
+  path.value = Props.path
 })
 
 const on上传成功 = (data: any) => {
@@ -65,7 +77,7 @@ interface W文件上传凭证 {
 const 上传凭证 = ref<W文件上传凭证>()
 //上传前hook
 const beforeAvatarUpload = async (file) => {
-  const ret = await GetUpToken({"Path": Props.path + file.name});
+  const ret = await GetUpToken({"Path": path.value + file.name});
   console.info(ret)
   if (ret.code != 10000) {
     return false
@@ -75,8 +87,16 @@ const beforeAvatarUpload = async (file) => {
     上传凭证.value.key = 上传凭证.value.Path
     上传凭证.value.token = 上传凭证.value.UpToken
   }
-
 }
+
+const on失去焦点 = () => {
+  path.value=path.value.trim()
+  if (path.value !== "" && path.value.substring(path.value.length - 1) !== "/" ) {
+    path.value += "/"
+  }
+}
+
+
 </script>
 
 
