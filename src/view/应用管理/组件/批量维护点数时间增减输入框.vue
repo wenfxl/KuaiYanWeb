@@ -33,6 +33,7 @@
 
 
             <el-tooltip
+                :trigger-keys="[]"
                 class="box-item"
                 effect="light"
                 :content="(输入框值<0?'负':'')+时间_计算天时分秒提示 (Math.abs(输入框值))"

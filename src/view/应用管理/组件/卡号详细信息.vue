@@ -45,6 +45,7 @@
         </el-form-item>
         <el-form-item :label="isAppType计点()?'加点数':'加秒数'" prop="VipTime">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               :content="时间_计算天时分秒提示 (data.VipTime)"
@@ -95,6 +96,7 @@
         </el-form-item>
         <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="InviteCount" v-if="AppType<=2">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               :content="时间_计算天时分秒提示 (data.InviteCount)+'*本用户类型权重/为推广人权重'"
@@ -127,6 +129,7 @@
         </el-form-item>
         <el-form-item label="积分" prop="VipNumber">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               content="余额和积分的区别,余额所有这个用户登录的应用都可以使用,积分只有这个用户登录的这个应用可以使用"

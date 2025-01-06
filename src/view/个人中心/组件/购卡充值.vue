@@ -36,6 +36,7 @@
           </el-form-item>
           <el-form-item label="推荐人账号" style="width: 100%">
             <el-tooltip
+                :trigger-keys="[]"
                 content="获取奖励，记得把自己的帐号告诉他哦。"
                 effect="dark"
                 placement="right">

@@ -147,6 +147,7 @@
         </el-form-item>
         <el-form-item label="商户证书序列号" disabled="disabled">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="dark"
               content="微信支付下载的证书压缩包中apiclient_cert.pem文件全部文本,开头为-----BEGIN CERTIFICATE-----去https://myssl.com/cert_decode.html 解析证书信息->序列号"
@@ -158,6 +159,7 @@
         </el-form-item>
         <el-form-item label="商户证书串" disabled="disabled">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="dark"
               content="微信支付下载的证书压缩包中apiclient_key.pem文件全部文本,开头为-----BEGIN PRIVATE KEY-----"

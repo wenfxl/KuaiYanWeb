@@ -23,6 +23,7 @@
         <el-form-item :label="isAppType计点()?'点数':'时间(秒)'" prop="VipTime">
 
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               :content="时间_计算天时分秒提示 (data.VipTime)"
@@ -52,6 +53,7 @@
         </el-form-item>
         <el-form-item :label="isAppType计点()?'推荐人加点数':'推荐人加秒数'" prop="VipTime" v-if="AppType<=2">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               :content="时间_计算天时分秒提示 (data.InviteCount)+'*本用户类型权重/为推广人权重'"
@@ -102,6 +104,7 @@
         </el-form-item>
         <el-form-item label="积分" prop="VipNumber">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               content="余额和积分的区别,余额所有这个用户登录的应用都可以使用,积分只有这个用户登录的这个应用可以使用"
@@ -130,6 +133,7 @@
         </el-form-item>
         <el-form-item label="用户售价" prop="Money">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               content="-1 禁止用户购买"
@@ -143,6 +147,7 @@
         </el-form-item>
         <el-form-item label="代理售价" prop="AgentMoney">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               content="-1 禁止代理购买"
@@ -162,6 +167,7 @@
         </el-form-item>
         <el-form-item label="用户类型" prop="UserClassId" style="width:280px">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               :content="(isAppType计点()?'加点数':'加秒数')+'=0 不生效不修改原用户类型'"
@@ -200,6 +206,7 @@
         </el-form-item>
         <el-form-item label="最大在线数" prop="MaxOnline">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               effect="light"
               content="值为0不修改"

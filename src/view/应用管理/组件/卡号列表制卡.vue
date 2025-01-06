@@ -47,6 +47,7 @@
         </el-form-item>
         <el-form-item label="格式模板" prop="Prefix">
           <el-tooltip
+              :trigger-keys="[]"
               class="box-item"
               :content="模板支持变量"
               placement="bottom"

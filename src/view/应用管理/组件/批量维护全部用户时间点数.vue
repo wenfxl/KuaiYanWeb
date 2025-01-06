@@ -58,6 +58,7 @@
           </div>
           <template v-else>
             <el-tooltip
+                :trigger-keys="[]"
                 class="box-item"
                 effect="light"
                 :content="时间_计算天时分秒提示 (Math.abs(PostData.Number))"

@@ -78,6 +78,7 @@
 
               <el-form-item :label="isVipType?'换绑扣秒':'换绑扣点'" prop="UpKeyData">
                 <el-tooltip
+                    :trigger-keys="[]"
                     class="box-item"
                     effect="light"
                     :content="时间_计算天时分秒提示 (data.UpKeyData)"
@@ -92,6 +93,7 @@
               </el-form-item>
 
               <el-popconfirm
+                  :trigger-keys="[]"
                   confirm-button-text="查看详细描述"
                   placement="top"
                   cancel-button-text=" "
@@ -136,6 +138,7 @@
               </el-popconfirm>
                 <el-form-item icon="icon" label="更新下载地址json" prop="UrlDownload">
                   <el-tooltip
+                      :trigger-keys="[]"
                       class="box-item"
                       effect="light"
                       content="支持使用变量 最新版本号: {{AppVer}}  {{云存储_取外链('10001/app2.apk',0)}} "
@@ -158,6 +161,7 @@
                 <el-input type="textarea" autosize v-model="data.AppGongGao"/>
               </el-form-item>
               <el-popover
+                  :trigger-keys="[]"
                   placement="top-end"
                   :width="200"
                   trigger="hover"
@@ -255,6 +259,7 @@
               </el-form-item>
               <el-form-item label="封包超时">
                 <el-tooltip
+                    :trigger-keys="[]"
                     class="box-item"
                     effect="light"
                     :content="时间_计算天时分秒提示 (data.PackTimeOut)"
@@ -288,6 +293,7 @@
               <el-form-item label="心跳超时" prop="OutTime">
 
                 <el-tooltip
+                    :trigger-keys="[]"
                     class="box-item"
                     effect="light"
                     :content="时间_计算天时分秒提示 (data.OutTime)"
