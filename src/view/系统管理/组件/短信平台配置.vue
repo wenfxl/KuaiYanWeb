@@ -102,7 +102,7 @@ import {ElMessage, ElMessageBox, FormInstance} from 'element-plus'
 import {is移动端} from "@/utils/utils";
 import {Del批量删除LogRMBPayOrder} from "@/api/支付充值订单api";
 
-const 七牛云短信验证码模板 = ref("【短信签名】您的验证码是{Code}")
+const 七牛云短信验证码模板 = ref("【短信签名】您的验证码是 ${code} （5分钟内有效）")
 const Data = ref({
   "当前选择": 1,
   "TX云Sms": {

@@ -230,7 +230,7 @@ const on单个获取外链 = async (row) => {
     cancelButtonText: '取消',
     inputValue: 0
   }).then(async ({value}) => {
-    const res = await 获取外链({"Path": row.Path, "LongTime": value})
+    const res = await 获取外链({"Path": row.Path, "LongTime": Number(value)})
     if (res.code == 10000) {
       置剪辑版文本2(res.data, "文件外链复制成功")
     }
