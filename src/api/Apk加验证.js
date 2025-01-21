@@ -30,3 +30,11 @@ export const CreateApkAddFNKYTask = (data) => {
     data: data
   })
 }
+
+
+export const GetTaskIdStatus = () => {
+  return service({
+    url:  url+'GetTaskIdStatus',
+    method: 'post'
+  })
+}

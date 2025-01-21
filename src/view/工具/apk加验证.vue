@@ -5,7 +5,7 @@
         <el-button icon="Refresh" type="primary" style="margin: 8px 8px 8px;; width: 65px" @click="on读取列表">
           刷新
         </el-button>
-        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px;; width: 85px" @click="is显示上传界面=true">
+        <el-button  :disabled="局_任务状态.id9!==1"  icon="Plus" type="primary" style="margin: 8px 8px 8px;; width: 85px" @click="is显示上传界面=true">
           创建任务
         </el-button>
 <!--        <div class="工具栏">-->
@@ -59,7 +59,6 @@
           <template #default="scope">
             {{scope.row.TimeEnd>0?时间_时间戳到时间(scope.row.TimeEnd):"" }}
              <el-progress     v-if="scope.row.TimeEnd==0" :percentage="scope.row.Status==1?0:计算进度条(scope.row.TimeStart)" :indeterminate="true"/>
-
           </template>
         </el-table-column>
         <el-table-column :fixed="is移动端()?false:'right'" label="操作" :width="2*85">
@@ -115,10 +114,8 @@ import {
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import {Delete} from "@element-plus/icons-vue";
 
-import {GetList} from "@/api/Apk加验证";
-import {GetInfoCloudStorage} from "@/api/系统设置api";
+import {GetList,GetTaskIdStatus} from "@/api/Apk加验证";
 import uplode from "./组件/apk加固创建任务.vue";
-
 
 
 const 计算进度条 =   (TimeStart: number) => {
@@ -139,8 +136,7 @@ const is加载中 = ref(false)
 const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
-
-  localStorage.setItem('列宽_云存储', JSON.stringify(局_列宽数组));
+  localStorage.setItem('列宽_Apk加验证', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
 
@@ -155,6 +151,10 @@ onMounted(async () => {
       on表格列宽初始化()
     }
 )
+
+
+
+
 // table高度
 const tableHeight = ref();
 const 表格被选中列表 = ref([])
@@ -177,7 +177,8 @@ const 对象_搜索条件 = ref({
 
 onMounted(async () => {
   //对象_搜索条件.value = {Page: 1, Size: 10, Type: 2, Keywords: "", Order: 1, Count: 0}
-  await onGetList()
+  await on更新任务状态()
+  await on读取列表()
   if (!is移动端()) {
     // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
     tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
@@ -222,56 +223,34 @@ const on单个下载 = async (row) => {
 };
 
 
-const on读取列表 = () => {
-  console.log("对象_搜索条件")
-  console.log(对象_搜索条件.value)
-  onGetList()
-}
-const onGetList = async () => {
+const on读取列表 = async () => {
   is加载中.value = true
   const res = await GetList(对象_搜索条件.value)
   console.log(res)
   is加载中.value = false
   Data.value = res.data
 }
-
-
-const 树 = ref<Tree[]>([{
-  label: '云存储',
-  path: '',
-  children: [],
-}])
-onMounted(async () => {
-  Data.value.List = []
-  const res = await GetInfoCloudStorage({})
-  let 局_默认根文件夹 = "fnkuaiyan"
-  if (res.data.七牛云对象存储.rootPath) {
-    局_默认根文件夹 = res.data.七牛云对象存储.rootPath
+const 局_任务状态 = ref({id9:1})
+const on更新任务状态 = async () => {
+  is加载中.value = true
+  const res = await GetTaskIdStatus()
+  console.log(res)
+  is加载中.value = false
+  if (res.code == 10000) {
+    is任务状态.value = res.data
   }
-  树.value[0].label = 局_默认根文件夹
 
-})
+}
+
+
 
 const on对话框详细信息关闭 = (is重新读取: boolean) => {
   // console.info("父组件收到对话框被关闭了")
   is显示上传界面.value = false
   if (is重新读取) {
-    on读取列表({label: "", path: Data.value.Path})
+    on读取列表()
   }
 }
-
-const defaultProps = {
-  children: 'children',
-  label: 'label',
-}
-
-//计算属性, 字节转换mb
-const 字节转换mb = computed(() => {
-  return (value: number) => {
-    return (value / 1024 / 1024).toFixed(2) + "MB"
-  }
-})
-
 
 </script>
 
