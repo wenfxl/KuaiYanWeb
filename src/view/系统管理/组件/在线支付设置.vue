@@ -18,48 +18,51 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="显示名称" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝显示名称"/>
-        </el-form-item>
-        <el-form-item label="商户ID" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝商户ID"/>
-        </el-form-item>
-        <el-form-item label="商户应用私钥" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝商户私钥"/>
-        </el-form-item>
-        <!--        <el-form-item label="商户公钥" disabled="disabled">
-                  <el-input v-model.trim="Data.支付宝商户公钥"/>
-                </el-form-item>-->
-        <el-form-item label="支付宝公钥" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝公钥"/>
-        </el-form-item>
-        <el-form-item label="同步回调url" disabled="disabled">
-          <el-row style="width: 100%">
-            <el-col :span="18">
-              <el-input v-model.trim="Data.支付宝同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
-            </el-col>
-            <el-col :span="2">
-              <el-tooltip
-                  class="box-item"
-                  effect="dark"
-                  content="配置为自己服务器地址教程"
-                  placement="top"
-              >
-                <el-link
-                    href="http://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html#添加自己的在线支付同步回调页"
-                    target="_blank">
-                  <el-icon size="24">
-                    <Link/>
-                  </el-icon>
-                </el-link>
-              </el-tooltip>
-            </el-col>
-          </el-row>
+        <div v-if="Data.支付宝开关">
+          <el-form-item label="显示名称" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝显示名称"/>
+          </el-form-item>
+          <el-form-item label="商户ID" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝商户ID"/>
+          </el-form-item>
+          <el-form-item label="商户应用私钥" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝商户私钥"/>
+          </el-form-item>
+          <!--        <el-form-item label="商户公钥" disabled="disabled">
+                    <el-input v-model.trim="Data.支付宝商户公钥"/>
+                  </el-form-item>-->
+          <el-form-item label="支付宝公钥" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝公钥"/>
+          </el-form-item>
+          <el-form-item label="同步回调url" disabled="disabled">
+            <el-row style="width: 100%">
+              <el-col :span="18">
+                <el-input v-model.trim="Data.支付宝同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+              </el-col>
+              <el-col :span="2">
+                <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="配置为自己服务器地址教程"
+                    placement="top"
+                >
+                  <el-link
+                      href="http://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html#添加自己的在线支付同步回调页"
+                      target="_blank">
+                    <el-icon size="24">
+                      <Link/>
+                    </el-icon>
+                  </el-link>
+                </el-tooltip>
+              </el-col>
+            </el-row>
 
-        </el-form-item>
-        <el-form-item label="单次最大金额" disabled="disabled">
-          <el-input-number v-model="Data.支付宝单次最大金额"/>
-        </el-form-item>
+          </el-form-item>
+          <el-form-item label="单次最大金额" disabled="disabled">
+            <el-input-number v-model="Data.支付宝单次最大金额"/>
+          </el-form-item>
+        </div>
+
       </div>
       <div class="内容div">
         <el-divider content-position="left">支付宝H5 ->
@@ -73,25 +76,28 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="显示名称" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝H5显示名称"/>
-        </el-form-item>
-        <el-form-item label="商户ID" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝H5商户ID"/>
-        </el-form-item>
-        <el-form-item label="商户应用私钥" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝H5商户私钥"/>
-        </el-form-item>
+        <div v-if="Data.支付宝H5开关">
+          <el-form-item label="显示名称" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝H5显示名称"/>
+          </el-form-item>
+          <el-form-item label="商户ID" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝H5商户ID"/>
+          </el-form-item>
+          <el-form-item label="商户应用私钥" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝H5商户私钥"/>
+          </el-form-item>
 
-        <el-form-item label="支付宝H5公钥" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝H5公钥"/>
-        </el-form-item>
-        <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝H5同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
-        </el-form-item>
-        <el-form-item label="单次最大金额" disabled="disabled">
-          <el-input-number v-model="Data.支付宝H5单次最大金额"/>
-        </el-form-item>
+          <el-form-item label="支付宝H5公钥" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝H5公钥"/>
+          </el-form-item>
+          <el-form-item label="同步回调url" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝H5同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+          </el-form-item>
+          <el-form-item label="单次最大金额" disabled="disabled">
+            <el-input-number v-model="Data.支付宝H5单次最大金额"/>
+          </el-form-item>
+        </div>
+
       </div>
       <div class="内容div">
         <el-divider content-position="left">支付宝当面付 ->
@@ -105,24 +111,27 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="显示名称" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝当面付显示名称"/>
-        </el-form-item>
-        <el-form-item label="商户ID" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝当面付商户ID"/>
-        </el-form-item>
-        <el-form-item label="商户应用私钥" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝当面付商户私钥"/>
-        </el-form-item>
-        <el-form-item label="支付宝当面付公钥" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝当面付公钥"/>
-        </el-form-item>
-        <el-form-item label="同步回调url" disabled="disabled">
-          <el-input v-model.trim="Data.支付宝当面付同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
-        </el-form-item>
-        <el-form-item label="单次最大金额" disabled="disabled">
-          <el-input-number v-model="Data.支付宝当面付单次最大金额"/>
-        </el-form-item>
+        <div v-if="Data.支付宝当面付开关">
+          <el-form-item label="显示名称" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝当面付显示名称"/>
+          </el-form-item>
+          <el-form-item label="商户ID" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝当面付商户ID"/>
+          </el-form-item>
+          <el-form-item label="商户应用私钥" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝当面付商户私钥"/>
+          </el-form-item>
+          <el-form-item label="支付宝当面付公钥" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝当面付公钥"/>
+          </el-form-item>
+          <el-form-item label="同步回调url" disabled="disabled">
+            <el-input v-model.trim="Data.支付宝当面付同步回调url" placeholder="同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+          </el-form-item>
+          <el-form-item label="单次最大金额" disabled="disabled">
+            <el-input-number v-model="Data.支付宝当面付单次最大金额"/>
+          </el-form-item>
+        </div>
+
       </div>
 
       <div class="内容div">
@@ -133,47 +142,47 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="显示名称" disabled="disabled">
-          <el-input v-model.trim="Data.微信支付显示名称"/>
-        </el-form-item>
-        <el-form-item label="商户ID" disabled="disabled">
-          <el-input v-model.trim="Data.微信支付商户ID"/>
-        </el-form-item>
-        <el-form-item label="商户AppId" disabled="disabled">
-          <el-input v-model.trim="Data.微信支付AppId"/>
-        </el-form-item>
-        <el-form-item label="商户V3密钥" disabled="disabled">
-          <el-input v-model.trim="Data.微信支付商户v3密钥"/>
-        </el-form-item>
-        <el-form-item label="商户证书序列号" disabled="disabled">
-          <el-tooltip
-              :trigger-keys="[]"
-              class="box-item"
-              effect="dark"
-              content="微信支付下载的证书压缩包中apiclient_cert.pem文件全部文本,开头为-----BEGIN CERTIFICATE-----去https://myssl.com/cert_decode.html 解析证书信息->序列号"
-              placement="top"
-          >
-            <el-input v-model="Data.微信支付商户证书序列号"/>
-          </el-tooltip>
+        <div v-if="Data.微信支付开关">
+          <el-form-item label="显示名称" disabled="disabled">
+            <el-input v-model.trim="Data.微信支付显示名称"/>
+          </el-form-item>
+          <el-form-item label="商户ID" disabled="disabled">
+            <el-input v-model.trim="Data.微信支付商户ID"/>
+          </el-form-item>
+          <el-form-item label="商户AppId" disabled="disabled">
+            <el-input v-model.trim="Data.微信支付AppId"/>
+          </el-form-item>
+          <el-form-item label="商户V3密钥" disabled="disabled">
+            <el-input v-model.trim="Data.微信支付商户v3密钥"/>
+          </el-form-item>
+          <el-form-item label="商户证书序列号" disabled="disabled">
+            <el-tooltip
+                :trigger-keys="[]"
+                class="box-item"
+                effect="dark"
+                content="微信支付下载的证书压缩包中apiclient_cert.pem文件全部文本,开头为-----BEGIN CERTIFICATE-----去https://myssl.com/cert_decode.html 解析证书信息->序列号"
+                placement="top"
+            >
+              <el-input v-model="Data.微信支付商户证书序列号"/>
+            </el-tooltip>
 
-        </el-form-item>
-        <el-form-item label="商户证书串" disabled="disabled">
-          <el-tooltip
-              :trigger-keys="[]"
-              class="box-item"
-              effect="dark"
-              content="微信支付下载的证书压缩包中apiclient_key.pem文件全部文本,开头为-----BEGIN PRIVATE KEY-----"
-              placement="top"
-          >
-            <el-input type="textarea" v-model="Data.微信支付商户证书串"/>
-          </el-tooltip>
-        </el-form-item>
+          </el-form-item>
+          <el-form-item label="商户证书串" disabled="disabled">
+            <el-tooltip
+                :trigger-keys="[]"
+                class="box-item"
+                effect="dark"
+                content="微信支付下载的证书压缩包中apiclient_key.pem文件全部文本,开头为-----BEGIN PRIVATE KEY-----"
+                placement="top"
+            >
+              <el-input type="textarea" v-model="Data.微信支付商户证书串"/>
+            </el-tooltip>
+          </el-form-item>
 
-        <el-form-item label="单次最大金额" disabled="disabled">
-          <el-input-number v-model="Data.微信支付单次最大金额"/>
-        </el-form-item>
-
-
+          <el-form-item label="单次最大金额" disabled="disabled">
+            <el-input-number v-model="Data.微信支付单次最大金额"/>
+          </el-form-item>
+        </div>
       </div>
       <div class="内容div">
         <el-divider content-position="left">小叮当
@@ -186,25 +195,27 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="显示名称" disabled="disabled">
-          <el-input v-model.trim="Data.小叮当支付显示名称"/>
-        </el-form-item>
-        <el-form-item label="App_id" disabled="disabled">
-          <el-input v-model.trim="Data.小叮当app_id"/>
-        </el-form-item>
-        <el-form-item label="接口密钥" disabled="disabled">
-          <el-input v-model.trim="Data.小叮当接口密钥"/>
-        </el-form-item>
-        <el-form-item label="支付类型" disabled="disabled">
-          <el-input-number v-model.trim="Data.小叮当支付类型"/>
-          <el-link href="https://www.xddpay.com/doc/pay.htm" target="_blank">43支付宝,44微信,其他看官网支付类型参数</el-link>
-        </el-form-item>
-        <el-form-item label="异步通知网址" disabled="disabled" class="只读编辑框">
-          <el-input v-model="小叮当异步地址"/>
-        </el-form-item>
-        <el-form-item label="单次最大金额" disabled="disabled">
-          <el-input-number v-model="Data.小叮当单次最大金额"/>
-        </el-form-item>
+        <div v-if="Data.小叮当支付开关">
+          <el-form-item label="显示名称" disabled="disabled">
+            <el-input v-model.trim="Data.小叮当支付显示名称"/>
+          </el-form-item>
+          <el-form-item label="App_id" disabled="disabled">
+            <el-input v-model.trim="Data.小叮当app_id"/>
+          </el-form-item>
+          <el-form-item label="接口密钥" disabled="disabled">
+            <el-input v-model.trim="Data.小叮当接口密钥"/>
+          </el-form-item>
+          <el-form-item label="支付类型" disabled="disabled">
+            <el-input-number v-model.trim="Data.小叮当支付类型"/>
+            <el-link href="https://www.xddpay.com/doc/pay.htm" target="_blank">43支付宝,44微信,其他看官网支付类型参数</el-link>
+          </el-form-item>
+          <el-form-item label="异步通知网址" disabled="disabled" class="只读编辑框">
+            <el-input v-model="小叮当异步地址"/>
+          </el-form-item>
+          <el-form-item label="单次最大金额" disabled="disabled">
+            <el-input-number v-model="Data.小叮当单次最大金额"/>
+          </el-form-item>
+        </div>
       </div>
       <div class="内容div">
         <el-divider content-position="left">虎皮椒
@@ -216,24 +227,26 @@
             <el-radio-button :label="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="显示名称" >
-          <el-input v-model.trim="Data.虎皮椒支付显示名称"/>
-        </el-form-item>
-        <el-form-item label="appId" >
-          <el-input v-model.trim="Data.虎皮椒appId"/>
-        </el-form-item>
-        <el-form-item label="appSecret" >
-          <el-input v-model.trim="Data.虎皮椒appSecret"/>
-        </el-form-item>
-        <el-form-item label="虎皮椒支付网关" >
-          <el-input v-model.trim="Data.虎皮椒支付网关" placeholder="(可空)"/>
-        </el-form-item>
-        <el-form-item label="同步回调url" d>
-          <el-input v-model.trim="Data.虎皮椒同步回调url" placeholder="(可空)同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
-        </el-form-item>
-        <el-form-item label="单次最大金额" >
-          <el-input-number v-model="Data.虎皮椒单次最大金额"/>
-        </el-form-item>
+        <div v-if="Data.虎皮椒支付开关">
+          <el-form-item label="显示名称" >
+            <el-input v-model.trim="Data.虎皮椒支付显示名称"/>
+          </el-form-item>
+          <el-form-item label="appId" >
+            <el-input v-model.trim="Data.虎皮椒appId"/>
+          </el-form-item>
+          <el-form-item label="appSecret" >
+            <el-input v-model.trim="Data.虎皮椒appSecret"/>
+          </el-form-item>
+          <el-form-item label="虎皮椒支付网关" >
+            <el-input v-model.trim="Data.虎皮椒支付网关" placeholder="(可空)"/>
+          </el-form-item>
+          <el-form-item label="同步回调url" d>
+            <el-input v-model.trim="Data.虎皮椒同步回调url" placeholder="(可空)同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+          </el-form-item>
+          <el-form-item label="单次最大金额" >
+            <el-input-number v-model="Data.虎皮椒单次最大金额"/>
+          </el-form-item>
+        </div>
       </div>
       <div class="内容div">
         <div style="text-align:center">
