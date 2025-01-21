@@ -133,6 +133,7 @@ import {Delete} from "@element-plus/icons-vue";
 import {Del批量删除, GetCloudStorageList, 文件移动, 下载, 获取外链} from "@/api/云存储api";
 import {GetInfoCloudStorage} from "@/api/系统设置api";
 import uplode from "./组件/云存储上传.vue";
+import {添加uuid到队列} from "@/api/任务池api";
 
 const is加载中 = ref(false)
 // table元素
@@ -185,7 +186,7 @@ const Data = ref({
   "List": [
     {
       "Name": "",
-      "path": "",
+      "Path": "",
       "Type": 1,
       "Size": 1,
       "MD5": "",
@@ -228,15 +229,15 @@ const on单个获取外链 = async (row) => {
   ElMessageBox.prompt('请输入外链有效秒数(,3600=1小时,86400=1天,2592000=1个月,默认0=1年 )', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
-    inputValue: 0
+    inputValue: 0,
   }).then(async ({value}) => {
-    const res = await 获取外链({"Path": row.Path, "LongTime": Number(value)})
-    if (res.code == 10000) {
-      置剪辑版文本2(res.data, "文件外链复制成功")
-    }
-  }).catch(() => {
-
-  });
+        const res = await 获取外链({"Path": row.Path, "LongTime": Number(value)})
+        if (res.code == 10000) {
+          置剪辑版文本2(res.data, "文件外链复制成功")
+        }
+      })
+      .catch(() => {
+      })
 
 };
 
@@ -272,6 +273,7 @@ const on批量删除 = async () => {
   }
 }
 const elTreeRef = ref<InstanceType<typeof ElTree> | null>(null);
+
 const on读取列表 = async (节点data: Tree) => {
   is加载中.value = true
   const res = await GetCloudStorageList({"Type": 2, "Size": 10, "Page": 1, "Keywords": "", "Path": 节点data.path})

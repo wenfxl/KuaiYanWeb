@@ -141,48 +141,6 @@ const menus = [{
   }]
 }, {
   "ID": 6,
-  "path": "二开扩展",
-  "name": "二开扩展",
-  "meta": {"title": "二开扩展", "icon": "Operation","text": "扩展"},
-  "children": [{
-    "ID": 999,
-    "path": "二开扩展/用户云配置",
-    "name": "用户云配置",
-    "meta": {"title": "用户云配置", "icon": "ElementPlus"},
-    "children": []
-  }, {
-    "ID": 999,
-    "path": "二开扩展/公共变量",
-    "name": "公共变量",
-    "meta": {"title": "公共变量", "icon": "ElementPlus"},
-    "children": []
-  }, {
-    "ID": 999,
-    "path": "二开扩展/公共函数",
-    "name": "公共函数",
-    "meta": {"title": "公共函数", "icon": "ChromeFilled"},
-    "children": []
-  }, {
-    "ID": 999,
-    "path": "二开扩展/定时任务",
-    "name": "定时任务",
-    "meta": {"title": "定时任务", "icon": "Timer"},
-    "children": []
-  }, {
-    "ID": 999,
-    "path": "二开扩展/任务池",
-    "name": "任务池",
-    "meta": {"title": "任务池", "icon": "ChromeFilled"},
-    "children": []
-  }, {
-    "ID": 999,
-    "path": "二开扩展/云存储",
-    "name": "云存储",
-    "meta": {"title": "云存储", "icon": "Files"},
-    "children": []
-  }]
-}, {
-  "ID": 6,
   "path": "代理管理",
   "name": "代理管理",
   "meta": {"title": "代理管理", "icon": "HelpFilled","text": "代理"},
@@ -253,7 +211,62 @@ const menus = [{
     "meta": {"title": "代理操作", "icon": "Postcard"},
     "children": []
   }]
-}]
+}, {
+  "ID": 6,
+  "path": "二开扩展",
+  "name": "二开扩展",
+  "meta": {"title": "二开扩展", "icon": "Operation","text": "扩展"},
+  "children": [{
+    "ID": 999,
+    "path": "二开扩展/用户云配置",
+    "name": "用户云配置",
+    "meta": {"title": "用户云配置", "icon": "ElementPlus"},
+    "children": []
+  }, {
+    "ID": 999,
+    "path": "二开扩展/公共变量",
+    "name": "公共变量",
+    "meta": {"title": "公共变量", "icon": "ElementPlus"},
+    "children": []
+  }, {
+    "ID": 999,
+    "path": "二开扩展/公共函数",
+    "name": "公共函数",
+    "meta": {"title": "公共函数", "icon": "ChromeFilled"},
+    "children": []
+  }, {
+    "ID": 999,
+    "path": "二开扩展/定时任务",
+    "name": "定时任务",
+    "meta": {"title": "定时任务", "icon": "Timer"},
+    "children": []
+  }, {
+    "ID": 999,
+    "path": "二开扩展/任务池",
+    "name": "任务池",
+    "meta": {"title": "任务池", "icon": "ChromeFilled"},
+    "children": []
+  }, {
+    "ID": 999,
+    "path": "二开扩展/云存储",
+    "name": "云存储",
+    "meta": {"title": "云存储", "icon": "Files"},
+    "children": []
+  }]
+}, {
+  "ID": 6,
+  "path": "工具",
+  "name": "工具",
+  "meta": {"title": "工具", "icon": "Tools","text": "工具"},
+  "children": [{
+    "ID": 999,
+    "path": "工具/apk加验证",
+    "name": "apk加验证",
+    "meta": {"title": "apk加验证", "icon": "Cellphone"},
+    "children": []
+  }]
+}
+]
 defineProps({
   is折叠: {
     type: Boolean,

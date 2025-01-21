@@ -291,7 +291,6 @@ const onGetAppIdNameList = async () => {
     console.log("顶顶顶顶没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + 数组AppId_Name.value[0].Appid)
     //对象_搜索条件.value.AppId = 数组AppId_Name.value[0].Appid
   }
-
 }
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
