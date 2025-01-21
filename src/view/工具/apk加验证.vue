@@ -5,8 +5,8 @@
         <el-button icon="Refresh" type="primary" style="margin: 8px 8px 8px;; width: 65px" @click="on读取列表">
           刷新
         </el-button>
-        <el-button  :disabled="局_任务状态.id9!==1"  icon="Plus" type="primary" style="margin: 8px 8px 8px;; width: 85px" @click="is显示上传界面=true">
-          创建任务
+        <el-button  :disabled="局_任务状态.id9!==1"  icon="Plus" :type="局_任务状态.id9===1?'primary':'info'" style="margin: 8px 8px 8px;; width: 85px" @click="is显示上传界面=true">
+          {{局_任务状态.id9===1?"创建任务":"维护中"}}
         </el-button>
 <!--        <div class="工具栏">-->
 <!--          <el-tooltip content="刷新"-->
@@ -230,14 +230,14 @@ const on读取列表 = async () => {
   is加载中.value = false
   Data.value = res.data
 }
-const 局_任务状态 = ref({id9:1})
+const 局_任务状态 = ref({id9:0})
 const on更新任务状态 = async () => {
   is加载中.value = true
   const res = await GetTaskIdStatus()
   console.log(res)
   is加载中.value = false
   if (res.code == 10000) {
-    is任务状态.value = res.data
+    局_任务状态.value = res.data
   }
 
 }
