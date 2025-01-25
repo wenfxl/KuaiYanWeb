@@ -41,6 +41,16 @@
       </el-form-item>
       <!-- ... existing code ... -->
     </el-form>
+    <div>
+
+        <el-link href="https://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/Apk%E5%8A%A0%E9%AA%8C%E8%AF%81.html"
+                 target="_blank">
+          常见导致加验证后闪退问题
+          <el-icon size="24">
+            <Link/>
+          </el-icon>
+        </el-link>
+    </div>
     <template #footer>
       <div class="dialog-footer">
         <el-button type="primary" @click="on创建任务">开始加验证</el-button>
