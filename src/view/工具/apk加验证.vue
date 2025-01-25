@@ -63,7 +63,7 @@
         </el-table-column>
         <el-table-column :fixed="is移动端()?false:'right'" label="操作" :width="2*85">
             <template #default="scope">
-              <el-button v-if="scope.row.Status==3" link type="primary" size="default" @click="on单个下载(scope.row)"
+              <el-button v-if="scope.row.DownloadUrl" link type="primary" size="default" @click="on单个下载(scope.row)"
                          style="color:#79bbff">
                 <el-icon color="#79bbff" class="no-inherit">
                   <Download/>
@@ -194,14 +194,15 @@ const Data = ref({
   "List": [
     {
       AppId: 10007,
-      AppName: "测试",
-      FileName: "火山程序.apk",
-      Path: "fnkuaiyan/aaaaaa/火山程序.apk",
+      AppName: "",
+      FileName: "",
+      Path: "",
       Status: 1,
       TimeEnd: 0,
       TimeStart: 1737357467,
-      Uuid: "95fc57fa-efbe-42e3-8454-c2dbfd72c53f",
+      Uuid: "",
       签名方式: 1,
+      DownloadUrl: "",
     }]
 })
 
@@ -214,12 +215,7 @@ interface Tree {
 
 const on单个下载 = async (row) => {
   // 输入新文件名,旧文件名为默认文件名
-  const res = await 下载({"Path": row.Path})
-  if (res.code == 10000) {
-    ElMessage.success(res.msg)
-    //不打开新窗口,进行下载
-    window.location.href = res.data
-  }
+  window.location.href = row.DownloadUrl
 };
 
 
