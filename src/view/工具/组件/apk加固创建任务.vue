@@ -110,13 +110,10 @@ const onGetAppIdNameList = async () => {
 const on上传成功 = async (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
 //{"name":"火山程序.apk","percentage":100,"status":"success","size":220117,"raw":{"uid":1737344416100},"uid":1737444446100,"response":{"hash":"Fnf2Aol-0k5FX9FtK7PJ0A7MX-AW","key":"fnkuaiyan/aaaaaa/火山程序.apk"}}
 
-let json = {
-    "uploadFile":uploadFile,
-    "Path": response.key,
-    "fileName": uploadFile.name,
-    "AppId": FormData.value.AppId,
-    "签名方式": FormData.value.签名方式,
-  }
+  let json = FormData.value
+  json.uploadFile=uploadFile
+  json.Path=response.key
+  json.fileName=uploadFile.name
   let res = await CreateApkAddFNKYTask(json)
   console.log(res)
   if (res.code == 10000) {
