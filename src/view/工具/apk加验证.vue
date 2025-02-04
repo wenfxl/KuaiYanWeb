@@ -49,8 +49,19 @@
         </el-table-column>
         <el-table-column prop="Status" label="任务状态" width="90" show-overflow-tooltip="">
           <template #default="scope">
-            <el-tag  effect="plain" :type="['', 'info', '','success','danger'][scope.row.Status]">
-              {{ ['', '已创建', '处理中','成功','失败'][scope.row.Status] }}
+            <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="scope.row.Err"
+                placement="top"
+                v-if="scope.row.Err"
+            >
+              <el-tag  effect="plain" :type="['', 'info', '','success','danger'][scope.row.Status]">
+                {{ 状态列表[scope.row.Status] }}
+              </el-tag>
+            </el-tooltip>
+            <el-tag  v-else effect="plain" :type="['', 'info', '','success','danger'][scope.row.Status]">
+              {{ 状态列表[scope.row.Status] }}
             </el-tag>
           </template>
         </el-table-column>
@@ -117,6 +128,7 @@ import {Delete} from "@element-plus/icons-vue";
 import {GetList,GetTaskIdStatus} from "@/api/Apk加验证";
 import uplode from "./组件/apk加固创建任务.vue";
 
+const 状态列表 = ["", "已创建", "处理中", "成功", "失败"]
 
 const 计算进度条 =   (TimeStart: number) => {
   //计算属性,按300秒计算百分比 没完成永远90
@@ -203,6 +215,7 @@ const Data = ref({
       Uuid: "",
       签名方式: 1,
       DownloadUrl: "",
+      Err: "",
     }]
 })
 
