@@ -26,6 +26,12 @@
           </div>
         </el-upload>
       </el-form-item>
+      <el-form-item label="选择应用" prop="">
+        <el-select v-model.number="FormData.AppId" clear placeholder="请选择应用" style="width: 100%;">
+          <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
+                     :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
+        </el-select>
+      </el-form-item>
       <!-- ... existing code ... -->
       <el-form-item label="签名方式">
         <el-select v-model="FormData.签名方式" placeholder="请选择签名方式" style="width: 100%;">
@@ -33,12 +39,12 @@
           <el-option label="随机签名" :value="2"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="选择应用" prop="">
-        <el-select v-model.number="FormData.AppId" clear placeholder="请选择应用" style="width: 100%;">
-          <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
-                     :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
-        </el-select>
+      <el-form-item label="Activity">
+        <el-input v-model="FormData.Activity" placeholder="指定添加到的窗口,可空,默认首屏" style="width: 100%;">
+        </el-input>
       </el-form-item>
+
+
       <!-- ... existing code ... -->
     </el-form>
     <div>
@@ -75,8 +81,9 @@ const is重新读取 = ref(false)
 
 const FormData = ref({
   fileName: "",
-  签名方式: 1,
+  签名方式: 2,
   AppId: 10000,
+  Activity: "",
 })
 
 const emit = defineEmits(['on对话框详细信息关闭'])

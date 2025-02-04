@@ -433,9 +433,9 @@
                     <el-radio label="0" style="margin-left: 5px" border>关闭</el-radio>
                   </el-radio-group>
                   <div style="float: right; padding-left: 5px">
-                    <el-popconfirm title="确定删除?"
+                    <el-popconfirm :title="'确定删除?'+data.Name"
                                    placement="right"
-                                   @confirm="on删除专属变量(key)" confirm-button-text="确定"
+                                   @confirm="on删除专属变量(data)" confirm-button-text="确定"
                                    cancel-button-text="取消">
 
                       <template #reference>
@@ -1042,18 +1042,19 @@ const on添加专属变量 = async (是否添加: boolean) => {
   }
 }
 
-const on删除专属变量 = async (数组索引: number) => {
+const on删除专属变量 = async (data: object) => {
   is加载中.value = true
   const res = await DeleteInfo({
     "data": [{
-      "AppId": 专属变量.value[数组索引].AppId,
-      "Name": 专属变量.value[数组索引].Name
+      "AppId": data.AppId,
+      "Name": data.Name
     }]
   })
   is加载中.value = false
 
   if (res.code == 10000) {
     is添加专属变量.value = false
+    let 数组索引 = 专属变量.value.findIndex((item) => item.Name === data.Name)
     专属变量.value.splice(数组索引, 1)
     ElMessage.success(res.msg)
   }
