@@ -1,7 +1,7 @@
 <template>
   <div id="userLayout">
     <div class="login_panel">
-      <div class="login_panel_form">
+      <div class="login_panel_form" :style="is移动端()?'padding: 30px 2px 30px 2px;':'padding: 30px 40px 30px 40px;'">
         <div class="login_panel_form_title">
           <img
               class="login_panel_form_title_logo"
@@ -36,21 +36,38 @@
           </el-form-item>
           <el-form-item v-if="loginFormData.openCaptcha" prop="captcha">
             <div class="vPicBox">
-              <el-input
-                  v-model="loginFormData.captcha"
-                  placeholder="请输入验证码"
-                  size="large"
-                  style="flex:1;padding-right: 20px;"
-              />
-              <div class="vPic">
-                <img
-                    v-if="picPath"
-                    :src="picPath"
-                    alt="请输入验证码"
-                    @click="loginVerify()"
-                >
+              <div
+                  :style="{
+                  backgroundImage: `url(${picPath})`,
+                  backgroundSize: '336px 192px',
+                  backgroundRepeat: 'repeat',
+                  backgroundPosition: 'top left',
+                  width: '336px',
+                  height: '192px',
+                  position: 'relative'
+                }"
+                  @click="handleImageClick"
+              ></div>
+              <div
+                      v-for="(mark, index) in clickMarks"
+                      :key="index"
+                      :style="{
+                      position: 'absolute',
+                      left: `${mark.x-5}px`,
+                      top: `${mark.y-10}px`,
+                      color: 'red',
+                      fontSize: '30px',
+                      fontWeight: 'bold',
+                      pointerEvents: 'none',
+                    }"
+                  >
+                    {{ mark.count }}
+                  </div>
+                  <!-- 添加刷新图标 -->
+                  <el-icon class="refresh-icon" @click="on刷新验证码">
+                    <Refresh />
+                  </el-icon>
               </div>
-            </div>
           </el-form-item>
           <el-form-item>
             <!--            <el-button-->
@@ -104,6 +121,12 @@ import {reactive, ref} from 'vue'
 import {onMounted} from 'vue'
 import router from "@/router";
 
+const is移动端 = ()=> {
+  if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+    return true
+  }
+  return false
+}
 const Store = useStore()
 onMounted(() => {
   //console.log('测试')
@@ -135,27 +158,39 @@ const checkPassword = (rule, value, callback) => {
   }
 }
 
+
+
 // 获取验证码
-const loginVerify = () => {
+const on刷新验证码 = () => {
   captcha({}).then(async (ele) => {
-    rules.captcha.push({
-      max: ele.data.captchaLength,
-      min: ele.data.captchaLength,
-      message: `请输入${ele.data.captchaLength}位验证码`,
-      trigger: 'blur',
-    })
     picPath.value = ele.data.picPath
     loginFormData.captchaId = ele.data.captchaId
     loginFormData.openCaptcha = ele.data.openCaptcha
     loginFormData.captcha = ""
+    clickMarks.value = [] // 清空点击标记
   })
 }
-loginVerify()
+on刷新验证码()
 
 
 const loginForm = ref(null)
 
 const picPath = ref('')
+// 定义点击位置和次数的接口
+const clickMarks = ref([]);
+
+
+const handleImageClick = (event) => {
+  const rect = event.target.getBoundingClientRect();
+  const x = event.clientX - rect.left; // 计算点击位置相对于图片的X坐标
+  const y = event.clientY - rect.top; // 计算点击位置相对于图片的Y坐标
+  if (y <= 48 || clickMarks.value.length>=4) {
+    return
+  }
+
+  clickMarks.value.push({x, y, count: clickMarks.value.length+1});
+  console.log('点击位置：', clickMarks.value)
+}
 
 const loginFormData = reactive({
   username: 'admin',
@@ -168,12 +203,6 @@ const loginFormData = reactive({
 const rules = reactive({
   username: [{validator: checkUsername, trigger: 'blur'}],
   password: [{validator: checkPassword, trigger: 'blur'}],
-  captcha: [
-    {
-      message: '验证码格式不正确',
-      trigger: 'blur',
-    },
-  ],
 })
 
 const onLogin = async (loginInfo) => {
@@ -201,17 +230,30 @@ const onLogin = async (loginInfo) => {
 const submitForm = () => {
   loginForm.value.validate(async (v) => {
     if (v) {
+      if (loginFormData.openCaptcha){
+        if (clickMarks.value.length < 4) {
+          ElMessage.error("请完成点选验证")
+          return
+        }
+        loginFormData.captcha =""
+        for (let i = 0; i < clickMarks.value.length; i++){
+          loginFormData.captcha +=parseInt(clickMarks.value[i].x)+"|"+parseInt(clickMarks.value[i].y)
+          if (i < clickMarks.value.length-1){
+            loginFormData.captcha += ","
+          }
+        }
+      }
       const is登录结果 = await onLogin(loginFormData)
       // 如果登录失败 就刷新验证码
       if (is登录结果) {
 
       } else {
-        loginVerify()
+        on刷新验证码()
       }
     } else {
       ElMessage.error("请正确填写登录信息")
 
-      loginVerify()
+      on刷新验证码()
       return false
     }
   })
@@ -250,4 +292,14 @@ const checkInit = async () => {
 
 <style lang="scss" scoped>
 @import "@/styles/newLogin.scss";
+
+
+.refresh-icon {
+  position: absolute;
+  right: 2px;
+  top: 85%;
+  cursor: pointer;
+  font-size: 25px;
+  color: #409EFF;
+}
 </style>

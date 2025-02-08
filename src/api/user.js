@@ -17,7 +17,7 @@ export const login = (data) => {
 // @Router /base/captcha [post]
 export const captcha = (data) => {
   return service({
-    url: 'Admin/base/Captcha',
+    url: 'Admin/base/Captcha2',
     method: 'post',
     data: data
   })

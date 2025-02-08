@@ -29,9 +29,9 @@
             float: right !important;
         }
         .login_panel_form {
-            width: 420px;
+            width: 390px;
+
             background-color: #fff;
-            padding: 40px 40px 40px 40px;
             border-radius: 10px;
             box-shadow: 2px 3px 7px rgba(0, 0, 0, .2);
             .login_panel_form_title {
@@ -48,19 +48,12 @@
                 }
             }
             .vPicBox {
+                padding: 0px 0px 0px 0px;
                 display: flex;
-                justify-content: space-between;
-                width: 100%;
-            }
-            .vPic {
-                width: 33%;
-                height: 38px;
-                background: #ccc;
-                img {
-                    width: 100%;
-                    height: 100%;
-                    vertical-align: middle;
-                }
+                justify-content: center; // 水平居中
+                align-items: center; // 垂直居中
+
+                border: 1px solid #000; // 添加1px的黑色边框
             }
         }
         .login_panel_foot {
