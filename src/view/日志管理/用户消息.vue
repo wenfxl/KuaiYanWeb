@@ -4,11 +4,8 @@
       <el-form :inline="true">
         <el-form-item prop="MsgType" label="消息类型">
           <el-select v-model="对象_搜索条件.MsgType" style="width: 100px;">
-            <el-option label="全部" :value="0"/>
-            <el-option label="其他" :value="1"/>
-            <el-option label="Bug" :value="2"/>
-            <el-option label="投诉建议" :value="3"/>
-            <el-option label="系统内部" :value="4"/>
+            <el-option   label="全部" :value="0"/>
+            <el-option  v-for="(val,i)  in on用户消息类型列表 "   :label="val" :value="i+1"/>
           </el-select>
         </el-form-item>
         <el-form-item prop="status" style="width:250px">
@@ -72,6 +69,7 @@
                 <More/>
               </el-icon>
             </template>
+            <li class="工具_更多_li" @click="on设置消息类型">设置消息类型</li>
             <li class="工具_更多_li" @click="on批量删除(3)">删除 全部</li>
             <li class="工具_更多_li" @click="on批量删除(4)">删除 7天前</li>
             <li class="工具_更多_li" @click="on批量删除(5)">删除30天前</li>
@@ -194,6 +192,7 @@ import {Del批量删除UserClass} from "@/api/用户类型api";
 import {ElMessage} from "element-plus";
 import {SetStatus} from "@/api/卡号列表api";
 import {GetAdminInfo} from "@/api/user";
+import {GetUserMsgConfig, SaveUserMsgConfig} from "@/api/系统设置api";
 
 
 const on批量删除 = async (Type: number) => {
@@ -293,7 +292,7 @@ const on选择框被选择 = (val: any) => {
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
 const on消息类型提示 = (MsgType: number) => {
-  let Msg = ["其他", "Bug", "投诉建议", "系统内部"]
+  let Msg = on用户消息类型列表.value
   if (MsgType - 1 > Msg.length) {
     return ""
   }
@@ -470,8 +469,59 @@ const tableRowClassName = ({
 
 onMounted(async () => {
       on表格列宽初始化()
+      on更新on用户消息类型列表()
     }
 )
+
+// <el-option label="全部" :value="0"/>
+//     <el-option label="其他" :value="1"/>
+//     <el-option label="Bug" :value="2"/>
+//     <el-option label="投诉建议" :value="3"/>
+//     <el-option label="系统内部" :value="4"/>
+const onMsgTypeList = ref<string>("")
+const on用户消息类型列表 = ref<string[]>([ "其他", "Bug", "投诉建议", "系统内部"])
+
+const on更新on用户消息类型列表 = async () => {
+  let 返回  = await GetUserMsgConfig()
+  if (返回.code == 10000) {
+    onMsgTypeList.value = 返回.data.MsgTypeList
+    重置消息类型()
+  }
+}
+const 重置消息类型 = () => {
+
+  on用户消息类型列表.value= [ "其他", "Bug", "投诉建议", "系统内部"]
+    let 局_临时数组 = onMsgTypeList.value.split("|")
+    for (let i = 0; i < 局_临时数组.length; i++) {
+      if (局_临时数组[i] == "") {
+        continue
+      }
+      on用户消息类型列表.value.push(局_临时数组[i])
+    }
+
+}
+
+
+const on设置消息类型 = async () => {
+  //输入消息类型
+  ElMessageBox.prompt('请输入要追加设置的消息类型，以"|"分割', 'Tip', {
+    confirmButtonText: '确定设置',
+    cancelButtonText: '取消',
+    inputValue: onMsgTypeList.value,
+  })
+      .then(async ({value}) => {
+        let 返回 = await SaveUserMsgConfig({
+          MsgTypeList: value
+        })
+        if (返回.code == 10000) {
+          onMsgTypeList.value = value
+          重置消息类型()
+        }
+      })
+
+
+}
+
 </script>
 
 <style scoped lang="scss">
