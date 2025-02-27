@@ -31,6 +31,7 @@
                 <el-option label="用户名" :value="1"/>
                 <el-option label="消息" :value="2"/>
                 <el-option label="Ip" :value="3"/>
+                <el-option label="变化值" :value="4"/>
               </el-select>
             </template>
           </el-input>

@@ -39,6 +39,7 @@
                 <el-option label="Ip" :value="3"/>
                 <el-option label="订单ID" :value="4"/>
                 <el-option label="支付通道订单ID" :value="5"/>
+                <el-option label="金额" :value="6"/>
               </el-select>
             </template>
           </el-input>
