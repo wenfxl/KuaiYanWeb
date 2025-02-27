@@ -180,7 +180,7 @@ const on单个编辑 = async (id: number) => {
 
 }
 const on查看任务 = async (data: any) => {
-  Store.commit("set搜索_任务池数据", {Type: 1, Size: 10, Page: 1, Keywords: "",Tid:data.Id,TidName:data.Name})
+  Store.commit("set搜索_任务池数据", {Type: 1, Size: 10, Page: 1, Keywords: "",Order:2,Tid:data.Id,TidName:data.Name})
   router.push("/二开扩展/任务池数据")
 
 }

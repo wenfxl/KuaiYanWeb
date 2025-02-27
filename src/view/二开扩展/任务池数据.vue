@@ -290,7 +290,7 @@ interface DB_TaskPoolData {
 const List = ref<{Count:number,List:DB_TaskPoolData[] }>([])
 
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Keywords: "",Tid:4,TidName:"任务类型名称"})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Keywords: "",Order:2,Tid:4,TidName:"任务类型名称"})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
