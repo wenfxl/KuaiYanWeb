@@ -109,6 +109,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/二开扩展/任务池.vue"),
             },
             {
+                path: "二开扩展/任务池数据",
+                name: "任务池数据",
+                component: () => import("@/view/二开扩展/任务池数据.vue"),
+            },
+            {
                 path: "二开扩展/定时任务",
                 name: "定时任务",
                 component: () => import("@/view/二开扩展/定时任务.vue"),

@@ -152,6 +152,10 @@ onMounted(() => {
     weatherInfo.value = res.data
   })
 })
+//获取菜单全部项目,随机获取4个
+
+
+
 </script>
 <script>
 export default {

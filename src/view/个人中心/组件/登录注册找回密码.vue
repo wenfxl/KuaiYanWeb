@@ -91,7 +91,21 @@
           >{{ 当前功能 }}
           </el-button>
         </el-form-item>
+
       </el-form>
+
+    </div>
+    <div class="工具栏">
+      <el-tooltip
+          effect="dark"
+          content="升级到最新版本"
+          placement="right"
+      >
+<!--        让icon框靠右侧-->
+        <el-icon size="20"   v-if="Props.UserInfo.AppVer!==Props.UserInfo.AppVerNew" style="margin-left: 90%" @click="on升级最新版本">
+          <UploadFilled/>
+        </el-icon>
+      </el-tooltip>
     </div>
   </el-dialog>
 </template>
@@ -108,16 +122,50 @@ import {
   快验注册,
   取短信验证码,
   取英数验证码,
-  取开启验证码接口列表
+  取开启验证码接口列表, 快验系统更新
 } from "@/api/快验个人中心api";
 import {useIntervalFn} from '@vueuse/core'
 import GeeTestCaptcha from './极验弹窗.vue'
+
+const on升级最新版本 = () => {
+  ElMessageBox.confirm(
+      '确定要升级到最新版本吗?',
+      '',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(async () => {
+        let 返回 = await 快验系统更新({})
+        ElMessage.success(返回.msg)
+      })
+
+}
 
 //              @keyup="data.Qq=data.Qq.replace(/^(0+)|[^\d]+/g,'')"
 const Props = defineProps({
   is对话框可见: {
     type: Boolean,
     default: false
+  },
+  UserInfo: {
+    type: Object,
+    default: {
+      User: "",
+      UserClassName: "",
+      VipNumber: 180.00,
+      RMB: 180.01,
+      VipTime: 1685678065,
+      Email: "13888888888@qq.com",
+      LoginTime: 1685678065,
+      LoginIp: "127.0.0.1",
+      RegisterTime: 1685678065,
+      AppVer: "",
+      AppVerUpdateTime: "",
+      AppVerNew: "",
+    }
   }
 })
 const emit = defineEmits(['on对话框详细信息关闭'])
@@ -443,5 +491,27 @@ const captchaConfig = reactive({
 .英数验证码 {
   padding: 0;
   margin: 0;
+}
+
+.工具栏 {
+  margin: 7px 8px 8px;
+  padding-right: 1px;
+  .el-icon {
+    /*设置边框阴影*/
+    font-size: 16px;
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid rgb(235, 238, 245);
+    color: #409EFF;
+    speak: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: baseline;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    cursor: pointer;
+  }
 }
 </style>

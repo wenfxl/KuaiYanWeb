@@ -17,6 +17,92 @@
               <el-form-item label="应用名称" prop="AppName">
                 <el-input v-model.trim="data.AppName" placeholder="请输入应用名称"/>
               </el-form-item>
+
+              <el-form-item label="应用主页" prop="UrlHome">
+                <el-input v-model.trim="data.UrlHome"/>
+              </el-form-item>
+              <el-form-item label="公告" prop="AppGongGao">
+                <el-input type="textarea" autosize v-model="data.AppGongGao"/>
+              </el-form-item>
+              <el-popconfirm
+                  :trigger-keys="[]"
+                  confirm-button-text="查看详细描述"
+                  placement="top"
+                  cancel-button-text=" "
+                  width="30%"
+                  icon-color="#626AEF"
+                  title="一行一个,格式使用[1.2.5],大版本号.小版本号.编译版本号,第一行为最新版本,后面为可用版本,各版本号末尾支持通配符[*]通配0-9,推荐自动更新只判断提示大小版本号,主动更新才判断检测编译版本号,非可用版本,强制更新"
+                  @confirm="on打开版本信息详细描述"
+              >
+                <template #reference>
+                  <el-form-item label="可用版本" prop="AppVer">
+                    <el-input type="textarea" autosize v-model="data.AppVer" style="width: 200px"/>
+                    <div>
+                      <div style="display: flex;flex-wrap: wrap;flex-direction: row">
+                        <el-button @click="on增加版本号(1,1)"
+                                   style="display: flex;width: 90px;padding: 0;margin-left :5px">大版本号+1
+                        </el-button>
+                        <el-button @click="on增加版本号(1,-1)"
+                                   style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
+                        </el-button>
+                      </div>
+                      <div style="display: flex;flex-wrap: wrap;flex-direction: row">
+                        <el-button @click="on增加版本号(2,1)"
+                                   style="display: flex;width: 90px;padding: 0;margin-left :5px">小版本号+1
+                        </el-button>
+                        <el-button @click="on增加版本号(2,-1)"
+                                   style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
+                        </el-button>
+                      </div>
+                      <div style="display: flex;flex-wrap: wrap;flex-direction: row">
+                        <el-button @click="on增加版本号(3,1)"
+                                   style="display: flex;width: 90px;padding: 0;margin-left :5px">编译版本号+1
+                        </el-button>
+                        <el-button @click="on增加版本号(3,-1)"
+                                   style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
+                        </el-button>
+                      </div>
+
+                    </div>
+
+                  </el-form-item>
+                </template>
+              </el-popconfirm>
+                <el-form-item icon="icon" label="更新下载地址json" prop="UrlDownload">
+                  <el-tooltip
+                      :trigger-keys="[]"
+                      class="box-item"
+                      effect="light"
+                      content="支持使用变量 最新版本号: {{AppVer}}  {{云存储_取外链('10001/app2.apk',0)}} "
+                      placement="top-end"
+                  >
+                  <el-input class="no-inherit" type="textarea" autosize v-model="data.UrlDownload" />
+                  </el-tooltip>
+                  <div class="toolbar">
+                    <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        content="上传文件"
+                        placement="top-start"
+                    >
+                      <el-icon @click="is显示上传界面=true" size="24" color="#409EFC" class="复制按钮 no-inherit"><UploadFilled /></el-icon>
+                    </el-tooltip>
+                  </div>
+                </el-form-item>
+
+              <el-popover
+                  :trigger-keys="[]"
+                  placement="top-end"
+                  :width="200"
+                  trigger="hover"
+                  :content="isVipType?'只有会员时间未到期才可以读取,需要更多请使用专属云变量,效果相同':'只有剩余点数>0才可以读取,需要更多请使用专属云变量,效果相同'"
+              >
+                <template #reference>
+                  <el-form-item label="Vip数据" prop="VipData">
+                    <el-input type="textarea" autosize v-model="data.VipData"/>
+                  </el-form-item>
+                </template>
+              </el-popover>
               <el-form-item label="运营状态" prop="Status">
                 <el-radio-group v-model="data.Status" :size="is移动端()?'small':''">
                   <el-popover placement="left" trigger="hover" content="所有用户禁止登录">
@@ -88,92 +174,6 @@
                   <el-input-number v-model="data.UpKeyData" :step="10" :value-on-clear="10" :min="0"/>
                 </el-tooltip>
               </el-form-item>
-              <el-form-item label="应用主页" prop="UrlHome">
-                <el-input v-model.trim="data.UrlHome"/>
-              </el-form-item>
-
-              <el-popconfirm
-                  :trigger-keys="[]"
-                  confirm-button-text="查看详细描述"
-                  placement="top"
-                  cancel-button-text=" "
-                  width="30%"
-                  icon-color="#626AEF"
-                  title="一行一个,格式使用[1.2.5],大版本号.小版本号.编译版本号,第一行为最新版本,后面为可用版本,各版本号末尾支持通配符[*]通配0-9,推荐自动更新只判断提示大小版本号,主动更新才判断检测编译版本号,非可用版本,强制更新"
-                  @confirm="on打开版本信息详细描述"
-              >
-                <template #reference>
-                  <el-form-item label="可用版本" prop="AppVer">
-                    <el-input type="textarea" autosize v-model="data.AppVer" style="width: 200px"/>
-                    <div>
-                      <div style="display: flex;flex-wrap: wrap;flex-direction: row">
-                        <el-button @click="on增加版本号(1,1)"
-                                   style="display: flex;width: 90px;padding: 0;margin-left :5px">大版本号+1
-                        </el-button>
-                        <el-button @click="on增加版本号(1,-1)"
-                                   style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
-                        </el-button>
-                      </div>
-                      <div style="display: flex;flex-wrap: wrap;flex-direction: row">
-                        <el-button @click="on增加版本号(2,1)"
-                                   style="display: flex;width: 90px;padding: 0;margin-left :5px">小版本号+1
-                        </el-button>
-                        <el-button @click="on增加版本号(2,-1)"
-                                   style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
-                        </el-button>
-                      </div>
-                      <div style="display: flex;flex-wrap: wrap;flex-direction: row">
-                        <el-button @click="on增加版本号(3,1)"
-                                   style="display: flex;width: 90px;padding: 0;margin-left :5px">编译版本号+1
-                        </el-button>
-                        <el-button @click="on增加版本号(3,-1)"
-                                   style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
-                        </el-button>
-                      </div>
-
-                    </div>
-
-                  </el-form-item>
-                </template>
-              </el-popconfirm>
-                <el-form-item icon="icon" label="更新下载地址json" prop="UrlDownload">
-                  <el-tooltip
-                      :trigger-keys="[]"
-                      class="box-item"
-                      effect="light"
-                      content="支持使用变量 最新版本号: {{AppVer}}  {{云存储_取外链('10001/app2.apk',0)}} "
-                      placement="top-end"
-                  >
-                  <el-input class="no-inherit" type="textarea" autosize v-model="data.UrlDownload" />
-                  </el-tooltip>
-                  <div class="toolbar">
-                    <el-tooltip
-                        class="box-item"
-                        effect="dark"
-                        content="上传文件"
-                        placement="top-start"
-                    >
-                      <el-icon @click="is显示上传界面=true" size="24" color="#409EFC" class="复制按钮 no-inherit"><UploadFilled /></el-icon>
-                    </el-tooltip>
-                  </div>
-                </el-form-item>
-              <el-form-item label="公告" prop="AppGongGao">
-                <el-input type="textarea" autosize v-model="data.AppGongGao"/>
-              </el-form-item>
-              <el-popover
-                  :trigger-keys="[]"
-                  placement="top-end"
-                  :width="200"
-                  trigger="hover"
-                  :content="isVipType?'只有会员时间未到期才可以读取,需要更多请使用专属云变量,效果相同':'只有剩余点数>0才可以读取,需要更多请使用专属云变量,效果相同'"
-              >
-                <template #reference>
-                  <el-form-item label="Vip数据" prop="VipData">
-                    <el-input type="textarea" autosize v-model="data.VipData"/>
-                  </el-form-item>
-                </template>
-              </el-popover>
-
 
               <el-popover
                   placement="top-end"

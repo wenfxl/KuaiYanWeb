@@ -50,14 +50,14 @@
           </template>
         </el-popconfirm>
         <div class="工具栏">
-          <el-popover placement="right" trigger="hover">
-            <template #reference>
-              <el-icon>
-                <More/>
-              </el-icon>
-            </template>
-            <li class="工具_更多_li" @click="on批量维护增减余额输入框可见将打开">复制应用</li>
-          </el-popover>
+<!--          <el-popover placement="right" trigger="hover">-->
+<!--            <template #reference>-->
+<!--              <el-icon>-->
+<!--                <More/>-->
+<!--              </el-icon>-->
+<!--            </template>-->
+<!--            <li class="工具_更多_li" @click="on批量维护增减余额输入框可见将打开">复制应用</li>-->
+<!--          </el-popover>-->
           <el-tooltip content="分析"
                       effect="dark"
                       placement="top">
@@ -139,6 +139,11 @@
             <!--              </el-icon>-->
             <!--              删除-->
             <!--            </el-button>-->
+            <el-button link type="primary" size="default" style="color:#79bbff"
+                       @click="on置顶(scope.row)">
+              <el-icon size="20" :color="scope.row.Sort>100?'#79bbff':'#556375'" class="no-inherit"  ><Star /></el-icon>
+            </el-button>
+
           </template>
         </el-table-column>
         <template v-slot:empty>
@@ -174,7 +179,7 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref,} from "vue";
-import {GetAppList, Del批量删除App} from "@/api/应用列表api.js";
+import {GetAppList, Del批量删除App, SetAppSort} from "@/api/应用列表api.js";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
@@ -182,7 +187,7 @@ import {ElMessage} from 'element-plus'
 import NewApp from "@/view/应用管理/组件/应用新增.vue";
 import New详细信息 from "@/view/应用管理/组件/应用详细信息.vue";
 import router from "@/router";
-import {is移动端, 表格写入列宽数组, 表格读取列宽数组} from "@/utils/utils";
+import {is移动端, 时间_取现行时间戳, 表格写入列宽数组, 表格读取列宽数组} from "@/utils/utils";
 import ChartData from "@/view/应用管理/组件/应用列表图表抽屉.vue";
 
 const is图表分析抽屉可见 = ref(false)
@@ -245,7 +250,68 @@ const on选择框被选择 = (val: any) => {
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
 
-const List = ref({List:[]})
+/*
+type DB_AppInfo struct {
+	AppId                 int    `json:"AppId" gorm:"column:AppId;primarykey"` // id
+	AppWeb                string `json:"AppWeb" gorm:"column:AppWeb;size:200;comment:服务器地址"`
+	AppName               string `json:"AppName" gorm:"column:AppName;size:200;comment:应用名称"`
+	Status                int    `json:"Status" gorm:"column:Status;default:3;comment:状态(1>停止运营,2>免费模式,3>收费模式)"`
+	AppStatusMessage      string `json:"AppStatusMessage" gorm:"column:AppStatusMessage;comment:状态原因"`
+	AppVer                string `json:"AppVer"  gorm:"column:AppVer;default:1.0.0;comment:软件版本"`
+	RegisterGiveKaClassId int    `json:"RegisterGiveKaClassId"  gorm:"column:RegisterGiveKaClassId;comment:注册赠送卡类id"`
+
+	VerifyKey     int `json:"VerifyKey"  gorm:"column:VerifyKey;default:1;comment:绑定模式"`                 //1 免验证可以换绑 2 免验证禁止换绑 3 验证可以换绑  4 验证禁止换绑
+	IsUserKeySame int `json:"IsUserKeySame"  gorm:"column:IsUserKeySame;default:1;comment:绑定信息不同用户可否相同"` //1 不同用户可以相同 2 不同用户不可相同
+	UpKeyData     int `json:"UpKeyData"  gorm:"column:UpKeyData;comment:修改绑定key增减值"`
+
+	OutTime            int    `json:"OutTime"  gorm:"column:OutTime;default:1800;comment:心跳超时,超时自动注销"`
+	PackTimeOut        int    `json:"PackTimeOut"  gorm:"column:PackTimeOut;default:900;comment:封包超时,0不校验"`
+	UrlHome            string `json:"UrlHome"  gorm:"column:UrlHome;default:https://www.baidu.com/;comment:首页Url"`
+	UrlDownload        string `json:"UrlDownload"  gorm:"column:UrlDownload;size:5000;comment:下载地址json"`
+	AppGongGao         string `json:"AppGongGao"  gorm:"column:AppGongGao;size:1000;comment:公告"`
+	VipData            string `json:"VipData"  gorm:"column:VipData;size:5000;comment: vip可获取json数据"`
+	CryptoType         int    `json:"CryptoType"  gorm:"column:CryptoType;default:1;comment:加密类型"` //加密类型 1: 明文 2AES 3 Rsa交换密匙 aes加密、私钥签名、公钥验签。
+	CryptoKeyAes       string `json:"CryptoKeyAes"  gorm:"column:CryptoKeyAes;comment:加密通信Aes密匙"`
+	CryptoKeyPrivate   string `json:"CryptoKeyPrivate"  gorm:"column:CryptoKeyPrivate;size:1024;comment:加密通信私钥签名"`
+	CryptoKeyPublic    string `json:"CryptoKeyPublic"  gorm:"column:CryptoKeyPublic;size:1024;comment:加密通信公钥验签"`
+	MaxOnline          int    `json:"MaxOnline"  gorm:"column:MaxOnline;default:999;comment:默认在线最大数量"`                     //在线最大数量 这个是默认 只有用户最大值是0时才用这个
+	ExceedMaxOnlineOut int    `json:"ExceedMaxOnlineOut"  gorm:"column:ExceedMaxOnlineOut;default:1;comment:超过在线最大数量处理方式"` //1踢掉最先登录的账号  2 直接提示
+	AppType            int    `json:"AppType"  gorm:"column:AppType;default:1;comment:软件类型"`                               //1=账号限时,2=账号计点,3卡号限时,4=卡号计点
+	RmbToVipNumber     int    `json:"RmbToVipNumber"  gorm:"column:RmbToVipNumber;default:1;comment:1人民币换多少积分"`
+	Captcha            string `json:"Captcha"  gorm:"column:Captcha;size:1000;comment:需要验证码的接口"`
+	ApiHook            string `json:"ApiHook"  gorm:"column:ApiHook;size:1000;comment:Api接口Hook函数"`
+	Sort               int64  `json:"Sort" gorm:"column:Sort;default:0;comment:排序权重; "`
+}*/
+interface AppInfo {
+  AppId: number
+  AppWeb: string
+  AppName: string
+  Status: number
+  AppStatusMessage: string
+  AppVer: string
+  RegisterGiveKaClassId: number
+  VerifyKey: number
+  IsUserKeySame: number
+  UpKeyData: number
+  OutTime: number
+  PackTimeOut: number
+  UrlHome: string
+  UrlDownload: string
+  AppGongGao: string
+  VipData: string
+  CryptoType: number
+  CryptoKeyAes: string
+  CryptoKeyPrivate: string
+  CryptoKeyPublic: string
+  MaxOnline: number
+  ExceedMaxOnlineOut: number
+  AppType: number
+  RmbToVipNumber: number
+  Captcha: string
+  ApiHook: string
+  Sort: number
+}
+const List = ref<{List:AppInfo[]}>({List:[]})
 const Store = useStore()
 const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Status: 0,Keywords:"",Order:1})
 
@@ -254,6 +320,28 @@ const on读取列表 = () => {
   console.log(对象_搜索条件.value)
   onGetAppList()
 }
+const on置顶 = async (appInfo: AppInfo) => {
+  let 局_新sort = appInfo.Sort > 100 ? 0 : 时间_取现行时间戳();
+  let 返回 = await SetAppSort({ AppId: appInfo.AppId, Sort: 局_新sort });
+  if (返回.code === 10000) {
+    const currentIndex = List.value.List.findIndex(item => item.AppId === appInfo.AppId);
+    if (currentIndex === -1) return;
+    // 更新排序数值
+    List.value.List[currentIndex].Sort = 局_新sort;
+    // 分离非零排序项和零排序项
+    const nonZeroSort = List.value.List.filter(item => Number(item.Sort) >1000 );
+    const zeroSort = List.value.List.filter(item => Number(item.Sort) <1000);
+    const newList = [
+      ...nonZeroSort.sort((a, b) => Number(b.Sort) - Number(a.Sort)),
+      ...zeroSort.sort((a, b) => Number(a.AppId) - Number(b.AppId))
+    ];
+
+
+    List.value.List.splice(0, List.value.List.length, ...newList);
+  }
+};
+
+
 const onReset = () => {
   对象_搜索条件.value ={Type: 2, Size: 10, Page: 1, Status: 0,Keywords:"",Order:1}
 }

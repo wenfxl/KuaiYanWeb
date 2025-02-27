@@ -91,9 +91,9 @@ const form = reactive({
   dbType: 'mysql',
   host: '127.0.0.1',
   port: '3306',
-  userName: 'root',
+  userName: 'feiniaokuaiyan',
   password: 'root',
-  dbName: 'FeiNiaoKuaiYan',
+  dbName: 'feiniaokuaiyan',
 })
 const changeDB = (val) => {
   switch (val) {

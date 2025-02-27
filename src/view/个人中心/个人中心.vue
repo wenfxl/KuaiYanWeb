@@ -105,7 +105,7 @@
   </el-row>
 
 
-  <LoginView :is对话框可见="is对话框可见" @on对话框详细信息关闭="on对话框详细信息关闭"></LoginView>
+  <LoginView :is对话框可见="is对话框可见" @on对话框详细信息关闭="on对话框详细信息关闭" :UserInfo="UserInfo"></LoginView>
 </template>
 
 <script setup lang="ts">

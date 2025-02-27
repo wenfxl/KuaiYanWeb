@@ -3,6 +3,11 @@
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
         <el-form-item>
+        <el-tag effect="plain" >
+          {{ 对象_搜索条件.TidName }}({{对象_搜索条件.Tid }})
+        </el-tag>
+        </el-form-item>
+        <el-form-item>
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
@@ -10,9 +15,10 @@
                     clearable
           >
             <template #prepend>
-              <el-select v-model="对象_搜索条件.Type" placeholder="用户名" style="width: 130px;">
-                <el-option label="Id" :value="1"/>
-                <el-option label="任务类型名称" :value="2"/>
+              <el-select v-model="对象_搜索条件.Type"  style="width: 130px;">
+                <el-option label="生产数据" :value="1"/>
+                <el-option label="消费数据" :value="2"/>
+                <el-option label="Uuid" :value="3"/>
               </el-select>
             </template>
           </el-input>
@@ -26,10 +32,6 @@
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 65px" @click="on对话框详细信息打开(0)">
-          新增
-        </el-button>
-
         <el-popconfirm title="确定删除勾选任务类型?" width="200" @confirm="on批量删除" confirm-button-text="确定"
                        cancel-button-text="取消">
           <template #reference>
@@ -56,9 +58,7 @@
               <RefreshRight/>
             </el-icon>
           </el-tooltip>
-
         </div>
-
       </div>
 
       <el-table v-loading="is加载中" :data="List.List" border style="width: 100% ;white-space: pre-wrap;"
@@ -68,53 +68,79 @@
                 @selection-change="on选择框被选择"
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
-        <el-table-column prop="Id" label="Id" width="80"/>
-        <el-table-column prop="Name" label="任务类型名称" width="230"/>
-        <el-table-column label="状态" prop="status">
+        <el-table-column prop="UUID" label="Uuid" width="120" show-overflow-tooltip="">
           <template #default="scope">
-            <el-switch
-                :active-value="1"
-                :inactive-value="2"
-                v-model="scope.row.Status"
-                inline-prompt
-                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-                active-text="正常"
-                inactive-text="维护"
-                @change="on状态被改变(scope.$index,scope.row.Id,scope.row.Status)"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column prop="Name" label="队列剩余" width="130">
-          <template #default="scope">
-            <el-tag>
-              {{ scope.row.QueueCount }}
-            </el-tag>
-            <el-icon v-if="scope.row.QueueCount>0" class="复制按钮" @click="on清空队列(scope.$index,scope.row)">
-              <Delete/>
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.uuid,'已复制到剪辑版')">
+              <DocumentCopy/>
             </el-icon>
+            {{ scope.row.uuid }}
           </template>
         </el-table-column>
-        <el-table-column prop="TaskCount" label="30天任务总计" width="130"/>
-        <el-table-column prop="MqttSendMsg" label="mqtt通知主题" width="130"/>
-        <el-table-column prop="HookSubmitDataStart" label="Hook函数创建入库前" width="230"/>
-        <el-table-column prop="HookSubmitDataEnd" label="Hook函数创建入库后" width="230"/>
-        <el-table-column prop="HookReturnDataStart" label="Hook函数执行入库前" width="230"/>
-        <el-table-column prop="HookReturnDataEnd" label="Hook函数执行入库后" width="230"/>
 
-
-        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="170">
+        <el-table-column prop="TimeStart" label="创建时间" width="170" show-overflow-tooltip="">
           <template #default="scope">
-            <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
-              <el-icon color="#79bbff" class="no-inherit">
-                <Edit/>
+            {{ 时间_时间戳到时间(scope.row.TimeStart) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="Status" label="任务状态" width="90" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="scope.row.Err"
+                placement="top"
+                v-if="scope.row.Err"
+            >
+              <el-tag  effect="plain" :type="['', 'info', '','success','danger'][scope.row.Status]">
+                {{ 状态列表[scope.row.Status] }}
+              </el-tag>
+            </el-tooltip>
+            <el-tag  v-else effect="plain" :type="['', 'info', '','success','danger'][scope.row.Status]">
+              {{ 状态列表[scope.row.Status] }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="TimeEnd" label="完成时间" width="170" show-overflow-tooltip="">
+          <template #default="scope">
+            {{scope.row.TimeEnd>0?时间_时间戳到时间(scope.row.TimeEnd):"" }}
+            <el-progress     v-if="scope.row.TimeEnd==0" :percentage="scope.row.Status==1?0:计算进度条(scope.row.TimeStart)" :indeterminate="true"/>
+          </template>
+        </el-table-column>
+
+        <el-table-column   label="生产者" width="130" show-overflow-tooltip="">
+          <template #default="scope">
+            {{ scope.row.SubmitAppId }}->{{ scope.row.SubmitUid }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="SubmitAppId" label="消费者" width="130" show-overflow-tooltip="">
+          <template #default="scope">
+            {{ scope.row.ReturnAppId }}->{{ scope.row.ReturnUid }}
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="SubmitData" label="生产提交数据" width="130" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.SubmitData,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
+            {{ scope.row.SubmitData }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="ReturnData" label="消费返回数据" width="130" show-overflow-tooltip="">
+          <template #default="scope">
+            <el-icon class="复制按钮" @click="置剪辑版文本(scope.row.ReturnData,'已复制到剪辑版')">
+              <DocumentCopy/>
+            </el-icon>
+            {{ scope.row.ReturnData }}
+          </template>
+        </el-table-column>
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="140">
+          <template #default="scope">
+            <el-button link type="primary" size="default" @click="on单个删除(scope.row.uuid)" style="color:#f56d6d">
+              <el-icon color="#f56d6d" class="no-inherit">
+                <Delete/>
               </el-icon>
-              编辑
-            </el-button>
-            <el-button link type="primary" size="default" @click="on查看任务(scope.row)" style="color:#79bbff">
-              <el-icon color="#79bbff" class="no-inherit">
-                <ZoomIn/>
-              </el-icon>
-              查看任务
+              删除
             </el-button>
           </template>
         </el-table-column>
@@ -147,13 +173,20 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {
-  Del批量删除TaskPool,
-  GetTaskPoolList,
-  设置任务池任务类型状态,
-  清空队列Tid,
   添加uuid到队列
 } from "@/api/任务池api.js";
-import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
+import {
+  Del批量删除Ka,
+  GetTaskPoolDataList
+} from "@/api/任务池数据api.js";
+import {
+  时间_时间戳到时间,
+  时间_取现行时间戳,
+  is移动端,
+  表格读取列宽数组,
+  表格写入列宽数组,
+  置剪辑版文本
+} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
@@ -163,55 +196,29 @@ import Userinfo from "@/view/二开扩展/组件/任务类型详细信息.vue";
 import {SetUserStatus} from "@/api/用户信息api";
 import service from "@/api/request";
 import {SaveInfoSMS} from "@/api/系统设置api";
-import router from "@/router";
+const 状态列表 = ["", "已创建", "处理中", "成功", "失败"]
 
-const on单个删除 = async (id: number) => {
-  console.log('on单个删除' + id)
+const 计算进度条 =   (TimeStart: number) => {
+  //计算属性,按300秒计算百分比 没完成永远90
+  let 局_值= 时间_取现行时间戳()-TimeStart
+  if (局_值>300 || 局_值<0) {
+    return 95
+  }
+  //取整数
+  局_值= Math.floor(局_值/300*100)
+  return 局_值
+};
+const on单个删除 = async (id: string) => {
 
-  const res = await Del批量删除TaskPool({"ID": [id]})
+
+  const res = await Del批量删除Ka({"Uuids": [id]})
   console.log(res)
   if (res.code == 10000) {
     ElMessage.success(res.msg)
     on读取列表()
   }
 }
-const on单个编辑 = async (id: number) => {
-  on对话框详细信息打开(id)
 
-}
-const on查看任务 = async (data: any) => {
-  Store.commit("set搜索_任务池数据", {Type: 1, Size: 10, Page: 1, Keywords: "",Tid:data.Id,TidName:data.Name})
-  router.push("/二开扩展/任务池数据")
-
-}
-
-const on清空队列 = async (索引: number, row: any) => {
-  ElMessageBox.confirm(
-      '确认清空>' + row.Name + '<剩余队列吗?,被清空的uuid会直接修改任务状态失败',
-      'Warning',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-  )
-      .then(async () => {
-
-        let 返回;
-        is加载中.value = true
-        返回 = await 清空队列Tid({Id: [row.Id]});
-        is加载中.value = false
-        List.value.List[索引].QueueCount = 0
-        console.log(返回)
-        if (返回.code == 10000) {
-          ElMessage.success(返回.msg)
-        }
-
-      })
-      .catch(() => {
-      })
-
-}
 
 const on添加uuid到队列 = async () => {
   ElMessageBox.prompt('请输入uuid', '提示', {
@@ -223,22 +230,19 @@ const on添加uuid到队列 = async () => {
         is加载中.value = true
         返回 = await 添加uuid到队列({uuid: value});
         is加载中.value = false
-        List.value.List[索引].QueueCount = 0
         console.log(返回)
         if (返回.code == 10000) {
           ElMessage.success(返回.msg)
         }
-
       })
       .catch(() => {
       })
-
 }
 
 const on批量删除 = async () => {
-  const ids = 表格被选中列表.value.map((item => item.Id))
+  const ids = 表格被选中列表.value.map((item => item.uuid))
   console.log(ids)
-  const res = await Del批量删除TaskPool({"ID": ids})
+  const res = await Del批量删除Ka({"Uuids": ids})
   console.log(res)
   if (res.code == 10000) {
     ElMessage.success(res.msg)
@@ -271,40 +275,34 @@ const on选择框被选择 = (val: any) => {
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
 
-const List = ref({
-  "Count": 0,
-  "List": [
-    {
-      "Id": 1,
-      "Name": "test3",
-      "Status": 1,
-      "QueueCount": 0,
-      "TaskCount": 0,
-      "HookSubmitDataStart": "",
-      "HookSubmitDataEnd": "",
-      "HookReturnDataStart": "",
-      "HookReturnDataEnd": "",
-      "MqttSendMsg": "",
-    }]
-})
+interface DB_TaskPoolData {
+  Uuid: string
+  Tid: number
+  TimeStart: number
+  TimeEnd: number
+  SubmitData: string
+  ReturnData: string
+  Status: number //1 已创建,2任务处理中,3成功,4任务失败
+  SubmitAppId: number
+  SubmitUid: number
+}
+
+const List = ref<{Count:number,List:DB_TaskPoolData[] }>([])
 
 const Store = useStore()
-const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Keywords: ""})
+const 对象_搜索条件 = ref({Type: 2, Size: 10, Page: 1, Keywords: "",Tid:4,TidName:"任务类型名称"})
 
 const on读取列表 = () => {
   console.log("对象_搜索条件")
   console.log(对象_搜索条件.value)
   onGetList()
 }
-const onReset = () => {
-  对象_搜索条件.value = {Type: 2, Size: 10, Page: 1, Keywords: ""}
-}
 
 
 const is加载中 = ref(false)
 const onGetList = async () => {
   is加载中.value = true
-  const res = await GetTaskPoolList(对象_搜索条件.value)
+  const res = await GetTaskPoolDataList(对象_搜索条件.value)
   console.log(res)
   is加载中.value = false
   List.value = res.data
@@ -330,15 +328,13 @@ onMounted(async () => {
 // table高度
 const tableHeight = ref();
 onMounted(() => {
-
-  onReset()
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
-  if (Store.state.搜索_任务池.Size != 0 && Store.state.搜索_任务池.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_任务池
-    console.log("恢复搜索条件")
-    console.log(Store.state.搜索_任务池.Size)
-    console.log(Store.state.搜索_任务池)
-  }
+  let 局_临时= Store.state.搜索_任务池数据
+  对象_搜索条件.value=局_临时
+  console.log("恢复搜索条件")
+  console.log(Store.state.搜索_任务池数据.Size)
+  console.log(Store.state.搜索_任务池数据)
+
 
   onGetList()
   if (!is移动端()) {
@@ -350,27 +346,17 @@ onMounted(() => {
     }
   }
 })
-const on状态被改变 = async (表项索引: number, ID: number, Status: number) => {
-  // console.info("on状态被改变索引:"+表项索引+",Id:"+ID,"Status:"+Status)
-  // console.info(表项索引)
-  //{Id: 16, User: 'test52', Status: 2, Rmb: 81.69, RegisterIp: '127.0.0.1', …}
-  const res = await 设置任务池任务类型状态({"Id": [ID], "Status": Status})
 
-  console.log(res)
-  if (res.code == 10000) {
-    ElMessage.success(res.msg)
-    return true
-  } else {
-    List.value.List[表项索引].Status = Status == 1 ? 2 : 1
-    return false
-  }
-
-}
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_任务池", 对象_搜索条件.value)
+  Store.commit("set搜索_任务池数据", 对象_搜索条件.value)
 })
-
+const onReset = () => {
+  对象_搜索条件.value.Page=1
+  对象_搜索条件.value.Type=1
+  对象_搜索条件.value.Keywords=""
+  onGetList()
+}
 
 </script>
 

@@ -98,3 +98,11 @@ export const  Get全部WebAPi = () => {
   })
 }
 
+//设置 排序 权重
+export const  SetAppSort = (data) => {
+  return service({
+    url:  url+'SetAppSort',
+    method: 'post',
+    data: data
+  })
+}

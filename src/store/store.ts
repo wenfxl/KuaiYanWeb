@@ -23,6 +23,7 @@ interface state全局状态 {
     搜索_公共变量: object
     搜索_公共函数: object
     搜索_任务池: object
+    搜索_任务池数据: object
     搜索_登录日志: object
     搜索_余额日志: object
     搜索_积分点数: object
@@ -69,6 +70,7 @@ export const store = createStore<state全局状态>({
             搜索_用户云配置: {},
             搜索_公共函数: {},
             搜索_任务池: {},
+            搜索_任务池数据: {},
             搜索_登录日志: {},
             搜索_余额日志: {},
             搜索_积分点数: {},
@@ -171,6 +173,9 @@ export const store = createStore<state全局状态>({
         },
         set搜索_任务池(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_任务池 = data
+        },
+        set搜索_任务池数据(state全局状态: state全局状态, data: object) {
+            state全局状态.搜索_任务池数据 = data
         },
         set搜索_登录日志(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_登录日志 = data
