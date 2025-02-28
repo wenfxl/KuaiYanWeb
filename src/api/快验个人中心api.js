@@ -1,6 +1,7 @@
 import service from '@/api/request'
 
-const url="/Admin/KuaiYan/"
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/KuaiYan/"
 
 export const 取英数验证码 = (data) => {
   return service({

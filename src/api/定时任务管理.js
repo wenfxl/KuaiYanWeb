@@ -1,6 +1,7 @@
 import service from '@/api/request'
 
-const url="/Admin/Cron/"
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/Cron/"
 
 // 列表
 export const GetList = (data) => {

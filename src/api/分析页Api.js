@@ -1,6 +1,7 @@
 import service from '@/api/request'
 
-const url="/Admin/Panel/"
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/Panel/"
 
 export const get图表在线用户统计 = (data) => {
     return service({

@@ -96,7 +96,7 @@
 import {onMounted, ref} from "vue";
 import {快验取可购买充值卡, 余额购买充值卡, 购买充值卡记录, 使用充值卡} from "@/api/快验个人中心api.js";
 import {ElMessage} from "element-plus";
-import {时间_时间戳到时间, 置剪辑版文本} from "@/utils/utils.js";
+import {时间_时间戳到时间, 置剪辑版文本} from "@/utils/utils";
 import {useStore} from "vuex";
 
 const Store = useStore()

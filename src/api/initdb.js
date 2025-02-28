@@ -1,4 +1,6 @@
 import service from'@/api/request'
+import {取url根入口路径} from "@/utils/utils";
+const url = 取url根入口路径() + "/base/";
 // @Tags InitDB
 // @Summary 初始化用户数据库
 // @Produce  application/json
@@ -7,7 +9,7 @@ import service from'@/api/request'
 // @Router /init/initdb [post]
 export const initDB = (data) => {
   return service({
-    url: 'Admin/base/InitDB',
+    url: url+'InitDB',
     method: 'post',
     data
   })
@@ -20,7 +22,7 @@ export const initDB = (data) => {
 // @Router /init/checkdb [post]
 export const checkDB = () => {
   return service({
-    url: 'Admin/base/CheckDB',
+    url: url+'CheckDB',
     method: 'post'
   })
 }

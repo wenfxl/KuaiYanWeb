@@ -126,7 +126,7 @@ import {
   置剪辑版文本2,
   表格写入列宽数组,
   表格读取列宽数组
-} from "@/utils/utils.js";
+} from "@/utils/utils";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import {Delete} from "@element-plus/icons-vue";
 

@@ -1,6 +1,7 @@
 import service from '@/api/request'
 
-const url="/Admin/ApkTools/"
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/ApkTools/"
 export const GetList = (data) => {
   return service({
     url: url+'GetList',

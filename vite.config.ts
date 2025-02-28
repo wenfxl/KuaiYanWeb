@@ -10,10 +10,11 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // 引入 vite-plugin-cdn-import 插件
 import { Plugin as importToCDN } from 'vite-plugin-cdn-import'
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
 
-    base: '/Admin/',
+    base: './',
     resolve:{
         alias:{
             '@': path.resolve(__dirname, 'src'),

@@ -1,12 +1,13 @@
 import service from '@/api/request'
-
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/User/"
 
 // 分页获取用户信息列表
 //{ "Page": 0,"Size": 10 }
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 export const GetUserList = (data) => {
   return service({
-    url: '/Admin/User/GetUserList',
+    url: url+'GetUserList',
     method: 'post',
     data: data
   })
@@ -17,7 +18,7 @@ export const GetUserList = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "注销成功"}"
 export const Del批量删除用户 = (data) => {
   return service({
-    url: '/Admin/User/DeleteUser',
+    url: url+'DeleteUser',
     method: 'post',
     data: data
   })
@@ -28,7 +29,7 @@ export const Del批量删除用户 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
 export const Get用户详细信息 = (data) => {
   return service({
-    url: '/Admin/User/GetUserInfo',
+    url: url+'GetUserInfo',
     method: 'post',
     data: data
   })
@@ -39,7 +40,7 @@ export const Get用户详细信息 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"
 export const  Save用户信息 = (data) => {
   return service({
-    url: '/Admin/User/SaveUser',
+    url: url+'SaveUser',
     method: 'post',
     data: data
   })
@@ -57,7 +58,7 @@ export const  Save用户信息 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "msg"}"
 export const  SetUserStatus = (data) => {
   return service({
-    url: '/Admin/User/SetUserStatus',
+    url: url+'SetUserStatus',
     method: 'post',
     data: data
   })
@@ -67,7 +68,7 @@ export const  SetUserStatus = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "添加成功"}"
 export const  New用户信息 = (data) => {
   return service({
-    url: '/Admin/User/NewUser',
+    url: url+'NewUser',
     method: 'post',
     data: data
   })
@@ -78,7 +79,7 @@ export const  New用户信息 = (data) => {
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "添加成功"}"
 export const  Set批量维护增减余额 = (data) => {
   return service({
-    url: '/Admin/User/SetBatchAddRMB',
+    url: url+'SetBatchAddRMB',
     method: 'post',
     data: data
   })

@@ -209,7 +209,7 @@ import {
   is移动端,
   置剪辑版文本,
   表格读取列宽数组, 表格写入列宽数组
-} from "@/utils/utils.js";
+} from "@/utils/utils";
 import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'

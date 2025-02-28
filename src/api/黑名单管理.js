@@ -1,6 +1,7 @@
 import service from '@/api/request'
 
-const url="/Admin/Blacklist/"
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/Blacklist/"
 
 // 黑名单列表
 export const GetList = (data) => {

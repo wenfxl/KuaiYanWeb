@@ -1,6 +1,7 @@
 import service from '@/api/request'
 
-const url="/Admin/AgentInventory/"
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/AgentInventory/"
 // 分页获取用户信息列表
 //{ "Page": 0,"Size": 10 }
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"

@@ -1,5 +1,6 @@
 import {createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw,} from "vue-router";
 import Nprogress from 'nprogress'
+import {取url根入口路径} from "@/utils/utils";
 // @ts-ignore
 // @ts-ignore
 // @ts-ignore
@@ -185,7 +186,7 @@ const routes: Array<RouteRecordRaw> = [
 
 //修改为二级目录Admin下
 const router = createRouter({
-    history: createWebHistory('/Admin/#'),  // createWebHistory必须有＃ 分割路径和本地单页路由,否则容易404
+    history: createWebHistory(取url根入口路径()+'/#'),  // createWebHistory必须有＃ 分割路径和本地单页路由,否则容易404
     routes: routes
 })
 

@@ -1,6 +1,7 @@
 import service from '@/api/request'
 
-const url="/Admin/Panel/"
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/Panel/"
 
 // @Tags system
 // @Summary 获取服务器运行状态

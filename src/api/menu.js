@@ -1,11 +1,13 @@
 import service from '@/api/request'
+import {取url根入口路径} from "@/utils/utils";
+const url = 取url根入口路径() +"/menu/"
 // @Summary 用户登录 获取动态路由
 // @Produce  application/json
 // @Param 可以什么都不填 调一下即可
 // @Router /menu/getMenu [post]
 export const asyncMenu = () => {
   return service({
-    url: '/Admin/menu/GetMenu',
+    url: url+'GetMenu',
     method: 'post'
   })
 }
@@ -19,7 +21,7 @@ export const asyncMenu = () => {
 // @Router /menu/getMenuList [post]
 export const getMenuList = (data) => {
   return service({
-    url: '/menu/getMenuList',
+    url: url+'getMenuList',
     method: 'post',
     data
   })
@@ -31,7 +33,7 @@ export const getMenuList = (data) => {
 // @Router /menu/getMenuList [post]
 export const addBaseMenu = (data) => {
   return service({
-    url: '/menu/addBaseMenu',
+    url: url+'addBaseMenu',
     method: 'post',
     data
   })
@@ -43,7 +45,7 @@ export const addBaseMenu = (data) => {
 // @Router /menu/getBaseMenuTree [post]
 export const getBaseMenuTree = () => {
   return service({
-    url: '/menu/getBaseMenuTree',
+    url: url+'getBaseMenuTree',
     method: 'post'
   })
 }
@@ -54,7 +56,7 @@ export const getBaseMenuTree = () => {
 // @Router /menu/getMenuList [post]
 export const addMenuAuthority = (data) => {
   return service({
-    url: '/menu/addMenuAuthority',
+    url: url+'addMenuAuthority',
     method: 'post',
     data
   })
@@ -66,7 +68,7 @@ export const addMenuAuthority = (data) => {
 // @Router /menu/getMenuAuthority [post]
 export const getMenuAuthority = (data) => {
   return service({
-    url: '/menu/getMenuAuthority',
+    url: url+'getMenuAuthority',
     method: 'post',
     data
   })
@@ -78,7 +80,7 @@ export const getMenuAuthority = (data) => {
 // @Router /menu/deleteBaseMenu [post]
 export const deleteBaseMenu = (data) => {
   return service({
-    url: '/menu/deleteBaseMenu',
+    url: url+'deleteBaseMenu',
     method: 'post',
     data
   })
@@ -90,7 +92,7 @@ export const deleteBaseMenu = (data) => {
 // @Router /menu/updateBaseMenu [post]
 export const updateBaseMenu = (data) => {
   return service({
-    url: '/menu/updateBaseMenu',
+    url: url+'updateBaseMenu',
     method: 'post',
     data
   })
@@ -106,7 +108,7 @@ export const updateBaseMenu = (data) => {
 // @Router /menu/getBaseMenuById [post]
 export const getBaseMenuById = (data) => {
   return service({
-    url: '/menu/getBaseMenuById',
+    url: url+'getBaseMenuById',
     method: 'post',
     data
   })

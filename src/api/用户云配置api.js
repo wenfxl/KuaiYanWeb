@@ -1,6 +1,7 @@
 import service from '@/api/request'
-
-const url="/Admin/UserConfig/"
+//
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/UserConfig/";
 // GetList
 //{ "Page": 0,"Size": 10 }
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"

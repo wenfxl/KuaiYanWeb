@@ -183,7 +183,7 @@
               <el-text type="info" size="large">{{ data.InviteUser }}</el-text>
             </li>
             <li class="li展示不可修改信息">
-              <el-link type="warning" href="/Admin/#/应用管理/软件用户" size="large">提示:卡号使用后会转换成软件用户,如需修改使用后卡号信息,请去软件用户内修改</el-link>
+              <el-link type="warning" :href="软件用户跳转地址" size="large">提示:卡号使用后会转换成软件用户,如需修改使用后卡号信息,请去软件用户内修改</el-link>
             </li>
           </ul>
         </div>
@@ -202,10 +202,10 @@
 import {onMounted, ref, watch} from 'vue'
 import {SaveKa信息, GetKa详细信息} from "@/api/卡号列表api";
 import {ElMessage, FormInstance} from "element-plus";
-import {is移动端, 时间_取现行时间戳, 时间_时间戳到时间, 时间_计算天时分秒提示} from "@/utils/utils";
+import {is移动端, 取url根入口路径, 时间_取现行时间戳, 时间_时间戳到时间, 时间_计算天时分秒提示} from "@/utils/utils";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-
+const 软件用户跳转地址 = 取url根入口路径()+"/#/应用管理/软件用户"
 const Props = defineProps({
   is对话框可见: {
     type: Boolean,

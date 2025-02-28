@@ -1,5 +1,8 @@
 import {ElMessage} from "element-plus";
 
+export const 取url根入口路径 = ()=> {
+    return window.location.pathname.endsWith('/') ? window.location.pathname.slice(0, -1) : window.location.pathname
+}
 export const is移动端 = ()=> {
     if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
         return true
