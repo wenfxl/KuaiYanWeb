@@ -23,7 +23,7 @@
                      :label="val" border/>
       </el-checkbox-group>
 
-        <el-tooltip content="应用必须有可以授权的卡类,才会显示到下方"
+        <el-tooltip content="应用必须有可以授权的卡类且卡类代理价格>0,才会显示到下方"
                     effect="dark"
                     placement="top">
           <el-divider>可制卡类授权<el-icon><WarningFilled /></el-icon></el-divider>
