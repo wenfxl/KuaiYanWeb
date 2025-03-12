@@ -123,9 +123,9 @@
               </el-form-item>
 
 
-              <el-form-item label="注册送卡" prop="RegisterGiveKaClassId" v-if="data.AppType<=2">
+              <el-form-item label="注册送卡" prop="RegisterGiveKaClassId" >
                 <el-popover placement="right" trigger="hover"
-                            content="设置一个注册送卡类,注册送时间,点数,余额,积分都可以在设置,用户注册就会自动充值这个卡类简单方便">
+                            :content="data.AppType<=2?'设置一个注册送卡类,注册送时间,点数,余额,积分都可以在设置,用户注册就会自动充值这个卡类简单方便':'设置一个卡类可以通过取注册送卡获取试用卡'">
                   <template #reference>
                     <el-select v-model="data.RegisterGiveKaClassId" clear placeholder="选择卡类">
                       <el-option key="0" label="无赠送" :value="0"/>
@@ -330,7 +330,7 @@
 
               </el-form-item>
 
-              <el-form-item label="新用户默认最大在线数量" prop="MaxOnline">
+              <el-form-item label="新用户默认最大在线" prop="MaxOnline">
                 <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>
               </el-form-item>
 
