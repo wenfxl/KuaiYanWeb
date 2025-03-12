@@ -500,7 +500,7 @@ const Data = ref({
   "List": [
     {
       "Id": 1,
-      "AppId": 10001,
+      "AppId": 0,
       "KaClassId": 1,
       "Name": "T1KVzqz462i308rK6bivirps8",
       "Status": 1,
@@ -579,7 +579,7 @@ const onGetKaList = async () => {
   对象_卡类型.value = res.data.KaClass
   console.log("对象_用户类型")
   console.log(对象_用户类型.value)
-
+  Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
 }
 
 const MapAppId_Name = ref({})
@@ -594,8 +594,8 @@ const onGetAppIdNameList = async () => {
   console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[对象_搜索条件.value.AppId.toString()])
 
   if (res.data.Map[对象_搜索条件.value.AppId.toString()] == null || 对象_搜索条件.value.AppId <= 10000) {
-    console.log("顶顶顶顶没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + 数组AppId_Name.value[0].Appid)
-    对象_搜索条件.value.AppId = 数组AppId_Name.value[0].Appid
+    let 局_默认appid=Store.state.搜索_默认选择应用AppId
+    对象_搜索条件.value.AppId = 数组AppId_Name.value.some(item => item.Appid === 局_默认appid)?局_默认appid:数组AppId_Name.value[0].Appid
   }
 
 }

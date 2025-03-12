@@ -280,6 +280,7 @@ const onGetLogMoneyList = async () => {
   console.log(res)
   Data.value = res.data
   对象_搜索条件.value.Count = Data.value.Count
+  Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
 }
 
 

@@ -13,8 +13,10 @@ interface state全局状态 {
     Tabs菜单当前Path: string
     权限json: object
     UserInfo: object
+    搜索_默认选择应用AppId: number
     搜索_在线用户: object
     搜索_用户信息: object
+    搜索_应用列表: object // 新增缺失属性
     搜索_软件用户: object
     搜索_用户类型: object
     搜索_卡类列表: object
@@ -79,6 +81,7 @@ export const store = createStore<state全局状态>({
             搜索_定时任务: {},
             搜索_用户消息: {},
             搜索_库存日志: {},
+            搜索_默认选择应用AppId: 10001,
             搜索_个人中心: {数组_可购买充值卡:[],支付通道状态:{},订单信息:{订单ID: "", PayQRCode: "", PayURL: "", 订单状态: 0}},
         }
     },
@@ -86,6 +89,7 @@ export const store = createStore<state全局状态>({
         onCountAdd(state全局状态: state全局状态) {
             state全局状态.count++
         },
+
         addITab(state全局状态: state全局状态, ITab: ITab) {
             const isSome = state全局状态.ITabList.some((item) => item.path == ITab.path)
             //console.log("isSome" + isSome + " path:" + ITab.path + ",Title:" + ITab.title)
@@ -141,6 +145,9 @@ export const store = createStore<state全局状态>({
             localStorage.clear()
 
         },
+        set搜索_默认选择应用AppId(state全局状态: state全局状态, AppId: number) {
+            state全局状态.搜索_默认选择应用AppId = AppId
+        },
         set搜索_在线用户(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_在线用户 = data
         },
@@ -148,7 +155,7 @@ export const store = createStore<state全局状态>({
             state全局状态.搜索_用户信息 = data
         },
         set搜索_应用列表(state全局状态: state全局状态, data: object) {
-            state全局状态.搜索_用户信息 = data
+            state全局状态.搜索_应用列表 = data
         },
         set搜索_软件用户(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_软件用户 = data

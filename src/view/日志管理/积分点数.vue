@@ -197,8 +197,8 @@ const onGetAppIdNameList = async () => {
   console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[对象_搜索条件.value.AppId.toString()])
 
   if (res.data.Map[对象_搜索条件.value.AppId.toString()] == null || 对象_搜索条件.value.AppId <= 10000) {
-    console.log("顶顶顶顶没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + 数组AppId_Name.value[0].Appid)
-    //对象_搜索条件.value.AppId = 数组AppId_Name.value[0].Appid
+    // let 局_默认appid=Store.state.搜索_默认选择应用AppId
+    // 对象_搜索条件.value.AppId = 数组AppId_Name.value.some(item => item.Appid === 局_默认appid)?局_默认appid:数组AppId_Name.value[0].Appid
   }
 
 }
@@ -315,6 +315,7 @@ const onGetLogVipNumberList = async () => {
   console.log(res)
   Data.value = res.data
   对象_搜索条件.value.Count = Data.value.Count
+  Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
 }
 
 

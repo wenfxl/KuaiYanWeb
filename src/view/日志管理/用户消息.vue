@@ -353,6 +353,7 @@ const onGetLogLoginList = async () => {
   console.log(res)
   is加载中.value = false
   Data.value = res.data
+  Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
 }
 
 

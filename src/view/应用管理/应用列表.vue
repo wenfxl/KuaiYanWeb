@@ -380,6 +380,7 @@ const onGetAppList = async () => {
   console.log(res)
   is加载中.value = false
   List.value = res.data
+  Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
 }
 const on跳转软件用户 = (AppId: Number) => {
   console.log("on跳转软件用户" + AppId)
