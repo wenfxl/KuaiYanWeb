@@ -143,7 +143,6 @@
                 @header-dragend="on表格列宽被改变"
                 :max-height="tableHeight"
                 @selection-change="on选择框被选择"
-
                 :header-cell-style="{background:'#FAFAFAFF',color:'#606266'}">
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="Id" label="Id" width="80"/>
@@ -580,6 +579,7 @@ const onGetKaList = async () => {
   console.log("对象_用户类型")
   console.log(对象_用户类型.value)
   Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
+  更新表格高度()
 }
 
 const MapAppId_Name = ref({})
@@ -623,7 +623,9 @@ onMounted(async () => {
 )
 // table高度
 const tableHeight = ref();
-
+const 更新表格高度 = () => {
+  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+}
 
 onMounted(async () => {
 
@@ -640,17 +642,8 @@ onMounted(async () => {
       await onGetKaList()
       on表格列宽初始化()
 
-
-      if (!is移动端()) {
-        // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-        tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-        // 监听浏览器高度变化
-        window.onresize = () => {
-          tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-        }
-      }
-
-
+      更新表格高度()
+      window.onresize =  更新表格高度
     }
 )
 

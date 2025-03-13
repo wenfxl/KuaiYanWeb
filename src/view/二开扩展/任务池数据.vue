@@ -307,6 +307,7 @@ const onGetList = async () => {
   is加载中.value = false
   List.value = res.data
   Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
+  更新表格高度()
 }
 // table元素
 const tableRef = ref<any>();
@@ -328,6 +329,9 @@ onMounted(async () => {
 )
 // table高度
 const tableHeight = ref();
+const 更新表格高度 = () => {
+  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+}
 onMounted(() => {
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
   let 局_临时= Store.state.搜索_任务池数据
@@ -338,14 +342,6 @@ onMounted(() => {
 
 
   onGetList()
-  if (!is移动端()) {
-    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-    // 监听浏览器高度变化
-    window.onresize = () => {
-      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-    }
-  }
 })
 
 onBeforeUnmount(() => {

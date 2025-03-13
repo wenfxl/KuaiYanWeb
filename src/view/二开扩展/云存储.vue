@@ -158,6 +158,9 @@ onMounted(async () => {
 )
 // table高度
 const tableHeight = ref();
+const 更新表格高度 = () => {
+  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+}
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
 const is显示上传界面 = ref(false)
@@ -170,14 +173,7 @@ const on选择框被选择 = (val: any) => {
 
 
 onMounted(async () => {
-  if (!is移动端()) {
-    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-    // 监听浏览器高度变化
-    window.onresize = () => {
-      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-    }
-  }
+  更新表格高度()
 })
 
 const Data = ref({

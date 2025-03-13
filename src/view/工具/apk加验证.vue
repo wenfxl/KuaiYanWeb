@@ -169,6 +169,9 @@ onMounted(async () => {
 
 // table高度
 const tableHeight = ref();
+const 更新表格高度 = () => {
+  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+}
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
 const is显示上传界面 = ref(false)
@@ -191,14 +194,7 @@ onMounted(async () => {
   //对象_搜索条件.value = {Page: 1, Size: 10, Type: 2, Keywords: "", Order: 1, Count: 0}
   await on更新任务状态()
   await on读取列表()
-  if (!is移动端()) {
-    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-    // 监听浏览器高度变化
-    window.onresize = () => {
-      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-    }
-  }
+
 })
 
 const Data = ref({
@@ -238,7 +234,7 @@ const on读取列表 = async () => {
   console.log(res)
   is加载中.value = false
   Data.value = res.data
-  Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
+  更新表格高度()
 }
 const 局_任务状态 = ref({id9:0})
 const on更新任务状态 = async () => {

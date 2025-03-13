@@ -261,6 +261,7 @@ const onGetLogMoneyList = async () => {
   Data.value = res.data
   对象_搜索条件.value.Count = Data.value.Count
   Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
+  更新表格高度()
 }
 
 
@@ -286,6 +287,9 @@ onMounted(async () => {
 )
 // table高度
 const tableHeight = ref();
+const 更新表格高度 = () => {
+  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
+}
 
 onMounted(async () => {
 
@@ -302,14 +306,7 @@ onMounted(async () => {
     console.log(Store.state.搜索_余额日志)
   }
   await onGetLogMoneyList()
-  if (!is移动端()) {
-    // 设置表格初始高度为innerHeight-offsetTop-表格底部与浏览器底部距离85
-    tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-    // 监听浏览器高度变化
-    window.onresize = () => {
-      tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-    }
-  }
+
 })
 
 onBeforeUnmount(() => {
