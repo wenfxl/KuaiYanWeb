@@ -455,7 +455,7 @@
 
               <el-dialog
                   v-model="is添加专属变量"
-                  width="30%"
+                  :width="is移动端()?'90%':'30%'"
                   title="选择变量类型"
                   append-to-body
               >
@@ -532,37 +532,6 @@
                   添加ApiHook
                 </el-button>
               </el-divider>
-
-
-              <el-dialog
-                  v-model="is添加专属变量"
-                  width="30%"
-                  title="选择变量类型"
-                  append-to-body
-              >
-                <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px"
-                         :model="添加专属变量"
-                         label-position="top" ref="ruleFormRef">
-                  <el-form-item label="变量名称" prop="Name">
-                    <el-input v-model.trim="添加专属变量.Name" placeholder="请输入变量名称" style="width: 263px"/>
-                  </el-form-item>
-
-                  <el-form-item label="变量类型" prop="Status">
-                    <el-radio-group v-model="添加专属变量.Type" :size="is移动端()?'small':''">
-                      <el-radio-button :label="1">单行文本</el-radio-button>
-                      <el-radio-button :label="2">多行文本</el-radio-button>
-                      <el-radio-button :label="3">逻辑开关</el-radio-button>
-                    </el-radio-group>
-                  </el-form-item>
-                  <div style="text-align: right; margin: 0">
-                    <el-button size="small" text @click="on添加专属变量(false)">取消</el-button>
-                    <el-button size="small" type="primary" @click="on添加专属变量(true)"
-                    >确定
-                    </el-button
-                    >
-                  </div>
-                </el-form>
-              </el-dialog>
             </el-tab-pane>
           </el-tabs>
         </el-form>

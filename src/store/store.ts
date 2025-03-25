@@ -1,8 +1,8 @@
 import {createStore} from "vuex";
-import {inputEmits} from "element-plus";
 import {ITab} from "@/store/ITab";
-import {useRouter} from "vue-router";
 import 权限json from "@/store/权限.json"
+// 在文件顶部新增导入
+import createPersistedState from 'vuex-persistedstate'
 
 interface state全局状态 {
     count: number
@@ -40,6 +40,35 @@ interface state全局状态 {
 
 
 export const store = createStore<state全局状态>({
+    // 新增 plugins 配置项
+    plugins: [
+        createPersistedState({
+            storage: window.sessionStorage, // 指定存储方式
+            paths: [ // 指定需要持久化的状态
+                "搜索_在线用户",
+                "搜索_用户信息",
+                "搜索_应用列表",
+                "搜索_软件用户",
+                "搜索_用户类型",
+                "搜索_卡类列表",
+                "搜索_卡号列表",
+                "搜索_公共变量",
+                "搜索_用户云配置",
+                "搜索_公共函数",
+                "搜索_任务池",
+                "搜索_任务池数据",
+                "搜索_登录日志",
+                "搜索_余额日志",
+                "搜索_积分点数",
+                "搜索_制卡日志",
+                "搜索_黑名单",
+                "搜索_定时任务",
+                "搜索_用户消息",
+                "搜索_库存日志",
+                // 添加其他需要持久化的状态名...
+            ]
+        })
+    ],
     state() {
         return {
             count: 0,
@@ -146,7 +175,8 @@ export const store = createStore<state全局状态>({
 
         },
         set搜索_默认选择应用AppId(state全局状态: state全局状态, AppId: number) {
-            state全局状态.搜索_默认选择应用AppId = AppId
+            // state全局状态.搜索_默认选择应用AppId = AppId    //客户不喜欢还是喜欢每个都是独立保存的
+            state全局状态.搜索_默认选择应用AppId = 0
         },
         set搜索_在线用户(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_在线用户 = data

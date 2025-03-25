@@ -96,7 +96,7 @@
         </el-table-column>
         <el-table-column prop="AppType" label="应用类型" width="100" :formatter="on格式化_类型"/>
 
-        <el-table-column :fixed="is移动端值?false:'right'" label="操作" :width="6*(is移动端值?30:85)">
+        <el-table-column :fixed="is移动端值?false:'right'" label="操作" :width="6*(is移动端值?36:85)">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.AppId)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">

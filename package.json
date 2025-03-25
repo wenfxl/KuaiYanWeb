@@ -33,7 +33,8 @@
     "vue-codemirror": "^6.1.1",
     "vue-router": "^4.1.6",
     "vue3-tree-org": "^4.2.2",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@types/js-beautify": "^1.13.3",
