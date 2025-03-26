@@ -2,37 +2,7 @@
   <div class="最底层div">
     <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="130px" :model="Data"
              :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-      <div class="内容div">
-        <el-divider content-position="left">支付宝免挂
-          <el-link href="https://www.xunhupay.com" target="_blank">www.xunhupay.com</el-link>
-        </el-divider>
-        <el-form-item label="开关" prop="支付宝免挂开关">
-          <el-radio-group v-model="Data.支付宝免挂开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <div v-if="Data.支付宝免挂开关">
-          <el-form-item label="显示名称" >
-            <el-input v-model.trim="Data.支付宝免挂显示名称"/>
-          </el-form-item>
-          <el-form-item label="开放平台APPID" >
-            <el-input v-model.trim="Data.支付宝免挂APPID"/>
-          </el-form-item>
-          <el-form-item label="商户应用私钥" >
-            <el-input v-model.trim="Data.支付宝免挂应用私钥"/>
-          </el-form-item>
-          <el-form-item label="支付宝公钥" >
-            <el-input v-model.trim="Data.支付宝免挂支付宝公钥"/>
-          </el-form-item>
-          <el-form-item label="应用公钥" >
-            <el-input v-model.trim="Data.支付宝免挂应用公钥"/>
-          </el-form-item>
-          <el-form-item label="单次最大金额" >
-            <el-input-number v-model="Data.支付宝免挂最大金额"/>
-          </el-form-item>
-        </div>
-      </div>
+
       <div class="内容div">
         <el-divider content-position="left">支付宝PC ->
           <el-link href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001000"
@@ -280,6 +250,41 @@
         </div>
       </div>
 
+      <div class="内容div">
+        <el-divider content-position="left">易支付
+<!--          <el-link href="https://www.xddpay.com/" target="_blank">www.xddpay.com</el-link>-->
+        </el-divider>
+        <el-form-item label="开关" prop="易支付开关">
+          <el-radio-group v-model="Data.易支付开关">
+            <el-radio-button :label="true" size="" border>开启</el-radio-button>
+            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <div v-if="Data.易支付开关">
+          <el-form-item label="显示名称" disabled="disabled">
+            <el-input v-model.trim="Data.易支付显示名称"/>
+          </el-form-item>
+          <el-form-item label="网关" disabled="disabled" placeholder="https://www.baidu.com">
+            <el-input v-model.trim="Data.易支付网关"/>
+          </el-form-item>
+          <el-form-item label="易支付商户ID" disabled="disabled">
+            <el-input v-model.trim="Data.易支付商户ID"/>
+          </el-form-item>
+          <el-form-item label="接口密钥" disabled="disabled">
+            <el-input v-model.trim="Data.易支付商户密钥KEY"/>
+          </el-form-item>
+          <el-form-item label="支付方式" disabled="disabled">
+            <el-input v-model.trim="Data.易支付支付方式"/>
+          </el-form-item>
+          <el-form-item label="同步回调url" d>
+            <el-input v-model.trim="Data.易支付同步回调url" placeholder="(可空)同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+          </el-form-item>
+          <el-form-item label="单次最大金额" disabled="disabled">
+            <el-input-number v-model="Data.易支付最大金额"/>
+          </el-form-item>
+        </div>
+      </div>
+
 
 
       <div class="内容div">
@@ -345,13 +350,14 @@ const Data = ref({
   "虎皮椒支付网关": "",
   "虎皮椒同步回调url": "",
 
-  "支付宝免挂开关": false,
-  "支付宝免挂显示名称": "",
-  "支付宝免挂最大金额": 500,
-  "支付宝免挂APPID": "",
-  "支付宝免挂支付宝公钥": "",
-  "支付宝免挂应用公钥": "",
-  "支付宝免挂应用私钥": ""
+  "易支付开关": false,
+  "易支付显示名称": "",
+  "易支付网关": "",
+  "易支付最大金额": 500,
+  "易支付商户ID": "",
+  "易支付支付方式": "alipay",
+  "易支付同步回调url": "",
+  "易支付商户密钥KEY": "",
 })
 
 const ruleFormRef = ref<FormInstance>()
