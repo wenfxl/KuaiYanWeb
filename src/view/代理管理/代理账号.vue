@@ -67,6 +67,7 @@
               </el-icon>
             </template>
             <li class="工具_更多_li" @click="on批量维护增减余额输入框可见将打开">on批量增减余额</li>
+            <li class="工具_更多_li" @click="on批量维护销售统计">销售统计</li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -215,6 +216,8 @@ import KaClassAuthority from "@/view/代理管理/组件/代理制卡授权详�
 import ChartData from "@/view/代理管理/组件/代理账号图表抽屉.vue";
 import BatchAddRmb from "@/view/用户管理/组件/批量维护增减余额.vue";
 import {Set批量维护增减余额} from "@/api/用户信息api";
+import router from "@/router";
+
 
 const is制卡授权对话框可见 = ref(false)
 const is图表分析抽屉可见 = ref(false)
@@ -247,6 +250,13 @@ const on批量维护增减余额输入框可见将打开 = async () => {
   }
   is批量维护增减余额输入框可见.value = true
 }
+
+const on批量维护销售统计 = async () => {
+  router.push("/代理管理/销售统计")
+}
+
+
+
 const on批量维护增减余额输入框被关闭 = async (is确定: boolean, 请求: any) => {
 
   is批量维护增减余额输入框可见.value = false

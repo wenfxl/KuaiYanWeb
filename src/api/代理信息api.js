@@ -96,3 +96,11 @@ export const Set代理可制卡类列表 = (data) => {
     data: data
   })
 }
+
+export const Get销售统计 = (data) => {
+  return service({
+    url: url+'GetKaSalesStatistics',
+    method: 'post',
+    data: data
+  })
+}

@@ -55,6 +55,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/代理管理/库存管理.vue"),
             },
             {
+                path: "代理管理/销售统计",
+                name: "销售统计",
+                component: () => import("@/view/代理管理/销售统计.vue"),
+            },
+            {
                 path: "应用管理/应用列表",
                 name: "应用列表",
                 component: () => import("@/view/应用管理/应用列表.vue"),
