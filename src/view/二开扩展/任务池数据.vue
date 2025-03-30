@@ -196,6 +196,9 @@ import Userinfo from "@/view/二开扩展/组件/任务类型详细信息.vue";
 import {SetUserStatus} from "@/api/用户信息api";
 import service from "@/api/request";
 import {SaveInfoSMS} from "@/api/系统设置api";
+// table元素
+import {useTableHeight} from "@/composables/useTableHeight";
+const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const 状态列表 = ["", "已创建", "处理中", "成功", "失败"]
 
 const 计算进度条 =   (TimeStart: number) => {
@@ -307,10 +310,9 @@ const onGetList = async () => {
   is加载中.value = false
   List.value = res.data
   Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
-  更新表格高度()
+
 }
-// table元素
-const tableRef = ref<any>();
+
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
   localStorage.setItem('列宽_任务池', JSON.stringify(局_列宽数组));
@@ -327,11 +329,9 @@ onMounted(async () => {
       on表格列宽初始化()
     }
 )
-// table高度
-const tableHeight = ref();
-const 更新表格高度 = () => {
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-}
+
+
+
 onMounted(() => {
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
   let 局_临时= Store.state.搜索_任务池数据

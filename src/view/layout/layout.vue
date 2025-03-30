@@ -10,7 +10,7 @@
 
         <el-header>
           <!--头部导航-->
-          <div class="ele-admin-header-tool-item" @click="()=>is折叠=!is折叠">
+          <div class="ele-admin-header-tool-item" @click="on折叠被点击">
             <el-icon style="font-size: 18px ; left: 0;padding: 15px 10px;">
               <component :is="is折叠?'Expand':'Fold'"></component>
             </el-icon>
@@ -46,8 +46,14 @@ import AppMain from "@/view/layout/components/AppMain/AppMain.vue";
 import HeaderBar from "@/view/layout/components/headerBar/headerBar.vue";
 import tabs from "@/view/layout/components/TabBar/TabBar.vue";
 import Userinfo from "@/view/layout/components/用户名下拉菜单/用户名下拉菜单.vue";
+import {triggerGlobalResize} from "@/composables/useTableHeight";
 
 const is折叠 = ref<boolean>(true);
+
+const on折叠被点击 = () => {
+  is折叠.value = !is折叠.value
+  triggerGlobalResize() // 直接调用全局方法
+}
 
 
 onMounted(()=>{

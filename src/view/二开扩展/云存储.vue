@@ -137,7 +137,8 @@ import {添加uuid到队列} from "@/api/任务池api";
 
 const is加载中 = ref(false)
 // table元素
-const tableRef = ref<any>();
+import {useTableHeight} from "@/composables/useTableHeight";
+const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
@@ -156,11 +157,9 @@ onMounted(async () => {
       on表格列宽初始化()
     }
 )
-// table高度
-const tableHeight = ref();
-const 更新表格高度 = () => {
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-}
+
+
+
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
 const is显示上传界面 = ref(false)
@@ -173,7 +172,7 @@ const on选择框被选择 = (val: any) => {
 
 
 onMounted(async () => {
-  更新表格高度()
+
 })
 
 const Data = ref({

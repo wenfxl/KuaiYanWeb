@@ -334,12 +334,11 @@
 </template>
 
 <script lang="ts" setup>
-import {onBeforeUnmount, onMounted, ref} from "vue";
+import { onBeforeUnmount, onMounted, ref} from "vue";
 import {GetKaList, Del批量删除Ka, SetStatus, SetAdminNote, Del批量追回Ka, Del批量维护_删除} from "@/api/卡号列表api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
   时间_时间戳到时间,
-  时间_取现行时间戳,
   时间_计算天时分秒提示,
   is移动端,
   置剪辑版文本,
@@ -354,8 +353,8 @@ import KaNew from "./组件/卡号列表制卡.vue";
 import KaEdit from "./组件/卡号详细信息.vue";
 import ChartData from "@/view/应用管理/组件/卡号列表图表抽屉.vue";
 import router from "@/router";
-
-
+import {useTableHeight} from "@/composables/useTableHeight";
+const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)// 表格实例,表格高度,更新表格高度
 const is图表分析抽屉可见 = ref(false)
 const is更多筛选 = ref(false)
 const on图表分析被点击 = () => {
@@ -579,7 +578,6 @@ const onGetKaList = async () => {
   console.log("对象_用户类型")
   console.log(对象_用户类型.value)
   Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
-  更新表格高度()
 }
 
 const MapAppId_Name = ref({})
@@ -601,8 +599,7 @@ const onGetAppIdNameList = async () => {
 }
 const 对象_用户类型 = ref({"0": "未分类"})
 const 对象_卡类型 = ref({})
-// table元素
-const tableRef = ref<any>();
+
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
@@ -617,15 +614,8 @@ const on表格列宽初始化 = () => {
     表格写入列宽数组(tableRef.value, 局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
-// table高度
-const tableHeight = ref();
-const 更新表格高度 = () => {
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-}
+
+
 
 onMounted(async () => {
 
@@ -641,9 +631,6 @@ onMounted(async () => {
       await onGetAppIdNameList()
       await onGetKaList()
       on表格列宽初始化()
-
-      更新表格高度()
-      window.onresize =  更新表格高度
     }
 )
 

@@ -1,5 +1,4 @@
 import {ElMessage} from "element-plus";
-
 export const 取url根入口路径 = ()=> {
     return window.location.pathname.endsWith('/') ? window.location.pathname.slice(0, -1) : window.location.pathname
 }

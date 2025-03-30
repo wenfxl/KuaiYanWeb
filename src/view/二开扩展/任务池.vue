@@ -164,7 +164,8 @@ import {SetUserStatus} from "@/api/用户信息api";
 import service from "@/api/request";
 import {SaveInfoSMS} from "@/api/系统设置api";
 import router from "@/router";
-
+import {useTableHeight} from "@/composables/useTableHeight";
+const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
 
@@ -309,10 +310,8 @@ const onGetList = async () => {
   is加载中.value = false
   List.value = res.data
   Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
-  更新表格高度()
 }
-// table元素
-const tableRef = ref<any>();
+
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
   localStorage.setItem('列宽_任务池', JSON.stringify(局_列宽数组));
@@ -329,11 +328,7 @@ onMounted(async () => {
       on表格列宽初始化()
     }
 )
-// table高度
-const tableHeight = ref();
-const 更新表格高度 = () => {
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-}
+
 onMounted(() => {
 
   onReset()

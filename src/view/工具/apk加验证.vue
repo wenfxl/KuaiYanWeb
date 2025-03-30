@@ -145,7 +145,8 @@ const 计算进度条 =   (TimeStart: number) => {
 
 const is加载中 = ref(false)
 // table元素
-const tableRef = ref<any>();
+import {useTableHeight} from "@/composables/useTableHeight";
+const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
   localStorage.setItem('列宽_Apk加验证', JSON.stringify(局_列宽数组));
@@ -167,11 +168,9 @@ onMounted(async () => {
 
 
 
-// table高度
-const tableHeight = ref();
-const 更新表格高度 = () => {
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-}
+
+
+
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
 const is显示上传界面 = ref(false)
@@ -234,7 +233,7 @@ const on读取列表 = async () => {
   console.log(res)
   is加载中.value = false
   Data.value = res.data
-  更新表格高度()
+
 }
 const 局_任务状态 = ref({id9:0})
 const on更新任务状态 = async () => {

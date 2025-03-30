@@ -152,8 +152,8 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import PublicDataInfo from "./组件/公共函数详细信息.vue";
 
 import {is移动端, 表格写入列宽数组, 表格读取列宽数组} from "@/utils/utils";
-
-
+import {useTableHeight} from "@/composables/useTableHeight";
+const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const on单个删除 = async (id: string) => {
   console.log('on单个删除' + id)
   const res = await DeleteInfo({"data": [{"AppId": 1, "Name": id}]})
@@ -271,11 +271,8 @@ const onGetList = async () => {
   is加载中.value = false
   Data.value = res.data
   Store.commit("set搜索_默认选择应用AppId", 对象_搜索条件.value.AppId)
-  更新表格高度()
 }
 
-// table元素
-const tableRef = ref<any>();
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] =表格读取列宽数组(tableRef.value)
 
@@ -294,11 +291,6 @@ onMounted(async () => {
       on表格列宽初始化()
     }
 )
-// table高度
-const tableHeight = ref();
-const 更新表格高度 = () => {
-  tableHeight.value = window.innerHeight - tableRef.value.$el.offsetTop - 85;
-}
 
 onMounted(async () => {
 
@@ -309,7 +301,7 @@ onMounted(async () => {
     对象_搜索条件.value = Store.state.搜索_公共函数
   }
   await onGetList()
-更新表格高度()
+
 })
 
 onBeforeUnmount(() => {
