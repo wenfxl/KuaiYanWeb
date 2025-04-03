@@ -46,7 +46,20 @@
             />
           </el-config-provider>
         </el-form-item>
-
+        <el-form-item prop="status" style="width:250px"  v-if="!is移动端()" v-show="is更多筛选">
+          <el-config-provider :locale="zhCn">
+            <el-date-picker
+                v-model="对象_搜索条件.UseTime"
+                value-format="X"
+                type="daterange"
+                unlink-panels
+                range-separator="到"
+                start-placeholder="使用开始日期"
+                end-placeholder="使用结束日期"
+                :shortcuts="数组_制卡预选日期"
+            />
+          </el-config-provider>
+        </el-form-item>
 
         <el-form-item prop="Keywords">
 
@@ -219,6 +232,11 @@
                 :type="scope.row.Num<scope.row.NumMax?'':'warning'">
               {{ scope.row.Num.toString() + '/' + scope.row.NumMax.toString() }}
             </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="RegisterTime" label="使用时间" width="160">
+          <template #default="scope">
+            {{ scope.row.UseTime===0?'':时间_时间戳到时间(scope.row.UseTime) }}
           </template>
         </el-table-column>
         <el-table-column prop="RegisterUser" label="制卡人" width="100"/>
@@ -529,6 +547,7 @@ const 对象_搜索条件 = ref({
   Status: 0,
   Num: 0,
   RegisterTime: ["", ""],
+  UseTime: ["", ""],
   KaClassId: 0,
   Type: 2,
   Size: 10,
@@ -550,6 +569,7 @@ const onReset = () => {
     Status: 0,
     Num: 0,
     RegisterTime: ["", ""],
+    UseTime: ["", ""],
     KaClassId: 0,
     Type: 2,
     Size: 10,
