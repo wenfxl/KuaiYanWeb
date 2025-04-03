@@ -27,7 +27,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item label="选择应用" prop="">
-        <el-select v-model.number="FormData.AppId" clear placeholder="请选择应用" style="width: 100%;">
+        <el-select v-model.number="FormData.AppId" clear placeholder="请选择应用" filterable style="width: 100%;">
           <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
                      :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
         </el-select>

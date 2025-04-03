@@ -3,7 +3,7 @@
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true" :model="对象_搜索条件">
         <el-form-item label="选择应用" prop="">
-          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用">
+          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用" filterable>
             <el-option :key="0" label="全部" :value="0"/>
             <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
                        :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
