@@ -71,7 +71,7 @@
         <el-table-column prop="Name" label="函数名" width="280"/>
         <el-table-column prop="AppId" label="函数归属" width="200">
           <template #default="scope">
-            <el-tag  :type="scope.row.AppId>10000?'':'success'">
+            <el-tag  :type="scope.row.AppId>10000?'primary':'success'">
               {{ scope.row.AppName }}
             </el-tag>
           </template>
@@ -128,7 +128,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( Data.Count)"

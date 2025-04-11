@@ -62,9 +62,9 @@
 
         <el-form-item label="任务类型">
           <el-radio-group v-model="data.Type">
-            <el-radio-button :label="1" border>HTTP请求</el-radio-button>
-            <el-radio-button :label="2" border>公共js函数</el-radio-button>
-            <el-radio-button :label="3" border>SQL</el-radio-button>
+            <el-radio-button :value="1" border>HTTP请求</el-radio-button>
+            <el-radio-button :value="2" border>公共js函数</el-radio-button>
+            <el-radio-button :value="3" border>SQL</el-radio-button>
             <!--            <el-radio-button :shell="4"  border>shell</el-radio-button>--> <!--安全问题,暂时禁用-->
           </el-radio-group>
         </el-form-item>

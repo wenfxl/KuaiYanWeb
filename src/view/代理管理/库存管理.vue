@@ -98,7 +98,7 @@
         <el-table-column prop="KaClassName" label="卡类名称" width="130"/>
         <el-table-column label="已用/总数" width="140">
           <template #default="scope">
-            <el-tag :type="scope.row.Num<scope.row.NumMax?'':'warning'">
+            <el-tag :type="scope.row.Num<scope.row.NumMax?'primary':'warning'">
               {{ scope.row.Num + '/' + scope.row.NumMax }}
             </el-tag>
           </template>
@@ -163,7 +163,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( List.Count)"

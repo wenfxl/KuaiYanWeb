@@ -97,7 +97,7 @@
         <el-table-column prop="LoginType" label="登录类型" width="210">
           <template #default="scope">
             <el-tag v-show="scope.row.LoginType!==0" size="small"
-                    :type="scope.row.LoginType === 4 ? 'success' : scope.row.LoginType === 5 ? 'info' : ''">
+                    :type="scope.row.LoginType === 4 ? 'success' : scope.row.LoginType === 5 ? 'info' : 'primary'">
               {{ on登录类型(scope.row.LoginType) }}
             </el-tag>
           </template>
@@ -122,7 +122,7 @@
                 v-model:current-page="对象_搜索条件.Page"
                 v-model:page-size="对象_搜索条件.Size"
                 :page-sizes="[10, 20, 30, 40,50,100]"
-                small="small"
+                size="small"
                 :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
                 :pager-count="is移动端()?5:9"
                 :total="parseInt( Data.Count)"

@@ -16,9 +16,9 @@
 
         <el-form-item label="变量类型" prop="Status">
           <el-radio-group v-model="data.Type" :size="is移动端()?'small':''">
-            <el-radio-button v-if="Props.id===''|| data.Type===1" :label="1">单行文本</el-radio-button>
-            <el-radio-button v-if="Props.id===''|| data.Type===2" :label="2">多行文本</el-radio-button>
-            <el-radio-button v-if="Props.id===''|| data.Type===3" :label="3">逻辑开关</el-radio-button>
+            <el-radio-button v-if="Props.id===''|| data.Type===1" :value="1">单行文本</el-radio-button>
+            <el-radio-button v-if="Props.id===''|| data.Type===2" :value="2">多行文本</el-radio-button>
+            <el-radio-button v-if="Props.id===''|| data.Type===3" :value="3">逻辑开关</el-radio-button>
             <el-tooltip
                 content="简单队列模型以换行(\n)为分隔符,置公共变量为添加到后面含(\n)会被判断为多条数据,取公共变量为获取第一行变量,并删除该行,线程安全"
                 placement="top">

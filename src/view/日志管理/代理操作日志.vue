@@ -92,7 +92,7 @@
           <template #default="scope">
             {{ scope.row.AgentUser }}
             <el-tag size="small"
-                    :type="scope.row.AgentType === 4 ? 'success' : scope.row.AgentType === 5 ? 'info' : ''">
+                    :type="scope.row.AgentType === 4 ? 'success' : scope.row.AgentType === 5 ? 'info' : 'primary'">
               {{
                 scope.row.AgentType === 0 ? '普通用户' : scope.row.AgentType === 4 ? '管理员' : scope.row.AgentType === 5 ? '系统自动' : scope.row.AgentType.toString() + "级代理"
               }}
@@ -136,7 +136,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( Data.Count)"

@@ -49,8 +49,8 @@
 
         <el-form-item label="系统开关" prop="系统开关">
           <el-radio-group v-model="Data.系统开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="系统关闭提示" prop="系统关闭提示">
@@ -97,8 +97,8 @@
         <el-divider content-position="left">代理中心   <el-link href="/Agent" target="_blank">/Agent</el-link></el-divider>
         <el-form-item label="代理中心开关" prop="代理中心开关">
           <el-radio-group v-model="Data.代理中心开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="代理中心关闭提示" prop="代理中心关闭提示">
@@ -132,8 +132,8 @@
         <el-divider content-position="left">其他(真诚等待您的建议+.0)</el-divider>
         <!--        <el-form-item label="用户中心开关" prop="用户中心开关">
                   <el-radio-group v-model="Data.用户中心开关">
-                    <el-radio-button :label="true" size="" border>开启</el-radio-button>
-                    <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+                    <el-radio-button :value="true" size="" border>开启</el-radio-button>
+                    <el-radio-button :value="false" size="" border>关闭</el-radio-button>
                   </el-radio-group>
                 </el-form-item>-->
 

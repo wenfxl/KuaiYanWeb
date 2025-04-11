@@ -123,7 +123,7 @@
 
         <el-table-column align="left" label="用户角色" width="100">
           <template #default="scope">
-            <el-tag :type="scope.row.Role ===0?'':'success'">
+            <el-tag :type="scope.row.Role ===0?'primary':'success'">
               {{ scope.row.Role === 0 ? '普通用户' : (scope.row.Role + "级代理") }}
             </el-tag>
           </template>
@@ -131,7 +131,7 @@
         <el-table-column prop="Rmb" label="余额" width="140"/>
         <el-table-column prop="RealNameAttestation" label="实名认证" width="140">
           <template #default="scope">
-            <el-tag :type="scope.row.RealNameAttestation!==''?'':'danger'">
+            <el-tag :type="scope.row.RealNameAttestation!==''?'primary':'danger'">
               {{ scope.row.RealNameAttestation === '' ? '未实名' : '已实名' }}
             </el-tag>
           </template>
@@ -183,7 +183,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( List.Count)"

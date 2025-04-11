@@ -127,7 +127,7 @@
         <el-table-column prop="Count" label="变化值" width="160">
           <template #default="scope">
             <el-tag
-                 :type="scope.row.Type===1?'':scope.row.Type===2||scope.row.Type===3?'success':'warning'">
+                 :type="scope.row.Type===1?'primary':scope.row.Type===2||scope.row.Type===3?'success':'warning'">
               {{scope.row.Type===1?'积分':scope.row.Type===2?'点数':scope.row.Type===3?'时间':'未知'}}
             </el-tag>
             {{scope.row.Count}}
@@ -153,7 +153,7 @@
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt(Data.Count.toString())"
-              small="small"
+              size="small"
               @current-change=" on读取列表(0) "
           />
         </el-config-provider>

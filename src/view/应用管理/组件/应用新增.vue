@@ -23,7 +23,7 @@
                 content="账号密码登陆,会员时间到期不可登录"
                 placement="bottom-start"
             >
-              <el-radio-button :label="1">账号限时</el-radio-button>
+              <el-radio-button :value="1">账号限时</el-radio-button>
             </el-tooltip>
             <el-tooltip
                 class="box-item"
@@ -31,7 +31,7 @@
                 content="账号密码登陆,点数为0,不可登录"
                 placement="bottom"
             >
-              <el-radio-button :label="2">账号计点</el-radio-button>
+              <el-radio-button :value="2">账号计点</el-radio-button>
             </el-tooltip>
             <el-tooltip
                 class="box-item"
@@ -39,7 +39,7 @@
                 content="卡号登陆,会员时间到期不可登录"
                 placement="bottom"
             >
-              <el-radio-button :label="3">卡号限时</el-radio-button>
+              <el-radio-button :value="3">卡号限时</el-radio-button>
             </el-tooltip>
             <el-tooltip
                 class="box-item"
@@ -47,7 +47,7 @@
                 content="卡号登陆,点数为0,不可登录"
                 placement="bottom-end"
             >
-              <el-radio-button :label="4">卡号计点</el-radio-button>
+              <el-radio-button :value="4">卡号计点</el-radio-button>
             </el-tooltip>
 
           </el-radio-group>

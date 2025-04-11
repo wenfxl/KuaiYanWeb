@@ -12,7 +12,7 @@
           <div style="align-items: center ">
             <el-form-item label="赞助方式" style="width: 100%">
               <el-radio-group v-model="支付方式">
-                <el-radio v-for="key in Object.keys(支付通道状态)" :key="key" :label="key" v-show="支付通道状态[key]"
+                <el-radio v-for="key in Object.keys(支付通道状态)" :key="key" :value="key" v-show="支付通道状态[key]"
                           border>{{ key }}
                 </el-radio>
               </el-radio-group>

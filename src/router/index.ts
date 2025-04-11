@@ -180,6 +180,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/工具/apk加验证.vue"),
             },
             {
+                path: "工具/exe加验证",
+                name: "exe加验证",
+                component: () => import("@/view/工具/exe加验证.vue"),
+            },
+            {
                 path: "个人中心",
                 name: "个人中心",
                 component: () => import("@/view/个人中心/个人中心.vue"),

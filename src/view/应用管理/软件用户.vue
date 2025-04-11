@@ -191,11 +191,11 @@
         <el-table-column align="left" sortable="custom" :label="isAppType计点()?'剩余点数':'vip到期时间'" prop="VipTime"
                          width="160">
           <template #default="scope">
-            <el-tag v-if="isAppType计点()" :type="scope.row.VipTime===0?'warning':''">
+            <el-tag v-if="isAppType计点()" :type="scope.row.VipTime===0?'warning':'primary'">
               {{ scope.row.VipTime }}
             </el-tag>
 
-            <el-tag v-else :type="on时间_是否过期(scope.row.VipTime)?'warning':''">
+            <el-tag v-else :type="on时间_是否过期(scope.row.VipTime)?'warning':'primary'">
               {{ on格式化_时间(scope.row.VipTime) }}
             </el-tag>
           </template>
@@ -206,7 +206,7 @@
         <el-table-column prop="UserClassId" label="用户类型" width="140">
           <template #default="scope">
             <el-tag
-                :type="scope.row.UserClassId!==0?对象_用户类型.hasOwnProperty(scope.row.UserClassId.toString())?'':'danger':'warning'">
+                :type="scope.row.UserClassId!==0?对象_用户类型.hasOwnProperty(scope.row.UserClassId.toString())?'primary':'danger':'warning'">
               <!--              {{ scope.row.UserClassId === 0 ? '未分类' : 对象_用户类型[scope.row.UserClassId.toString()] }}-->
               {{
                 !对象_用户类型.hasOwnProperty(scope.row.UserClassId.toString()) ? '已删待改' : 对象_用户类型[scope.row.UserClassId.toString()]
@@ -245,7 +245,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10,20,30,50,100,1000,10000]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( Data.Count)"
@@ -259,7 +259,7 @@
   <AppUserinfo v-if="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
                :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
                @on对话框详细信息关闭="on对话框详细信息关闭" :UserType="对象_用户类型"></AppUserinfo>
-  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
+  <ChartData  v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 
   <BatchElMessage :is批量维护输入框可见="is批量维护输入框可见" 标题="批量修改勾选用户,负数可能减到0以下"
                   :提示信息='isAppType计点()?"请输入增减点数(点)":"请输入增减时间(秒)"'

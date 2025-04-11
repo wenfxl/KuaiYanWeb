@@ -14,9 +14,9 @@
         </el-form-item>
         <el-form-item label="操作类型:" label-width="120">
           <el-radio-group v-model="PostData.AddType">
-            <el-radio-button :label="1">增加{{ 时间or点数 }}</el-radio-button>
-            <el-radio-button :label="2">减少{{ 时间or点数 }}</el-radio-button>
-            <el-radio-button :label="3">指定{{ 时间or点数 }}</el-radio-button>
+            <el-radio-button :value="1">增加{{ 时间or点数 }}</el-radio-button>
+            <el-radio-button :value="2">减少{{ 时间or点数 }}</el-radio-button>
+            <el-radio-button :value="3">指定{{ 时间or点数 }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
 
@@ -88,9 +88,9 @@
         </el-form-item>
         <el-form-item label="账号状态:" label-width="120">
           <el-radio-group v-model="PostData.UserVipTimeStatus">
-            <el-radio-button :label="1">全部</el-radio-button>
-            <el-radio-button :label="2">{{ AppType === 2 ? "无点数" : "会员已到期" }}</el-radio-button>
-            <el-radio-button :label="3">{{ AppType === 2 ? "有点数" : "会员未过期" }}</el-radio-button>
+            <el-radio-button :value="1">全部</el-radio-button>
+            <el-radio-button :value="2">{{ AppType === 2 ? "无点数" : "会员已到期" }}</el-radio-button>
+            <el-radio-button :value="3">{{ AppType === 2 ? "有点数" : "会员未过期" }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item :label="isAppType卡号?'卡号前缀:':'账号前缀:'" label-width="120">

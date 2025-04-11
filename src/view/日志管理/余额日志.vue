@@ -105,7 +105,7 @@
         <el-table-column prop="Ip" label="IP" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="Count" label="变化值" width="110">
           <template #default="scope">
-            <el-tag :type="scope.row.Count>0?'warning':''">
+            <el-tag :type="scope.row.Count>0?'warning':'primary'">
               {{ scope.row.Count }}
             </el-tag>
           </template>
@@ -127,7 +127,7 @@
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt(Data.Count.toString())"
-              small="small"
+              size="small"
               @current-change=" on读取列表(0) "
           />
         </el-config-provider>

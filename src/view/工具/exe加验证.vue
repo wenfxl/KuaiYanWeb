@@ -5,8 +5,8 @@
         <el-button icon="Refresh" type="primary" style="margin: 8px 8px 8px;; width: 65px" @click="on读取列表">
           刷新
         </el-button>
-        <el-button  :disabled="局_任务状态.id9!==1"  icon="Plus" :type="局_任务状态.id9===1?'primary':'info'" style="margin: 8px 8px 8px;; width: 85px" @click="is显示上传界面=true">
-          {{局_任务状态.id9===1?"创建任务":"维护中"}}
+        <el-button  :disabled="局_任务状态.id10!==1"  icon="Plus" :type="局_任务状态.id10===1?'primary':'info'" style="margin: 8px 8px 8px;; width: 85px" @click="is显示上传界面=true">
+          {{局_任务状态.id10===1?"创建任务":"维护中"}}
         </el-button>
 <!--        <div class="工具栏">-->
 <!--          <el-tooltip content="刷新"-->
@@ -40,11 +40,11 @@
             {{ 时间_时间戳到时间(scope.row.TimeStart) }}
           </template>
         </el-table-column>
-        <el-table-column prop="FileName" label="apk名称" width="210" show-overflow-tooltip=""/>
+        <el-table-column prop="FileName" label="Exe名称" width="210" show-overflow-tooltip=""/>
         <el-table-column prop="AppName" label="归属应用" width="220" show-overflow-tooltip=""/>
-        <el-table-column prop="签名方式" label="签名方式" width="120" show-overflow-tooltip="">
+        <el-table-column prop="Ui" label="Ui" width="120" show-overflow-tooltip="">
           <template #default="scope">
-            {{ ["", "不签名", "随机签名"][scope.row.签名方式] }}
+            {{ UiId取label(scope.row.Ui)}}
           </template>
         </el-table-column>
         <el-table-column prop="Status" label="任务状态" width="90" show-overflow-tooltip="">
@@ -74,13 +74,25 @@
         </el-table-column>
         <el-table-column :fixed="is移动端()?false:'right'" label="操作" :width="2*85">
             <template #default="scope">
-              <el-button v-if="scope.row.DownloadUrl" link type="primary" size="default" @click="on单个下载(scope.row)"
-                         style="color:#79bbff">
-                <el-icon color="#79bbff" class="no-inherit">
-                  <Download/>
-                </el-icon>
-                下载
-              </el-button>
+
+                <el-button v-if="scope.row.DownloadUrl" link type="primary" size="default" @click="on单个下载(scope.row)"
+                           style="color:#79bbff">
+                  <el-icon color="#79bbff" class="no-inherit">
+                    <Download/>
+                  </el-icon>
+                  下载
+                </el-button>
+              <el-tooltip :content="scope.row.ExeMd5" placement="top">
+                <el-button v-if="scope.row.ExeMd5" link type="primary" size="default" @click="置剪辑版文本2(scope.row.ExeMd5,'Exe文件MD5已复制到剪辑版')"
+                           style="color:#79bbff">
+                  <el-icon color="#79bbff" class="no-inherit">
+                    <copy-document/>
+                  </el-icon>
+                  ExeMD5
+                </el-button>
+              </el-tooltip>
+
+
             </template>
         </el-table-column>
         <template v-slot:empty>
@@ -107,13 +119,12 @@
 
     </div>
   </div>
-  <uplode v-if="is显示上传界面" @on对话框详细信息关闭="on对话框详细信息关闭"/>
+  <uplode v-if="is显示上传界面" @on对话框详细信息关闭="on对话框详细信息关闭"  :ui列表="局_Ui列表"/>
 </template>
 
 <script setup lang="ts">
 import {ref, onMounted, computed} from 'vue';
 import {ElMessage, ElMessageBox} from 'element-plus';
-
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import {
   is移动端, 时间_取现行时间戳,
@@ -124,10 +135,10 @@ import {
   表格读取列宽数组
 } from "@/utils/utils";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
-import {Delete} from "@element-plus/icons-vue";
-
-import {GetList,GetTaskIdStatus} from "@/api/Apk加验证";
-import uplode from "./组件/apk加固创建任务.vue";
+import {CopyDocument, Delete} from "@element-plus/icons-vue";
+import {UiList} from "./组件/strct";
+import {GetList,GetTaskIdStatus,GetUiList} from "@/api/Exe加验证";
+import uplode from "./组件/exe加验证创建任务.vue";
 
 const 状态列表 = ["", "已创建", "处理中", "成功", "失败"]
 
@@ -167,11 +178,6 @@ onMounted(async () => {
 )
 
 
-
-
-
-
-
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
 const is显示上传界面 = ref(false)
@@ -181,6 +187,7 @@ const on选择框被选择 = (val: any) => {
   表格被选中列表.value = val
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
+
 const 对象_搜索条件 = ref({
   Page: 1,
   Size: 10,
@@ -193,9 +200,29 @@ const 对象_搜索条件 = ref({
 onMounted(async () => {
   //对象_搜索条件.value = {Page: 1, Size: 10, Type: 2, Keywords: "", Order: 1, Count: 0}
   await on更新任务状态()
+  await on更新Ui列表()
   await on读取列表()
-
 })
+
+
+
+const 局_Ui列表 = ref<UiList[]>([])
+const on更新Ui列表 = async () => {
+  const res = await GetUiList()
+  if (res.code == 10000) {
+    局_Ui列表.value = res.data
+  }
+}
+const UiId取label = (id: number) => {
+  for (let i = 0; i < 局_Ui列表.value.length; i++) {
+    if (局_Ui列表.value[i].id == id) {
+      return 局_Ui列表.value[i].label
+    }
+  }
+  return "未知"  //默认返回第一个
+}
+
+
 
 const Data = ref({
   "Count": 0,
@@ -209,7 +236,7 @@ const Data = ref({
       TimeEnd: 0,
       TimeStart: 1737357467,
       Uuid: "",
-      签名方式: 1,
+      Ui: 1,
       DownloadUrl: "",
       Err: "",
     }]
@@ -236,12 +263,12 @@ const on读取列表 = async () => {
   Data.value = res.data
 
 }
-const 局_任务状态 = ref({id9:0})
+const 局_任务状态 = ref({id10:0})
 const on更新任务状态 = async () => {
-  is加载中.value = true
+  // is加载中.value = true
   const res = await GetTaskIdStatus()
   console.log(res)
-  is加载中.value = false
+  // is加载中.value = false
   if (res.code == 10000) {
     局_任务状态.value = res.data
   }

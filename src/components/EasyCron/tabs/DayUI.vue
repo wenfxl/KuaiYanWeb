@@ -2,14 +2,14 @@
   <div :class="`${prefixCls}-config-list`">
     <el-radio-group v-model="type">
       <div class="item">
-        <el-radio :label="TypeEnum.unset" v-bind="beforeRadioAttrs"> 不设置 </el-radio>
+        <el-radio :value="TypeEnum.unset" v-bind="beforeRadioAttrs"> 不设置 </el-radio>
         <span class="tip-info">日和周只能设置其中之一</span>
       </div>
       <div class="item">
-        <el-radio :label="TypeEnum.every" v-bind="beforeRadioAttrs"> 每日 </el-radio>
+        <el-radio :value="TypeEnum.every" v-bind="beforeRadioAttrs"> 每日 </el-radio>
       </div>
       <div class="item">
-        <el-radio :label="TypeEnum.range" v-bind="beforeRadioAttrs"> 区间 </el-radio>
+        <el-radio :value="TypeEnum.range" v-bind="beforeRadioAttrs"> 区间 </el-radio>
         <span> 从 </span>
         <el-input-number v-model="valueRange.start" v-bind="typeRangeAttrs" />
         <span> 日 至 </span>
@@ -17,7 +17,7 @@
         <span> 日 </span>
       </div>
       <div class="item">
-        <el-radio :label="TypeEnum.loop" v-bind="beforeRadioAttrs"> 循环 </el-radio>
+        <el-radio :value="TypeEnum.loop" v-bind="beforeRadioAttrs"> 循环 </el-radio>
         <span> 从 </span>
         <el-input-number v-model="valueLoop.start" v-bind="typeLoopAttrs" />
         <span> 日开始，间隔 </span>
@@ -26,20 +26,20 @@
       </div>
       <!--       工作日暂不支持，会报错，先隐藏了 -->
       <!--      <div class="item">-->
-      <!--        <el-radio :label="TypeEnum.work" v-bind="beforeRadioAttrs">工作日</el-radio>-->
+      <!--        <el-radio :value="TypeEnum.work" v-bind="beforeRadioAttrs">工作日</el-radio>-->
       <!--        <span> 本月 </span>-->
       <!--        <el-input-number v-model="valueWork" v-bind="typeWorkAttrs" />-->
       <!--        <span> 日，最近的工作日 </span>-->
       <!--      </div>-->
       <div class="item">
-        <el-radio :label="TypeEnum.last" v-bind="beforeRadioAttrs"> 最后一日 </el-radio>
+        <el-radio :value="TypeEnum.last" v-bind="beforeRadioAttrs"> 最后一日 </el-radio>
       </div>
       <div class="item">
-        <el-radio :label="TypeEnum.specify" v-bind="beforeRadioAttrs"> 指定 </el-radio>
+        <el-radio :value="TypeEnum.specify" v-bind="beforeRadioAttrs"> 指定 </el-radio>
         <div class="list">
           <el-checkbox-group v-model="valueList">
             <template v-for="i in specifyRange" :key="i">
-              <el-checkbox :label="i" v-bind="typeSpecifyAttrs">
+              <el-checkbox :value="i" v-bind="typeSpecifyAttrs">
                 {{ i }}
               </el-checkbox>
             </template>

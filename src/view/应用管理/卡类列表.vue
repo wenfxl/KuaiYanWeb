@@ -45,7 +45,7 @@
             </el-button>
           </template>
         </el-popconfirm>
-        <el-button icon="Tickets" type="" style="margin: 8px 8px 8px; width: 85px" @click="on跳转卡号列表(对象_搜索条件.AppId)">
+        <el-button icon="Tickets"   style="margin: 8px 8px 8px; width: 85px" @click="on跳转卡号列表(对象_搜索条件.AppId)">
           卡号列表
         </el-button>
         <div class="工具栏">
@@ -132,7 +132,7 @@
         <el-table-column prop="UserClassId" label="用户类型" width="110">
           <template #default="scope">
             <el-tag
-                :type="scope.row.UserClassId!==0?对象_用户类型.hasOwnProperty(scope.row.UserClassId.toString())?'':'danger':'warning'">
+                :type="scope.row.UserClassId!==0?对象_用户类型.hasOwnProperty(scope.row.UserClassId.toString())?'primary':'danger':'warning'">
               {{
                 对象_用户类型.hasOwnProperty(scope.row.UserClassId.toString()) ? 对象_用户类型[scope.row.UserClassId.toString()] : '已删待改' + scope.row.UserClassId.toString()
               }}
@@ -198,7 +198,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( Data.Count)"

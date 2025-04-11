@@ -160,7 +160,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( Data.Count)"
@@ -299,7 +299,7 @@ const on消息类型提示 = (MsgType: number) => {
   return Msg[MsgType - 1]
 }
 const on消息类型标签 = (MsgType: number) => {
-  let Msg = ["info", "warning", "", "danger"]
+  let Msg = ["info", "warning", "primary", "danger"]
   if (MsgType - 1 > Msg.length) {
     return ""
   }

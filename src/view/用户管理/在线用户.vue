@@ -117,7 +117,7 @@
         <el-table-column align="left" label="状态" prop="status" width="80">
           <template #default="scope">
             <div>
-              <el-tag :type="scope.row.Status===1?'':'warning'">{{
+              <el-tag :type="scope.row.Status===1?'primary':'warning'">{{
                   scope.row.Status === 1 ? '正常' : "已注销"
                 }}
               </el-tag>
@@ -184,7 +184,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( List.Count)"

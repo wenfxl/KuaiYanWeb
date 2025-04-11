@@ -107,15 +107,15 @@
                 <el-radio-group v-model="data.Status" :size="is移动端()?'small':''">
                   <el-popover placement="left" trigger="hover" content="所有用户禁止登录">
                     <template #reference>
-                      <el-radio-button :label="1">停止运营</el-radio-button>
+                      <el-radio-button :value="1">停止运营</el-radio-button>
                     </template>
                   </el-popover>
                   <el-popover placement="top" trigger="hover" content="非Vip也可正常登录">
                     <template #reference>
-                      <el-radio-button :label="2">免费运营</el-radio-button>
+                      <el-radio-button :value="2">免费运营</el-radio-button>
                     </template>
                   </el-popover>
-                  <el-radio-button :label="3">正常运营</el-radio-button>
+                  <el-radio-button :value="3">正常运营</el-radio-button>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="状态提示" prop="AppStatusMessage">
@@ -213,14 +213,14 @@
 
               <el-form-item label="通讯加密类型" prop="CryptoType">
                 <el-radio-group v-model="data.CryptoType" :size="is移动端()?'small':''">
-                  <el-radio-button :label="1">明文</el-radio-button>
+                  <el-radio-button :value="1">明文</el-radio-button>
                   <el-popover
                       placement="top"
                       trigger="hover"
                       content="AES_192CBC_IV0"
                   >
                     <template #reference>
-                      <el-radio-button :label="2">Md5签名Aes加密</el-radio-button>
+                      <el-radio-button :value="2">Md5签名Aes加密</el-radio-button>
                     </template>
                   </el-popover>
                   <el-popover
@@ -229,7 +229,7 @@
                       content="RSA交换AES密钥,重要数据RSA通讯防山寨服务器或客户端,一般数据AES加密通讯提高性能,混合使用性能安全兼顾,Rsa_1024位PKCS1"
                   >
                     <template #reference>
-                      <el-radio-button :label="3">Rsa交换Aes密匙后混合使用</el-radio-button>
+                      <el-radio-button :value="3">Rsa交换Aes密匙后混合使用</el-radio-button>
                     </template>
                   </el-popover>
 
@@ -336,8 +336,8 @@
 
               <el-form-item label="超在线最大数处理方式" prop="ExceedMaxOnlineOut">
                 <el-radio-group v-model="data.ExceedMaxOnlineOut" :size="is移动端()?'small':''">
-                  <el-radio-button :label="1">注销在线中最先登录的记录</el-radio-button>
-                  <el-radio-button :label="2">提示登录数量超过限制</el-radio-button>
+                  <el-radio-button :value="1">注销在线中最先登录的记录</el-radio-button>
+                  <el-radio-button :value="2">提示登录数量超过限制</el-radio-button>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="需要英数验证码接口" prop="Captcha">
@@ -391,9 +391,9 @@
             </el-tab-pane>
             <el-tab-pane label="专属云变量" name="专属云变量">
               <el-radio-group v-if="专属变量" v-model="专属变量筛选器" size="small">
-                <el-radio-button :label="3" border>全部</el-radio-button>
-                <el-radio-button :label="1" border>限登陆</el-radio-button>
-                <el-radio-button :label="0" border>任意</el-radio-button>
+                <el-radio-button :value="3" border>全部</el-radio-button>
+                <el-radio-button :value="1" border>限登陆</el-radio-button>
+                <el-radio-button :value="0" border>任意</el-radio-button>
               </el-radio-group>
 
               <el-form-item v-for="(data, key) in sorted专属变量" :key="key" style="width: 100%" label-width="0">
@@ -429,8 +429,8 @@
                             maxlength="16777215"
                             :autosize="{ minRows: 2, maxRows: 23 }" style="width: calc(100% - 50px); margin-left: 5px"/>
                   <el-radio-group v-if="data.Type === 3" v-model="data.Value" style="margin-left: 5px">
-                    <el-radio label="1" style="margin-right: 5px" border>开启</el-radio>
-                    <el-radio label="0" style="margin-left: 5px" border>关闭</el-radio>
+                    <el-radio value="1" style="margin-right: 5px" border>开启</el-radio>
+                    <el-radio value="0" style="margin-left: 5px" border>关闭</el-radio>
                   </el-radio-group>
                   <div style="float: right; padding-left: 5px">
                     <el-popconfirm :title="'确定删除?'+data.Name"
@@ -468,9 +468,9 @@
 
                   <el-form-item label="变量类型" prop="Status">
                     <el-radio-group v-model="添加专属变量.Type" :size="is移动端()?'small':''">
-                      <el-radio-button :label="1">单行文本</el-radio-button>
-                      <el-radio-button :label="2">多行文本</el-radio-button>
-                      <el-radio-button :label="3">逻辑开关</el-radio-button>
+                      <el-radio-button :value="1">单行文本</el-radio-button>
+                      <el-radio-button :value="2">多行文本</el-radio-button>
+                      <el-radio-button :value="3">逻辑开关</el-radio-button>
                     </el-radio-group>
                   </el-form-item>
                   <div style="text-align: right; margin: 0">

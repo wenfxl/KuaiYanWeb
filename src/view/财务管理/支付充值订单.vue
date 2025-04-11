@@ -123,7 +123,7 @@
         <el-table-column prop="Status" label="订单状态" width="100">
           <template #default="scope">
             <el-tag
-                :type="scope.row.Status===1||scope.row.Status===4?'info':scope.row.Status===2?'':scope.row.Status === 3 ? 'success' : scope.row.Status === 4 ? '' :scope.row.Status === 6 ? 'warning' : 'danger' ">
+                :type="scope.row.Status===1||scope.row.Status===4?'info':scope.row.Status===2?'primary':scope.row.Status === 3 ? 'success' : scope.row.Status === 4 ? '' :scope.row.Status === 6 ? 'warning' : 'danger' ">
               {{ 支付状态Map[scope.row.Status] ? 支付状态Map[scope.row.Status] : "未知状态" }}
             </el-tag>
           </template>
@@ -202,7 +202,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( Data.Count)"

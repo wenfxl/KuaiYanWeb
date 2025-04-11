@@ -91,7 +91,7 @@
         <el-table-column prop="User" label="用户名" width="210">
           <template #default="scope">
             {{ scope.row.User }}
-            <el-tag size="small"  :type="scope.row.UserType === 4 ? 'success' : scope.row.UserType === 5 ? 'info' : ''">
+            <el-tag size="small"  :type="scope.row.UserType === 4 ? 'success' : scope.row.UserType === 5 ? 'info' : 'primary'">
               {{scope.row.UserType === 0 ? '普通用户' :scope.row.UserType === 4 ? '管理员' : scope.row.UserType === 5 ? '系统自动' : scope.row.UserType.toString() + "级代理"}}
             </el-tag>
           </template>
@@ -113,12 +113,12 @@
         <el-table-column prop="Ip" label="IP" width="140" show-overflow-tooltip=""/>
         <el-table-column prop="KaType" label="操作" width="80">
           <template #default="scope">
-            <el-tag size="small"  effect="plain" :type="scope.row.KaType === 1 ? 'success' : scope.row.KaType === 2 ? 'warning' : scope.row.KaType === 3 ? 'info' : scope.row.KaType === 4 ? '' :''">
+            <el-tag size="small"  effect="plain" :type="scope.row.KaType === 1 ? 'success' : scope.row.KaType === 2 ? 'warning' : scope.row.KaType === 3 ? 'info' : scope.row.KaType === 4 ? 'primary' :'primary'">
               {{ scope.row.KaType === 1 ? '增加' : scope.row.KaType === 2 ? '删除' : scope.row.KaType === 3 ? '修改' : scope.row.KaType === 4 ? '查询' :"未知" + scope.row.KaType.toString()}}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="Note" label="消息"/>
+        <el-table-column prop="Note" label="消息" show-overflow-tooltip/>
               <template v-slot:empty >
           <div slot="empty"   style="text-align: left;">
             <el-empty description="居然没有数据啊" />
@@ -132,7 +132,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
                 :total="parseInt( Data.Count)"

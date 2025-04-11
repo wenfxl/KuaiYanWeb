@@ -102,7 +102,7 @@
         <el-table-column prop="CronID" label="任务Id" width="80"/>
         <el-table-column prop="Type" label="任务类型" width="210">
           <template #default="scope">
-            <el-tag size="small" :type="['','success','info',''][scope.row.Type]">
+            <el-tag size="small" :type="['primary','success','info','primary'][scope.row.Type]">
               {{ ["", "HTTP请求", "公共js", "SQL"][scope.row.Type] }}
             </el-tag>
           </template>
@@ -115,7 +115,7 @@
         <el-table-column prop="KaType" label="结果" width="80">
           <template #default="scope">
             <el-tag size="small" effect="plain"
-                    :type="scope.row.Result === 1 ? 'success' : scope.row.KaType === 2 ? 'warning' :''">
+                    :type="scope.row.Result === 1 ? 'success' : scope.row.KaType === 2 ? 'warning' :'primary'">
               {{
                 scope.row.Result === 1 ? '成功' : scope.row.Result === 2 ? '失败' : "未知" + scope.row.Result.toString()
               }}
@@ -143,7 +143,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( Data.Count)"

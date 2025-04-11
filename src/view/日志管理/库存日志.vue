@@ -100,20 +100,20 @@
           <template #default="scope">
             {{ scope.row.User1 }}
             <el-tag size="small"
-                    :type="scope.row.User1Role === 4 ? 'success' : scope.row.User1Role === 5 ? 'info' : ''">
+                    :type="scope.row.User1Role === 4 ? 'success' : scope.row.User1Role === 5 ? 'info' : 'primary'">
               {{ scope.row.User1Role === 0 ? '普通用户' : scope.row.User1Role === 4 ? '管理员' : scope.row.User1Role === 5 ? '系统自动' : scope.row.User1Role.toString() + "级代理" }}
             </el-tag>
 
-            <el-tag :type="scope.row.Type === 2?'info':''" effect="plain">
+            <el-tag :type="scope.row.Type === 2?'info':'primary'" effect="plain">
               {{ scope.row.Type === 1 ? "发送库存给" : scope.row.Type === 2 ? "接收来自" : scope.row.Type === 3 ? "创建" : "未知"   }}
             </el-tag>
 
             {{ scope.row.User2 }}
             <el-tag size="small"
-                    :type="scope.row.User2Role === 4 ? 'success' : scope.row.User2Role === 5 ? 'info' : ''">
+                    :type="scope.row.User2Role === 4 ? 'success' : scope.row.User2Role === 5 ? 'info' : 'primary'">
               {{ scope.row.User2Role === 0 ? '普通用户' : scope.row.User2Role === 4 ? '管理员' : scope.row.User2Role === 5 ? '系统自动' : scope.row.User2Role.toString() + "级代理" }}
             </el-tag>
-            <el-tag v-if="scope.row.Type === 2" :type="scope.row.Type === 2?'info':''" effect="plain">
+            <el-tag v-if="scope.row.Type === 2" :type="scope.row.Type === 2?'info':'primary'" effect="plain">
               {{ scope.row.Type === 1 ? "" : scope.row.Type === 2 ? "的库存" : "未知" }}
             </el-tag>
           </template>
@@ -146,7 +146,7 @@
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt(Data.Count.toString())"
-              small="small"
+              size="small"
               @current-change=" on读取列表(0) "
           />
         </el-config-provider>

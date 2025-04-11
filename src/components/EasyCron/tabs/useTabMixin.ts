@@ -41,12 +41,12 @@ export function useTabSetup(props: any, context: any, options: any) {
   const type = ref(options.defaultType ?? TypeEnum.every)
   const valueList = ref<any[]>([])
   // 对于不同的类型，所定义的值也有所不同
-  const valueRange = reactive(options.valueRange)
-  const valueLoop = reactive(options.valueLoop)
-  const valueWeek = reactive(options.valueWeek)
-  const valueWork = ref(options.valueWork)
-  const maxValue = ref(options.maxValue)
-  const minValue = ref(options.minValue)
+  const valueRange = reactive(options.valueRange ?? {}) // 添加默认值
+  const valueLoop = reactive(options.valueLoop ?? {})
+  const valueWeek = reactive(options.valueWeek ?? {})
+  const valueWork = ref(options.valueWork ?? '')
+  const maxValue = ref(options.maxValue ?? 0)
+  const minValue = ref(options.minValue ?? 0)
 
   // 根据不同的类型计算出的value
   const computeValue = computed(() => {

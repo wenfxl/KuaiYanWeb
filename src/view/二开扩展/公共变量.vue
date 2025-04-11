@@ -69,14 +69,14 @@
         <el-table-column prop="Name" label="变量名" width="120"/>
         <el-table-column prop="Type" label="变量类型" width="100">
           <template #default="scope">
-            <el-tag :type="scope.row.Type>4?'danger':scope.row.Type===3?'':'success'">
+            <el-tag :type="scope.row.Type>4?'danger':scope.row.Type===3?'primary':'success'">
               {{ onTypeId转换文本(scope.row.Type) }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="Value" label="变量值" width="400" show-overflow-tooltip="">
           <template #default="scope">
-            <el-tag v-if="scope.row.Type===3" :type="scope.row.Value==='0'?'info':scope.row.Value==='1'?'':'danger'">
+            <el-tag v-if="scope.row.Type===3" :type="scope.row.Value==='0'?'info':scope.row.Value==='1'?'primary':'danger'">
               {{ scope.row.Value === '0' ? '关闭' : scope.row.Value === '1' ? '开启' : scope.row.Value }}
             </el-tag>
             <template v-else>
@@ -116,7 +116,7 @@
               v-model:current-page="对象_搜索条件.Page"
               v-model:page-size="对象_搜索条件.Size"
               :page-sizes="[10, 20, 30, 40,50,100]"
-              small="small"
+              size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
               :total="parseInt( Data.Count)"

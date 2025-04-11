@@ -15,8 +15,8 @@
         </el-divider>
         <el-form-item label="开关" prop="支付宝开关">
           <el-radio-group v-model="Data.支付宝开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <div v-if="Data.支付宝开关">
@@ -73,8 +73,8 @@
         </el-divider>
         <el-form-item label="开关" prop="支付宝H5开关">
           <el-radio-group v-model="Data.支付宝H5开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <div v-if="Data.支付宝H5开关">
@@ -108,8 +108,8 @@
         </el-divider>
         <el-form-item label="开关" prop="支付宝当面付开关">
           <el-radio-group v-model="Data.支付宝当面付开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <div v-if="Data.支付宝当面付开关">
@@ -139,8 +139,8 @@
         <el-divider content-position="left">微信支付</el-divider>
         <el-form-item label="开关" prop="微信支付开关">
           <el-radio-group v-model="Data.微信支付开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <div v-if="Data.微信支付开关">
@@ -192,8 +192,8 @@
 
         <el-form-item label="开关" prop="小叮当支付开关">
           <el-radio-group v-model="Data.小叮当支付开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <div v-if="Data.小叮当支付开关">
@@ -224,8 +224,8 @@
         </el-divider>
         <el-form-item label="开关" prop="虎皮椒支付开关">
           <el-radio-group v-model="Data.虎皮椒支付开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <div v-if="Data.虎皮椒支付开关">
@@ -256,8 +256,8 @@
         </el-divider>
         <el-form-item label="开关" prop="易支付开关">
           <el-radio-group v-model="Data.易支付开关">
-            <el-radio-button :label="true" size="" border>开启</el-radio-button>
-            <el-radio-button :label="false" size="" border>关闭</el-radio-button>
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <div v-if="Data.易支付开关">

@@ -1,5 +1,6 @@
 <template>
   <el-menu
+      active-text-color="rgb(242.5, 208.5, 157.5)"
       background-color="$menuBg"
       text-color="#fff"
       class="el-menu"

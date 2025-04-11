@@ -2,11 +2,11 @@
   <div :class="`${prefixCls}-config-list`">
     <el-radio-group v-model="type">
       <div class="item">
-        <el-radio :label="TypeEnum.unset" v-bind="beforeRadioAttrs"> 不设置 </el-radio>
+        <el-radio :value="TypeEnum.unset" v-bind="beforeRadioAttrs"> 不设置 </el-radio>
         <span class="tip-info">日和周只能设置其中之一</span>
       </div>
       <div class="item">
-        <el-radio :label="TypeEnum.range" v-bind="beforeRadioAttrs"> 区间 </el-radio>
+        <el-radio :value="TypeEnum.range" v-bind="beforeRadioAttrs"> 区间 </el-radio>
         <span> 从 </span>
         <el-select v-model="valueRange.start" v-bind="typeRangeSelectAttrs">
           <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value" />
@@ -17,7 +17,7 @@
         </el-select>
       </div>
       <div class="item">
-        <el-radio :label="TypeEnum.loop" v-bind="beforeRadioAttrs"> 循环 </el-radio>
+        <el-radio :value="TypeEnum.loop" v-bind="beforeRadioAttrs"> 循环 </el-radio>
         <span> 从 </span>
         <el-select v-model="valueLoop.start" v-bind="typeLoopSelectAttrs">
           <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value" />
@@ -27,11 +27,11 @@
         <span> 天 </span>
       </div>
       <div class="item">
-        <el-radio :label="TypeEnum.specify" v-bind="beforeRadioAttrs"> 指定 </el-radio>
+        <el-radio :value="TypeEnum.specify" v-bind="beforeRadioAttrs"> 指定 </el-radio>
         <div class="list list-cn">
           <el-checkbox-group v-model="valueList">
             <template v-for="opt in weekOptions" :key="opt">
-              <el-checkbox :label="opt.value" v-bind="typeSpecifyAttrs">
+              <el-checkbox :value="opt.value" v-bind="typeSpecifyAttrs">
                 {{ opt.label }}
               </el-checkbox>
             </template>
