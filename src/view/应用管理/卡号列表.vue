@@ -2,13 +2,13 @@
   <div class="最底层div">
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
-        <el-form-item label="选择应用" prop="" style="width:300px">
+        <el-form-item :label="is移动端()?'':'选择应用'" prop=""   :style="{ width: is移动端() ? '100%' : '280px' }">
           <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用" filterable @change="on读取列表">
             <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
                        :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
           </el-select>
         </el-form-item>
-        <el-form-item prop="status" style="width:120px">
+        <el-form-item prop="status" style="width:120px" v-show="is更多筛选||!is移动端()">
           <el-select v-model="对象_搜索条件.Status" clear placeholder="请选择">
             <el-option key="0" label="全部状态" :value="0"/>
             <el-option key="1" label="正常" :value="1"/>
@@ -16,7 +16,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="KaClassId" style="width:120px">
+        <el-form-item prop="KaClassId" style="width:120px" v-show="is更多筛选||!is移动端()">
           <el-select v-model="对象_搜索条件.KaClassId" clear placeholder="选择卡类">
             <el-option key="0" label="全部卡类" :value="0"/>
             <el-option v-for="(值,index) in 对象_卡类型" :key="index" :label="对象_卡类型[index]"
@@ -24,7 +24,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="status" style="width:120px" v-if="!is移动端()" v-show="is更多筛选">
+        <el-form-item prop="status" style="width:120px"  v-if="!is移动端()" v-show="is更多筛选||!is移动端()">
           <el-select v-model="对象_搜索条件.Num" clear placeholder="请选择">
             <el-option key="0" label="全部使用" :value="0"/>
             <el-option key="1" label="已耗尽次数" :value="1"/>
@@ -32,7 +32,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="status" style="width:250px" v-if="!is移动端()" v-show="is更多筛选">
+        <el-form-item prop="status" style="width:250px" v-show="is更多筛选">
           <el-config-provider :locale="zhCn">
             <el-date-picker
                 v-model="对象_搜索条件.RegisterTime"
@@ -46,7 +46,7 @@
             />
           </el-config-provider>
         </el-form-item>
-        <el-form-item prop="status" style="width:250px"  v-if="!is移动端()" v-show="is更多筛选">
+        <el-form-item prop="status" style="width:250px"  v-show="is更多筛选">
           <el-config-provider :locale="zhCn">
             <el-date-picker
                 v-model="对象_搜索条件.UseTime"
@@ -66,7 +66,8 @@
           <el-input class="搜索框"
                     v-model.trim="对象_搜索条件.Keywords"
                     placeholder="搜索内容"
-                    style="top:0 ; width: auto;padding: 0;margin: 0"
+                    style="top:0 ; padding: 0;margin: 0"
+                    :style="{ width: is移动端() ? '100%' : '280px' }"
                     clearable
           >
             <template #prepend>
@@ -86,21 +87,25 @@
           <el-button type="primary" icon="search" @click="on读取列表">查询</el-button>
           <el-button icon="refresh" @click="onReset">重置</el-button>
           <el-tooltip
+              v-if="!is移动端()"
               class="box-item"
               effect="light"
               content="更多筛选"
               placement="top"
           >
-            <el-button icon="Plus" v-show="is更多筛选===false" @click="is更多筛选=true"></el-button>
+            <el-button icon="Plus" v-show="!is更多筛选" @click="is更多筛选=true"></el-button>
           </el-tooltip>
+          <el-button v-else icon="Plus" v-show="!is更多筛选" @click="is更多筛选=true"></el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="内容div">
       <div class="gva-btn-list" style="background:#FAFAFAFF">
-        <el-button icon="Plus" type="primary" style="margin: 8px 8px 8px; width: 75px"
+        <el-button icon="Plus" type="primary"
+                   style="margin: 8px 8px 8px;"
+                   :style="{ width: is移动端() ? '15px' : '75px' }"
                    @click="on对话框详细信息打开(0,false)">
-          制新卡
+          {{is移动端()?"":"制新卡"}}
         </el-button>
 
         <el-popconfirm
@@ -109,13 +114,15 @@
             @confirm="on批量删除" confirm-button-text="确定"
             cancel-button-text="取消">
           <template #reference>
-            <el-button icon="warning" type="danger" style="margin: 8px 8px 8px;; width: 65px"
-                       :disabled=is批量删除禁用>删除
+            <el-button icon="delete" type="danger"   style="margin: 8px 8px 8px"
+                       :style="{ width: is移动端() ? '15px' : '65px' }"
+                       :disabled=is批量删除禁用>{{is移动端()?"":"删除"}}
             </el-button>
           </template>
         </el-popconfirm>
-        <el-button icon="Memo"   style="margin: 8px 8px 8px; width: 85px" @click="on跳转卡类列表(对象_搜索条件.AppId)">
-          卡类列表
+        <el-button icon="Memo"   style="margin: 8px 8px 8px"
+                   :style="{ width: is移动端() ? '15px' : '65px' }" @click="on跳转卡类列表(对象_搜索条件.AppId)">
+           {{is移动端()?"":"卡类列表"}}
         </el-button>
         <div class="工具栏">
 
@@ -135,7 +142,9 @@
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
-                      placement="top">
+                      placement="top"
+                      v-if="!is移动端()"
+          >
             <el-icon @click="on图表分析被点击">
               <DataAnalysis/>
             </el-icon>
@@ -372,7 +381,7 @@ import KaEdit from "./组件/卡号详细信息.vue";
 import ChartData from "@/view/应用管理/组件/卡号列表图表抽屉.vue";
 import router from "@/router";
 import {useTableHeight} from "@/composables/useTableHeight";
-const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)// 表格实例,表格高度,更新表格高度
+const { tableRef, tableHeight, updateTableHeight } = useTableHeight(60)// 表格实例,表格高度,更新表格高度
 const is图表分析抽屉可见 = ref(false)
 const is更多筛选 = ref(false)
 const on图表分析被点击 = () => {
@@ -779,8 +788,8 @@ const on跳转卡类列表 = (AppId: Number) => {
 
 .内容div {
   min-height: 20%;
-  padding: 12px 16px;
-  margin: 0 2px 10px;
+  padding: 2px 16px;
+  margin: 0 2px 5px;
   background: #ffffff;
 }
 
