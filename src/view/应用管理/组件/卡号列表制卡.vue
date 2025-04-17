@@ -44,24 +44,27 @@
           <el-button type="primary" @click="on开始制卡按钮被点击(ruleFormRef)"
                      style="width: 90px">开始制卡
           </el-button>
-        </el-form-item>
-        <el-form-item label="格式模板" prop="Prefix">
           <el-tooltip
               :trigger-keys="[]"
               class="box-item"
               :content="模板支持变量"
-              placement="bottom"
+              placement="top"
           >
+          <el-button plain style="background: #68c23c;color: white" @click="格式化卡号内容(true)">重新格式化</el-button>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="格式模板" prop="Prefix">
+
             <el-input
                 v-model="格式模板"
                 placeholder="格式模板"
             >
               <template #append>
-                <el-button plain style="background: #68c23c;color: white" @click="格式化卡号内容(true)">重新格式化</el-button>
+                <div>
+                  <el-button plain style="background: #73c0e7;color: white" @click="on保存模板内容">保存模板</el-button>
+                </div>
               </template>
             </el-input>
-          </el-tooltip>
-
         </el-form-item>
 
         <el-form-item label="生成内容" prop="Prefix">
@@ -86,6 +89,7 @@ import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 时间_时间戳到时间, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import {DocumentChecked} from "@element-plus/icons";
 
 const Props = defineProps({
   is对话框可见: {
@@ -237,17 +241,17 @@ const 格式化卡号内容 = async (保存配置 = false) => {
     临时文本 = 临时文本.replace('{MaxOnline}', 生成卡号Data.value[i].MaxOnline.toString())
     临时文本 = 临时文本.replace('{RegisterTime}', 时间_时间戳到时间(生成卡号Data.value[i].RegisterTime))
     最终内容 += 临时文本 + "\n"
-
   }
   生成内容.value = 最终内容
-  if (保存配置) {
-    let 返回 = await SetKaTemplate({AppId: Props.AppId, KaTemplate: 格式模板.value})
-    if (返回.code == 10000) {
-      //ElMessage.success(返回.msg)
-    }
-  }
 }
 
+const on保存模板内容 = async () => {
+    let 返回 = await SetKaTemplate({AppId: Props.AppId, KaTemplate: 格式模板.value})
+    if (返回.code == 10000) {
+      格式化卡号内容()
+      ElMessage.success(返回.msg)
+    }
+}
 const isAppType计点 = () => {
   return Props.AppType === 2 || Props.AppType === 4
 }
