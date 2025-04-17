@@ -1,6 +1,6 @@
 <template>
   <div class="最底层div">
-    <el-tabs v-model="activeNames" class="demo-tabs" @tab-click="on折叠面板表项被打开">
+    <el-tabs v-model="activeNames"  @tab-click="on折叠面板表项被打开">
       <el-tab-pane label="基础设置" name="基础设置">
         <template #title>
           <el-icon size="18" color="#73767a">

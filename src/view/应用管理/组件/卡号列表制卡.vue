@@ -125,15 +125,18 @@ const emit = defineEmits(['on对话框详细信息关闭'])
 const 格式模板 = ref('卡号:{Name} 时间:{VipTime} 软件:{AppName}')
 
 const 生成内容 = ref('')
-const 生成卡号Data = ref([
-  {
-    "Id": 6,
-    "Name": "T1TxwA5faMjDTHPVUraOi1D1T",
-    "VipTime": 86400,
-    "RMb": 5.55,
-    "VipNumber": 10
-  }
-])
+interface KaItem {
+  Name: string
+  VipTime: number
+  RMb: number
+  VipNumber: number
+  UserClassName?: string
+  Num?: number
+  MaxOnline?: number
+  RegisterTime: number
+}
+
+const 生成卡号Data =ref<KaItem[]>([])
 
 const is对话框可见2 = ref(true)
 const 待导入卡号 = ref("")
@@ -227,6 +230,10 @@ ElMessage.success(返回.msg)
 }
 
 const 格式化卡号内容 = async (保存配置 = false) => {
+  if (生成卡号Data.value.length === 0) {
+    ElMessage.warning('请先点击【开始制卡】生成卡号数据')
+    return
+  }
   let 最终内容 = ""
   let 临时文本 = ""
   for (let i = 0; i < 生成卡号Data.value.length; i++) {
@@ -248,7 +255,9 @@ const 格式化卡号内容 = async (保存配置 = false) => {
 const on保存模板内容 = async () => {
     let 返回 = await SetKaTemplate({AppId: Props.AppId, KaTemplate: 格式模板.value})
     if (返回.code == 10000) {
-      格式化卡号内容()
+      if (生成卡号Data.value.length >0) {
+        格式化卡号内容()
+      }
       ElMessage.success(返回.msg)
     }
 }
