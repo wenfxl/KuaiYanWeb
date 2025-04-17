@@ -40,7 +40,7 @@
         <div   style="height: 20px;width: 100%" ></div>
         <div>
           <el-checkbox-group v-model="安全项目选中" size="small"   >
-            <el-tooltip content="必选,高强度VMP一机一码保护"
+            <el-tooltip content="必选,高强度VMP一机一码保护,根服务器校验防山寨服务器,不可更换飞鸟快验账号"
                         effect="dark"
                         placement="left">
               <el-checkbox   label="VMP一机一码" value="VMP一机一码" border disabled  />
