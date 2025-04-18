@@ -5,12 +5,36 @@
       <div class="内容div">
         <el-form-item label="当前选择" :disabled="true">
           <el-select v-model="Data.当前选择" class="m-2" placeholder="Select" size="">
-            <el-option label="系统自身(计划中)" disabled :value="1"/>
+            <el-option label="通用S3兼容协议"   :value="1"/>
             <el-option label="七牛云对象存储" :value="2"/>
           </el-select>
         </el-form-item>
         <div class="内容div" v-if="Data.当前选择===1">
-<!--          计划中正常应该什么都不用配置-->
+          <el-divider content-position="left">S3兼容协议
+            <el-link href="https://www.minio.org.cn/" target="_blank">推荐MinIO搭建</el-link>
+          </el-divider>
+          <el-form-item label="Endpoint" :disabled="true">
+            <el-input v-model.trim="Data.S3兼容协议.Endpoint" placeholder="play.min.io"/>
+          </el-form-item>
+          <el-form-item label="AK" :disabled="true">
+            <el-input v-model.trim="Data.S3兼容协议.AccessKey" placeholder="请输入AccessKey"/>
+          </el-form-item>
+          <el-form-item label="SK" disabled="disabled">
+            <el-input v-model.trim="Data.S3兼容协议.SecretKey"
+                      placeholder="请输入SecretKey"/>
+          </el-form-item>
+          <el-form-item label="空间名称" disabled="disabled">
+            <el-input v-model.trim="Data.S3兼容协议.Bucket"
+                      placeholder="请输入空间名称"/>
+          </el-form-item>
+          <el-form-item label="根文件夹" disabled="disabled">
+            <el-input v-model.trim="Data.S3兼容协议.rootPath"
+                      placeholder="可空,系统只占用空间下的一个文件夹,不可为根目录,默认'fnkuaiyan/' 尾部带/ "/>
+          </el-form-item>
+          <el-form-item label="外链域名" disabled="disabled">
+            <el-input v-model.trim="Data.S3兼容协议.外链域名"
+                      placeholder="(可空) 请输入外链域名"/>
+          </el-form-item>
         </div>
         <div class="内容div" v-if="Data.当前选择===2">
           <el-divider content-position="left">七牛云
@@ -55,6 +79,14 @@ import {is移动端} from "@/utils/utils";
 const Data = ref({
   "当前选择": 2,
   "七牛云对象存储": {
+    "AccessKey": "",
+    "SecretKey": "",
+    "外链域名": "",
+    "Bucket": "",
+    "rootPath": ""
+  },
+  "S3兼容协议": {
+    "Endpoint": "",
     "AccessKey": "",
     "SecretKey": "",
     "外链域名": "",

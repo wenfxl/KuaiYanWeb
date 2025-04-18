@@ -56,11 +56,11 @@
                 placement="top"
                 v-if="scope.row.Err"
             >
-              <el-tag  effect="plain" :type="['primary', 'info', '','success','danger'][scope.row.Status]">
+              <el-tag  effect="plain" :type="['primary', 'info', 'warning','success','danger'][scope.row.Status]">
                 {{ 状态列表[scope.row.Status] }}
               </el-tag>
             </el-tooltip>
-            <el-tag  v-else effect="plain" :type="['primary', 'info', '','success','danger'][scope.row.Status]">
+            <el-tag  v-else effect="plain" :type="['primary', 'info', 'warning','success','danger'][scope.row.Status]">
               {{ 状态列表[scope.row.Status] }}
             </el-tag>
           </template>
@@ -74,7 +74,7 @@
         </el-table-column>
         <el-table-column :fixed="is移动端()?false:'right'" label="操作" :width="2*85">
             <template #default="scope">
-
+              <div style="display: flex; gap: 8px">
                 <el-button v-if="scope.row.DownloadUrl" link type="primary" size="default" @click="on单个下载(scope.row)"
                            style="color:#79bbff">
                   <el-icon color="#79bbff" class="no-inherit">
@@ -83,6 +83,7 @@
                   下载
                 </el-button>
               <el-tooltip :content="scope.row.ExeMd5" placement="top">
+                <span style="display: inline-block">
                 <el-button v-if="scope.row.ExeMd5" link type="primary" size="default" @click="置剪辑版文本2(scope.row.ExeMd5,'Exe文件MD5已复制到剪辑版')"
                            style="color:#79bbff">
                   <el-icon color="#79bbff" class="no-inherit">
@@ -90,8 +91,9 @@
                   </el-icon>
                   ExeMD5
                 </el-button>
+                </span>
               </el-tooltip>
-
+    </div>
 
             </template>
         </el-table-column>

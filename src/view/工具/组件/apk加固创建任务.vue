@@ -9,6 +9,7 @@
             ref="upload"
             :action="上传凭证?.Url"
             :before-upload="beforeAvatarUpload"
+            :http-request="on自定义上传方法"
             :limit="1"
             :on-exceed="on上传数量超限制"
             :on-change="on文件状态被改变"
@@ -27,20 +28,20 @@
         </el-upload>
       </el-form-item>
       <el-form-item label="选择应用" prop="">
-        <el-select v-model.number="FormData.AppId" clear placeholder="请选择应用" filterable style="width: 100%;">
+        <el-select v-model.number="formModel.AppId" clear placeholder="请选择应用" filterable style="width: 100%;">
           <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
                      :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
         </el-select>
       </el-form-item>
       <!-- ... existing code ... -->
       <el-form-item label="签名方式">
-        <el-select v-model="FormData.签名方式" placeholder="请选择签名方式" style="width: 100%;">
+        <el-select v-model="formModel.签名方式" placeholder="请选择签名方式" style="width: 100%;">
           <el-option label="不签名" :value="1"/>
           <el-option label="随机签名" :value="2"/>
         </el-select>
       </el-form-item>
       <el-form-item label="Activity">
-        <el-input v-model="FormData.Activity" placeholder="指定添加到的窗口,可空,默认首屏" style="width: 100%;">
+        <el-input v-model="formModel.Activity" placeholder="指定添加到的窗口,可空,默认首屏" style="width: 100%;">
         </el-input>
       </el-form-item>
 
@@ -75,11 +76,13 @@ import { GetUploadToken, CreateApkAddFNKYTask} from "@/api/Apk加验证";
 import {ElMessage, genFileId, UploadInstance, UploadProps, UploadRawFile} from "element-plus";
 import {UploadFile, UploadFiles} from "element-plus/es/components/upload/src/upload";
 import {is移动端} from "@/utils/utils";
+import {W文件上传凭证} from "@/view/工具/组件/strct";
+import axios from "axios";
 
 const is显示 = ref(true)
 const is重新读取 = ref(false)
 
-const FormData = ref({
+const formModel = ref({
   fileName: "",
   签名方式: 2,
   AppId: 10000,
@@ -101,17 +104,17 @@ const onGetAppIdNameList = async () => {
   let res = await GetAppIdNameList()
   数组AppId_Name.value = res.data.Array
   MapAppId_Name.value = res.data.Map
-  console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[FormData.value.AppId.toString()])
-  if (res.data.Map[FormData.value.AppId.toString()] == null || FormData.value.AppId <= 10000) {
-    FormData.value.AppId = 数组AppId_Name.value[0].Appid
+  console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[formModel.value.AppId.toString()])
+  if (res.data.Map[formModel.value.AppId.toString()] == null || formModel.value.AppId <= 10000) {
+    formModel.value.AppId = 数组AppId_Name.value[0].Appid
   }
 }
 const on上传成功 = async (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
 //{"name":"火山程序.apk","percentage":100,"status":"success","size":220117,"raw":{"uid":1737344416100},"uid":1737444446100,"response":{"hash":"Fnf2Aol-0k5FX9FtK7PJ0A7MX-AW","key":"fnkuaiyan/aaaaaa/火山程序.apk"}}
 
-  let json = FormData.value
+  let json = formModel.value // [!code ++]
   json.uploadFile=uploadFile
-  json.Path=response.key
+  json.Path=上传凭证.value.key
   json.fileName=uploadFile.name
   let res = await CreateApkAddFNKYTask(json)
   console.log(res)
@@ -155,17 +158,14 @@ const on关闭 = () => {
   emit('on对话框详细信息关闭', is重新读取.value)
 }
 
-// 上传凭证
-interface W文件上传凭证 {
-  Path: string  // 对象路径
-  Type: number // 对象类型  1:自身 2:七牛云
-  Url: string   // 上传url
-  UpToken: string //
-  token: string //
-  key: string //
-}
-
-const 上传凭证 = ref<W文件上传凭证>()
+const 上传凭证 = ref<W文件上传凭证>({
+  Path: "",
+  Type: 0,      //1 通用s3兼容协议  2 七牛云
+  Url: "",
+  UpToken: "",
+  token: "",
+  key: ""
+})
 //上传前hook
 const beforeAvatarUpload = async (file) => {
   const isApk = file.type === 'application/vnd.android.package-archive';
@@ -184,10 +184,69 @@ const beforeAvatarUpload = async (file) => {
   if (ret.code != 10000) {
     return false
   }
-  上传凭证.value = ret.data
-  if (上传凭证.value?.Type == 2) {
-    上传凭证.value.key = 上传凭证.value.Path
-    上传凭证.value.token = 上传凭证.value.UpToken
+  switch (ret.data.Type) {
+    case 1:
+      // S3协议应仅使用预签名URL
+      上传凭证.value = {
+        Url: ret.data.Url,
+        // 清空其他非必要字段
+        Path: "",
+        Type: 1,
+        UpToken: "",
+        token: "",
+        key: ret.data.Path
+      }
+      break;
+    case 2:
+      上传凭证.value.Url = ret.data.Url
+      上传凭证.value.Type = 2
+      上传凭证.value.UpToken = ret.data.UpToken
+      上传凭证.value.key = ret.data.Path
+      上传凭证.value.token = ret.data.UpToken
+      break;
+  }
+}
+const on自定义上传方法 = async (options) => {
+  const { file, onProgress, onSuccess, onError } = options; // 解构进度回调
+  const formData = new window.FormData() // 显式指定使用浏览器原生对象
+
+  try {
+    // S3协议上传
+    if(上传凭证.value.Type === 1){
+      await axios.put(上传凭证.value.Url, file, {
+        headers: {
+          'Content-Type': file.type
+        },
+        onUploadProgress: (progressEvent) => {
+          // 计算并触发进度更新
+          const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress({ percent }); // 关键：触发进度条更新
+        }
+      });
+      onSuccess({ code: 10000 }); // 触发成功回调
+      return;
+    }
+
+    // 七牛云上传
+    if(上传凭证.value.Type === 2){
+      formData.append('file', file);
+      formData.append('token', 上传凭证.value.token); // 新增
+      formData.append('key', 上传凭证.value.key); // 新增
+      await axios.post(上传凭证.value.Url, formData, {
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress({ percent });
+        }
+      });
+      onSuccess({ code: 10000 });
+      return;
+    }
+  } catch (error) {
+    onError(error); // 触发错误回调
   }
 }
 

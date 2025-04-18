@@ -8,3 +8,13 @@ export type  UiList = {
     url: string,
     label: string
 }
+
+// 上传凭证
+export interface W文件上传凭证 {
+    Path: string  // 对象路径
+    Type: number // 对象类型  1:自身 2:七牛云
+    Url: string   // 上传url
+    UpToken: string // UpToken
+    token: string // UpToken
+    key: string // UpToken
+}

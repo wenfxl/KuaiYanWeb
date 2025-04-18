@@ -56,11 +56,11 @@
                 placement="top"
                 v-if="scope.row.Err"
             >
-              <el-tag  effect="plain" :type="['primary', 'info', '','success','danger'][scope.row.Status]">
+              <el-tag  effect="plain" :type="['primary', 'info', 'warning','success','danger'][scope.row.Status]">
                 {{ 状态列表[scope.row.Status] }}
               </el-tag>
             </el-tooltip>
-            <el-tag  v-else effect="plain" :type="['primary', 'info', '','success','danger'][scope.row.Status]">
+            <el-tag  v-else effect="plain" :type="['primary', 'info', 'warning','success','danger'][scope.row.Status]">
               {{ 状态列表[scope.row.Status] }}
             </el-tag>
           </template>

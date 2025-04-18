@@ -172,3 +172,41 @@ export const  SaveInfoCaptcha2 = (data) => {
         data: data
     })
 }
+
+export const  GetInfoMQTT = (data) => {
+    return service({
+        url:  url+'GetInfoMQTT',
+        method: 'post',
+        data: data
+    })
+}
+export const  SaveInfoMQTT = (data) => {
+    return service({
+        url:  url+'SaveInfoMQTT',
+        method: 'post',
+        data: data
+    })
+}
+export const  MqttSendMsg = (data) => {
+    return service({
+        url:  url+'mqttSendMsg',
+        method: 'post',
+        data: data
+    })
+}
+
+export const  SaveInfoCloudStorage = (data) => {
+    return service({
+        url:  url+'SaveInfoCloudStorage',
+        method: 'post',
+        data: data
+    })
+}
+
+export const  GetInfoCloudStorage = (data) => {
+    return service({
+        url:  url+'GetInfoCloudStorage',
+        method: 'post',
+        data: data
+    })
+}

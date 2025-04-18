@@ -15,8 +15,9 @@
         :action="上传凭证?.Url"
         :before-upload="beforeAvatarUpload"
         :on-success="on上传成功"
-        :auto-upload="true"
         :data="上传凭证"
+        :http-request="on自定义上传方法"
+        :auto-upload="true"
     >
       <el-icon class="el-icon--upload">
         <upload-filled/>
@@ -37,6 +38,7 @@
 import {UploadFilled} from '@element-plus/icons-vue'
 import {onMounted, ref} from "vue";
 import {GetUpToken} from "@/api/云存储api";
+import axios from "axios";
 
 
 const is显示 = ref(true)
@@ -74,7 +76,58 @@ interface W文件上传凭证 {
   key: string // UpToken
 }
 
-const 上传凭证 = ref<W文件上传凭证>()
+const 上传凭证 = ref<W文件上传凭证>({
+  Path: "",
+  Type: 0,      //1 通用s3兼容协议  2 七牛云
+  Url: "",
+  UpToken: "",
+  token: "",
+  key: ""
+})
+const on自定义上传方法 = async (options) => {
+  const { file, onProgress, onSuccess, onError } = options; // 解构进度回调
+  const formData = new FormData();
+
+  try {
+    // S3协议上传
+    if(上传凭证.value.Type === 1){
+      await axios.put(上传凭证.value.Url, file, {
+        headers: {
+          'Content-Type': file.type
+        },
+        onUploadProgress: (progressEvent) => {
+          // 计算并触发进度更新
+          const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress({ percent }); // 关键：触发进度条更新
+        }
+      });
+      onSuccess({ code: 10000 }); // 触发成功回调
+      return;
+    }
+
+    // 七牛云上传
+    if(上传凭证.value.Type === 2){
+      formData.append('file', file);
+      formData.append('token', 上传凭证.value.token); // 新增
+      formData.append('key', 上传凭证.value.key); // 新增
+      await axios.post(上传凭证.value.Url, formData, {
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress({ percent });
+        }
+      });
+      onSuccess({ code: 10000 });
+      return;
+    }
+  } catch (error) {
+    onError(error); // 触发错误回调
+  }
+}
+
 //上传前hook
 const beforeAvatarUpload = async (file) => {
   const ret = await GetUpToken({"Path": path.value + file.name});
@@ -82,10 +135,25 @@ const beforeAvatarUpload = async (file) => {
   if (ret.code != 10000) {
     return false
   }
-  上传凭证.value = ret.data
-  if (上传凭证.value.Type == 2) {
-    上传凭证.value.key = 上传凭证.value.Path
-    上传凭证.value.token = 上传凭证.value.UpToken
+  switch (ret.data.Type) {
+    case 1:
+      // S3协议应仅使用预签名URL
+      上传凭证.value = {
+        Url: ret.data.Url,
+        Path: "",
+        Type: 1,
+        UpToken: "",
+        token: "",
+        key: ret.data.Path
+      }
+      break;
+    case 2:
+      上传凭证.value.Url = ret.data.Url
+      上传凭证.value.Type = 2
+      上传凭证.value.UpToken = ret.data.UpToken
+      上传凭证.value.key = ret.data.Path
+      上传凭证.value.token = ret.data.UpToken
+      break;
   }
 }
 
