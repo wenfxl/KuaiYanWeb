@@ -87,7 +87,7 @@
         <el-table-column prop="Name" label="云配置名称" width="120"/>
         <el-table-column prop="Value" label="云配置值" width="500" show-overflow-tooltip="">
           <template #default="scope">
-            <el-button link type="primary" size="default"
+            <el-button link type="primary" size="default" v-if="scope.row.Uid>0"
                        @click="on云配置值被改变(scope.$index,scope.row)" style="color:#79bbff">
               <el-icon color="#79bbff" size="18" class="管理员备注编辑">
                 <Edit/>
@@ -353,6 +353,11 @@ onBeforeUnmount(() => {
 })
 
 const on云配置值被改变 = async (表项索引: number, row:any ) => {
+  if (row.Uid<=0){
+    ElMessage.error("请先选择用户")
+    return
+  }
+
 
   let 新云配置值 = row.Value
   await ElMessageBox.prompt('请输入云配置值', '', {

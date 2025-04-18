@@ -210,3 +210,19 @@ export const  GetInfoCloudStorage = (data) => {
         data: data
     })
 }
+
+export const  SaveUserMsgConfig = (data) => {
+    return service({
+        url:  url+'SaveUserMsgConfig',
+        method: 'post',
+        data: data
+    })
+}
+
+export const  GetUserMsgConfig = (data) => {
+    return service({
+        url:  url+'GetUserMsgConfig',
+        method: 'post',
+        data: data
+    })
+}

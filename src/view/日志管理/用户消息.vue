@@ -188,10 +188,7 @@ import {useStore} from "vuex";
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {Delete} from "@element-plus/icons-vue";
 import {More, MuteNotification, RefreshRight} from "@element-plus/icons";
-import {Del批量删除UserClass} from "@/api/用户类型api";
 import {ElMessage} from "element-plus";
-import {SetStatus} from "@/api/卡号列表api";
-import {GetAdminInfo} from "@/api/user";
 import {GetUserMsgConfig, SaveUserMsgConfig} from "@/api/系统设置api";
 
 
