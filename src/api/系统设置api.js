@@ -1,6 +1,8 @@
 import service from '@/api/request'
 
-const url="/Admin/SetSystem/"
+
+import {取url根入口路径} from "@/utils/utils";
+const url=取url根入口路径() +"/SetSystem/"
 
 //  GetUserClass详细信息
 //{}

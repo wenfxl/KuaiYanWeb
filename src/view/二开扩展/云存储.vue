@@ -71,7 +71,7 @@
                   {{ scope.row.Path }}
                 </template>
               </el-table-column>
-              <el-table-column prop="MD5" label="MD5" width="280" fixed="right"/>
+              <el-table-column prop="MD5" label="ETag" width="280" fixed="right"/>
               <el-table-column prop="Size" label="大小" width="120" fixed="right">
                 <template #default="scope">
                 {{字节转换mb(scope.row.Size)}}
@@ -221,7 +221,7 @@ const on单个下载 = async (row) => {
 };
 const on单个获取外链 = async (row) => {
   ElMessageBox.prompt(
-      '请输入外链有效秒数(3600=1小时,86400=1天,2592000=1个月,默认0=1年)', // message
+      '请输入外链有效秒数(3600=1小时,86400=1天,2592000=1个月,默认0=7天)', // message
       '提示', // title
       {
         confirmButtonText: '确定',
