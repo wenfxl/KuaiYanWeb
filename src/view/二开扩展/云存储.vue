@@ -219,22 +219,25 @@ const on单个下载 = async (row) => {
   }
 
 };
-
 const on单个获取外链 = async (row) => {
-  ElMessageBox.prompt('请输入外链有效秒数(,3600=1小时,86400=1天,2592000=1个月,默认0=1年 )', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    inputValue: 0,
-  }).then(async ({value}) => {
-        const res = await 获取外链({"Path": row.Path, "LongTime": Number(value)})
-        if (res.code == 10000) {
-          置剪辑版文本2(res.data, "文件外链复制成功")
-        }
-      })
-      .catch(() => {
-      })
+  ElMessageBox.prompt(
+      '请输入外链有效秒数(3600=1小时,86400=1天,2592000=1个月,默认0=1年)', // message
+      '提示', // title
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputValue: '0', // 注意这里改为字符串
+        inputPattern: /^\d+$/, // 可选：增加数字校验
+        inputErrorMessage: '请输入有效秒数'
+      }
+  ).then(async ({ value }) => {
+    const res = await 获取外链({ "Path": row.Path, "LongTime": Number(value) })
+    if (res.code == 10000) {
+      置剪辑版文本2(res.data, "文件外链复制成功")
+    }
+  }).catch(() => {})
+}
 
-};
 
 const on单个删除 = async (row) => {
   ElMessageBox.confirm('确定要删除此文件吗？', '提示', {
