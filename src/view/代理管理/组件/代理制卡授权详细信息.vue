@@ -20,7 +20,7 @@
       </el-tooltip>
       <el-checkbox-group v-model="D代理功能_功能已选中测" @change="on代理选中被改变">
         <el-checkbox v-for="(Key,val) in D代理功能_功能可见ID测 " :Id="Key"
-                     :value="val" border/>
+                     :label="val" border :value="val"/>
       </el-checkbox-group>
 
         <el-tooltip content="应用必须有可以授权的卡类且卡类代理价格>0,才会显示到下方"
