@@ -60,7 +60,10 @@
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="on创建任务">开始加验证</el-button>
+        <el-button type="primary" @click="on创建任务"
+                   :disabled="上传凭证.key!=''"
+                   :loading="上传凭证.key!=''"
+        >开始加验证</el-button>
         <el-button type="info" @click="is显示=false">关 闭</el-button>
       </div>
     </template>
@@ -110,11 +113,13 @@ const onGetAppIdNameList = async () => {
   }
 }
 const on上传成功 = async (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  if (上传凭证.value.key=="") return //防抖, 自定义上传,on上传成功会被执行两次
 //{"name":"火山程序.apk","percentage":100,"status":"success","size":220117,"raw":{"uid":1737344416100},"uid":1737444446100,"response":{"hash":"Fnf2Aol-0k5FX9FtK7PJ0A7MX-AW","key":"fnkuaiyan/aaaaaa/火山程序.apk"}}
 
   let json = formModel.value // [!code ++]
   json.uploadFile=uploadFile
   json.Path=上传凭证.value.key
+  上传凭证.value.key=""
   json.fileName=uploadFile.name
   let res = await CreateApkAddFNKYTask(json)
   console.log(res)
