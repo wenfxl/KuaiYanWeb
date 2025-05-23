@@ -7,7 +7,6 @@
             drag
             multiple
             ref="upload"
-            :action="上传凭证?.Url"
             :before-upload="beforeAvatarUpload"
             :limit="1"
             :on-exceed="on上传数量超限制"

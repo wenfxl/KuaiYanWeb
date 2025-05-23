@@ -12,7 +12,6 @@
         drag
         multiple
         ref="upload"
-        :action="上传凭证?.Url"
         :before-upload="beforeAvatarUpload"
         :on-success="on上传成功"
         :data="上传凭证"

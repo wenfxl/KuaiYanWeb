@@ -7,7 +7,6 @@
             drag
             multiple
             ref="upload"
-            :action="上传凭证?.Url"
             :before-upload="beforeAvatarUpload"
             :http-request="on自定义上传方法"
             :limit="1"

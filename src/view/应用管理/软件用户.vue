@@ -56,6 +56,7 @@
                 <el-option label="软件用户备注" :value="5"/>
                 <el-option label="归属代理" :value="6"/>
                 <el-option label="归属代理含子代理" :value="7"/>
+                <el-option label="归属代理id" :value="8"/>
               </el-select>
             </template>
           </el-input>
@@ -215,6 +216,16 @@
           </template>
         </el-table-column>
         <el-table-column prop="MaxOnline" label="最大在线数量" width="110"/>
+        <el-table-column prop="AgentName" label="归属代理" width="110" >
+          <template #default="scope">
+            {{ scope.row.AgentName }}
+            <el-tag v-if="scope.row.AgentUid" type="info">
+              {{scope.row.AgentUid}}
+            </el-tag>
+
+
+          </template>
+        </el-table-column>
         <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="80">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">

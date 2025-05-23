@@ -11,7 +11,7 @@
         <el-form-item label="任务类型名称" prop="Name"  style="width: 90%">
           <el-input v-model.trim="data.Name" />
         </el-form-item>
-        <el-form-item label="新任务MQTT通知主题" prop="MqttSendMsg"   style="width: 90%">
+        <el-form-item label="新任务MQTT通知" prop="MqttSendMsg"   style="width: 90%">
           <el-input v-model.trim="data.MqttSendMsg" placeholder="新任务使用mqtt向该主题发送通知,让处理端可以更快响应(可空,不发送通知)" />
         </el-form-item>
         <el-form-item label="Hook任务创建入库前" prop="Name"   style="width: 90%">

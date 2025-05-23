@@ -10,6 +10,9 @@
 
         <el-form-item label="增减金额" prop="AppId">
           <el-input-number v-model="data.RMB" :step="1" placeholder="2" :value-on-clear="0"/>
+          <el-button @click="data.RMB=-data.RMB" :style="is移动端()?'width: 5vh':'width: 4vh'">
+            {{ "负数" }}
+          </el-button>
         </el-form-item>
         <el-form-item label="原因" prop="AppName">
           <el-input v-model.trim="data.Note" placeholder="请输入维护原因"/>
@@ -34,7 +37,7 @@ import {is移动端} from "@/utils/utils";
 const emit = defineEmits(['on批量维护增减余额输入框被关闭'])
 
 const is对话框可见2 = ref(true)
-const data = ref({"Id": [], "RMB": 0.01, "Note": ""})
+const data = ref({"Id": [], "RMB": 0.00, "Note": ""})
 
 const is重新读取 = ref(false)
 const is确认被点击 = ref(false)

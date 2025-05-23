@@ -330,9 +330,9 @@
 
               </el-form-item>
 
-              <el-form-item label="新用户默认最大在线" prop="MaxOnline">
-                <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>
-              </el-form-item>
+<!--              <el-form-item label="新用户默认最大在线" prop="MaxOnline">-->
+<!--                <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>-->
+<!--              </el-form-item>-->
 
               <el-form-item label="超在线最大数处理方式" prop="ExceedMaxOnlineOut">
                 <el-radio-group v-model="data.ExceedMaxOnlineOut" :size="is移动端()?'small':''">

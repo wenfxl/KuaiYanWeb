@@ -121,7 +121,7 @@
           </template>
         </el-popconfirm>
         <el-button icon="Memo"   style="margin: 8px 8px 8px"
-                   :style="{ width: is移动端() ? '15px' : '65px' }" @click="on跳转卡类列表(对象_搜索条件.AppId)">
+                   :style="{ width: is移动端() ? '15px' : '85px' }" @click="on跳转卡类列表(对象_搜索条件.AppId)">
            {{is移动端()?"":"卡类列表"}}
         </el-button>
         <div class="工具栏">
