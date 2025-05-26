@@ -154,7 +154,7 @@ const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, eve
 }
 const on表格列宽初始化 = () => {
 
-  let 局_列宽数组文本 = localStorage.getItem('列宽_云存储')
+  let 局_列宽数组文本 = localStorage.getItem('列宽_Apk加验证')
   if (局_列宽数组文本 != null) {
     let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
 

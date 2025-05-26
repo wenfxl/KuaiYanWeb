@@ -1,4 +1,5 @@
 import {ElMessage} from "element-plus";
+import {nextTick} from "vue";
 export const 取url根入口路径 = ()=> {
     return window.location.pathname.endsWith('/') ? window.location.pathname.slice(0, -1) : window.location.pathname
 }
@@ -200,20 +201,27 @@ export const 表格读取列宽数组 = (tableRef: any): any => {
     return widths
 };
 
+// utils.ts 改进版
 export const 表格写入列宽数组 = (tableRef: any, widths: number[]) => {
-    if (tableRef.data === undefined || tableRef.data.length === 0) {
-        return
-    }
-    let tableColumns = tableRef.store.states.columns._rawValue; //这个行有问题 有时会取出空数组
+    if (!tableRef?.store?.states?.columns?._rawValue) return
 
-    for (let i = 0, len = tableColumns.length; i < len; i = i + 1) {
-
-        if (widths[i] != undefined && widths[i] != null) {
-            tableColumns[i].width = widths[i]
-
+    const tableColumns = tableRef.store.states.columns._rawValue
+    // 跳过首列选择框
+    for (let i = 1; i < tableColumns.length; i++) {
+        const targetWidth = widths[i - 1]
+        if (targetWidth > 0) {
+            tableColumns[i].width = targetWidth
+            tableColumns[i].realWidth = targetWidth // 关键属性
         }
     }
-};
+
+    // 强制刷新表格布局
+    nextTick(() => {
+        tableRef.doLayout()
+
+    })
+}
+
 export const 时间_计算分钟提示 = (Time: number) => {
     if (Time === 0) {
         return ""

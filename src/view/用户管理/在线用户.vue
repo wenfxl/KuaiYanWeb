@@ -418,12 +418,14 @@ const onGetLinkUserList = async () => {
 // table元素
 import {useTableHeight} from "@/composables/useTableHeight";
 const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
-const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
+const on表格列宽被改变 =  (newWidth: number, oldWidth: number, column: any, event: MouseEvent) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
-  localStorage.setItem('列宽_支付充值订单', JSON.stringify(局_列宽数组));
+  localStorage.setItem('列宽_在线用户', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
-  let 局_列宽数组文本 = localStorage.getItem('列宽_支付充值订单')
+  let 局_列宽数组文本 = localStorage.getItem('列宽_在线用户')
+  console.log("表格列宽被读取")
+  console.log(局_列宽数组文本)
   if (局_列宽数组文本 != null) {
     let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
     表格写入列宽数组(tableRef.value, 局_列宽数组)
