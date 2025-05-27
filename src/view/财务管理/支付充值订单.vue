@@ -346,17 +346,9 @@ const on表格列宽初始化 = () => {
     表格写入列宽数组(tableRef.value, 局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
 
 
 
-
-onMounted(() => {
-
-});
 
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
@@ -438,6 +430,7 @@ onMounted(async () => {
     console.log(Store.state.搜索_余额日志)
   }
   await onGetLogRMBPayOrderList()
+  on表格列宽初始化()
 })
 
 onBeforeUnmount(() => {

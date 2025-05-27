@@ -174,10 +174,6 @@ const on表格列宽初始化 = () => {
     表格写入列宽数组(tableRef.value, 局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
 
 
 const 表格被选中列表 = ref([])
@@ -204,6 +200,7 @@ onMounted(async () => {
   await on更新任务状态()
   await on更新Ui列表()
   await on读取列表()
+  on表格列宽初始化()
 })
 
 

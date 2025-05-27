@@ -393,8 +393,10 @@ onMounted(async () => {
     console.log(Store.state.搜索_用户消息.Size)
     console.log(Store.state.搜索_用户消息)
   }
+  on更新on用户消息类型列表()
   await onGetLogLoginList()
 
+  on表格列宽初始化()
 })
 
 onBeforeUnmount(() => {
@@ -461,11 +463,7 @@ const tableRowClassName = ({
   return '未读-row'
 }
 
-onMounted(async () => {
-      on表格列宽初始化()
-      on更新on用户消息类型列表()
-    }
-)
+
 
 // <el-option label="全部" :value="0"/>
 //     <el-option label="其他" :value="1"/>

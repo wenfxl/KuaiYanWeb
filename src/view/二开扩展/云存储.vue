@@ -153,11 +153,6 @@ const on表格列宽初始化 = () => {
     表格写入列宽数组(tableRef.value, 局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
-
 
 
 const 表格被选中列表 = ref([])
@@ -171,9 +166,6 @@ const on选择框被选择 = (val: any) => {
 }
 
 
-onMounted(async () => {
-
-})
 
 const Data = ref({
   "Count": 0,
@@ -315,7 +307,7 @@ onMounted(async () => {
     局_默认根文件夹 = res.data.七牛云对象存储.rootPath
   }
   树.value[0].label = 局_默认根文件夹
-
+  on表格列宽初始化()
 })
 
 const on对话框详细信息关闭 = (is重新读取: boolean) => {

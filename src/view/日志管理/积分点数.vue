@@ -337,12 +337,6 @@ const on表格列宽初始化 = () => {
     表格写入列宽数组(tableRef.value, 局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
-
-
 
 
 onMounted(async () => {
@@ -361,7 +355,7 @@ onMounted(async () => {
   }
   await onGetAppIdNameList()
   await onGetLogVipNumberList()
-
+  on表格列宽初始化()
 })
 
 onBeforeUnmount(() => {

@@ -202,25 +202,17 @@ export const 表格读取列宽数组 = (tableRef: any): any => {
 };
 
 // utils.ts 改进版
-export const 表格写入列宽数组 = (tableRef: any, widths: number[]) => {
-    if (!tableRef?.store?.states?.columns?._rawValue) return
-
-    const tableColumns = tableRef.store.states.columns._rawValue
-    // 跳过首列选择框
-    for (let i = 1; i < tableColumns.length; i++) {
-        const targetWidth = widths[i - 1]
-        if (targetWidth > 0) {
-            tableColumns[i].width = targetWidth
-            tableColumns[i].realWidth = targetWidth // 关键属性
+export const 表格写入列宽数组 = (tableRef:any,widths:number[]) => {
+    if (tableRef.data.length===0){  //如果没有数据不改变列宽,因为会出现列宽异常的状况
+        return
+    }
+    console.log("准备执行修改列宽");
+    for (var i = 0, len = tableRef.store.states.columns._rawValue.length; i < len; i = i + 1) {
+        if (widths[i]!=undefined){
+            tableRef.store.states.columns._rawValue[i].width=widths[i]
         }
     }
-
-    // 强制刷新表格布局
-    nextTick(() => {
-        tableRef.doLayout()
-
-    })
-}
+};
 
 export const 时间_计算分钟提示 = (Time: number) => {
     if (Time === 0) {

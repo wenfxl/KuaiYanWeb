@@ -282,13 +282,6 @@ const on表格列宽初始化 = () => {
     表格写入列宽数组(tableRef.value, 局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
-
-
-
 
 
 onMounted(async () => {
@@ -300,7 +293,7 @@ onMounted(async () => {
     对象_搜索条件.value = Store.state.搜索_公共变量
   }
   await onGetList()
-
+  on表格列宽初始化()
 })
 
 onBeforeUnmount(() => {

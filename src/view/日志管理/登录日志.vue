@@ -285,8 +285,7 @@ const on表格列宽初始化 = () => {
   }
 }
 onMounted(async () => {
-  Data.value.List=[]
-      on表格列宽初始化()
+      Data.value.List=[]
     }
 )
 
@@ -308,7 +307,7 @@ onMounted(async () => {
     console.log(Store.state.搜索_登录日志)
   }
   await onGetLogLoginList()
-
+  on表格列宽初始化()
 })
 
 onBeforeUnmount(() => {

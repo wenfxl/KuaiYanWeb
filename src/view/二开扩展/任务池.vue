@@ -324,10 +324,7 @@ const on表格列宽初始化 = () => {
     表格写入列宽数组(tableRef.value, 局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
+
 
 onMounted(() => {
 
@@ -341,6 +338,7 @@ onMounted(() => {
   }
 
   onGetList()
+  on表格列宽初始化()
 })
 const on状态被改变 = async (表项索引: number, ID: number, Status: number) => {
   // console.info("on状态被改变索引:"+表项索引+",Id:"+ID,"Status:"+Status)

@@ -161,15 +161,6 @@ const on表格列宽初始化 = () => {
     表格写入列宽数组(tableRef.value, 局_列宽数组)
   }
 }
-onMounted(async () => {
-      on表格列宽初始化()
-    }
-)
-
-
-
-
-
 
 
 const 表格被选中列表 = ref([])
@@ -194,7 +185,7 @@ onMounted(async () => {
   //对象_搜索条件.value = {Page: 1, Size: 10, Type: 2, Keywords: "", Order: 1, Count: 0}
   await on更新任务状态()
   await on读取列表()
-
+  on表格列宽初始化()
 })
 
 const Data = ref({
