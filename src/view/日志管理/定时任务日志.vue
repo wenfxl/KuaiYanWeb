@@ -290,11 +290,11 @@ const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 
-  localStorage.setItem('列宽_卡号操作日志', JSON.stringify(局_列宽数组));
+  localStorage.setItem('列宽_定时任务日志', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
 
-  let 局_列宽数组文本 = localStorage.getItem('列宽_卡号操作日志')
+  let 局_列宽数组文本 = localStorage.getItem('列宽_定时任务日志')
   if (局_列宽数组文本 != null) {
     let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
 

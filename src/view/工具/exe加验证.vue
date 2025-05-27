@@ -163,11 +163,11 @@ import {useTableHeight} from "@/composables/useTableHeight";
 const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
-  localStorage.setItem('列宽_Apk加验证', JSON.stringify(局_列宽数组));
+  localStorage.setItem('列宽_exe加验证', JSON.stringify(局_列宽数组));
 }
 const on表格列宽初始化 = () => {
 
-  let 局_列宽数组文本 = localStorage.getItem('列宽_云存储')
+  let 局_列宽数组文本 = localStorage.getItem('列宽_exe加验证')
   if (局_列宽数组文本 != null) {
     let 局_列宽数组: number[] = JSON.parse(局_列宽数组文本)
 
