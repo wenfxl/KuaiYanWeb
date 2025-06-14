@@ -92,6 +92,14 @@ export const get图表应用用户统计 = (data) => {
         data: data
     })
 }
+export const Get任务池任务Id分析 = (data) => {
+    return service({
+        url: url+'ChartTidTaskData',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
 
 export const get图表卡号统计制卡 = (data) => {
     return service({

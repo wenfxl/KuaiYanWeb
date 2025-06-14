@@ -3,7 +3,8 @@
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
         <el-form-item label="选择应用" prop="" style="width:300px">
-          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用" filterable  @change="on读取列表">
+          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用" filterable
+                     @change="on读取列表">
             <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
                        :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
           </el-select>
@@ -123,6 +124,9 @@
             <li class="工具_更多_li" @click="on批量维护删除(3)" v-if="isAppType卡号2">
               删除已删卡号软件用户
             </li>
+            <li class="工具_更多_li" @click="on批量维护清空绑定信息()">
+              批量清空绑定信息
+            </li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -216,11 +220,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="MaxOnline" label="最大在线数量" width="110"/>
-        <el-table-column prop="AgentName" label="归属代理" width="110" >
+        <el-table-column prop="AgentName" label="归属代理" width="110">
           <template #default="scope">
             {{ scope.row.AgentName }}
             <el-tag v-if="scope.row.AgentUid" type="info">
-              {{scope.row.AgentUid}}
+              {{ scope.row.AgentUid }}
             </el-tag>
 
 
@@ -270,7 +274,7 @@
   <AppUserinfo v-if="is对话框可见" :id="is对话框id" :AppId="对象_搜索条件.AppId"
                :AppName="MapAppId_Name[对象_搜索条件.AppId.toString()]" :AppType="Data.AppType"
                @on对话框详细信息关闭="on对话框详细信息关闭" :UserType="对象_用户类型"></AppUserinfo>
-  <ChartData  v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false"/>
 
   <BatchElMessage :is批量维护输入框可见="is批量维护输入框可见" 标题="批量修改勾选用户,负数可能减到0以下"
                   :提示信息='isAppType计点()?"请输入增减点数(点)":"请输入增减时间(秒)"'
@@ -311,7 +315,7 @@ import {
   Del批量删除AppUser,
   SetStatus,
   Set批量维护增减时间点数,
-  Del批量维护_删除, Set批量维护修改用户类型, Set批量维护增减积分
+  Del批量维护_删除, Set批量维护修改用户类型, Set批量维护增减积分, Del批量维护_删除用户绑定信息, Del批量维护_设置用户绑定信息
 } from "@/api/软件用户api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
@@ -458,6 +462,30 @@ const on批量冻结解冻 = async (Status: number) => {
   }
 
 }
+const on批量维护清空绑定信息 = async () => {
+  const ids = 表格被选中列表.value.map((item => item.Id))
+  if (ids.length == 0) {
+    ElMessage.error("选中数据不能为0")
+    return
+  }
+  ElMessageBox.confirm(
+      '确定要清除已勾选用户绑定信息吗?',
+      '',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(async () => {
+    let 返回 = await Del批量维护_设置用户绑定信息({AppId: 对象_搜索条件.value.AppId, "Id": ids, Key: ""})
+    if (返回.code == 10000) {
+      ElMessage.success(返回.msg)
+      on读取列表()
+    }
+
+  }).catch()
+}
+
 const on批量维护删除 = async (Type: number) => {
   let app类型 = "vip到期"
   if (Data.value.AppType === 2 || Data.value.AppType === 4) {
@@ -672,14 +700,15 @@ const onGetAppIdNameList = async () => {
   console.log("没有搜索条件的应用,修改第一个,现在搜索条件的值为:" + res.data.Map[对象_搜索条件.value.AppId.toString()])
 
   if (res.data.Map[对象_搜索条件.value.AppId.toString()] == null || 对象_搜索条件.value.AppId <= 10000) {
-    let 局_默认appid=Store.state.搜索_默认选择应用AppId
-    对象_搜索条件.value.AppId = 数组AppId_Name.value.some(item => item.Appid === 局_默认appid)?局_默认appid:数组AppId_Name.value[0].Appid
+    let 局_默认appid = Store.state.搜索_默认选择应用AppId
+    对象_搜索条件.value.AppId = 数组AppId_Name.value.some(item => item.Appid === 局_默认appid) ? 局_默认appid : 数组AppId_Name.value[0].Appid
   }
 
 }
 // table元素
 import {useTableHeight} from "@/composables/useTableHeight";
-const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
+
+const {tableRef, tableHeight, updateTableHeight} = useTableHeight(85)
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
 

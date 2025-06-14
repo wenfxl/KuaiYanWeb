@@ -129,3 +129,12 @@ export const Del批量维护_删除 = (data) => {
     data: data
   })
 }
+
+//  Del批量维护_删除
+export const Del批量维护_设置用户绑定信息 = (data) => {
+  return service({
+    url: url+'BatchSetAppUserKey',
+    method: 'post',
+    data: data
+  })
+}

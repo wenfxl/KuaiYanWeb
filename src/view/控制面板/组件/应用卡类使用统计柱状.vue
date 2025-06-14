@@ -46,9 +46,9 @@ const setOptions = (data) => {
         let dotColor = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[0].color + '"></span>'
         let dotColor2 = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[1].color + '"></span>'
         let dotColor3 = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#73c0e7 "></span>'
-        return dotColor + '已用:' + params[0].value[1].toString() + "(" + (params[0].value[1] / (params[0].value[1] + params[0].value[2]) * 100).toFixed(2).toString() + "%)" + "<br>" +
-            dotColor2 + '未用:' + params[0].value[2].toString() + "(" + (params[0].value[2] / (params[0].value[1] + params[0].value[2]) * 100).toFixed(2).toString() + "%)" + "<br>" +
-            dotColor3 + '共计数量:' + (parseInt(params[0].value[1]) + parseInt(params[0].value[2])).toString();
+        return dotColor + '已用:' + params[0].value[1].toString() + "(" + (params[0].value[1] / (params[0].value[3] ) * 100).toFixed(2).toString() + "%)" + "<br>" +
+            dotColor2 + '未用:' + params[0].value[2].toString() + "(" + (params[0].value[2] / (params[0].value[3]) * 100).toFixed(2).toString() + "%)" + "<br>" +
+            dotColor3 + '总数:' + (parseInt(params[0].value[3])).toString();
       }
     },
 

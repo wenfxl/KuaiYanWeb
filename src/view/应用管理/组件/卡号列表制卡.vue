@@ -29,7 +29,7 @@
         </el-form-item>
 
         <el-form-item label="制卡数量" prop="Number" v-else>
-          <el-input-number v-model="data.Number" :precision="0" :step="1" :value-on-clear="1" :min="1" :max="100"/>
+          <el-input-number v-model="data.Number" :precision="0" :step="1" :value-on-clear="1" :min="1" :max="5000"/>
           <el-button @click="data.Number=1" :style="is移动端()?'width: 5vh':'width: 5vh'">
             归一
           </el-button>

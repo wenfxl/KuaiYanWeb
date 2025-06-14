@@ -51,6 +51,13 @@
             </template>
             <li class="工具_更多_li" @click="on添加uuid到队列">添加uuid到队列</li>
           </el-popover>
+          <el-tooltip content="分析"
+                      effect="dark"
+                      placement="top">
+            <el-icon @click="is图表分析抽屉可见=true">
+              <DataAnalysis/>
+            </el-icon>
+          </el-tooltip>
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -167,7 +174,7 @@
       </div>
     </div>
   </div>
-  <Userinfo :is对话框可见="is对话框可见" :id="is对话框id" @on对话框详细信息关闭="on对话框详细信息关闭"></Userinfo>
+  <ChartData v-if="is图表分析抽屉可见" @on图表分析抽屉关闭="is图表分析抽屉可见 = false" :Tid="对象_搜索条件.Tid"/>
 </template>
 
 <script lang="ts" setup>
@@ -198,6 +205,7 @@ import service from "@/api/request";
 import {SaveInfoSMS} from "@/api/系统设置api";
 // table元素
 import {useTableHeight} from "@/composables/useTableHeight";
+import ChartData from "@/view/应用管理/组件/任务池数据图表抽屉.vue";
 const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const 状态列表 = ["", "已创建", "处理中", "成功", "失败"]
 
@@ -352,6 +360,11 @@ const onReset = () => {
   对象_搜索条件.value.Keywords=""
   onGetList()
 }
+/// 抽屉图表
+const is图表分析抽屉可见 = ref(false)
+
+
+
 
 </script>
 
