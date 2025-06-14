@@ -4,6 +4,7 @@
              @open="on对话框被打开"
              :width="is移动端()?'90%':'50%'"
              top="5%"
+             v-loading="is加载中"
              @close="on对话框被关闭">
     <div style="overflow:auto;padding:0 12px;">
       <el-form :inline="false" style="min-width: 80px ;top: 10px" label-width="130px" :rules="on表单校验" :model="data"
@@ -29,7 +30,7 @@
         </el-form-item>
 
         <el-form-item label="制卡数量" prop="Number" v-else>
-          <el-input-number v-model="data.Number" :precision="0" :step="1" :value-on-clear="1" :min="1" :max="5000"/>
+          <el-input-number v-model="data.Number" :precision="0" :step="1" :value-on-clear="1" :min="1" :max="2600"/>
           <el-button @click="data.Number=1" :style="is移动端()?'width: 5vh':'width: 5vh'">
             归一
           </el-button>
@@ -41,7 +42,7 @@
           </el-button>
         </el-form-item>
         <el-form-item label="开始制卡" prop="Prefix">
-          <el-button type="primary" @click="on开始制卡按钮被点击(ruleFormRef)"
+          <el-button type="primary" @click="on开始制卡按钮被点击(ruleFormRef)" :disabled="is加载中"
                      style="width: 90px">开始制卡
           </el-button>
           <el-tooltip
@@ -149,6 +150,7 @@ const data = ref({
 })
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
+const is加载中 = ref(false)
 
 const on校验表单重置 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -199,19 +201,26 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
   console.info(表单验证结果)
   if (!表单验证结果) return   //如果是假直接返回
   let 返回;
+
   if (data.value.Id != 0) {
+
     if (!Props.批量维护导入卡号) {
+      is加载中.value = true
       返回 = await NewKa信息(data.value);
+      is加载中.value = false
     } else {
+      is加载中.value = true
       const pattern = /[a-zA-Z0-9]{10,}/g;
       data.value.KaName = []
       let a = 待导入卡号.value.match(pattern);
       if (a == null) {
         ElMessage.error( "正则失败,导入卡号格式不正确,一行一个最短10位")
+        is加载中.value = false
         return
       }
       data.value.KaName = a
       返回 = await NewKa信息_指定卡号(data.value);
+      is加载中.value = false
     }
 
 
