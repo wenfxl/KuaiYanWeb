@@ -388,11 +388,11 @@ onMounted(() => {
 
   onReset()
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
-  if (Store.state.搜索_用户信息.Size != 0 && Store.state.搜索_用户信息.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_用户信息
+  if (Store.state.搜索_用户账号.Size != 0 && Store.state.搜索_用户账号.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_用户账号
     console.log("恢复搜索条件")
-    console.log(Store.state.搜索_用户信息.Size)
-    console.log(Store.state.搜索_用户信息)
+    console.log(Store.state.搜索_用户账号.Size)
+    console.log(Store.state.搜索_用户账号)
   }
 
   onGetUserList()
@@ -401,7 +401,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_用户信息", 对象_搜索条件.value)
+  Store.commit("set搜索_用户账号", 对象_搜索条件.value)
 })
 
 const on批量维护增减余额输入框被关闭 = async (is确定: boolean, 请求: any) => {

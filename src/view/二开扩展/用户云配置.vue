@@ -143,8 +143,7 @@
 
     </div>
   </div>
-  <PublicDataInfo :is对话框可见="is对话框可见" :AppId="1" :id="Id"
-                  @on对话框详细信息关闭="on对话框详细信息关闭"></PublicDataInfo>
+
 </template>
 
 <script lang="ts" setup>
@@ -154,7 +153,7 @@ import {useStore} from "vuex";
 // 引入中文包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
-import PublicDataInfo from "./组件/公共变量详细信息.vue";
+
 import {Delete} from "@element-plus/icons-vue";
 import {
   is移动端,
@@ -236,31 +235,6 @@ ElMessage.success(res.msg)
 
 const 表格被选中列表 = ref([])
 const is批量删除禁用 = ref(true)
-const is工具_更多 = ref(false)
-
-const is对话框可见 = ref(false)
-const 公共变量初始数据 = {
-  "AppId": 1,
-  "Name": "",
-  "Value": "",
-  "Type": 1,
-  "IsVip": 1
-}
-
-const Id = ref("")
-const 公共变量 = ref(公共变量初始数据)
-
-const on对话框详细信息打开 = (id: string) => {
-  is对话框可见.value = true
-  Id.value = id
-}
-const on对话框详细信息关闭 = (is重新读取: boolean) => {
-  //console.info("父组件收到对话框被关闭了")
-  is对话框可见.value = false
-  if (is重新读取) {
-    on读取列表()
-  }
-}
 
 const on选择框被选择 = (val: any) => {
   表格被选中列表.value = val
@@ -326,22 +300,20 @@ const on表格列宽初始化 = () => {
 }
 
 onMounted(async () => {
-
   Data.value.List = []
   onReset()
   //如果 Store zize 不为0 且不为 null  才读取,不然就使用默认的
-  if (Store.state.搜索_公共变量.Size != 0 && Store.state.搜索_公共变量.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_公共变量
+  if (Store.state.搜索_用户云配置 .Size != 0 && Store.state.搜索_用户云配置.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_用户云配置
   }
   await onGetAppIdNameList()
   await onGetList()
-
   on表格列宽初始化()
 })
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_公共变量", 对象_搜索条件.value)
+  Store.commit("set搜索_用户云配置", 对象_搜索条件.value)
 })
 
 const on云配置值被改变 = async (表项索引: number, row:any ) => {

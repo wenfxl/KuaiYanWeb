@@ -423,11 +423,11 @@ onMounted(async () => {
   }
 
   onReset()
-  if (Store.state.搜索_余额日志.Size != 0 && Store.state.搜索_余额日志.Size != null) {
-    对象_搜索条件.value = Store.state.搜索_余额日志
+  if (Store.state.搜索_支付充值订单.Size != 0 && Store.state.搜索_支付充值订单.Size != null) {
+    对象_搜索条件.value = Store.state.搜索_支付充值订单
     console.log("恢复搜索条件")
-    console.log(Store.state.搜索_余额日志.Size)
-    console.log(Store.state.搜索_余额日志)
+    console.log(Store.state.搜索_支付充值订单.Size)
+    console.log(Store.state.搜索_支付充值订单)
   }
   await onGetLogRMBPayOrderList()
   on表格列宽初始化()
@@ -435,7 +435,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_余额日志", 对象_搜索条件.value)
+  Store.commit("set搜索_支付充值订单", 对象_搜索条件.value)
 })
 
 const 数组_日志预选日期 = [{

@@ -322,7 +322,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
-  Store.commit("set搜索_制卡日志", 对象_搜索条件.value)
+  Store.commit("set搜索_代理操作日志", 对象_搜索条件.value)
 })
 
 const 数组_日志预选日期 = [{

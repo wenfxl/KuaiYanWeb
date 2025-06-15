@@ -15,7 +15,7 @@ interface state全局状态 {
     UserInfo: object
     搜索_默认选择应用AppId: number
     搜索_在线用户: object
-    搜索_用户信息: object
+    搜索_用户账号: object
     搜索_应用列表: object // 新增缺失属性
     搜索_软件用户: object
     搜索_用户类型: object
@@ -35,6 +35,12 @@ interface state全局状态 {
     搜索_库存日志: object
     搜索_黑名单: object
     搜索_定时任务: object
+    搜索_定时任务日志: object
+    搜索_库存管理: object
+    搜索_代理账号: object
+    搜索_代理操作日志: object
+
+
 
 }
 
@@ -46,7 +52,7 @@ export const store = createStore<state全局状态>({
             storage: window.sessionStorage, // 指定存储方式
             paths: [ // 指定需要持久化的状态
                 "搜索_在线用户",
-                "搜索_用户信息",
+                "搜索_用户账号",
                 "搜索_应用列表",
                 "搜索_软件用户",
                 "搜索_用户类型",
@@ -65,6 +71,10 @@ export const store = createStore<state全局状态>({
                 "搜索_定时任务",
                 "搜索_用户消息",
                 "搜索_库存日志",
+                "搜索_定时任务日志",
+                "搜索_库存管理",
+                "搜索_代理账号",
+                "搜索_代理操作日志",
                 // 添加其他需要持久化的状态名...
             ]
         })
@@ -91,7 +101,7 @@ export const store = createStore<state全局状态>({
                 "UserMsgNoRead": 0
             },
             搜索_在线用户: {},
-            搜索_用户信息: {},
+            搜索_用户账号: {},
             搜索_应用列表: {},
             搜索_软件用户: {},
             搜索_用户类型: {},
@@ -110,6 +120,10 @@ export const store = createStore<state全局状态>({
             搜索_定时任务: {},
             搜索_用户消息: {},
             搜索_库存日志: {},
+            搜索_代理操作日志: {},
+            搜索_代理账号: {},
+            搜索_库存管理: {},
+            搜索_定时任务日志: {},
             搜索_默认选择应用AppId: 10001,
             搜索_个人中心: {数组_可购买充值卡:[],支付通道状态:{},订单信息:{订单ID: "", PayQRCode: "", PayURL: "", 订单状态: 0}},
         }
@@ -181,8 +195,8 @@ export const store = createStore<state全局状态>({
         set搜索_在线用户(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_在线用户 = data
         },
-        set搜索_用户信息(state全局状态: state全局状态, data: object) {
-            state全局状态.搜索_用户信息 = data
+        set搜索_用户账号(state全局状态: state全局状态, data: object) {
+            state全局状态.搜索_用户账号 = data
         },
         set搜索_应用列表(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_应用列表 = data
@@ -199,7 +213,7 @@ export const store = createStore<state全局状态>({
         set搜索_卡号列表(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_卡号列表 = data
         },
-        set搜索_用户配置(state全局状态: state全局状态, data: object) {
+        set搜索_用户云配置(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_用户云配置 = data
         },
         set搜索_公共变量(state全局状态: state全局状态, data: object) {
@@ -240,6 +254,9 @@ export const store = createStore<state全局状态>({
         },
         set搜索_定时任务(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_定时任务 = data
+        },
+        搜索_定时任务日志(state全局状态: state全局状态, data: object) {
+            state全局状态.搜索_定时任务日志 = data
         },
 
     },
