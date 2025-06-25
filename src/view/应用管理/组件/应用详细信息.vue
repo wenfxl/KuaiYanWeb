@@ -696,8 +696,9 @@ const on重置密钥 = () => {
 
   if (data.value.CryptoType === 3) {
     Rsa生成密匙对(function (privateKey, publicKey) {
-      data.value.CryptoKeyPublic = publicKey
-      data.value.CryptoKeyPrivate = privateKey
+      // 替换\r\n 为\n
+      data.value.CryptoKeyAes = publicKey.replace(/\r\n/g, '\n');
+      data.value.CryptoKeyPrivate = privateKey.replace(/\r\n/g, '\n');
       console.log(privateKey, publicKey);
     })
   }
