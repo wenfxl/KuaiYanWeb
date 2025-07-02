@@ -76,6 +76,17 @@ export const  New用户信息 = (data) => {
   })
 }
 
+
+//设置 排序 权重
+export const  SetAgentSort = (data) => {
+  return service({
+    url:  url+'SetSort',
+    method: 'post',
+    data: data
+  })
+}
+
+
 //  Get代理可制卡类列表
 //{"Id": 1}
 // @Success 200 {string} json "{"code": 0, "data": {},"msg": "获取成功"}"

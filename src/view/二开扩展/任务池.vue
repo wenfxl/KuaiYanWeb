@@ -102,7 +102,7 @@
         <el-table-column prop="HookReturnDataEnd" label="Hook函数执行入库后" width="230"/>
 
 
-        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="170">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="210">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
@@ -115,6 +115,10 @@
                 <ZoomIn/>
               </el-icon>
               查看任务
+            </el-button>
+            <el-button link type="primary" size="default" style="color:#79bbff"
+                       @click="on置顶(scope.row)">
+              <el-icon size="20" :color="scope.row.Sort>100?'#79bbff':'#556375'" class="no-inherit"  ><Star /></el-icon>
             </el-button>
           </template>
         </el-table-column>
@@ -151,7 +155,7 @@ import {
   GetTaskPoolList,
   设置任务池任务类型状态,
   清空队列Tid,
-  添加uuid到队列
+  添加uuid到队列, SetTaskPoolTypeSort
 } from "@/api/任务池api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, is移动端, 表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
 import {useStore} from "vuex";
@@ -165,6 +169,7 @@ import service from "@/api/request";
 import {SaveInfoSMS} from "@/api/系统设置api";
 import router from "@/router";
 import {useTableHeight} from "@/composables/useTableHeight";
+import {SetAppSort} from "@/api/应用列表api";
 const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const on单个删除 = async (id: number) => {
   console.log('on单个删除' + id)
@@ -271,6 +276,20 @@ const on选择框被选择 = (val: any) => {
   表格被选中列表.value = val
   is批量删除禁用.value = 表格被选中列表.value.length == 0
 }
+type TaskPool = {
+  "Id": number,
+  "Name": string,
+  "Status": number,
+  "QueueCount": number,
+  "TaskCount": number,
+  "HookSubmitDataStart": string,
+  "HookSubmitDataEnd": string,
+  "HookReturnDataStart": string,
+  "HookReturnDataEnd": string,
+  "MqttSendMsg": string,
+  "Sort": number,
+}
+
 
 const List = ref({
   "Count": 0,
@@ -286,6 +305,7 @@ const List = ref({
       "HookReturnDataStart": "",
       "HookReturnDataEnd": "",
       "MqttSendMsg": "",
+      "Sort": "",
     }]
 })
 
@@ -360,7 +380,25 @@ onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
   Store.commit("set搜索_任务池", 对象_搜索条件.value)
 })
+const on置顶 = async (TaskPool: TaskPool) => {
+  let 局_新sort = TaskPool.Sort > 100 ? 0 : 时间_取现行时间戳();
+  let 返回 = await SetTaskPoolTypeSort({ Id: TaskPool.Id, Sort: 局_新sort });
+  if (返回.code === 10000) {
+    const currentIndex = List.value.List.findIndex(item => item.Id === TaskPool.Id);
+    if (currentIndex === -1) return;
+    // 更新排序数值
+    List.value.List[currentIndex].Sort = 局_新sort;
+    // 分离非零排序项和零排序项
+    const nonZeroSort = List.value.List.filter(item => Number(item.Sort) >1000 );
+    const zeroSort = List.value.List.filter(item => Number(item.Sort) <1000);
+    const newList = [
+      ...nonZeroSort.sort((a, b) => Number(b.Sort) - Number(a.Sort)),
+      ...zeroSort.sort((a, b) => Number(a.Id) - Number(b.Id))
+    ];
 
+    List.value.List.splice(0, List.value.List.length, ...newList);
+  }
+};
 
 </script>
 

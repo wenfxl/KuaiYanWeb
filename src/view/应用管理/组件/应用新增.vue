@@ -53,7 +53,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="复制指定" prop="">
-          <el-tooltip content="新应用会复制该应用除了公私密钥以外的信息,含卡类列表,用户类型列表" effect="dark" placement="right">
+          <el-tooltip content="新应用会复制该应用除了公私密钥以外的信息,含卡类列表,用户类型列表,专属云变量" effect="dark" placement="right">
           <el-select v-model.number="data.CopyAppId" clear placeholder="复制指定应用" >
             <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
                        :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>

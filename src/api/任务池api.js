@@ -82,3 +82,12 @@ export const  添加uuid到队列 = (data) => {
     data: data
   })
 }
+
+//设置 排序 权重
+export const  SetTaskPoolTypeSort = (data) => {
+  return service({
+    url:  url+'SetSort',
+    method: 'post',
+    data: data
+  })
+}

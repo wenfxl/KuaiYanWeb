@@ -152,7 +152,7 @@
         </el-table-column>
         <el-table-column prop="LoginTime" label="最后登录时间" width="160" :formatter="on格式化_登录时间"/>
         <!--        <el-table-column prop="LoginIp" label="登录ip" width="140"/>-->
-        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="180">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="210">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.Id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
@@ -166,6 +166,10 @@
                 <Setting/>
               </el-icon>
               制卡授权
+            </el-button>
+            <el-button link type="primary" size="default" style="color:#79bbff"
+                       @click="on置顶(scope.row)">
+              <el-icon size="20" :color="scope.row.Sort>100?'#79bbff':'#556375'" class="no-inherit"  ><Star /></el-icon>
             </el-button>
           </template>
         </el-table-column>
@@ -204,7 +208,7 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {GetUserList, Del批量删除用户, SetUserStatus} from "@/api/代理信息api.js";
+import {GetUserList, Del批量删除用户, SetUserStatus, SetAgentSort} from "@/api/代理信息api.js";
 import {时间_时间戳到时间, 时间_取现行时间戳, is移动端,   置剪辑版文本,表格读取列宽数组, 表格写入列宽数组} from "@/utils/utils";
 import {useStore} from "vuex";
 
@@ -337,7 +341,8 @@ const List = ref({
       "LoginTime": 0,
       "RegisterIp": "127.0.0.1",
       "RegisterTime": "1680790525",
-      "UPAgentId": 0
+      "UPAgentId": 0,
+      "Sort": 0
     }]
 })
 const Store = useStore()
@@ -407,6 +412,7 @@ const onGetUserList = async () => {
 }
 // table元素
 import {useTableHeight} from "@/composables/useTableHeight";
+
 const { tableRef, tableHeight, updateTableHeight } = useTableHeight(85)
 const on表格列宽被改变 = (newWidth: any, oldWidth: any, columns: any, event: any) => {
   let 局_列宽数组: number[] = 表格读取列宽数组(tableRef.value)
@@ -445,21 +451,42 @@ onBeforeUnmount(() => {
 })
 
 
+
 export interface UserInfo2 {
-  id: number;
-  user: string;
-  status: number;
-  rmb: number;
-  realNameAttestation: string;
-  role: number;
-  loginAppid: string;
-  loginAppName: string;
-  loginIp: string;
-  loginTime: number;
-  registerIp: string;
-  registerTime: string;
+  Id: number;
+  User: string;
+  Status: number;
+  Rmb: number;
+  RealNameAttestation: string;
+  Role: number;
+  LoginAppid: string;
+  LoginAppName: string;
+  LoginIp: string;
+  LoginTime: number;
+  RegisterIp: string;
+  RegisterTime: string;
+  Sort: number;
 }
 
+const on置顶 = async (UserInfo2: UserInfo2) => {
+  let 局_新sort = UserInfo2.Sort > 100 ? 0 : 时间_取现行时间戳();
+  let 返回 = await SetAgentSort({ Id: UserInfo2.Id, Sort: 局_新sort });
+  if (返回.code === 10000) {
+    const currentIndex = List.value.List.findIndex(item => item.Id === UserInfo2.Id);
+    if (currentIndex === -1) return;
+    // 更新排序数值
+    List.value.List[currentIndex].Sort = 局_新sort;
+    // 分离非零排序项和零排序项
+    const nonZeroSort = List.value.List.filter(item => Number(item.Sort) >1000 );
+    const zeroSort = List.value.List.filter(item => Number(item.Sort) <1000);
+    const newList = [
+      ...nonZeroSort.sort((a, b) => Number(b.Sort) - Number(a.Sort)),
+      ...zeroSort.sort((a, b) => Number(a.Id) - Number(b.Id))
+    ];
+
+    List.value.List.splice(0, List.value.List.length, ...newList);
+  }
+};
 </script>
 
 <style scoped lang="scss">
