@@ -62,33 +62,34 @@
                                    style="display: flex;width: 20px;padding: 0;margin-left :5px">-1
                         </el-button>
                       </div>
-
                     </div>
 
                   </el-form-item>
                 </template>
               </el-popconfirm>
-                <el-form-item icon="icon" label="更新下载地址json" prop="UrlDownload">
+              <el-form-item icon="icon" label="更新下载地址json" prop="UrlDownload">
+                <el-tooltip
+                    :trigger-keys="[]"
+                    class="box-item"
+                    effect="light"
+                    content="支持使用变量 最新版本号: {{AppVer}}  {{云存储_取外链('10001/app2.apk',0)}} "
+                    placement="top-end"
+                >
+                  <el-input class="no-inherit" type="textarea" autosize v-model="data.UrlDownload"/>
+                </el-tooltip>
+                <div class="toolbar">
                   <el-tooltip
-                      :trigger-keys="[]"
                       class="box-item"
-                      effect="light"
-                      content="支持使用变量 最新版本号: {{AppVer}}  {{云存储_取外链('10001/app2.apk',0)}} "
-                      placement="top-end"
+                      effect="dark"
+                      content="上传文件"
+                      placement="top-start"
                   >
-                  <el-input class="no-inherit" type="textarea" autosize v-model="data.UrlDownload" />
+                    <el-icon @click="is显示上传界面=true" size="24" color="#409EFC" class="复制按钮 no-inherit">
+                      <UploadFilled/>
+                    </el-icon>
                   </el-tooltip>
-                  <div class="toolbar">
-                    <el-tooltip
-                        class="box-item"
-                        effect="dark"
-                        content="上传文件"
-                        placement="top-start"
-                    >
-                      <el-icon @click="is显示上传界面=true" size="24" color="#409EFC" class="复制按钮 no-inherit"><UploadFilled /></el-icon>
-                    </el-tooltip>
-                  </div>
-                </el-form-item>
+                </div>
+              </el-form-item>
 
               <el-popover
                   :trigger-keys="[]"
@@ -123,7 +124,7 @@
               </el-form-item>
 
 
-              <el-form-item label="注册送卡" prop="RegisterGiveKaClassId" >
+              <el-form-item label="注册送卡" prop="RegisterGiveKaClassId">
                 <el-popover placement="right" trigger="hover"
                             :content="data.AppType<=2?'设置一个注册送卡类,注册送时间,点数,余额,积分都可以在设置,用户注册就会自动充值这个卡类简单方便':'设置一个卡类可以通过取注册送卡获取试用卡'">
                   <template #reference>
@@ -330,9 +331,9 @@
 
               </el-form-item>
 
-<!--              <el-form-item label="新用户默认最大在线" prop="MaxOnline">-->
-<!--                <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>-->
-<!--              </el-form-item>-->
+              <!--              <el-form-item label="新用户默认最大在线" prop="MaxOnline">-->
+              <!--                <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>-->
+              <!--              </el-form-item>-->
 
               <el-form-item label="超在线最大数处理方式" prop="ExceedMaxOnlineOut">
                 <el-radio-group v-model="data.ExceedMaxOnlineOut" :size="is移动端()?'small':''">
@@ -410,22 +411,27 @@
                         active-text="限登录"
                         inactive-text="任意"
                     />
-                    <el-divider content-position="left"  ><el-text class="mx-1" :type="data.Sort>100?'primary':''">{{ data.Name }}</el-text></el-divider>
-                    <div @click="data.Sort?data.Sort=0:data.Sort=时间_取现行时间戳()" class="工具栏" >
+                    <el-divider content-position="left">
+                      <el-text class="mx-1" :type="data.Sort>100?'primary':''">{{ data.Name }}</el-text>
+                    </el-divider>
+                    <div @click="data.Sort?data.Sort=0:data.Sort=时间_取现行时间戳()" class="工具栏">
                       <el-tooltip
                           class="box-item"
                           effect="dark"
                           :content="data.Sort>100?'取消':'置顶'"
                           placement="top-start"
                       >
-                        <el-icon size="24" :color="data.Sort>100?'#409EFC':'#556375'" class="no-inherit" ><Star /></el-icon>
+                        <el-icon size="24" :color="data.Sort>100?'#409EFC':'#556375'" class="no-inherit">
+                          <Star/>
+                        </el-icon>
                       </el-tooltip>
 
                     </div>
                   </div>
                   <el-input v-if="data.Type === 1" type="text" v-model.trim="data.Value"
-                            maxlength="16777215"                style="width: calc(100% - 50px); margin-left: 5px"/>
-                  <el-input v-if="data.Type === 2" type="textarea" v-model="data.Value" placeholder="最长支持16777215长度"
+                            maxlength="16777215" style="width: calc(100% - 50px); margin-left: 5px"/>
+                  <el-input v-if="data.Type === 2" type="textarea" v-model="data.Value"
+                            placeholder="最长支持16777215长度"
                             maxlength="16777215"
                             :autosize="{ minRows: 2, maxRows: 23 }" style="width: calc(100% - 50px); margin-left: 5px"/>
                   <el-radio-group v-if="data.Type === 3" v-model="data.Value" style="margin-left: 5px">
@@ -483,6 +489,7 @@
                 </el-form>
               </el-dialog>
             </el-tab-pane>
+
             <el-tab-pane label="ApiHook" name="ApiHook">
               <div v-for="(data,key) in 数组_ApiHook" :key="key" class="内容div">
                 <el-form-item label="APi接口:" style="width: 100%">
@@ -533,6 +540,26 @@
                 </el-button>
               </el-divider>
             </el-tab-pane>
+            <el-tab-pane label="网页用户中心" name="网页用户中心">
+              <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="160px" :model="dataWebUser"
+                       :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
+                <el-divider content-position="left">基础配置</el-divider>
+                  <el-form-item label="网页用户中心" prop="是否启用">
+                    <el-radio-group v-model="dataWebUser.status">
+                      <el-radio-button :value="1" size="" border>开启</el-radio-button>
+                      <el-radio-button :value="2" size="" border>关闭</el-radio-button>
+                    </el-radio-group>
+                  </el-form-item>
+                <el-divider content-position="left">网页安全配置</el-divider>
+                <el-form-item label="登陆验证码防爆阈值"  >
+                  <el-tooltip content="账号登陆失败多少次必须输入验证码"
+                              effect="dark"
+                              placement="top">
+                    <el-input-number v-model="dataWebUser.captchaLogin" :precision="0" :step="1" :value-on-clear="0" :min="0"/>
+                  </el-tooltip>
+                </el-form-item>
+              </el-form>
+            </el-tab-pane>
           </el-tabs>
         </el-form>
       </div>
@@ -550,6 +577,7 @@
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref, watch} from 'vue'
 import {SaveApp信息, GetApp详细信息, Get全部用户APi} from "@/api/应用列表api";
+import {Get网页用户中心详细信息} from "@/api/网页用户中心api";
 import {New, DeleteInfo, GetList} from "@/api/公共变量api";
 import {ElMessage, FormInstance} from "element-plus";
 import {is移动端, 时间_取现行时间戳, 时间_计算天时分秒提示, 置剪辑版文本} from "@/utils/utils";
@@ -613,8 +641,15 @@ const data = ref({
   "AppType": 1,
   "RmbToVipNumber": 1,
   "Captcha": "",
-  "ApiHook": ""
+  "ApiHook": "",
 })
+const dataWebUser = ref({
+  status: 2,
+  captchaLogin: 3,
+})
+
+
+
 const on验证码多选发生变化 = () => {
   console.info(数组_验证码英数.value)
   console.info(数组_验证码行为.value)
@@ -668,7 +703,7 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
 
     data.value.Captcha = JSON.stringify(验证码JSon)
     data.value.ApiHook = JSON.stringify(取ApiHook整理json(数组_ApiHook.value))
-    返回 = await SaveApp信息({"AppData": data.value, "PublicData": 专属变量.value});
+    返回 = await SaveApp信息({"AppData": data.value, "PublicData": 专属变量.value,"AppInfoWebUser":dataWebUser.value});
     is加载中.value = false
   }
 
@@ -785,10 +820,10 @@ const 读取详细信息 = async (id: number) => {
     let 返回 = await GetApp详细信息({"Id": id})
     is加载中.value = false
     if (返回.code == 10000) {
-      let 局_临时文本 = localStorage.getItem(Props.id + '应用详细信息顶部标签现行选项')?? "应用设置";
+      let 局_临时文本 = localStorage.getItem(Props.id + '应用详细信息顶部标签现行选项') ?? "应用设置";
       console.info("读取本地存储应用详细信息顶部标签现行选项:" + 局_临时文本)
       应用详细信息顶部标签现行选项.value = 局_临时文本
-      let 局_临时整数 = localStorage.getItem(Props.id + '专属变量筛选器')?? 3;
+      let 局_临时整数 = localStorage.getItem(Props.id + '专属变量筛选器') ?? 3;
       console.info("读取本地存储专属变量筛选器:" + 局_临时文本)
       专属变量筛选器.value = Number(局_临时整数)
 
@@ -837,6 +872,7 @@ const 读取详细信息 = async (id: number) => {
       }
 
       await on读取专属变量()
+      await on读取网页用户中心配置()
 
 
     } else {
@@ -894,6 +930,12 @@ const on读取用户Api数组 = async () => {
   }
   console.log(数组_用户Api.value)
   return
+}
+const on读取网页用户中心配置 = async () => {
+    const res = await Get网页用户中心详细信息({"id": Props.id})
+    if (res.code == 10000) {
+      dataWebUser.value = res.data
+    }
 }
 
 
@@ -1111,6 +1153,7 @@ const on对话框上传界面关闭 = (is重新读取: boolean) => {
   margin: 0 2px 10px;
   background: #f2f6fc;
 }
+
 .input-container {
   display: flex;
   align-items: flex-start; /* 确保输入框和工具栏在同一行 */
