@@ -31,17 +31,15 @@ interface state全局状态 {
     搜索_积分点数: object
     搜索_制卡日志: object
     搜索_用户消息: object
-    搜索_个人中心: object
+    搜索_个人中心: any
     搜索_库存日志: object
     搜索_黑名单: object
     搜索_定时任务: object
     搜索_定时任务日志: object
+    搜索_活动列表: object
     搜索_库存管理: object
     搜索_代理账号: object
     搜索_代理操作日志: object
-
-
-
 }
 
 
@@ -75,6 +73,7 @@ export const store = createStore<state全局状态>({
                 "搜索_库存管理",
                 "搜索_代理账号",
                 "搜索_代理操作日志",
+                "搜索_活动列表",
                 // 添加其他需要持久化的状态名...
             ]
         })
@@ -124,6 +123,7 @@ export const store = createStore<state全局状态>({
             搜索_代理账号: {},
             搜索_库存管理: {},
             搜索_定时任务日志: {},
+            搜索_活动列表: {},
             搜索_默认选择应用AppId: 10001,
             搜索_个人中心: {数组_可购买充值卡:[],支付通道状态:{},订单信息:{订单ID: "", PayQRCode: "", PayURL: "", 订单状态: 0}},
         }
@@ -191,6 +191,7 @@ export const store = createStore<state全局状态>({
         set搜索_默认选择应用AppId(state全局状态: state全局状态, AppId: number) {
             // state全局状态.搜索_默认选择应用AppId = AppId    //客户不喜欢还是喜欢每个都是独立保存的
             state全局状态.搜索_默认选择应用AppId = 0
+
         },
         set搜索_在线用户(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_在线用户 = data
@@ -255,8 +256,11 @@ export const store = createStore<state全局状态>({
         set搜索_定时任务(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_定时任务 = data
         },
-        搜索_定时任务日志(state全局状态: state全局状态, data: object) {
+        set搜索_定时任务日志(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_定时任务日志 = data
+        },
+        set搜索_活动列表(state全局状态: state全局状态, data: object) {
+            state全局状态.搜索_活动列表 = data
         },
 
     },

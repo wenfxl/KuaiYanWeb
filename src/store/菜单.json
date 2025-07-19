@@ -81,6 +81,12 @@
     "name": "黑名单",
     "meta": {"title": "黑名单", "icon": "DocumentRemove"},
     "children": []
+  }, {
+    "ID": 41,
+    "path": "应用管理/活动列表",
+    "name": "活动列表",
+    "meta": {"title": "活动列表", "icon": "DocumentRemove"},
+    "children": []
   }]
 }, {
   "ID": 15,

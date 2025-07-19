@@ -80,6 +80,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/应用管理/卡号列表.vue"),
             },
             {
+                path: "应用管理/活动列表",
+                name: "活动列表",
+                component: () => import("@/view/应用管理/活动列表.vue"),
+            },
+            {
                 path: "应用管理/用户类型",
                 name: "用户类型",
                 component: () => import("@/view/应用管理/用户类型.vue"),
