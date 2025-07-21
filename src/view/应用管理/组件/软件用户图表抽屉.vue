@@ -14,6 +14,11 @@
             <Echarts在线统计/>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24" >
+            <Echarts统计分时段在线总数折线图 :AppId="Props.AppId"/>
+          </el-col>
+        </el-row>
       </div>
     </template>
     <template #footer>
@@ -28,9 +33,14 @@
 import Echarts在线统计 from '@/view/控制面板/组件/软件用户类型统计饼图.vue'
 import Echarts应用用户注册统计 from '@/view/控制面板/组件/应用用户注册统计折线.vue'
 import {onMounted, ref, watch} from "vue";
+import Echarts统计分时段在线总数折线图 from "@/view/控制面板/组件/统计分时段在线总数折线图.vue";
 
 
 const Props = defineProps({
+  AppId: {
+    type: Number,
+    default: 0
+  }
 })
 const emit = defineEmits(['on图表分析抽屉关闭'])
 

@@ -19,6 +19,11 @@
             <Echarts应用用户注册统计/>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24" >
+            <Echarts统计分时段在线总数折线图 :AppId="0"/>
+          </el-col>
+        </el-row>
 
 
 
@@ -36,6 +41,7 @@
 <script setup lang='ts'>
 import Echarts在线统计 from '@/view/控制面板/组件/在线用户统计饼图.vue'
 import Echarts应用用户注册统计 from '@/view/控制面板/组件/在线用户统计登录活动时间统计折线.vue'
+import Echarts统计分时段在线总数折线图 from '@/view/控制面板/组件/统计分时段在线总数折线图.vue'
 import {onMounted, ref, watch} from "vue";
 import Echarts在线用户地图分布 from '@/view/控制面板/组件/在线用户地图分布图.vue'
 

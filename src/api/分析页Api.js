@@ -84,6 +84,14 @@ export const get图表在线用户登录活动时间 = (data) => {
         data: data
     })
 }
+export const Get统计分时段在线总数 = (data) => {
+    return service({
+        url: url+'ChartEveryHourLinksCount',
+        method: 'POST',
+        donNotShowLoading: true,
+        data: data
+    })
+}
 export const get图表应用用户统计 = (data) => {
     return service({
         url: url+'ChartAppUser',

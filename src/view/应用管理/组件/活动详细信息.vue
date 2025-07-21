@@ -3,26 +3,24 @@
              :width="is移动端()?'90%':'760px'"
              @close="on对话框被关闭">
     <div style="overflow:auto;padding:0 12px;">
-      <el-form :inline="Props.id>0" style="min-width: 80px" label-width="150px"  :model="data"
+      <el-form :inline="Props.id>0" style="min-width: 80px" label-width="150px" :model="data"
                :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
-        <el-form-item   label="应用名称"  disabled="disabled" >
-          <text>{{Props.AppName}}</text>
+        <el-form-item label="应用名称" disabled="disabled">
+          <text>{{ Props.AppName }}</text>
         </el-form-item>
-        <el-form-item label="名称" prop="Name"  style="width: 90%">
-          <el-input v-model.trim="data.name" />
+        <el-form-item label="名称" prop="Name" style="width: 90%">
+          <el-input v-model.trim="data.name"/>
         </el-form-item>
-        <el-form-item label="活动类型" prop="promotionType"  style="width: 90%">
+        <el-form-item v-if="Props.id==0" label="活动类型" prop="promotionType" style="width: 90%">
           <el-radio-group
               v-model="data.promotionType"
               text-color="#626aef"
               fill="rgb(239, 240, 253)"
           >
-            <el-radio-button v-if="id>0"   :label="Props.对象_活动类型[data.promotionType]"  :value="data.promotionType" />
-
-            <el-radio-button v-else  v-for="(值,index) in Props.对象_活动类型" :label="值"  :value="Number(index)" />
+            <el-radio-button v-for="(值,index) in Props.对象_活动类型" :label="值" :value="Number(index)"/>
           </el-radio-group>
         </el-form-item>
-        <el-form-item prop="status"     label="时间范围"  >
+        <el-form-item prop="status" label="时间范围">
           <el-config-provider :locale="zhCn">
             <el-date-picker
                 v-model="活动时间范围"
@@ -35,11 +33,44 @@
             />
           </el-config-provider>
         </el-form-item>
-        <el-form-item  v-if="id>0"  label="类型关联id" prop="Name"  style="width: 90%">
-          <el-input  disabled class="只读编辑框" v-model.trim="data.typeAssociatedId" />
-        </el-form-item>
-
       </el-form>
+      <!--        note="cps详细信息"-->
+      <div v-if="data.promotionType===1 && data.typeAssociatedId>0">
+        <el-divider content-position="left">cps推广,关联id:{{data.typeAssociatedId}}</el-divider>
+        <el-text type="warning">推荐一个新用户并且成交至少一个订单,推荐成功+1,达到(包含)阈值即可升级</el-text>
+        <el-form :inline="true" :model="data_cpsInfo" class="demo-form-inline">
+          <el-form-item label="铜牌推广数量阈值">
+            <el-input-number v-model="data_cpsInfo.bronzeThreshold"/>
+          </el-form-item>
+          <el-form-item label="铜牌分成比例">
+            <el-input-number v-model="data_cpsInfo.bronzeKickback"/>
+          </el-form-item>
+        </el-form>
+        <el-form :inline="true" :model="data_cpsInfo" class="demo-form-inline">
+          <el-form-item label="银牌推广数量阈值">
+            <el-input-number v-model="data_cpsInfo.silverThreshold"/>
+          </el-form-item>
+          <el-form-item label="银牌分成比例">
+            <el-input-number v-model="data_cpsInfo.silverKickback"/>
+          </el-form-item>
+        </el-form>
+        <el-form :inline="true" :model="data_cpsInfo" class="demo-form-inline">
+          <el-form-item label="金牌推广数量阈值">
+            <el-input-number v-model="data_cpsInfo.goldMedalThreshold"/>
+          </el-form-item>
+          <el-form-item label="金牌分成比例">
+            <el-input-number v-model="data_cpsInfo.grandsonKickback"/>
+          </el-form-item>
+        </el-form>
+        <el-text type="warning">少量徒孙订单奖励,可以让用户教导新用户拉新,有效裂变</el-text>
+        <el-form :model="data_cpsInfo" class="demo-form-inline">
+          <el-form-item label="徒孙订单分成比例">
+            <el-input-number v-model="data_cpsInfo.grandsonKickback"/>
+          </el-form-item>
+        </el-form>
+      </div>
+
+
     </div>
     <template #footer>
       <div class="dialog-footer">
@@ -56,6 +87,8 @@ import {ElMessage, FormInstance} from "element-plus";
 import {is移动端} from "@/utils/utils";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import {活动列表api} from "@/api/活动列表api";
+import {cpsInfoapi} from "@/api/cpsInfoapi";
+
 const Props = defineProps({
   is对话框可见: {
     type: Boolean,
@@ -94,20 +127,52 @@ type list_item = {
   typeAssociatedId: number,
   sort: number
 }
-const 活动时间范围= ref(["", ""])
+const 活动时间范围 = ref(["", ""])
 
 const data = ref<list_item>({
-    id: 0,
-    name: '',
-    appId: Props.AppId,
-    createTime: 0,
-    updateTime: 0,
-    startTime: 0,
-    endTime: 0,
-    promotionType: 1,
-    typeAssociatedId: 0,
-    sort: 0
+  id: 0,
+  name: '',
+  appId: Props.AppId,
+  createTime: 0,
+  updateTime: 0,
+  startTime: 0,
+  endTime: 0,
+  promotionType: 1,
+  typeAssociatedId: 0,
+  sort: 0
 })
+
+
+type cpsInfo = {
+  id: number, //
+  createTime: number,
+  updateTime: number,
+  bronzeThreshold: number,//成为铜牌推广数量阈值
+  bronzeKickback: number, //铜牌分成比例
+  silverThreshold: number,//成为银牌推广数量阈值
+  silverKickback: number,//银牌分成比例
+  goldMedalThreshold: number,//成为金牌推广数量阈值
+  goldMedalKickback: number,//金牌分成比例
+  grandsonKickback: number,//徒孙分成比例
+  widePic: string,//素材_宽图,url或云存储地址
+  detailPic: string,//素材_详情图,url或云存储地址
+}
+const data_cpsInfo = ref<cpsInfo>({
+  id: 0,
+  createTime: 0,
+  updateTime: 0,
+  bronzeThreshold: 0,//成为铜牌推广数量阈值
+  bronzeKickback: 0, //铜牌分成比例
+  silverThreshold: 0,//成为银牌推广数量阈值
+  silverKickback: 0,//银牌分成比例
+  goldMedalThreshold: 0,//成为金牌推广数量阈值
+  goldMedalKickback: 0,//金牌分成比例
+  grandsonKickback: 0,//徒孙分成比例
+  widePic: "",//素材_宽图,url或云存储地址
+  detailPic: "",//素材_详情图,url或云存储地址
+})
+
+
 const ruleFormRef = ref<FormInstance>()
 const is重新读取 = ref(false)
 const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
@@ -133,6 +198,9 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
     返回 = await 活动列表api.create(data.value);
   } else {
     返回 = await 活动列表api.update(data.value);
+    if (返回.code == 10000) {
+      返回 = await cpsInfoapi.update(data_cpsInfo.value)
+    }
   }
   console.log(返回)
   if (返回.code == 10000) {
@@ -159,14 +227,34 @@ const 读取详细信息 = async (id: number) => {
     let 返回 = await 活动列表api.info({"id": id})
     if (返回.code == 10000) {
       data.value = 返回.data
-      活动时间范围.value[0]=String(data.value.startTime)
-      活动时间范围.value[1]=String(data.value.endTime)
+      活动时间范围.value[0] = String(data.value.startTime)
+      活动时间范围.value[1] = String(data.value.endTime)
+      switch (data.value.promotionType) {
+        case 1:
+          读取详细信息_cps(data.value.typeAssociatedId)
+          break;
+      }
+
     } else {
       is重新读取.value = false
       is对话框可见2.value = false
     }
   }
 }
+
+
+const 读取详细信息_cps = async (id: number) => {
+  if (id > 0) {
+    let 返回 = await cpsInfoapi.info({"id": id})
+    if (返回.code == 10000) {
+      data_cpsInfo.value = 返回.data
+    } else {
+      is重新读取.value = false
+      is对话框可见2.value = false
+    }
+  }
+}
+
 
 const on对话框被关闭 = () => {
   console.info("on对话框被关闭")
@@ -189,4 +277,7 @@ const on对话框被关闭 = () => {
   word-break: normal;
 }
 
+.demo-form-inline .el-input {
+  --el-input-width: 80px;
+}
 </style>

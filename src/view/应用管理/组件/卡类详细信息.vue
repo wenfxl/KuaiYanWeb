@@ -185,7 +185,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="卡号长度" prop="KaLength">
-          <el-input-number v-model="data.KaLength" :step="1" :value-on-clear="0" :min="10"/>
+          <el-input-number v-model="data.KaLength" :step="1" :value-on-clear="0" :min="10" :max="190"/>
         </el-form-item>
         <el-form-item label="卡内容字符集" prop="KaLength">
           <el-select v-model="data.KaStringType"  style="width: 190px;">

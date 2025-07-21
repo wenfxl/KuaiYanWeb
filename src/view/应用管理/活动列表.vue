@@ -70,23 +70,23 @@
           </template>
         </el-popconfirm>
         <div class="工具栏">
-          <el-popover placement="right" trigger="hover">
-            <template #reference>
-              <el-icon>
-                <More/>
-              </el-icon>
-            </template>
-            <li class="工具_更多_li" @click="on批量结束活动(1)">批量结束活动</li>
-          </el-popover>
-          <el-tooltip content="分析"
-                      effect="dark"
-                      placement="top"
-                      v-if="!is移动端()"
-          >
-            <el-icon @click="on图表分析被点击">
-              <DataAnalysis/>
-            </el-icon>
-          </el-tooltip>
+<!--          <el-popover placement="right" trigger="hover">-->
+<!--            <template #reference>-->
+<!--              <el-icon>-->
+<!--                <More/>-->
+<!--              </el-icon>-->
+<!--            </template>-->
+<!--            <li class="工具_更多_li" @click="on批量结束活动(1)">批量结束活动</li>-->
+<!--          </el-popover>-->
+<!--          <el-tooltip content="分析"-->
+<!--                      effect="dark"-->
+<!--                      placement="top"-->
+<!--                      v-if="!is移动端()"-->
+<!--          >-->
+<!--            <el-icon @click="on图表分析被点击">-->
+<!--              <DataAnalysis/>-->
+<!--            </el-icon>-->
+<!--          </el-tooltip>-->
           <el-tooltip content="刷新"
                       effect="dark"
                       placement="top">
@@ -270,7 +270,7 @@ const on单个编辑 = async (id: number) => {
 }
 
 const on批量删除 = async () => {
-  const ids = 表格被选中列表.value.map((item => item.Id))
+  const ids = 表格被选中列表.value.map((item => item.id))
   console.log(ids)
   const res = await 活动列表api.delete({"ids": ids})
   console.log(res)
