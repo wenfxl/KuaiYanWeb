@@ -180,6 +180,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/财务管理/支付充值订单.vue"),
             },
             {
+                path: "财务管理/cps佣金订单",
+                name: "cps佣金订单",
+                component: () => import("@/view/财务管理/cps佣金订单.vue"),
+            },
+            {
                 path: "工具/apk加验证",
                 name: "apk加验证",
                 component: () => import("@/view/工具/apk加验证.vue"),

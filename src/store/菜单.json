@@ -99,6 +99,12 @@
     "name": "支付充值订单",
     "meta": {"title": "支付充值订单", "icon": "document-checked"},
     "children": []
+  },{
+    "ID": 41,
+    "path": "财务管理/cps佣金订单",
+    "name": "cps佣金订单",
+    "meta": {"title": "cps佣金订单", "icon": "document-checked"},
+    "children": []
   }]
 }, {
   "ID": 17,
