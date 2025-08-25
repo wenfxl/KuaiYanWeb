@@ -28,7 +28,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item   label="备注"  >
-          <el-input :show-word-limit="true" :maxlength="1000" type="textarea" v-model="data.Note" autosize="{ minRows: 1, maxRows: 23}"/>
+          <el-input :show-word-limit="true" :maxlength="1000" type="textarea" v-model="data.Note" autosize="{ minRows: 1, maxRows: 10}"/>
         </el-form-item>
         <el-form-item v-if="data.Type===1" label="变量值" prop="Value">
           <el-input type="text" v-model="data.Value"/>
