@@ -27,7 +27,9 @@
 
           </el-radio-group>
         </el-form-item>
-
+        <el-form-item   label="备注"  >
+          <el-input :show-word-limit="true" :maxlength="1000" type="textarea" v-model="data.Note" autosize="{ minRows: 1, maxRows: 23}"/>
+        </el-form-item>
         <el-form-item v-if="data.Type===1" label="变量值" prop="Value">
           <el-input type="text" v-model="data.Value"/>
         </el-form-item>
@@ -38,10 +40,9 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item v-else label="变量值" prop="Value">
-          <el-input  :wrap="data.Type===4?'off':''" :show-word-limit="true" :maxlength="16777215"
+          <el-input :wrap="data.Type===4?'off':''" :show-word-limit="true" :maxlength="16777215"
                     type="textarea" v-model="data.Value" :autosize="{ minRows: 2, maxRows: 23}"/>
         </el-form-item>
-
       </el-form>
     </div>
     <template #footer>
@@ -89,7 +90,8 @@ const 公共变量初始数据 = {
   "Name": "",
   "Value": "",
   "Type": 1,
-  "IsVip": 1
+  "IsVip": 1,
+  "Note": ""
 }
 const data = ref(公共变量初始数据)
 const ruleFormRef = ref<FormInstance>()
