@@ -59,7 +59,7 @@
             <el-input-number v-model="data_cpsInfo.goldMedalThreshold"/>
           </el-form-item>
           <el-form-item label="金牌分成比例">
-            <el-input-number v-model="data_cpsInfo.grandsonKickback"/>
+            <el-input-number v-model="data_cpsInfo.goldMedalKickback"/>
           </el-form-item>
         </el-form>
         <el-text type="warning">少量徒孙订单奖励,可以让用户教导新用户拉新,有效裂变</el-text>

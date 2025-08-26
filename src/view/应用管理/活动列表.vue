@@ -146,13 +146,19 @@
           </template>
         </el-table-column>
 
-        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="180">
+        <el-table-column :fixed="is移动端()?false:'right'" label="操作" width="240">
           <template #default="scope">
             <el-button link type="primary" size="default" @click="on单个编辑(scope.row.id)" style="color:#79bbff">
               <el-icon color="#79bbff" class="no-inherit">
                 <Edit/>
               </el-icon>
               编辑
+            </el-button>
+            <el-button link type="primary" size="default" @click="on单个重置(scope.row)" style="color:#79bbff">
+              <el-icon color="#79bbff" class="no-inherit">
+                <RefreshLeft/>
+              </el-icon>
+              重置
             </el-button>
             <el-button link type="primary" size="default" @click="on单个删除(scope.row.id)" style="color:#f56d6d">
               <el-icon color="#f56d6d" class="no-inherit">
@@ -184,7 +190,7 @@
               size="small"
               :layout="is移动端()?'total,prev, pager, next':'total, sizes, prev, pager, next, jumper'"
               :pager-count="is移动端()?5:9"
-              :total="parseInt( Data.Count)"
+              :total="parseInt( Data.count)"
               @current-change="on读取列表"
           />
         </el-config-provider>
@@ -216,8 +222,7 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import appPromotionConfig from "./组件/活动详细信息.vue";
-// import ChartData from "@/view/应用管理/组件/活动列表图表抽屉.vue";
-import router from "@/router";
+
 import {useTableHeight} from "@/composables/useTableHeight";
 
 
@@ -443,7 +448,34 @@ onBeforeUnmount(() => {
   console.log("事件在卸载之前触发")
   Store.commit("set搜索_活动列表", 对象_搜索条件.value)
 })
+const on单个重置 = async (row: list_item) => {
+  let 提示信息="确认要重置活动嘛?"
+  if (row.promotionType == 1) {
+    提示信息 += "将删除用户邀请记录,历史邀请累计数量和金额,和cps佣金订单信息"
+  } else if (row.promotionType == 2) {
+    提示信息 += "将删除用户签到记录历史"
+  }
+  提示信息+=",仅建议活动结束后,在重置."
 
+  ElMessageBox.confirm(
+      提示信息,
+      '警告',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(async () => {
+        let res = await 活动列表api.reset({"id": row.id})
+        if (res.code == 10000) {
+          ElMessage.success(res.msg)
+        }
+      })
+      .catch(() => {
+
+      })
+}
 
 </script>
 

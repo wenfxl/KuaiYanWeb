@@ -544,11 +544,21 @@
               <el-form v-loading="is加载中" :inline="false" style="min-width: 80px" label-width="160px" :model="dataWebUser"
                        :label-position="is移动端()?'top':'right'" ref="ruleFormRef">
                 <el-divider content-position="left">基础配置</el-divider>
+
                   <el-form-item label="网页用户中心" prop="是否启用">
                     <el-radio-group v-model="dataWebUser.status">
                       <el-radio-button :value="1" size="" border>开启</el-radio-button>
                       <el-radio-button :value="2" size="" border>关闭</el-radio-button>
                     </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="网页用户中心地址"  >
+
+                    <el-link :href="'/user/'+data.AppId+'/#/'" target="_blank">
+                      <el-icon size="24">
+                        <Link/>
+                      </el-icon>
+                      {{SerVerUrl}}/user/{{data.AppId}}/
+                    </el-link>
                   </el-form-item>
                 <el-divider content-position="left">网页安全配置</el-divider>
                 <el-form-item label="登陆验证码防爆阈值"  >
@@ -556,6 +566,14 @@
                               effect="dark"
                               placement="top">
                     <el-input-number v-model="dataWebUser.captchaLogin" :precision="0" :step="1" :value-on-clear="0" :min="0"/>
+                  </el-tooltip>
+                </el-form-item>
+                <el-divider content-position="center">下载页配置</el-divider>
+                <el-form-item label="下载地址"  >
+                  <el-tooltip content="可以是直链,可以是网址,支持变量 最新版本号: {{AppVer}} {{云存储_取外链('10001/app2.apk',0)}}"
+                              effect="dark"
+                              placement="top">
+                    <el-input v-model="dataWebUser.urlDownload" :precision="0" :step="1" :value-on-clear="0" :min="0"/>
                   </el-tooltip>
                 </el-form-item>
               </el-form>
@@ -646,6 +664,7 @@ const data = ref({
 const dataWebUser = ref({
   status: 2,
   captchaLogin: 3,
+  urlDownload: "",
 })
 
 
