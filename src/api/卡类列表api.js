@@ -12,6 +12,13 @@ export const GetKaClassList = (data) => {
     data: data
   })
 }
+export const GetKaClassListAll = (data) => {
+  return service({
+    url: url+'GetListAll',
+    method: 'post',
+    data: data
+  })
+}
 
 //  Del批量删除KaClass
 //{ "id": [ 5 ]}
