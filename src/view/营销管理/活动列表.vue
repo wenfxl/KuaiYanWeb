@@ -221,7 +221,7 @@ import {useStore} from "vuex";
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
-import appPromotionConfig from "./组件/活动详细信息.vue";
+import appPromotionConfig from "../应用管理/组件/活动详细信息.vue";
 
 import {useTableHeight} from "@/composables/useTableHeight";
 
@@ -449,13 +449,13 @@ onBeforeUnmount(() => {
   Store.commit("set搜索_活动列表", 对象_搜索条件.value)
 })
 const on单个重置 = async (row: list_item) => {
-  let 提示信息="确认要重置活动嘛?"
+  let 提示信息="该应用确认要重置活动嘛?将删除或重置<br/>"
   if (row.promotionType == 1) {
-    提示信息 += "将删除用户邀请记录,历史邀请累计数量和金额,和cps佣金订单信息"
+    提示信息 += "<span style='color:red;'>用户邀请记录,<br/>邀请累计数量和金额,<br/>cps佣金订单信息<br/></span>"
   } else if (row.promotionType == 2) {
-    提示信息 += "将删除用户签到记录历史"
+    提示信息 += "<span style='color:red;'>用户签到记录,<br/>用户签到分,<br/>用户的签到分变化记录<br/></span>"
   }
-  提示信息+=",仅建议活动结束后,在重置."
+  提示信息+="仅建议活动结束后,在重置."
 
   ElMessageBox.confirm(
       提示信息,
@@ -464,6 +464,7 @@ const on单个重置 = async (row: list_item) => {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
+        dangerouslyUseHTMLString: true, // 启用HTML渲染
       }
   )
       .then(async () => {

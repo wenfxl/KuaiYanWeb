@@ -42,6 +42,7 @@ interface state全局状态 {
     搜索_代理操作日志: object
     搜索_支付充值订单: object
     搜索_cps佣金订单: object
+    搜索_签到日志: object
 }
 
 
@@ -78,6 +79,7 @@ export const store = createStore<state全局状态>({
                 "搜索_活动列表",
                 "搜索_支付充值订单",
                 "搜索_cps佣金订单",
+                "搜索_签到日志",
                 // 添加其他需要持久化的状态名...
             ]
         })
@@ -130,6 +132,7 @@ export const store = createStore<state全局状态>({
             搜索_活动列表: {},
             搜索_支付充值订单: {},
             搜索_cps佣金订单: {},
+            搜索_签到日志: {},
             搜索_默认选择应用AppId: 10001,
             搜索_个人中心: {数组_可购买充值卡:[],支付通道状态:{},订单信息:{订单ID: "", PayQRCode: "", PayURL: "", 订单状态: 0}},
         }
@@ -273,6 +276,9 @@ export const store = createStore<state全局状态>({
         },
         set搜索_cps佣金订单(state全局状态: state全局状态, data: object) {
             state全局状态.搜索_cps佣金订单 = data
+        },
+        set搜索_签到日志(state全局状态: state全局状态, data: object) {
+            state全局状态.搜索_签到日志 = data
         },
 
     },

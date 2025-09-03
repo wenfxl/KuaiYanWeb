@@ -80,9 +80,14 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/应用管理/卡号列表.vue"),
             },
             {
-                path: "应用管理/活动列表",
+                path: "营销管理/活动列表",
                 name: "活动列表",
-                component: () => import("@/view/应用管理/活动列表.vue"),
+                component: () => import("@/view/营销管理/活动列表.vue"),
+            },
+            {
+                path: "营销管理/签到日志",
+                name: "签到日志",
+                component: () => import("@/view/营销管理/签到日志.vue"),
             },
             {
                 path: "应用管理/用户类型",
@@ -180,9 +185,9 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/财务管理/支付充值订单.vue"),
             },
             {
-                path: "财务管理/cps佣金订单",
+                path: "营销管理/cps佣金订单",
                 name: "cps佣金订单",
-                component: () => import("@/view/财务管理/cps佣金订单.vue"),
+                component: () => import("@/view/营销管理/cps佣金订单.vue"),
             },
             {
                 path: "工具/apk加验证",

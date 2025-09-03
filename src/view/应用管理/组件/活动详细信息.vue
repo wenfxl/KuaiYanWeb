@@ -17,6 +17,7 @@
               v-model="data.promotionType"
               text-color="#626aef"
               fill="rgb(239, 240, 253)"
+              @change="on活动类型改变"
           >
             <el-radio-button v-for="(值,index) in Props.对象_活动类型" :label="值" :value="Number(index)"/>
           </el-radio-group>
@@ -96,12 +97,13 @@
 
           </el-form-item>
           <el-form-item label="消耗签到分">
-            <el-input-number :precision="0"  :step="1" :value-on-clear="0" :min="0"  v-model="item.p"/>
+            <el-input-number :precision="0" :step="1" :value-on-clear="0" :min="0" v-model="item.p"/>
             <div class="工具栏">
-              <el-icon size="16" @click="onMoveDown(index)" :class="{ 'is-disabled': index === data_签到配置相关信息.cardClassList.length - 1 }">
+              <el-icon size="16" @click="onMoveDown(index)"
+                       :class="{ 'is-disabled': index === data_签到配置相关信息.cardClassList.length - 1 }">
                 <SortDown/>
               </el-icon>
-              <el-icon size="16" @click="onMoveUp(index)"   :class="{ 'is-disabled': index == 0 }">
+              <el-icon size="16" @click="onMoveUp(index)" :class="{ 'is-disabled': index == 0 }">
                 <SortUp/>
               </el-icon>
               <el-icon size="16" style=" color: #f56d6d;" @click="onDeleteItem(index)">
@@ -177,11 +179,11 @@ type list_item = {
   typeAssociatedId: number,
   sort: number
 }
-const 活动时间范围 = ref(["", ""])
+const 活动时间范围 = ref(["1735660800", "2082729599"])
 
 const data = ref<list_item>({
   id: 0,
-  name: '',
+  name: '邀好友赢现金',
   appId: Props.AppId,
   createTime: 0,
   updateTime: 0,
@@ -219,12 +221,12 @@ const on确定按钮被点击 = async (formEl: FormInstance | undefined) => {
   } else {
     返回 = await 活动列表api.update(data.value);
     if (返回.code == 10000) {
-      switch (data.value.promotionType){
+      switch (data.value.promotionType) {
         default:
           return
         case 1:
           返回 = await cpsInfoapi.update(data_cpsInfo.value)
-              break
+          break
         case 2:
           返回 = await checkInInfoapi.update(data_签到配置相关信息.value)
           break
@@ -256,6 +258,22 @@ const on对话框被关闭 = () => {
   is对话框可见2.value = false
   emit('on对话框详细信息关闭', is重新读取.value)
 }
+const on活动类型改变 = () => {
+  if (data.value.name == "" || data.value.name == "邀好友赢现金" || data.value.name == "每日签到有礼") {
+    switch (data.value.promotionType) {
+      case 1:
+        data.value.name = "邀好友赢现金"
+        break;
+      case 2:
+        data.value.name = "每日签到有礼"
+        break;
+    }
+  }
+
+
+}
+
+
 const 读取详细信息 = async (id: number) => {
   if (id == 0) {
     return
@@ -400,7 +418,7 @@ const onDeleteItem = (index: number) => {
     data_签到配置相关信息.value.cardClassList.splice(index, 1);
   } else {
     // 如果只剩最后一项，重置为默认值而不是删除
-    data_签到配置相关信息.value.cardClassList[0] = { id: 0, p: 0 };
+    data_签到配置相关信息.value.cardClassList[0] = {id: 0, p: 0};
   }
 };
 
