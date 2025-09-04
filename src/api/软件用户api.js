@@ -138,3 +138,12 @@ export const Del批量维护_设置用户绑定信息 = (data) => {
     data: data
   })
 }
+
+//  Del批量维护_删除
+export const Del批量维护_导入软件用户 = (data) => {
+  return service({
+    url: url+'batchAddUser',
+    method: 'post',
+    data: data
+  })
+}

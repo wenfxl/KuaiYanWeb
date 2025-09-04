@@ -105,6 +105,10 @@
                 @click="表格导出csv文本并下载(tableRef, '软件用户列表' + Date().toLocaleString(),['','',isAppType卡号2?'Name':'User','Status'])">
               导出到csv
             </li>
+            <li class="工具_更多_li"
+                @click="is批量导入软件用户信息将打开可见 = true">
+              批量导入用户
+            </li>
             <li class="工具_更多_li" @click="on批量冻结解冻(1)">批量解冻</li>
             <li class="工具_更多_li" @click="is批量修改用户类型=true">批量改用户类型</li>
             <li class="工具_更多_li" @click="on批量维护积分输入框将打开">批量增减积分</li>
@@ -296,6 +300,10 @@
                           :UserClassId="对象_用户类型Arr"
                           @on批量维护输入框被关闭="on对话框修改全部用户时间点数关闭"></BatchSetAllUserVipTime>
 
+
+  <BatchElMessage4 v-if="is批量导入软件用户信息将打开可见"
+                   :AppInfo="{AppType:Data.AppType,AppId:对象_搜索条件.AppId}"
+                   @on批量维护输入框被关闭="on批量导入软件用户信息被关闭"></BatchElMessage4>
   <el-dialog v-model="is批量修改用户类型" title="Shipping address">
     <el-form>
       <el-form-item>
@@ -315,7 +323,7 @@ import {
   Del批量删除AppUser,
   SetStatus,
   Set批量维护增减时间点数,
-  Del批量维护_删除, Set批量维护修改用户类型, Set批量维护增减积分, Del批量维护_删除用户绑定信息, Del批量维护_设置用户绑定信息
+  Del批量维护_删除, Set批量维护修改用户类型, Set批量维护增减积分, Del批量维护_设置用户绑定信息
 } from "@/api/软件用户api.js";
 import {GetAppIdNameList} from "@/api/应用列表api.js";
 import {
@@ -333,6 +341,7 @@ import AppUserinfo from "./组件/软件用户详细信息.vue";
 import BatchElMessage from "./组件/批量维护点数时间增减输入框.vue";
 import BatchElMessage2 from "./组件/批量维护积分.vue";
 import BatchElMessage3 from "./组件/批量维护用户云配置.vue";
+import BatchElMessage4 from "./组件/批量导入账号.vue";
 import BatchSetAllUserVipTime from "./组件/批量维护全部用户时间点数.vue";
 import ChartData from "@/view/应用管理/组件/软件用户图表抽屉.vue";
 
@@ -788,8 +797,20 @@ const on批量维护积分输入框将打开 = async () => {
   局_ids.value = 表格被选中列表.value.map((item => item.Id))
   is批量维护积分输入框可见.value = true
 }
+
 const on批量维护积分输入框被关闭 = (is重新读取: boolean) => {
   is批量维护积分输入框可见.value = false
+  if (is重新读取) {
+    on读取列表()
+  }
+}
+
+
+
+//批量导入软件用户信息将打开=============================================================
+const is批量导入软件用户信息将打开可见 = ref(false)
+const on批量导入软件用户信息被关闭 = (is重新读取: boolean) => {
+  is批量导入软件用户信息将打开可见.value = false
   if (is重新读取) {
     on读取列表()
   }
