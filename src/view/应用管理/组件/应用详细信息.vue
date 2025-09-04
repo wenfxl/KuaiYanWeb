@@ -553,7 +553,7 @@
                   </el-form-item>
                   <el-form-item label="网页用户中心地址"  >
 
-                    <el-link :href="'/user/'+data.AppId+'/#/'" target="_blank">
+                    <el-link :href="SerVerUrl+'/user/'+data.AppId+'/'" target="_blank">
                       <el-icon size="24">
                         <Link/>
                       </el-icon>
@@ -567,6 +567,31 @@
                               placement="top">
                     <el-input-number v-model="dataWebUser.captchaLogin" :precision="0" :step="1" :value-on-clear="0" :min="0"/>
                   </el-tooltip>
+                </el-form-item>
+                <el-form-item label="注册验证码"  >
+                  <el-switch
+                      :active-value="1"
+                      :inactive-value="2"
+                      v-model="dataWebUser.captchaReg"
+                      class="ml-2"
+                      inline-prompt
+                      style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                      active-text="开启"
+                      inactive-text="关闭"
+                  />
+                </el-form-item>
+                <el-form-item label="发短信(如找回密码)验证码"  >
+
+                  <el-switch
+                      :active-value="1"
+                      :inactive-value="2"
+                      v-model="dataWebUser.captchaSendSms"
+                      class="ml-2"
+                      inline-prompt
+                      style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                      active-text="开启"
+                      inactive-text="关闭"
+                  />
                 </el-form-item>
                 <el-divider content-position="center">下载页配置</el-divider>
                 <el-form-item label="下载地址"  >
@@ -663,8 +688,10 @@ const data = ref({
 })
 const dataWebUser = ref({
   status: 2,
-  captchaLogin: 3,
   urlDownload: "",
+  captchaLogin: 3,
+  captchaReg: 2,
+  captchaSendSms: 1,
 })
 
 
