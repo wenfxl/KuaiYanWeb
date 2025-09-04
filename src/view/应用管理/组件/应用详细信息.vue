@@ -560,8 +560,8 @@
                       {{SerVerUrl}}/user/{{data.AppId}}/
                     </el-link>
                   </el-form-item>
-                <el-divider content-position="left">网页安全配置</el-divider>
-                <el-form-item label="登陆验证码防爆阈值"  >
+                <el-divider content-position="left">网页点选验证码配置</el-divider>
+                <el-form-item label="登陆防爆阈值"  >
                   <el-tooltip content="账号登陆失败多少次必须输入验证码"
                               effect="dark"
                               placement="top">
@@ -580,7 +580,7 @@
                       inactive-text="关闭"
                   />
                 </el-form-item>
-                <el-form-item label="发短信(如找回密码)验证码"  >
+                <el-form-item label="发短信(如找回密码)"  >
 
                   <el-switch
                       :active-value="1"
