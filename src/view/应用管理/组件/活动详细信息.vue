@@ -70,6 +70,12 @@
             <el-input-number v-model="data_cpsInfo.grandsonKickback"/>
           </el-form-item>
         </el-form>
+        <el-text type="warning">邀请关系</el-text>
+        <el-form :model="data_cpsInfo" class="demo-form-inline">
+          <el-form-item label="绑定天数">
+            <el-input-number v-model="data_cpsInfo.bindingDay"/>
+          </el-form-item>
+        </el-form>
       </div>
       <!--        note="签到推广详细信息"==========================================================================-->
       <div v-if="data.promotionType===2 && data.typeAssociatedId>0">
@@ -316,6 +322,7 @@ type cpsInfo = {
   grandsonKickback: number,//徒孙分成比例
   widePic: string,//素材_宽图,url或云存储地址
   detailPic: string,//素材_详情图,url或云存储地址
+  bindingDay: number,//素材_详情图,url或云存储地址
 }
 const data_cpsInfo = ref<cpsInfo>({
   id: 0,
@@ -330,6 +337,7 @@ const data_cpsInfo = ref<cpsInfo>({
   grandsonKickback: 0,//徒孙分成比例
   widePic: "",//素材_宽图,url或云存储地址
   detailPic: "",//素材_详情图,url或云存储地址
+  bindingDay: 180,//绑定天数
 })
 const 读取详细信息_cps = async (id: number) => {
   if (id > 0) {

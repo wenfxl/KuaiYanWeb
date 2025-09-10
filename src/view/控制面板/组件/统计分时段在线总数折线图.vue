@@ -46,7 +46,7 @@ const initChart = () => {
 const setOptions = (单位,data) => {
   let 图数据 = {
     title: {
-      text: '登录活动统计'
+      text: '分时在线统计'
     },
     tooltip: {
       trigger: 'axis',
