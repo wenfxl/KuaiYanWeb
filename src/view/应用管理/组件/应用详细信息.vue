@@ -552,12 +552,14 @@
                     </el-radio-group>
                   </el-form-item>
                   <el-form-item label="网页用户中心地址"  >
-
-                    <el-link :href="SerVerUrl+'/user/'+data.AppId+'/'" target="_blank">
+                    <el-input v-model="dataWebUser.webUserDomain"  placeholder="需要将该域名解析到本服务器"  >
+                      <template #append>/user/{{data.AppId}}/</template>
+                    </el-input>
+                    <el-link :href="dataWebUser.webUserDomain+'/user/'+data.AppId+'/'" target="_blank">
                       <el-icon size="24">
                         <Link/>
                       </el-icon>
-                      {{SerVerUrl}}/user/{{data.AppId}}/
+                      {{dataWebUser.webUserDomain}}/user/{{data.AppId}}/
                     </el-link>
                   </el-form-item>
                 <el-divider content-position="left">网页点选验证码配置</el-divider>
@@ -692,6 +694,7 @@ const dataWebUser = ref({
   captchaLogin: 3,
   captchaReg: 2,
   captchaSendSms: 1,
+  webUserDomain: "",
 })
 
 
@@ -981,6 +984,9 @@ const on读取网页用户中心配置 = async () => {
     const res = await Get网页用户中心详细信息({"id": Props.id})
     if (res.code == 10000) {
       dataWebUser.value = res.data
+      if (!dataWebUser.value.webUserDomain) {
+        dataWebUser.value.webUserDomain=SerVerUrl.value
+      }
     }
 }
 
