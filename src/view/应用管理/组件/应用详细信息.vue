@@ -552,7 +552,7 @@
                     </el-radio-group>
                   </el-form-item>
                   <el-form-item label="网页用户中心地址"  >
-                    <el-input v-model="dataWebUser.webUserDomain"  placeholder="需要将该域名解析到本服务器"  >
+                    <el-input v-model="dataWebUser.webUserDomain"  placeholder="单独域名,需要将该域名解析到本服务器,方便单独套高防服务器,或者套cdn"  >
                       <template #append>/user/{{data.AppId}}/</template>
                     </el-input>
                     <el-link :href="dataWebUser.webUserDomain+'/user/'+data.AppId+'/'" target="_blank">
