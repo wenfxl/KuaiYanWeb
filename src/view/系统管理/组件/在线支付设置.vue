@@ -260,6 +260,9 @@
       <div class="内容div">
         <el-divider content-position="left">易支付
 <!--          <el-link href="https://www.xddpay.com/" target="_blank">www.xddpay.com</el-link>-->
+          <el-link href="https://www.fnkuaiyan.cn/%E6%8C%87%E5%8D%97/%E5%9C%A8%E7%BA%BF%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E6%95%99%E7%A8%8B.html#%E8%8E%B7%E5%8F%96-%E5%95%86%E6%88%B7%E8%AF%81%E4%B9%A6%E5%BA%8F%E5%88%97%E5%8F%B7"
+                   target="_blank">对接教程
+          </el-link>
         </el-divider>
         <el-form-item label="开关" prop="易支付开关">
           <el-radio-group v-model="Data.易支付开关">
