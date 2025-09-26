@@ -292,6 +292,40 @@
         </div>
       </div>
 
+      <div class="内容div">
+        <el-divider content-position="left">易支付2
+          <!--          <el-link href="https://www.xddpay.com/" target="_blank">www.xddpay.com</el-link>-->
+        </el-divider>
+        <el-form-item label="开关" prop="易支付2开关">
+          <el-radio-group v-model="Data.易支付2开关">
+            <el-radio-button :value="true" size="" border>开启</el-radio-button>
+            <el-radio-button :value="false" size="" border>关闭</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <div v-if="Data.易支付2开关">
+          <el-form-item label="显示名称" disabled="disabled">
+            <el-input v-model.trim="Data.易支付2显示名称"/>
+          </el-form-item>
+          <el-form-item label="网关" disabled="disabled" placeholder="https://www.baidu.com">
+            <el-input v-model.trim="Data.易支付2网关"/>
+          </el-form-item>
+          <el-form-item label="易支付2商户ID" disabled="disabled">
+            <el-input v-model.trim="Data.易支付2商户ID"/>
+          </el-form-item>
+          <el-form-item label="接口密钥" disabled="disabled">
+            <el-input v-model.trim="Data.易支付2商户密钥KEY"/>
+          </el-form-item>
+          <el-form-item label="支付方式" disabled="disabled">
+            <el-input v-model.trim="Data.易支付2支付方式"/>
+          </el-form-item>
+          <el-form-item label="同步回调url" d>
+            <el-input v-model.trim="Data.易支付2同步回调url" placeholder="(可空)同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
+          </el-form-item>
+          <el-form-item label="单次最大金额" disabled="disabled">
+            <el-input-number v-model="Data.易支付2最大金额"/>
+          </el-form-item>
+        </div>
+      </div>
 
 
       <div class="内容div">
@@ -365,6 +399,15 @@ const Data = ref({
   "易支付支付方式": "alipay",
   "易支付同步回调url": "",
   "易支付商户密钥KEY": "",
+
+  "易支付2开关": false,
+  "易支付2显示名称": "",
+  "易支付2网关": "",
+  "易支付2最大金额": 500,
+  "易支付2商户ID": "",
+  "易支付2支付方式": "alipay",
+  "易支付2同步回调url": "",
+  "易支付2商户密钥KEY": "",
 })
 
 const ruleFormRef = ref<FormInstance>()
