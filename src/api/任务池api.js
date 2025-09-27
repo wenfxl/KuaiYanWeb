@@ -82,6 +82,13 @@ export const  添加uuid到队列 = (data) => {
     data: data
   })
 }
+export const  添加uuid到队列批量 = (data) => {
+  return service({
+    url: url+'BatchUuidAddQueue',
+    method: 'post',
+    data: data
+  })
+}
 
 //设置 排序 权重
 export const  SetTaskPoolTypeSort = (data) => {

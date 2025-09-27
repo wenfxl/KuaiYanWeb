@@ -133,7 +133,7 @@ import {Delete} from "@element-plus/icons-vue";
 import {Del批量删除, GetCloudStorageList, 文件移动, 下载, 获取外链} from "@/api/云存储api";
 import {GetInfoCloudStorage} from "@/api/系统设置api";
 import uplode from "./组件/云存储上传.vue";
-import {添加uuid到队列} from "@/api/任务池api";
+
 
 const is加载中 = ref(false)
 // table元素

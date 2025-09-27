@@ -50,6 +50,7 @@
               </el-icon>
             </template>
             <li class="工具_更多_li" @click="on添加uuid到队列">添加uuid到队列</li>
+            <li class="工具_更多_li" @click="on添加uuid到队列批量">批量添加选中uuid到队列</li>
           </el-popover>
           <el-tooltip content="分析"
                       effect="dark"
@@ -180,7 +181,8 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
 import {
-  添加uuid到队列
+  添加uuid到队列,
+  添加uuid到队列批量
 } from "@/api/任务池api.js";
 import {
   Del批量删除Ka,
@@ -248,6 +250,17 @@ const on添加uuid到队列 = async () => {
       })
       .catch(() => {
       })
+}
+
+const on添加uuid到队列批量 = async () => {
+  const ids = 表格被选中列表.value.map((item => item.uuid))
+  console.log(ids)
+  const res = await 添加uuid到队列批量({"Uuids": ids})
+  console.log(res)
+  if (res.code == 10000) {
+    ElMessage.success(res.msg)
+    on读取列表()
+  }
 }
 
 const on批量删除 = async () => {
