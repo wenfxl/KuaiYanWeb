@@ -286,6 +286,9 @@
           <el-form-item label="支付方式" disabled="disabled">
             <el-input v-model.trim="Data.易支付支付方式"/>
           </el-form-item>
+          <el-form-item label="设备类型" disabled="disabled">
+            <el-input v-model.trim="Data.易支付设备类型" placeholder="(可空)自动根据请求ua识别"/>
+          </el-form-item>
           <el-form-item label="同步回调url" d>
             <el-input v-model.trim="Data.易支付同步回调url" placeholder="(可空)同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
           </el-form-item>
@@ -321,7 +324,10 @@
           <el-form-item label="支付方式" disabled="disabled">
             <el-input v-model.trim="Data.易支付2支付方式"/>
           </el-form-item>
-          <el-form-item label="同步回调url" d>
+          <el-form-item label="设备类型" disabled="disabled">
+            <el-input v-model.trim="Data.易支付2设备类型" placeholder="(可空)自动根据请求ua识别"/>
+          </el-form-item>
+          <el-form-item label="同步回调url" >
             <el-input v-model.trim="Data.易支付2同步回调url" placeholder="(可空)同步回调地址支持变量`{OrderId}`订单id,`{OrderId2}`第三方订单id,`{User}`用户名,`{Type}`支付方式"/>
           </el-form-item>
           <el-form-item label="单次最大金额" disabled="disabled">
@@ -402,6 +408,7 @@ const Data = ref({
   "易支付支付方式": "alipay",
   "易支付同步回调url": "",
   "易支付商户密钥KEY": "",
+  "易支付设备类型": "",
 
   "易支付2开关": false,
   "易支付2显示名称": "",
@@ -411,6 +418,7 @@ const Data = ref({
   "易支付2支付方式": "alipay",
   "易支付2同步回调url": "",
   "易支付2商户密钥KEY": "",
+  "易支付2设备类型": "",
 })
 
 const ruleFormRef = ref<FormInstance>()
