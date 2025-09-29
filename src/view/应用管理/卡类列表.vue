@@ -153,7 +153,7 @@
         <el-table-column prop="KaStringType" label="卡内容字符集" width="140">
           <template #default="scope">
             <el-text>
-              {{  {1: '大小写字母+数字', 2: '大写字母+数字', 3: '小写字母+数字'}[scope.row.KaStringType] || '未知方式' + scope.row.KaStringType }}
+              {{  {1: '大小写字母+数字', 2: '大写字母+数字', 3: '小写字母+数字', 4: '数字'}[scope.row.KaStringType] || '未知方式' + scope.row.KaStringType }}
             </el-text>
           </template>
         </el-table-column>
