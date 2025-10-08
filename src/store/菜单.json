@@ -74,48 +74,6 @@
     ]
   },
   {
-    "ID": 41,
-    "path": "营销管理",
-    "name": "营销管理",
-    "meta": {
-      "title": "营销管理",
-      "icon": "ShoppingBag",
-      "text": "营销"
-    },
-    "children": [
-      {
-        "ID": 41,
-        "path": "营销管理/活动列表",
-        "name": "活动列表",
-        "meta": {
-          "title": "活动列表",
-          "icon": "DocumentRemove"
-        },
-        "children": []
-      },
-      {
-        "ID": 42,
-        "path": "营销管理/cps佣金订单",
-        "name": "cps佣金订单",
-        "meta": {
-          "title": "cps佣金订单",
-          "icon": "document-checked"
-        },
-        "children": []
-      },
-      {
-        "ID": 43,
-        "path": "营销管理/签到日志",
-        "name": "签到日志",
-        "meta": {
-          "title": "签到日志",
-          "icon": "document-checked"
-        },
-        "children": []
-      }
-    ]
-  },
-  {
     "ID": 8,
     "path": "应用管理",
     "name": "应用管理",
@@ -186,7 +144,48 @@
         "children": []
       }
     ]
+  },{
+  "ID": 41,
+  "path": "营销管理",
+  "name": "营销管理",
+  "meta": {
+    "title": "营销管理",
+    "icon": "ShoppingBag",
+    "text": "营销"
   },
+  "children": [
+    {
+      "ID": 41,
+      "path": "营销管理/活动列表",
+      "name": "活动列表",
+      "meta": {
+        "title": "活动列表",
+        "icon": "DocumentRemove"
+      },
+      "children": []
+    },
+    {
+      "ID": 42,
+      "path": "营销管理/cps佣金订单",
+      "name": "cps佣金订单",
+      "meta": {
+        "title": "cps佣金订单",
+        "icon": "document-checked"
+      },
+      "children": []
+    },
+    {
+      "ID": 43,
+      "path": "营销管理/签到日志",
+      "name": "签到日志",
+      "meta": {
+        "title": "签到日志",
+        "icon": "document-checked"
+      },
+      "children": []
+    }
+  ]
+},
   {
     "ID": 15,
     "path": "财务管理",
