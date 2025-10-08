@@ -51,21 +51,22 @@
               :content="模板支持变量"
               placement="top"
           >
-          <el-button plain style="background: #68c23c;color: white" @click="格式化卡号内容(true)">重新格式化</el-button>
+            <el-button plain style="background: #68c23c;color: white" @click="格式化卡号内容(true)">重新格式化
+            </el-button>
           </el-tooltip>
         </el-form-item>
         <el-form-item label="格式模板" prop="Prefix">
 
-            <el-input
-                v-model="格式模板"
-                placeholder="格式模板"
-            >
-              <template #append>
-                <div>
-                  <el-button plain style="background: #73c0e7;color: white" @click="on保存模板内容">保存模板</el-button>
-                </div>
-              </template>
-            </el-input>
+          <el-input
+              v-model="格式模板"
+              placeholder="格式模板"
+          >
+            <template #append>
+              <div>
+                <el-button plain style="background: #73c0e7;color: white" @click="on保存模板内容">保存模板</el-button>
+              </div>
+            </template>
+          </el-input>
         </el-form-item>
 
         <el-form-item label="生成内容" prop="Prefix">
@@ -126,6 +127,7 @@ const emit = defineEmits(['on对话框详细信息关闭'])
 const 格式模板 = ref('卡号:{Name} 时间:{VipTime} 软件:{AppName}')
 
 const 生成内容 = ref('')
+
 interface KaItem {
   Name: string
   VipTime: number
@@ -137,7 +139,7 @@ interface KaItem {
   RegisterTime: number
 }
 
-const 生成卡号Data =ref<KaItem[]>([])
+const 生成卡号Data = ref<KaItem[]>([])
 
 const is对话框可见2 = ref(true)
 const 待导入卡号 = ref("")
@@ -159,7 +161,7 @@ const on校验表单重置 = (formEl: FormInstance | undefined) => {
 
 
 const on表单校验 = ref({})
-const 模板支持变量 = ref("支持变量 卡号:{Name} 点数:{VipTime} 软件:{AppName} 余额:{RMb} 积分:{VipNumber} 用户类型:{UserClassName} 可用次数:{Num} 同时最大在线数{MaxOnline} 制卡时间:{RegisterTime}")
+const 模板支持变量 = ref("支持变量 卡号:{Name} 点数:{VipTime} 软件:{AppName} 余额:{RMb} 积分:{VipNumber} 用户类型:{UserClassName} 可用次数:{Num} 同时最大在线数{MaxOnline} 制卡时间:{RegisterTime} 卡类名称:{KaClassName}")
 
 const on对话框被打开 = () => {
   is重新读取.value = false
@@ -214,7 +216,7 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
       data.value.KaName = []
       let a = 待导入卡号.value.match(pattern);
       if (a == null) {
-        ElMessage.error( "正则失败,导入卡号格式不正确,一行一个最短10位")
+        ElMessage.error("正则失败,导入卡号格式不正确,一行一个最短10位")
         is加载中.value = false
         return
       }
@@ -234,7 +236,7 @@ const on开始制卡按钮被点击 = async (formEl: FormInstance | undefined) =
     生成卡号Data.value = 返回.data
     格式化卡号内容(false)
     is重新读取.value = true
-ElMessage.success(返回.msg)
+    ElMessage.success(返回.msg)
   }
 }
 
@@ -245,6 +247,18 @@ const 格式化卡号内容 = async (保存配置 = false) => {
   }
   let 最终内容 = ""
   let 临时文本 = ""
+  let 局_卡类名称 = ""
+  //循环遍历卡类数组,获取卡类名称
+  let map_卡类 = Props.KaClass
+  // 遍历键值对
+  Object.entries(map_卡类).forEach(([key, value]) => {
+    if (Number(key) == data.value.Id) {
+      局_卡类名称 = value
+    }
+  })
+
+
+  console.log(局_卡类名称)
   for (let i = 0; i < 生成卡号Data.value.length; i++) {
     //ref('卡号:{Name} 时间:{VipTime} 软件:{AppName}')
     临时文本 = 格式模板.value.replace('{Name}', 生成卡号Data.value[i].Name)
@@ -256,19 +270,20 @@ const 格式化卡号内容 = async (保存配置 = false) => {
     临时文本 = 临时文本.replace('{Num}', 生成卡号Data.value[i].Num.toString())
     临时文本 = 临时文本.replace('{MaxOnline}', 生成卡号Data.value[i].MaxOnline.toString())
     临时文本 = 临时文本.replace('{RegisterTime}', 时间_时间戳到时间(生成卡号Data.value[i].RegisterTime))
+    临时文本 = 临时文本.replace('{KaClassName}', 局_卡类名称)
     最终内容 += 临时文本 + "\n"
   }
   生成内容.value = 最终内容
 }
 
 const on保存模板内容 = async () => {
-    let 返回 = await SetKaTemplate({AppId: Props.AppId, KaTemplate: 格式模板.value})
-    if (返回.code == 10000) {
-      if (生成卡号Data.value.length >0) {
-        格式化卡号内容()
-      }
-      ElMessage.success(返回.msg)
+  let 返回 = await SetKaTemplate({AppId: Props.AppId, KaTemplate: 格式模板.value})
+  if (返回.code == 10000) {
+    if (生成卡号Data.value.length > 0) {
+      格式化卡号内容()
     }
+    ElMessage.success(返回.msg)
+  }
 }
 const isAppType计点 = () => {
   return Props.AppType === 2 || Props.AppType === 4
