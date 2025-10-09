@@ -3,7 +3,7 @@
     <div class="内容div" style="align-items: center ">
       <el-form :inline="true">
         <el-form-item label="选择应用" prop="" style="width:300px">
-          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用" filterable @change="on读取列表">
+          <el-select v-model.number="对象_搜索条件.AppId" clear placeholder="请选择应用" filterable @change="on更新卡类列表">
             <el-option v-for="(item,index) in 数组AppId_Name" :key="item.Appid"
                        :label="item.AppName+'('+item.Appid.toString()+')'" :value="item.Appid"/>
           </el-select>
@@ -102,6 +102,7 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import {Delete} from "@element-plus/icons-vue";
 import router from "@/router";
 import {GetKaList} from "@/api/卡号列表api";
+import {GetKaClassList} from "@/api/卡类列表api";
 
 
 const Data = ref("")
@@ -166,7 +167,7 @@ const onGetAppIdNameList = async () => {
     let 局_默认appid=Store.state.搜索_默认选择应用AppId
     对象_搜索条件.value.AppId = 数组AppId_Name.value.some(item => item.Appid === 局_默认appid)?局_默认appid:数组AppId_Name.value[0].Appid
   }
-
+  on更新卡类列表()
 }
 
 const 对象_卡类型 = ref({})
@@ -224,7 +225,32 @@ const 数组_制卡预选日期 = [{
   },
 ]
 
+const on更新卡类列表 = async () => {
+  console.log("对象_搜索条件")
+  console.log(对象_搜索条件.value)
+  is加载中.value = true
+  const res = await GetKaClassList({"AppId": 对象_搜索条件.value.AppId, "Type": 2, "Size": 1000, "Page": 1, "Keywords": ""})
+  console.log(res)
+  is加载中.value = false
+  //判断应用是否切换,如果appId 相同 则不重新获取数据
+  let 局_临时对象 = {}
+  let is存在 = false
+  let 数组_全部卡类列表 = res.data.List
+  for (let i = 0; i < 数组_全部卡类列表.length; i++) {
+    局_临时对象[数组_全部卡类列表[i].Id] = 数组_全部卡类列表[i].Name
+    //判断 对象_搜索条件.KaClassId 是否存在 局_临时数组  中 如果不存在则赋值1
+    if (数组_全部卡类列表[i].Id == 对象_搜索条件.value.KaClassId) {
+      is存在 = true
+    }
+  }
 
+  对象_卡类型.value = 局_临时对象
+  if (!is存在) {
+    对象_搜索条件.value.KaClassId = 0
+  }
+
+
+}
 </script>
 
 <style scoped lang="scss">
