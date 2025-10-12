@@ -162,6 +162,61 @@
                   </template>
                 </el-popover>
               </el-form-item>
+              <el-popover
+                  placement="top-end"
+                  :width="200"
+                  trigger="hover"
+                  content="余额和积分的区别,余额所有这个账号登录的应用都可以使用,积分只有这个账号登录的这个应用可以使用"
+              >
+                <template #reference>
+                  <el-form-item label="1Rmb兑换多少积分" prop="RmbToVipNumber">
+                    <el-input v-model.number="data.RmbToVipNumber"/>
+                  </el-form-item>
+                </template>
+              </el-popover>
+              <el-divider content-position="left">换绑/解绑</el-divider>
+              <el-form-item label="免费间隔">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <el-select v-model="data.FreeUpKeyTime" placeholder="Select" style="width: 240px">
+                    <el-option label="1小时内" :value="3600"/>
+                    <el-option label="24小时内" :value="86400"/>
+                    <el-option label="1周内" :value="604800"/>
+                    <el-option label="1月内" :value="2592000"/>
+                    <el-option label="1年内" :value="31536000"/>
+                    <el-option label="316年内" :value="9999999999"/>
+                  </el-select>
+                  <span>免费换绑</span>
+                  <el-input-number
+                      v-model="data.FreeUpKeyInterval"
+                      :min="0"
+                      style="width: 120px;"
+                  />
+                  <span>次</span>
+                </div>
+              </el-form-item>
+
+              <el-form-item label="换绑频率">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <el-select v-model="data.UpKeyTime" placeholder="Select" style="width: 240px">
+                    <el-option label="1分钟内" :value="60"/>
+                    <el-option label="1小时内" :value="3600"/>
+                    <el-option label="24小时内" :value="86400"/>
+                    <el-option label="1周内" :value="604800"/>
+                    <el-option label="1月内" :value="2592000"/>
+                    <el-option label="1年内" :value="31536000"/>
+                    <el-option label="316年内" :value="9999999999"/>
+                  </el-select>
+                  <span>允许换绑</span>
+                  <el-input-number
+                      v-model="data.UpKeyInterval"
+                      :min="0"
+                      style="width: 120px;"
+                  />
+                  <span>次</span>
+                </div>
+              </el-form-item>
+
+
 
               <el-form-item :label="isVipType?'换绑扣秒':'换绑扣点'" prop="UpKeyData">
                 <el-tooltip
@@ -175,19 +230,6 @@
                   <el-input-number v-model="data.UpKeyData" :step="10" :value-on-clear="10" :min="0"/>
                 </el-tooltip>
               </el-form-item>
-
-              <el-popover
-                  placement="top-end"
-                  :width="200"
-                  trigger="hover"
-                  content="余额和积分的区别,余额所有这个账号登录的应用都可以使用,积分只有这个账号登录的这个应用可以使用"
-              >
-                <template #reference>
-                  <el-form-item label="1Rmb兑换多少积分" prop="RmbToVipNumber">
-                    <el-input v-model.number="data.RmbToVipNumber"/>
-                  </el-form-item>
-                </template>
-              </el-popover>
             </el-tab-pane>
             <el-tab-pane label="安全设置" name="安全设置">
               <el-form-item label="用户Api地址" prop="AppWeb">
@@ -331,9 +373,6 @@
 
               </el-form-item>
 
-              <!--              <el-form-item label="新用户默认最大在线" prop="MaxOnline">-->
-              <!--                <el-input-number v-model="data.MaxOnline" :step="1" :value-on-clear="1" :min="0"/>-->
-              <!--              </el-form-item>-->
 
               <el-form-item label="超在线最大数处理方式" prop="ExceedMaxOnlineOut">
                 <el-radio-group v-model="data.ExceedMaxOnlineOut" :size="is移动端()?'small':''">
@@ -687,6 +726,11 @@ const data = ref({
   "RmbToVipNumber": 1,
   "Captcha": "",
   "ApiHook": "",
+  PackTimeOut: 0,
+  FreeUpKeyTime: 0,
+  FreeUpKeyInterval: 0,
+  UpKeyTime: 0,
+  UpKeyInterval: 0,
 })
 const dataWebUser = ref({
   status: 2,

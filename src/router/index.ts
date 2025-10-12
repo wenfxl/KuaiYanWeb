@@ -180,6 +180,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/view/日志管理/代理操作日志.vue"),
             },
             {
+                path: "日志管理/绑定日志",
+                name: "绑定日志",
+                component: () => import("@/view/日志管理/绑定日志.vue"),
+            },
+            {
                 path: "财务管理/支付充值订单",
                 name: "支付充值订单",
                 component: () => import("@/view/财务管理/支付充值订单.vue"),
