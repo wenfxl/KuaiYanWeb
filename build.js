@@ -2,7 +2,12 @@
 import fs from 'fs';
 import path from 'path';
 
-const distPath = path.resolve('./dist/VueAdmin');
+const distPathAdmin = path.resolve('./dist/VueAdmin');
+const distPathAgent = path.resolve('./dist/VueAgent');
+
+[distPathAdmin, distPathAgent].forEach(p => {
+    if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
+});
 
 if (fs.existsSync(distPath)) {
     fs.readdirSync(distPath).forEach((file) => {
